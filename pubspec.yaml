@@ -13,6 +13,7 @@ dependencies:
   core:
     path: builder
   flutter_rust_bridge: 2.5.0
+  path_provider: ^2.1.4
 
 dev_dependencies:
   flutter_lints: ^4.0.0
