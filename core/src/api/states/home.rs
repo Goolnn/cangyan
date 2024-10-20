@@ -39,3 +39,13 @@ impl HomeState {
         HomeState { workspace, files }
     }
 }
+
+pub struct Summary {
+    pub cover: Option<Vec<u8>>,
+    pub page_count: u32,
+
+    pub title: String,
+
+    pub created_date: (u16, u8, u8, u8, u8, u8),
+    pub saved_date: (u16, u8, u8, u8, u8, u8),
+}
