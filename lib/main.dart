@@ -5,5 +5,10 @@ import 'package:flutter/material.dart';
 Future<void> main() async {
   await RustLib.init();
 
-  runApp(const MaterialApp(home: HomePage()));
+  runApp(
+    const MaterialApp(
+      title: "苍眼",
+      home: HomePage(),
+    ),
+  );
 }
