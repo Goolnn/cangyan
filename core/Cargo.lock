@@ -347,11 +347,12 @@ dependencies = [
 
 [[package]]
 name = "cyfile"
-version = "0.1.0"
-source = "git+https://github.com/Goolnn/cyfile?tag=v0.2.0#5c41b01190cd8edf07256216f2d18f2fe4cc2620"
+version = "0.2.1"
+source = "git+https://github.com/Goolnn/cyfile?tag=v0.2.1#e0607e1a445317b3e9e9019ecce8f471e90ab7a3"
 dependencies = [
  "chrono",
  "image",
+ "once_cell",
  "regex",
 ]
 
