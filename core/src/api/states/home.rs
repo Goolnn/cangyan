@@ -38,6 +38,55 @@ impl HomeState {
 
         HomeState { workspace, files }
     }
+
+    pub fn summaries(&self) -> Vec<Summary> {
+        self.files
+            .iter()
+            .map(|file| {
+                let project = file.project();
+
+                let page_count = project.pages().len() as u32;
+
+                let title = project.title().to_string();
+
+                let created_date = {
+                    let date = project.created_date();
+
+                    (
+                        date.year(),
+                        date.month(),
+                        date.day(),
+                        date.hour(),
+                        date.minute(),
+                        date.second(),
+                    )
+                };
+
+                let saved_date = {
+                    let date = project.saved_date();
+
+                    (
+                        date.year(),
+                        date.month(),
+                        date.day(),
+                        date.hour(),
+                        date.minute(),
+                        date.second(),
+                    )
+                };
+
+                Summary {
+                    cover: None,
+                    page_count,
+
+                    title,
+
+                    created_date,
+                    saved_date,
+                }
+            })
+            .collect()
+    }
 }
 
 pub struct Summary {
