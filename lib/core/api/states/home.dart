@@ -6,16 +6,45 @@
 import '../../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-class HomeState {
-  const HomeState.raw();
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<HomeState>>
+abstract class HomeState implements RustOpaqueInterface {
+  factory HomeState({required String workspace}) =>
+      RustLib.instance.api.crateApiStatesHomeHomeStateNew(workspace: workspace);
 
-  factory HomeState() => RustLib.instance.api.crateApiStatesHomeHomeStateNew();
+  Future<List<Summary>> summaries();
+}
+
+class Summary {
+  final Uint8List? cover;
+  final int pageCount;
+  final String title;
+  final (int, int, int, int, int, int) createdDate;
+  final (int, int, int, int, int, int) savedDate;
+
+  const Summary({
+    this.cover,
+    required this.pageCount,
+    required this.title,
+    required this.createdDate,
+    required this.savedDate,
+  });
 
   @override
-  int get hashCode => 0;
+  int get hashCode =>
+      cover.hashCode ^
+      pageCount.hashCode ^
+      title.hashCode ^
+      createdDate.hashCode ^
+      savedDate.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HomeState && runtimeType == other.runtimeType;
+      other is Summary &&
+          runtimeType == other.runtimeType &&
+          cover == other.cover &&
+          pageCount == other.pageCount &&
+          title == other.title &&
+          createdDate == other.createdDate &&
+          savedDate == other.savedDate;
 }

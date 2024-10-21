@@ -66,7 +66,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => -1119980115;
+  int get rustContentHash => -343127195;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -77,7 +77,18 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  HomeState crateApiStatesHomeHomeStateNew();
+  HomeState crateApiStatesHomeHomeStateNew({required String workspace});
+
+  Future<List<Summary>> crateApiStatesHomeHomeStateSummaries(
+      {required HomeState that});
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_HomeState;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_HomeState;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_HomeStatePtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -89,35 +100,162 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  HomeState crateApiStatesHomeHomeStateNew() {
+  HomeState crateApiStatesHomeHomeStateNew({required String workspace}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(workspace, serializer);
         return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_home_state,
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState,
         decodeErrorData: null,
       ),
       constMeta: kCrateApiStatesHomeHomeStateNewConstMeta,
-      argValues: [],
+      argValues: [workspace],
       apiImpl: this,
     ));
   }
 
   TaskConstMeta get kCrateApiStatesHomeHomeStateNewConstMeta =>
       const TaskConstMeta(
-        debugName: "home_state_new",
-        argNames: [],
+        debugName: "HomeState_new",
+        argNames: ["workspace"],
       );
 
+  @override
+  Future<List<Summary>> crateApiStatesHomeHomeStateSummaries(
+      {required HomeState that}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 2, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_summary,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesHomeHomeStateSummariesConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesHomeHomeStateSummariesConstMeta =>
+      const TaskConstMeta(
+        debugName: "HomeState_summaries",
+        argNames: ["that"],
+      );
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_HomeState => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_HomeState => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState;
+
   @protected
-  HomeState dco_decode_home_state(dynamic raw) {
+  HomeState
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return HomeStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  HomeState
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return HomeStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  HomeState
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return HomeStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  String dco_decode_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as String;
+  }
+
+  @protected
+  Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Uint8List;
+  }
+
+  @protected
+  List<Summary> dco_decode_list_summary(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_summary).toList();
+  }
+
+  @protected
+  Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_list_prim_u_8_strict(raw);
+  }
+
+  @protected
+  (int, int, int, int, int, int) dco_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(
+      dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.isNotEmpty)
-      throw Exception('unexpected arr length: expect 0 but see ${arr.length}');
-    return const HomeState.raw();
+    if (arr.length != 6) {
+      throw Exception('Expected 6 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_u_16(arr[0]),
+      dco_decode_u_8(arr[1]),
+      dco_decode_u_8(arr[2]),
+      dco_decode_u_8(arr[3]),
+      dco_decode_u_8(arr[4]),
+      dco_decode_u_8(arr[5]),
+    );
+  }
+
+  @protected
+  Summary dco_decode_summary(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return Summary(
+      cover: dco_decode_opt_list_prim_u_8_strict(arr[0]),
+      pageCount: dco_decode_u_32(arr[1]),
+      title: dco_decode_String(arr[2]),
+      createdDate: dco_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(arr[3]),
+      savedDate: dco_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(arr[4]),
+    );
+  }
+
+  @protected
+  int dco_decode_u_16(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  int dco_decode_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  int dco_decode_u_8(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
   }
 
   @protected
@@ -127,14 +265,140 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  HomeState sse_decode_home_state(SseDeserializer deserializer) {
+  BigInt dco_decode_usize(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
+  }
+
+  @protected
+  HomeState
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return const HomeState.raw();
+    return HomeStateImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  HomeState
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return HomeStateImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  HomeState
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return HomeStateImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  String sse_decode_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_list_prim_u_8_strict(deserializer);
+    return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  List<Summary> sse_decode_list_summary(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <Summary>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_summary(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_list_prim_u_8_strict(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  (int, int, int, int, int, int) sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_u_16(deserializer);
+    var var_field1 = sse_decode_u_8(deserializer);
+    var var_field2 = sse_decode_u_8(deserializer);
+    var var_field3 = sse_decode_u_8(deserializer);
+    var var_field4 = sse_decode_u_8(deserializer);
+    var var_field5 = sse_decode_u_8(deserializer);
+    return (
+      var_field0,
+      var_field1,
+      var_field2,
+      var_field3,
+      var_field4,
+      var_field5
+    );
+  }
+
+  @protected
+  Summary sse_decode_summary(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_cover = sse_decode_opt_list_prim_u_8_strict(deserializer);
+    var var_pageCount = sse_decode_u_32(deserializer);
+    var var_title = sse_decode_String(deserializer);
+    var var_createdDate =
+        sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(deserializer);
+    var var_savedDate =
+        sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(deserializer);
+    return Summary(
+        cover: var_cover,
+        pageCount: var_pageCount,
+        title: var_title,
+        createdDate: var_createdDate,
+        savedDate: var_savedDate);
+  }
+
+  @protected
+  int sse_decode_u_16(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint16();
+  }
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint32();
+  }
+
+  @protected
+  int sse_decode_u_8(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8();
   }
 
   @protected
   void sse_decode_unit(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
+  BigInt sse_decode_usize(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getBigUint64();
   }
 
   @protected
@@ -150,13 +414,115 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_home_state(HomeState self, SseSerializer serializer) {
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          HomeState self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as HomeStateImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          HomeState self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as HomeStateImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
+          HomeState self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as HomeStateImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void sse_encode_String(String self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_list_prim_u_8_strict(
+      Uint8List self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_list_summary(List<Summary> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_summary(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_prim_u_8_strict(
+      Uint8List? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_prim_u_8_strict(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_record_u_16_u_8_u_8_u_8_u_8_u_8(
+      (int, int, int, int, int, int) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_16(self.$1, serializer);
+    sse_encode_u_8(self.$2, serializer);
+    sse_encode_u_8(self.$3, serializer);
+    sse_encode_u_8(self.$4, serializer);
+    sse_encode_u_8(self.$5, serializer);
+    sse_encode_u_8(self.$6, serializer);
+  }
+
+  @protected
+  void sse_encode_summary(Summary self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_list_prim_u_8_strict(self.cover, serializer);
+    sse_encode_u_32(self.pageCount, serializer);
+    sse_encode_String(self.title, serializer);
+    sse_encode_record_u_16_u_8_u_8_u_8_u_8_u_8(self.createdDate, serializer);
+    sse_encode_record_u_16_u_8_u_8_u_8_u_8_u_8(self.savedDate, serializer);
+  }
+
+  @protected
+  void sse_encode_u_16(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint16(self);
+  }
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint32(self);
+  }
+
+  @protected
+  void sse_encode_u_8(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self);
   }
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
+  void sse_encode_usize(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putBigUint64(self);
   }
 
   @protected
@@ -170,4 +536,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
   }
+}
+
+@sealed
+class HomeStateImpl extends RustOpaque implements HomeState {
+  // Not to be used by end users
+  HomeStateImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  HomeStateImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_HomeState,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_HomeState,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_HomeStatePtr,
+  );
+
+  Future<List<Summary>> summaries() =>
+      RustLib.instance.api.crateApiStatesHomeHomeStateSummaries(
+        that: this,
+      );
 }
