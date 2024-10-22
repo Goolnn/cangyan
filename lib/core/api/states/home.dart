@@ -8,10 +8,12 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<HomeState>>
 abstract class HomeState implements RustOpaqueInterface {
+  Future<void> load();
+
   factory HomeState({required String workspace}) =>
       RustLib.instance.api.crateApiStatesHomeHomeStateNew(workspace: workspace);
 
-  Future<List<Summary>> summaries();
+  List<Summary> summaries();
 }
 
 class Summary {
