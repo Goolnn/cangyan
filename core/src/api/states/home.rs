@@ -39,6 +39,7 @@ impl HomeState {
         HomeState { workspace, files }
     }
 
+    #[frb(sync)]
     pub fn summaries(&self) -> Vec<Summary> {
         self.files
             .iter()
