@@ -98,7 +98,12 @@ class Tile extends StatelessWidget {
                 aspectRatio: 3.0 / 4.0,
                 child: Stack(
                   children: [
-                    const Placeholder(),
+                    if (summary.cover != null)
+                      Center(
+                        child: Image.memory(summary.cover!),
+                      )
+                    else
+                      const Placeholder(),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: PageCount(summary.pageCount),
