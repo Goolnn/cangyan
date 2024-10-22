@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: state?.summaries(),
+          future: state?.load(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -59,7 +59,13 @@ class _HomePageState extends State<HomePage> {
               );
             }
 
-            final summaries = snapshot.data as List<Summary>;
+            final summaries = state?.summaries();
+
+            if (summaries == null) {
+              return const Center(
+                child: Text('No summaries'),
+              );
+            }
 
             return ListView.builder(
               itemCount: summaries.length,
