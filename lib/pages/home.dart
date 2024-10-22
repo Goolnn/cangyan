@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
             return ListView.builder(
               itemCount: summaries.length,
               itemBuilder: (context, index) {
-                return Tile(summaries[index]);
+                return _Tile(summaries[index]);
               },
             );
           },
@@ -87,10 +87,10 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class Tile extends StatelessWidget {
+class _Tile extends StatelessWidget {
   final Summary summary;
 
-  const Tile(this.summary, {super.key});
+  const _Tile(this.summary);
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +113,7 @@ class Tile extends StatelessWidget {
                       const Placeholder(),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: PageCount(summary.pageCount),
+                      child: _PageCount(summary.pageCount),
                     ),
                   ],
                 ),
@@ -180,10 +180,10 @@ class Tile extends StatelessWidget {
   }
 }
 
-class PageCount extends StatelessWidget {
+class _PageCount extends StatelessWidget {
   final int count;
 
-  const PageCount(this.count, {super.key});
+  const _PageCount(this.count);
 
   @override
   Widget build(BuildContext context) {
