@@ -45,6 +45,7 @@ impl HomeState {
             .map(|file| {
                 let project = file.project();
 
+                let cover = project.pages().first().map(|page| page.data().to_owned());
                 let page_count = project.pages().len() as u32;
 
                 let title = project.title().to_string();
@@ -76,7 +77,7 @@ impl HomeState {
                 };
 
                 Summary {
-                    cover: None,
+                    cover,
                     page_count,
 
                     title,
