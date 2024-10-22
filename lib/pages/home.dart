@@ -1,4 +1,5 @@
 import 'package:cangyan/core/api/states/home.dart';
+import 'package:cangyan/pages/info.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -153,7 +154,11 @@ class Tile extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return const InfoPage();
+        }));
+      },
     );
   }
 
