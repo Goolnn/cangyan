@@ -119,8 +119,7 @@ class Tile extends StatelessWidget {
                     Text(
                       summary.title,
                       style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
                       ),
                     ),
                     const Spacer(),
