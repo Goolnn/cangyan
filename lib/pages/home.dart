@@ -101,24 +101,8 @@ class Tile extends StatelessWidget {
                     const Placeholder(),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: Card(
-                        shape: const StadiumBorder(),
-                        color: Colors.black.withOpacity(0.125),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                            vertical: 4.0,
-                          ),
-                          child: Text(
-                            '${summary.pageCount}页',
-                            style: const TextStyle(
-                              fontSize: 13.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
+                      child: PageCount(summary.pageCount),
+                    ),
                   ],
                 ),
               ),
@@ -178,5 +162,32 @@ class Tile extends StatelessWidget {
     final second = '${date.$6}'.padLeft(2, '0');
 
     return '$year$month$day $hour:$minute:$second';
+  }
+}
+
+class PageCount extends StatelessWidget {
+  final int count;
+
+  const PageCount(this.count, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: const StadiumBorder(),
+      color: Colors.black.withOpacity(0.15),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+          vertical: 4.0,
+        ),
+        child: Text(
+          '$count页',
+          style: const TextStyle(
+            fontSize: 13.0,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
   }
 }
