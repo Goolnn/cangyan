@@ -68,6 +68,39 @@ impl HomeState {
             })
             .collect()
     }
+
+    pub fn load(&mut self) {
+        self.files.clear();
+
+        if let Ok(entries) = self.workspace.read_dir() {
+            for entry in entries.flatten() {
+                if !entry.path().is_file() {
+                    continue;
+                }
+
+                let stream = match fs::File::open(entry.path()) {
+                    Ok(stream) => stream,
+                    _ => continue,
+                };
+
+                let mut file = match File::open(stream) {
+                    Ok(file) => file,
+                    _ => continue,
+                };
+
+                if file.project().title().is_empty() {
+                    let file_path = entry.path();
+                    let file_name = file_path.file_stem();
+
+                    if let Some(file_name) = file_name {
+                        file.project_mut().set_title(file_name.to_string_lossy());
+                    }
+                }
+
+                self.files.push(file);
+            }
+        }
+    }
 }
 
 pub struct Summary {
