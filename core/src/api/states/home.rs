@@ -1,4 +1,5 @@
-use cyfile::File;
+pub use cyfile::File;
+
 use flutter_rust_bridge::frb;
 use std::fs;
 use std::path::PathBuf;
