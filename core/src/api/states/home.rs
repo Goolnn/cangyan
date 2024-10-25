@@ -2,11 +2,12 @@ use cyfile::File;
 use flutter_rust_bridge::frb;
 use std::fs;
 use std::path::PathBuf;
+use std::sync::Arc;
 
 pub struct HomeState {
     workspace: PathBuf,
 
-    files: Vec<File>,
+    files: Vec<Arc<File>>,
 }
 
 impl HomeState {
@@ -97,7 +98,7 @@ impl HomeState {
                     }
                 }
 
-                self.files.push(file);
+                self.files.push(Arc::new(file));
             }
         }
     }
