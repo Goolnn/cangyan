@@ -20,6 +20,39 @@ impl HomeState {
         HomeState { workspace, files }
     }
 
+    pub fn load(&mut self) {
+        self.files.clear();
+
+        if let Ok(entries) = self.workspace.read_dir() {
+            for entry in entries.flatten() {
+                if !entry.path().is_file() {
+                    continue;
+                }
+
+                let stream = match fs::File::open(entry.path()) {
+                    Ok(stream) => stream,
+                    _ => continue,
+                };
+
+                let mut file = match File::open(stream) {
+                    Ok(file) => file,
+                    _ => continue,
+                };
+
+                if file.project().title().is_empty() {
+                    let file_path = entry.path();
+                    let file_name = file_path.file_stem();
+
+                    if let Some(file_name) = file_name {
+                        file.project_mut().set_title(file_name.to_string_lossy());
+                    }
+                }
+
+                self.files.push(Arc::new(file));
+            }
+        }
+    }
+
     #[frb(sync)]
     pub fn summaries(&self) -> Vec<Summary> {
         self.files
@@ -62,51 +95,18 @@ impl HomeState {
                     cover,
                     page_count,
 
+                    category: String::new(),
                     title,
+
+                    number: (0, 0),
 
                     created_date,
                     saved_date,
+
+                    file: Arc::clone(file),
                 }
             })
             .collect()
-    }
-
-    #[frb(sync)]
-    pub fn open(&self, index: usize) -> Option<Arc<File>> {
-        self.files.get(index).map(Arc::clone)
-    }
-
-    pub fn load(&mut self) {
-        self.files.clear();
-
-        if let Ok(entries) = self.workspace.read_dir() {
-            for entry in entries.flatten() {
-                if !entry.path().is_file() {
-                    continue;
-                }
-
-                let stream = match fs::File::open(entry.path()) {
-                    Ok(stream) => stream,
-                    _ => continue,
-                };
-
-                let mut file = match File::open(stream) {
-                    Ok(file) => file,
-                    _ => continue,
-                };
-
-                if file.project().title().is_empty() {
-                    let file_path = entry.path();
-                    let file_name = file_path.file_stem();
-
-                    if let Some(file_name) = file_name {
-                        file.project_mut().set_title(file_name.to_string_lossy());
-                    }
-                }
-
-                self.files.push(Arc::new(file));
-            }
-        }
     }
 }
 
@@ -114,8 +114,13 @@ pub struct Summary {
     pub cover: Option<Vec<u8>>,
     pub page_count: u32,
 
+    pub category: String,
     pub title: String,
+
+    pub number: (u32, u32),
 
     pub created_date: (u16, u8, u8, u8, u8, u8),
     pub saved_date: (u16, u8, u8, u8, u8, u8),
+
+    pub file: Arc<File>,
 }
