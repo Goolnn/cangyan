@@ -1,5 +1,6 @@
 pub use cyfile::File;
 
+use super::info::InfoState;
 use flutter_rust_bridge::frb;
 use std::fs;
 use std::path::PathBuf;
@@ -123,4 +124,11 @@ pub struct Summary {
     pub saved_date: (u16, u8, u8, u8, u8, u8),
 
     pub file: Arc<File>,
+}
+
+impl Summary {
+    #[frb(sync)]
+    pub fn open(&self) -> InfoState {
+        InfoState::new(Arc::clone(&self.file))
+    }
 }
