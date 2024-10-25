@@ -71,6 +71,11 @@ impl HomeState {
             .collect()
     }
 
+    #[frb(sync)]
+    pub fn open(&self, index: usize) -> Option<Arc<File>> {
+        self.files.get(index).map(Arc::clone)
+    }
+
     pub fn load(&mut self) {
         self.files.clear();
 
