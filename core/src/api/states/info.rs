@@ -1,15 +1,17 @@
 pub use cyfile::File;
 
+use crate::frb_generated::RustAutoOpaque;
 use flutter_rust_bridge::frb;
 use std::sync::Arc;
 
+#[frb(opaque)]
 pub struct InfoState {
-    file: Arc<File>,
+    file: RustAutoOpaque<Arc<File>>,
 }
 
 impl InfoState {
     #[frb(sync)]
-    pub fn new(file: Arc<File>) -> Self {
+    pub fn new(file: RustAutoOpaque<Arc<File>>) -> Self {
         InfoState { file }
     }
 
@@ -20,7 +22,7 @@ impl InfoState {
 
     #[frb(sync)]
     pub fn page_count(&self) -> u32 {
-        self.file.project().pages().len() as u32
+        self.file.blocking_read().project().pages().len() as u32
     }
 
     #[frb(sync)]
@@ -30,7 +32,7 @@ impl InfoState {
 
     #[frb(sync)]
     pub fn title(&self) -> String {
-        self.file.project().title().to_string()
+        self.file.blocking_read().project().title().to_string()
     }
 
     #[frb(sync)]
@@ -40,7 +42,7 @@ impl InfoState {
 
     #[frb(sync)]
     pub fn created_date(&self) -> (u16, u8, u8, u8, u8, u8) {
-        let date = self.file.project().created_date();
+        let date = self.file.blocking_read().project().created_date();
 
         (
             date.year(),
@@ -54,7 +56,7 @@ impl InfoState {
 
     #[frb(sync)]
     pub fn saved_date(&self) -> (u16, u8, u8, u8, u8, u8) {
-        let date = self.file.project().saved_date();
+        let date = self.file.blocking_read().project().saved_date();
 
         (
             date.year(),
@@ -69,6 +71,7 @@ impl InfoState {
     #[frb(sync)]
     pub fn pages(&self) -> Vec<Vec<u8>> {
         self.file
+            .blocking_read()
             .project()
             .pages()
             .iter()

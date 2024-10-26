@@ -1,6 +1,7 @@
 pub use cyfile::File;
 
 use crate::api::states::InfoState;
+use crate::frb_generated::RustAutoOpaque;
 use flutter_rust_bridge::frb;
 use std::fs;
 use std::path::PathBuf;
@@ -105,13 +106,14 @@ impl HomeState {
                     created_date,
                     saved_date,
 
-                    file: Arc::clone(file),
+                    file: RustAutoOpaque::new(Arc::clone(file)),
                 }
             })
             .collect()
     }
 }
 
+#[frb(non_opaque)]
 pub struct Summary {
     pub cover: Option<Vec<u8>>,
     pub page_count: u32,
@@ -124,12 +126,12 @@ pub struct Summary {
     pub created_date: (u16, u8, u8, u8, u8, u8),
     pub saved_date: (u16, u8, u8, u8, u8, u8),
 
-    pub file: Arc<File>,
+    pub file: RustAutoOpaque<Arc<File>>,
 }
 
 impl Summary {
     #[frb(sync)]
     pub fn open(&self) -> InfoState {
-        InfoState::new(Arc::clone(&self.file))
+        InfoState::new(RustAutoOpaque::clone(&self.file))
     }
 }
