@@ -53,7 +53,7 @@ class _InfoPageState extends State<InfoPage> {
                                   child: Image.memory(pages[i]),
                                 ),
                                 const SizedBox(height: 4.0),
-                                Text('第 ${i + 1} 页'),
+                                Text('第${i + 1}页'),
                               ],
                             ),
                           ),
