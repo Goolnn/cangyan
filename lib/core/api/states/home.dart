@@ -4,7 +4,11 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
+import 'info.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < File >>>
+abstract class ArcFile implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<HomeState>>
 abstract class HomeState implements RustOpaqueInterface {
@@ -19,25 +23,38 @@ abstract class HomeState implements RustOpaqueInterface {
 class Summary {
   final Uint8List? cover;
   final int pageCount;
+  final String category;
   final String title;
+  final (int, int) number;
   final (int, int, int, int, int, int) createdDate;
   final (int, int, int, int, int, int) savedDate;
+  final ArcFile file;
 
   const Summary({
     this.cover,
     required this.pageCount,
+    required this.category,
     required this.title,
+    required this.number,
     required this.createdDate,
     required this.savedDate,
+    required this.file,
   });
+
+  InfoState open() => RustLib.instance.api.crateApiStatesHomeSummaryOpen(
+        that: this,
+      );
 
   @override
   int get hashCode =>
       cover.hashCode ^
       pageCount.hashCode ^
+      category.hashCode ^
       title.hashCode ^
+      number.hashCode ^
       createdDate.hashCode ^
-      savedDate.hashCode;
+      savedDate.hashCode ^
+      file.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -46,7 +63,10 @@ class Summary {
           runtimeType == other.runtimeType &&
           cover == other.cover &&
           pageCount == other.pageCount &&
+          category == other.category &&
           title == other.title &&
+          number == other.number &&
           createdDate == other.createdDate &&
-          savedDate == other.savedDate;
+          savedDate == other.savedDate &&
+          file == other.file;
 }

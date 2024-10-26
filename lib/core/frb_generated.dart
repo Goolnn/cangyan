@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/states/home.dart';
+import 'api/states/info.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -66,7 +67,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => 1928372081;
+  int get rustContentHash => 1004595508;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -83,6 +84,34 @@ abstract class RustLibApi extends BaseApi {
 
   List<Summary> crateApiStatesHomeHomeStateSummaries({required HomeState that});
 
+  InfoState crateApiStatesHomeSummaryOpen({required Summary that});
+
+  String crateApiStatesInfoInfoStateCategory({required InfoState that});
+
+  Uint8List? crateApiStatesInfoInfoStateCover({required InfoState that});
+
+  (int, int, int, int, int, int) crateApiStatesInfoInfoStateCreatedDate(
+      {required InfoState that});
+
+  InfoState crateApiStatesInfoInfoStateNew({required ArcFile file});
+
+  (int, int) crateApiStatesInfoInfoStateNumber({required InfoState that});
+
+  int crateApiStatesInfoInfoStatePageCount({required InfoState that});
+
+  List<Uint8List> crateApiStatesInfoInfoStatePages({required InfoState that});
+
+  (int, int, int, int, int, int) crateApiStatesInfoInfoStateSavedDate(
+      {required InfoState that});
+
+  String crateApiStatesInfoInfoStateTitle({required InfoState that});
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_ArcFile;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_ArcFile;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArcFilePtr;
+
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_HomeState;
 
@@ -90,6 +119,14 @@ abstract class RustLibApi extends BaseApi {
       get rust_arc_decrement_strong_count_HomeState;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_HomeStatePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_InfoState;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_InfoState;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_InfoStatePtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -177,6 +214,267 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: ["that"],
       );
 
+  @override
+  InfoState crateApiStatesHomeSummaryOpen({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_summary(that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesHomeSummaryOpenConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesHomeSummaryOpenConstMeta =>
+      const TaskConstMeta(
+        debugName: "summary_open",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateApiStatesInfoInfoStateCategory({required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateCategoryConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateCategoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_category",
+        argNames: ["that"],
+      );
+
+  @override
+  Uint8List? crateApiStatesInfoInfoStateCover({required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_list_prim_u_8_strict,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateCoverConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateCoverConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_cover",
+        argNames: ["that"],
+      );
+
+  @override
+  (int, int, int, int, int, int) crateApiStatesInfoInfoStateCreatedDate(
+      {required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateCreatedDateConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateCreatedDateConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_created_date",
+        argNames: ["that"],
+      );
+
+  @override
+  InfoState crateApiStatesInfoInfoStateNew({required ArcFile file}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+            file, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateNewConstMeta,
+      argValues: [file],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_new",
+        argNames: ["file"],
+      );
+
+  @override
+  (int, int) crateApiStatesInfoInfoStateNumber({required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_record_u_32_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateNumberConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateNumberConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_number",
+        argNames: ["that"],
+      );
+
+  @override
+  int crateApiStatesInfoInfoStatePageCount({required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStatePageCountConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStatePageCountConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_page_count",
+        argNames: ["that"],
+      );
+
+  @override
+  List<Uint8List> crateApiStatesInfoInfoStatePages({required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_list_prim_u_8_strict,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStatePagesConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStatePagesConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_pages",
+        argNames: ["that"],
+      );
+
+  @override
+  (int, int, int, int, int, int) crateApiStatesInfoInfoStateSavedDate(
+      {required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateSavedDateConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateSavedDateConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_saved_date",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateApiStatesInfoInfoStateTitle({required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateTitleConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateTitleConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_title",
+        argNames: ["that"],
+      );
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_ArcFile => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_ArcFile => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile;
+
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_HomeState => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState;
@@ -185,12 +483,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       get rust_arc_decrement_strong_count_HomeState => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState;
 
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_InfoState => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_InfoState => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState;
+
+  @protected
+  ArcFile
+      dco_decode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+        raw);
+  }
+
   @protected
   HomeState
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return HomeStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  InfoState
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return InfoStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -210,6 +533,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  InfoState
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return InfoStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  ArcFile
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ArcFileImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   HomeState
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           dynamic raw) {
@@ -218,9 +557,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  InfoState
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return InfoStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
+  }
+
+  @protected
+  Summary dco_decode_box_autoadd_summary(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_summary(raw);
+  }
+
+  @protected
+  List<Uint8List> dco_decode_list_list_prim_u_8_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_list_prim_u_8_strict).toList();
   }
 
   @protected
@@ -260,17 +619,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  (int, int) dco_decode_record_u_32_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_u_32(arr[0]),
+      dco_decode_u_32(arr[1]),
+    );
+  }
+
+  @protected
   Summary dco_decode_summary(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    if (arr.length != 8)
+      throw Exception('unexpected arr length: expect 8 but see ${arr.length}');
     return Summary(
       cover: dco_decode_opt_list_prim_u_8_strict(arr[0]),
       pageCount: dco_decode_u_32(arr[1]),
-      title: dco_decode_String(arr[2]),
-      createdDate: dco_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(arr[3]),
-      savedDate: dco_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(arr[4]),
+      category: dco_decode_String(arr[2]),
+      title: dco_decode_String(arr[3]),
+      number: dco_decode_record_u_32_u_32(arr[4]),
+      createdDate: dco_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(arr[5]),
+      savedDate: dco_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(arr[6]),
+      file:
+          dco_decode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+              arr[7]),
     );
   }
 
@@ -305,11 +682,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ArcFile
+      sse_decode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner =
+        sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+            deserializer);
+    return inner;
+  }
+
+  @protected
   HomeState
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return HomeStateImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  InfoState
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return InfoStateImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -332,6 +729,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  InfoState
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return InfoStateImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ArcFile
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ArcFileImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   HomeState
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           SseDeserializer deserializer) {
@@ -341,10 +756,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  InfoState
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return InfoStateImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  Summary sse_decode_box_autoadd_summary(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_summary(deserializer));
+  }
+
+  @protected
+  List<Uint8List> sse_decode_list_list_prim_u_8_strict(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <Uint8List>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_list_prim_u_8_strict(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -398,21 +841,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  (int, int) sse_decode_record_u_32_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_u_32(deserializer);
+    var var_field1 = sse_decode_u_32(deserializer);
+    return (var_field0, var_field1);
+  }
+
+  @protected
   Summary sse_decode_summary(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_cover = sse_decode_opt_list_prim_u_8_strict(deserializer);
     var var_pageCount = sse_decode_u_32(deserializer);
+    var var_category = sse_decode_String(deserializer);
     var var_title = sse_decode_String(deserializer);
+    var var_number = sse_decode_record_u_32_u_32(deserializer);
     var var_createdDate =
         sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(deserializer);
     var var_savedDate =
         sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8(deserializer);
+    var var_file =
+        sse_decode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+            deserializer);
     return Summary(
         cover: var_cover,
         pageCount: var_pageCount,
+        category: var_category,
         title: var_title,
+        number: var_number,
         createdDate: var_createdDate,
-        savedDate: var_savedDate);
+        savedDate: var_savedDate,
+        file: var_file);
   }
 
   @protected
@@ -458,11 +917,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+          ArcFile self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+        self, serializer);
+  }
+
+  @protected
+  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           HomeState self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as HomeStateImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          InfoState self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as InfoStateImpl).frbInternalSseEncode(move: true), serializer);
   }
 
   @protected
@@ -485,6 +962,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          InfoState self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as InfoStateImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+          ArcFile self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as ArcFileImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           HomeState self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -493,9 +988,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+          InfoState self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as InfoStateImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_summary(Summary self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_summary(self, serializer);
+  }
+
+  @protected
+  void sse_encode_list_list_prim_u_8_strict(
+      List<Uint8List> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_list_prim_u_8_strict(item, serializer);
+    }
   }
 
   @protected
@@ -539,13 +1059,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_record_u_32_u_32((int, int) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.$1, serializer);
+    sse_encode_u_32(self.$2, serializer);
+  }
+
+  @protected
   void sse_encode_summary(Summary self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_opt_list_prim_u_8_strict(self.cover, serializer);
     sse_encode_u_32(self.pageCount, serializer);
+    sse_encode_String(self.category, serializer);
     sse_encode_String(self.title, serializer);
+    sse_encode_record_u_32_u_32(self.number, serializer);
     sse_encode_record_u_16_u_8_u_8_u_8_u_8_u_8(self.createdDate, serializer);
     sse_encode_record_u_16_u_8_u_8_u_8_u_8_u_8(self.savedDate, serializer);
+    sse_encode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
+        self.file, serializer);
   }
 
   @protected
@@ -591,6 +1122,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 }
 
 @sealed
+class ArcFileImpl extends RustOpaque implements ArcFile {
+  // Not to be used by end users
+  ArcFileImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ArcFileImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_ArcFile,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ArcFile,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ArcFilePtr,
+  );
+}
+
+@sealed
 class HomeStateImpl extends RustOpaque implements HomeState {
   // Not to be used by end users
   HomeStateImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -615,6 +1166,61 @@ class HomeStateImpl extends RustOpaque implements HomeState {
 
   List<Summary> summaries() =>
       RustLib.instance.api.crateApiStatesHomeHomeStateSummaries(
+        that: this,
+      );
+}
+
+@sealed
+class InfoStateImpl extends RustOpaque implements InfoState {
+  // Not to be used by end users
+  InfoStateImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  InfoStateImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_InfoState,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_InfoState,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_InfoStatePtr,
+  );
+
+  String category() => RustLib.instance.api.crateApiStatesInfoInfoStateCategory(
+        that: this,
+      );
+
+  Uint8List? cover() => RustLib.instance.api.crateApiStatesInfoInfoStateCover(
+        that: this,
+      );
+
+  (int, int, int, int, int, int) createdDate() =>
+      RustLib.instance.api.crateApiStatesInfoInfoStateCreatedDate(
+        that: this,
+      );
+
+  (int, int) number() => RustLib.instance.api.crateApiStatesInfoInfoStateNumber(
+        that: this,
+      );
+
+  int pageCount() => RustLib.instance.api.crateApiStatesInfoInfoStatePageCount(
+        that: this,
+      );
+
+  List<Uint8List> pages() =>
+      RustLib.instance.api.crateApiStatesInfoInfoStatePages(
+        that: this,
+      );
+
+  (int, int, int, int, int, int) savedDate() =>
+      RustLib.instance.api.crateApiStatesInfoInfoStateSavedDate(
+        that: this,
+      );
+
+  String title() => RustLib.instance.api.crateApiStatesInfoInfoStateTitle(
         that: this,
       );
 }
