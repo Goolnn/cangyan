@@ -1,11 +1,12 @@
 pub use cyfile::File;
 
-use super::info::InfoState;
+use crate::api::states::InfoState;
 use flutter_rust_bridge::frb;
 use std::fs;
 use std::path::PathBuf;
 use std::sync::Arc;
 
+#[frb(opaque)]
 pub struct HomeState {
     workspace: PathBuf,
 
