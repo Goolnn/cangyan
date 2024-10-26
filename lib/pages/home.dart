@@ -162,7 +162,9 @@ class _Tile extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const InfoPage();
+          return InfoPage(
+            summary: summary,
+          );
         }));
       },
     );
