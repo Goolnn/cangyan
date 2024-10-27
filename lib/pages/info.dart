@@ -56,6 +56,8 @@ class _InfoPageState extends State<InfoPage> {
 }
 
 class _Page extends StatelessWidget {
+  final int columnCount = 3;
+
   final Uint8List image;
   final int index;
 
@@ -67,7 +69,7 @@ class _Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      widthFactor: 1.0 / 3.0,
+      widthFactor: 1.0 / columnCount,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
