@@ -91,7 +91,7 @@ class _Page extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return const EditPage();
+                            return EditPage(image: image);
                           },
                         ));
                       },
