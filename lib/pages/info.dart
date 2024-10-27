@@ -27,7 +27,7 @@ class _InfoPageState extends State<InfoPage> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: 256.0 + 32.0,
+                    height: 256.0,
                     child: AspectRatio(
                       aspectRatio: 3.0 / 4.0,
                       child: widget.state.cover() != null
@@ -35,12 +35,14 @@ class _InfoPageState extends State<InfoPage> {
                           : const Placeholder(),
                     ),
                   ),
+                  const Divider(),
                   Text(
                     widget.state.title(),
                     style: const TextStyle(
                       fontSize: 18.0,
                     ),
                   ),
+                  const Divider(),
                   Wrap(
                     children: [
                       for (int index = 0; index < pages.length; index++)
