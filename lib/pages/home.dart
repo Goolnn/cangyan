@@ -1,5 +1,6 @@
 import 'package:cangyan/core/api/states/home.dart';
 import 'package:cangyan/pages/info.dart';
+import 'package:cangyan/widgets/image.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -101,22 +102,15 @@ class _Tile extends StatelessWidget {
           height: 128.0 + 32.0,
           child: Row(
             children: [
-              AspectRatio(
-                aspectRatio: 3.0 / 4.0,
-                child: Stack(
-                  children: [
-                    if (summary.cover != null)
-                      Center(
-                        child: Image.memory(summary.cover!),
-                      )
-                    else
-                      const Placeholder(),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: _PageCount(summary.pageCount),
-                    ),
-                  ],
-                ),
+              Stack(
+                children: [
+                  cangyan.Image(image: summary.cover),
+                  Positioned(
+                    bottom: 2.0,
+                    right: 2.0,
+                    child: _PageCount(summary.pageCount),
+                  ),
+                ],
               ),
               const SizedBox(width: 8.0),
               Expanded(
