@@ -29,12 +29,7 @@ class _InfoPageState extends State<InfoPage> {
                 children: [
                   SizedBox(
                     height: 256.0,
-                    child: AspectRatio(
-                      aspectRatio: 3.0 / 4.0,
-                      child: widget.state.cover() != null
-                          ? Image.memory(widget.state.cover()!)
-                          : const Placeholder(),
-                    ),
+                    child: cangyan.Image(image: widget.state.cover()),
                   ),
                   const Divider(),
                   Text(
