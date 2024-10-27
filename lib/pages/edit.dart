@@ -5,9 +5,13 @@ class EditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: Placeholder(),
+        child: InteractiveViewer(
+          minScale: 0.1,
+          maxScale: 10.0,
+          child: const Placeholder(),
+        ),
       ),
     );
   }
