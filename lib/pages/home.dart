@@ -1,5 +1,6 @@
 import 'package:cangyan/core/api/states/home.dart';
 import 'package:cangyan/pages/info.dart';
+import 'package:cangyan/widgets/capsule.dart' as cangyan;
 import 'package:cangyan/widgets/image.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -108,7 +109,7 @@ class _Tile extends StatelessWidget {
                   Positioned(
                     bottom: 2.0,
                     right: 2.0,
-                    child: _PageCount(summary.pageCount),
+                    child: cangyan.Capsule('${summary.pageCount}页'),
                   ),
                 ],
               ),
@@ -173,32 +174,5 @@ class _Tile extends StatelessWidget {
     final second = '${date.$6}'.padLeft(2, '0');
 
     return '$year$month$day $hour:$minute:$second';
-  }
-}
-
-class _PageCount extends StatelessWidget {
-  final int count;
-
-  const _PageCount(this.count);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: const StadiumBorder(),
-      color: Colors.black.withOpacity(0.15),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8.0,
-          vertical: 4.0,
-        ),
-        child: Text(
-          '$count页',
-          style: const TextStyle(
-            fontSize: 13.0,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
   }
 }
