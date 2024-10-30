@@ -15,6 +15,8 @@ abstract class InfoState implements RustOpaqueInterface {
 
   (int, int, int, int, int, int) createdDate();
 
+  Map<Credit, Set<String>> credits();
+
   factory InfoState({required ArcFile file}) =>
       RustLib.instance.api.crateApiStatesInfoInfoStateNew(file: file);
 
@@ -27,4 +29,14 @@ abstract class InfoState implements RustOpaqueInterface {
   (int, int, int, int, int, int) savedDate();
 
   String title();
+}
+
+enum Credit {
+  artists,
+  translators,
+  proofreaders,
+  retouchers,
+  typesetters,
+  supervisors,
+  ;
 }

@@ -67,7 +67,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => 1004595508;
+  int get rustContentHash => -565817825;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -91,6 +91,9 @@ abstract class RustLibApi extends BaseApi {
   Uint8List? crateApiStatesInfoInfoStateCover({required InfoState that});
 
   (int, int, int, int, int, int) crateApiStatesInfoInfoStateCreatedDate(
+      {required InfoState that});
+
+  Map<Credit, Set<String>> crateApiStatesInfoInfoStateCredits(
       {required InfoState that});
 
   InfoState crateApiStatesInfoInfoStateNew({required ArcFile file});
@@ -316,13 +319,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Map<Credit, Set<String>> crateApiStatesInfoInfoStateCredits(
+      {required InfoState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_Map_credit_Set_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateCreditsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateCreditsConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_credits",
+        argNames: ["that"],
+      );
+
+  @override
   InfoState crateApiStatesInfoInfoStateNew({required ArcFile file}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
             file, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -348,7 +377,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_record_u_32_u_32,
@@ -373,7 +402,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_32,
@@ -398,7 +427,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_list_list_prim_u_8_strict,
@@ -424,7 +453,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_record_u_16_u_8_u_8_u_8_u_8_u_8,
@@ -449,7 +478,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -541,6 +570,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Map<Credit, Set<String>> dco_decode_Map_credit_Set_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Map.fromEntries(dco_decode_list_record_credit_set_string(raw)
+        .map((e) => MapEntry(e.$1, e.$2)));
+  }
+
+  @protected
   ArcFile
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
           dynamic raw) {
@@ -565,6 +601,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Set<String> dco_decode_Set_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Set.from(dco_decode_list_String(raw));
+  }
+
+  @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
@@ -574,6 +616,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Summary dco_decode_box_autoadd_summary(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_summary(raw);
+  }
+
+  @protected
+  Credit dco_decode_credit(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Credit.values[raw as int];
+  }
+
+  @protected
+  int dco_decode_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  List<String> dco_decode_list_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_String).toList();
   }
 
   @protected
@@ -589,6 +649,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<(Credit, Set<String>)> dco_decode_list_record_credit_set_string(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(dco_decode_record_credit_set_string)
+        .toList();
+  }
+
+  @protected
   List<Summary> dco_decode_list_summary(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_summary).toList();
@@ -598,6 +667,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_list_prim_u_8_strict(raw);
+  }
+
+  @protected
+  (Credit, Set<String>) dco_decode_record_credit_set_string(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_credit(arr[0]),
+      dco_decode_Set_String(arr[1]),
+    );
   }
 
   @protected
@@ -738,6 +820,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Map<Credit, Set<String>> sse_decode_Map_credit_Set_String(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_list_record_credit_set_string(deserializer);
+    return Map.fromEntries(inner.map((e) => MapEntry(e.$1, e.$2)));
+  }
+
+  @protected
   ArcFile
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
           SseDeserializer deserializer) {
@@ -765,6 +855,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Set<String> sse_decode_Set_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_list_String(deserializer);
+    return Set.from(inner);
+  }
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
@@ -775,6 +872,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Summary sse_decode_box_autoadd_summary(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_summary(deserializer));
+  }
+
+  @protected
+  Credit sse_decode_credit(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return Credit.values[inner];
+  }
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
+  }
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <String>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -798,6 +920,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<(Credit, Set<String>)> sse_decode_list_record_credit_set_string(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <(Credit, Set<String>)>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_record_credit_set_string(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   List<Summary> sse_decode_list_summary(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -818,6 +953,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     } else {
       return null;
     }
+  }
+
+  @protected
+  (Credit, Set<String>) sse_decode_record_credit_set_string(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_credit(deserializer);
+    var var_field1 = sse_decode_Set_String(deserializer);
+    return (var_field0, var_field1);
   }
 
   @protected
@@ -904,12 +1048,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int sse_decode_i_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getInt32();
-  }
-
-  @protected
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
@@ -970,6 +1108,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_Map_credit_Set_String(
+      Map<Credit, Set<String>> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_record_credit_set_string(
+        self.entries.map((e) => (e.key, e.value)).toList(), serializer);
+  }
+
+  @protected
   void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFile(
           ArcFile self, SseSerializer serializer) {
@@ -997,6 +1143,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_Set_String(Set<String> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_String(self.toList(), serializer);
+  }
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
@@ -1006,6 +1158,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_box_autoadd_summary(Summary self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_summary(self, serializer);
+  }
+
+  @protected
+  void sse_encode_credit(Credit self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
+  }
+
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_String(item, serializer);
+    }
   }
 
   @protected
@@ -1027,6 +1200,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_record_credit_set_string(
+      List<(Credit, Set<String>)> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_record_credit_set_string(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_summary(List<Summary> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
@@ -1044,6 +1227,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     if (self != null) {
       sse_encode_list_prim_u_8_strict(self, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_record_credit_set_string(
+      (Credit, Set<String>) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_credit(self.$1, serializer);
+    sse_encode_Set_String(self.$2, serializer);
   }
 
   @protected
@@ -1106,12 +1297,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
-  }
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putInt32(self);
   }
 
   @protected
@@ -1199,6 +1384,11 @@ class InfoStateImpl extends RustOpaque implements InfoState {
 
   (int, int, int, int, int, int) createdDate() =>
       RustLib.instance.api.crateApiStatesInfoInfoStateCreatedDate(
+        that: this,
+      );
+
+  Map<Credit, Set<String>> credits() =>
+      RustLib.instance.api.crateApiStatesInfoInfoStateCredits(
         that: this,
       );
 
