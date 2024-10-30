@@ -1,3 +1,4 @@
+pub use cyfile::Credit;
 pub use cyfile::File;
 
 use crate::frb_generated::RustAutoOpaque;
@@ -78,4 +79,14 @@ impl InfoState {
             .map(|page| page.data().to_owned())
             .collect()
     }
+}
+
+#[frb(mirror(Credit))]
+pub enum _Credit {
+    Artists,
+    Translators,
+    Proofreaders,
+    Retouchers,
+    Typesetters,
+    Supervisors,
 }
