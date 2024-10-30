@@ -3,6 +3,8 @@ pub use cyfile::File;
 
 use crate::frb_generated::RustAutoOpaque;
 use flutter_rust_bridge::frb;
+use std::collections::HashMap;
+use std::collections::HashSet;
 use std::sync::Arc;
 
 #[frb(opaque)]
@@ -18,12 +20,13 @@ impl InfoState {
 
     #[frb(sync)]
     pub fn cover(&self) -> Option<Vec<u8>> {
-        None
-    }
+        let cover = self.file.blocking_read().project().cover().to_owned();
 
-    #[frb(sync)]
-    pub fn page_count(&self) -> u32 {
-        self.file.blocking_read().project().pages().len() as u32
+        if cover.is_empty() {
+            None
+        } else {
+            Some(cover)
+        }
     }
 
     #[frb(sync)]
@@ -38,7 +41,7 @@ impl InfoState {
 
     #[frb(sync)]
     pub fn number(&self) -> (u32, u32) {
-        (0, 0)
+        self.file.blocking_read().project().number()
     }
 
     #[frb(sync)]
@@ -67,6 +70,16 @@ impl InfoState {
             date.minute(),
             date.second(),
         )
+    }
+
+    #[frb(sync)]
+    pub fn credits(&self) -> HashMap<Credit, HashSet<String>> {
+        self.file.blocking_read().project().credits().clone()
+    }
+
+    #[frb(sync)]
+    pub fn page_count(&self) -> u32 {
+        self.file.blocking_read().project().pages().len() as u32
     }
 
     #[frb(sync)]
