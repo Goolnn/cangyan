@@ -63,10 +63,23 @@ impl HomeState {
             .map(|file| {
                 let project = file.project();
 
-                let cover = project.pages().first().map(|page| page.data().to_owned());
+                let cover = file.project().cover().to_owned();
+                let cover = if cover.is_empty() {
+                    if file.project().pages().is_empty() {
+                        None
+                    } else {
+                        Some(file.project().pages()[0].data().to_owned())
+                    }
+                } else {
+                    Some(cover)
+                };
+
                 let page_count = project.pages().len() as u32;
 
+                let category = project.category().to_string();
                 let title = project.title().to_string();
+
+                let number = project.number();
 
                 let created_date = {
                     let date = project.created_date();
@@ -98,10 +111,10 @@ impl HomeState {
                     cover,
                     page_count,
 
-                    category: String::new(),
+                    category,
                     title,
 
-                    number: (0, 0),
+                    number,
 
                     created_date,
                     saved_date,
