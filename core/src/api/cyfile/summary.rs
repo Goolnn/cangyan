@@ -85,4 +85,14 @@ impl Summary {
 
         Ok(Date::from(file.project().saved_date()))
     }
+
+    #[frb(sync)]
+    pub fn page_count(&self) -> anyhow::Result<u32> {
+        let file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        Ok(file.project().pages().len() as u32)
+    }
 }
