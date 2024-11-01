@@ -19,6 +19,66 @@ impl Summary {
     }
 
     #[frb(sync)]
+    pub fn set_cover(&mut self, cover: Vec<u8>) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project_mut().set_cover(cover);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_category(&mut self, category: String) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project_mut().set_category(category);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_title(&mut self, title: String) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project_mut().set_title(title);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_number(&mut self, number: (u32, u32)) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project_mut().set_number(number);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_credits(&mut self, credits: HashMap<Credit, HashSet<String>>) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        *file.project_mut().credits_mut() = credits;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
     pub fn cover(&self) -> anyhow::Result<Option<Vec<u8>>> {
         let file = self
             .file
