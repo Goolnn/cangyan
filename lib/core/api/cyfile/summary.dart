@@ -4,6 +4,7 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
+import 'credit.dart';
 import 'date.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
@@ -17,9 +18,23 @@ abstract class Summary implements RustOpaqueInterface {
 
   Date createdDate();
 
+  Map<Credit, Set<String>> credits();
+
   (int, int) number();
 
+  int pageCount();
+
   Date savedDate();
+
+  void setCategory({required String category});
+
+  void setCover({required List<int> cover});
+
+  void setCredits({required Map<Credit, Set<String>> credits});
+
+  void setNumber({required (int, int) number});
+
+  void setTitle({required String title});
 
   String title();
 }

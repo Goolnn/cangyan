@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/cyfile/credit.dart';
 import 'api/cyfile/date.dart';
 import 'api/cyfile/summary.dart';
 import 'api/states/home.dart';
@@ -45,6 +46,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           dynamic raw);
 
   @protected
+  Summary
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          dynamic raw);
+
+  @protected
   HomeState
       dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           dynamic raw);
@@ -53,6 +59,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Summary
       dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           dynamic raw);
+
+  @protected
+  Map<Credit, Set<String>> dco_decode_Map_credit_Set_String(dynamic raw);
 
   @protected
   HomeState
@@ -65,10 +74,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           dynamic raw);
 
   @protected
+  Set<String> dco_decode_Set_String(dynamic raw);
+
+  @protected
   String dco_decode_String(dynamic raw);
 
   @protected
+  (int, int) dco_decode_box_autoadd_record_u_32_u_32(dynamic raw);
+
+  @protected
+  Credit dco_decode_credit(dynamic raw);
+
+  @protected
   Date dco_decode_date(dynamic raw);
+
+  @protected
+  int dco_decode_i_32(dynamic raw);
 
   @protected
   List<Summary>
@@ -76,10 +97,23 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           dynamic raw);
 
   @protected
+  List<String> dco_decode_list_String(dynamic raw);
+
+  @protected
+  List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  List<(Credit, Set<String>)> dco_decode_list_record_credit_set_string(
+      dynamic raw);
+
+  @protected
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
+
+  @protected
+  (Credit, Set<String>) dco_decode_record_credit_set_string(dynamic raw);
 
   @protected
   (int, int) dco_decode_record_u_32_u_32(dynamic raw);
@@ -118,6 +152,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
+  Summary
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          SseDeserializer deserializer);
+
+  @protected
   HomeState
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           SseDeserializer deserializer);
@@ -126,6 +165,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Summary
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           SseDeserializer deserializer);
+
+  @protected
+  Map<Credit, Set<String>> sse_decode_Map_credit_Set_String(
+      SseDeserializer deserializer);
 
   @protected
   HomeState
@@ -138,10 +181,23 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
+  Set<String> sse_decode_Set_String(SseDeserializer deserializer);
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  (int, int) sse_decode_box_autoadd_record_u_32_u_32(
+      SseDeserializer deserializer);
+
+  @protected
+  Credit sse_decode_credit(SseDeserializer deserializer);
+
+  @protected
   Date sse_decode_date(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
   List<Summary>
@@ -149,10 +205,24 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  List<(Credit, Set<String>)> sse_decode_list_record_credit_set_string(
+      SseDeserializer deserializer);
+
+  @protected
   Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  (Credit, Set<String>) sse_decode_record_credit_set_string(
+      SseDeserializer deserializer);
 
   @protected
   (int, int) sse_decode_record_u_32_u_32(SseDeserializer deserializer);
@@ -171,9 +241,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt sse_decode_usize(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
@@ -199,6 +266,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          Summary self, SseSerializer serializer);
+
+  @protected
+  void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           HomeState self, SseSerializer serializer);
 
@@ -206,6 +278,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           Summary self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_Map_credit_Set_String(
+      Map<Credit, Set<String>> self, SseSerializer serializer);
 
   @protected
   void
@@ -218,10 +294,23 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           Summary self, SseSerializer serializer);
 
   @protected
+  void sse_encode_Set_String(Set<String> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_record_u_32_u_32(
+      (int, int) self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_credit(Credit self, SseSerializer serializer);
+
+  @protected
   void sse_encode_date(Date self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
   void
@@ -229,12 +318,26 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           List<Summary> self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
       Uint8List self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_record_credit_set_string(
+      List<(Credit, Set<String>)> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_list_prim_u_8_strict(
       Uint8List? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_record_credit_set_string(
+      (Credit, Set<String>) self, SseSerializer serializer);
 
   @protected
   void sse_encode_record_u_32_u_32((int, int) self, SseSerializer serializer);
@@ -253,9 +356,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
