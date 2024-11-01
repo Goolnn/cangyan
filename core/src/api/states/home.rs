@@ -1,3 +1,4 @@
+use crate::api::cyfile::Source;
 use crate::api::cyfile::Summary;
 use cyfile::File;
 use flutter_rust_bridge::frb;
@@ -10,20 +11,20 @@ use std::sync::Mutex;
 pub struct HomeState {
     workspace: PathBuf,
 
-    files: Vec<Arc<Mutex<File>>>,
+    sources: Vec<Arc<Mutex<Source>>>,
 }
 
 impl HomeState {
     #[frb(sync)]
     pub fn new(workspace: String) -> Self {
         let workspace = PathBuf::from(workspace);
-        let files = Vec::new();
+        let sources = Vec::new();
 
-        HomeState { workspace, files }
+        HomeState { workspace, sources }
     }
 
     pub fn load(&mut self) {
-        self.files.clear();
+        self.sources.clear();
 
         if let Ok(entries) = self.workspace.read_dir() {
             for entry in entries.flatten() {
@@ -50,16 +51,19 @@ impl HomeState {
                     }
                 }
 
-                self.files.push(Arc::new(Mutex::new(file)));
+                let path = entry.path();
+                let source = Arc::new(Mutex::new(Source { file, path }));
+
+                self.sources.push(source);
             }
         }
     }
 
     #[frb(sync)]
     pub fn summaries(&self) -> Vec<Summary> {
-        self.files
+        self.sources
             .iter()
-            .map(|file| Summary::new(Arc::clone(file)))
+            .map(|source| Summary::new(Arc::clone(source)))
             .collect()
     }
 }
