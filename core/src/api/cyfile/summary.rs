@@ -27,6 +27,8 @@ impl Summary {
 
         source.file.project_mut().set_cover(cover);
 
+        source.save()?;
+
         Ok(())
     }
 
@@ -38,6 +40,8 @@ impl Summary {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         source.file.project_mut().set_category(category);
+
+        source.save()?;
 
         Ok(())
     }
@@ -51,6 +55,8 @@ impl Summary {
 
         source.file.project_mut().set_title(title);
 
+        source.save()?;
+
         Ok(())
     }
 
@@ -63,6 +69,8 @@ impl Summary {
 
         source.file.project_mut().set_number(number);
 
+        source.save()?;
+
         Ok(())
     }
 
@@ -74,6 +82,8 @@ impl Summary {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         *source.file.project_mut().credits_mut() = credits;
+
+        source.save()?;
 
         Ok(())
     }
