@@ -2,6 +2,7 @@ import 'package:cangyan/core/api/cyfile/credit.dart';
 import 'package:cangyan/core/api/cyfile/date.dart';
 import 'package:cangyan/core/api/cyfile/project.dart';
 import 'package:cangyan/core/api/cyfile/page.dart' as cyfile;
+import 'package:cangyan/pages/edit.dart';
 import 'package:cangyan/widgets/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
@@ -141,10 +142,23 @@ class _InfoPageState extends State<InfoPage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: AspectRatio(
-                                  aspectRatio: 3.0 / 4.0,
-                                  child: cangyan.Image(
-                                    image: pages[i].data,
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return EditPage(
+                                          page: pages[i],
+                                        );
+                                      }),
+                                    );
+                                  },
+                                  child: AspectRatio(
+                                    aspectRatio: 3.0 / 4.0,
+                                    child: cangyan.Image(
+                                      image: pages[i].data,
+                                    ),
                                   ),
                                 ),
                               ),
