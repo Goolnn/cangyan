@@ -120,31 +120,9 @@ class _Tile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Card(
-                          color: Colors.blue,
-                          shape: StadiumBorder(),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 4.0,
-                            ),
-                            child: Text(
-                              "正篇",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ),
-                        ),
+                        cangyan.Category(summary.category()),
                         cangyan.Title(summary.title()),
-                        const SizedBox(
-                          width: 16.0,
-                          height: 16.0,
-                          child: CircularProgressIndicator(
-                            value: 0.36,
-                          ),
-                        ),
+                        const cangyan.Progress(0.5),
                       ],
                     ),
                     const Spacer(),
