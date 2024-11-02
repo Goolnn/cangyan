@@ -15,101 +15,103 @@ class InfoPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 256.0 + 64.0,
-                child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 48.0,
+                  ),
                   child: cangyan.Image(image: summary.cover()),
                 ),
-              ),
-              const Divider(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      cangyan.Category(summary.category()),
-                      Expanded(
-                        child: cangyan.Title(
-                          summary.title(),
-                          summary.number(),
-                        ),
-                      ),
-                      cangyan.Progress(summary.progress()),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '简介' * 100,
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      children: [
-                        Text(
-                          '创建于 ${_dateToString(summary.createdDate())}',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text(
-                          '修改于 ${_dateToString(summary.savedDate())}',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+                const Divider(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ("作者", Credit.artists),
-                    ("翻译", Credit.translators),
-                    ("校对", Credit.proofreaders),
-                    ("修图", Credit.retouchers),
-                    ("嵌字", Credit.typesetters),
-                    ("监修", Credit.supervisors),
-                  ].map<Widget>((pair) {
-                    final names = summary.credits()[pair.$2] ?? <String>[];
-
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        cangyan.Capsule(
-                          pair.$1,
-                          backgroundColor: Colors.blue,
-                        ),
-                        const SizedBox(width: 8.0),
+                        cangyan.Category(summary.category()),
                         Expanded(
-                          child: Wrap(
-                            children: names.map<Widget>((credit) {
-                              return cangyan.Capsule(
-                                credit,
-                                backgroundColor: Colors.lightBlue,
-                              );
-                            }).toList()
-                              ..add(const SizedBox(width: 4.0))
-                              ..add(const cangyan.Capsule("+")),
+                          child: cangyan.Title(
+                            summary.title(),
+                            summary.number(),
                           ),
-                        )
+                        ),
+                        cangyan.Progress(summary.progress()),
                       ],
-                    );
-                  }).toList(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '简介' * 100,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Column(
+                        children: [
+                          Text(
+                            '创建于 ${_dateToString(summary.createdDate())}',
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            '修改于 ${_dateToString(summary.savedDate())}',
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              const Divider(),
-            ],
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      ("作者", Credit.artists),
+                      ("翻译", Credit.translators),
+                      ("校对", Credit.proofreaders),
+                      ("修图", Credit.retouchers),
+                      ("嵌字", Credit.typesetters),
+                      ("监修", Credit.supervisors),
+                    ].map<Widget>((pair) {
+                      final names = summary.credits()[pair.$2] ?? <String>[];
+
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          cangyan.Capsule(
+                            pair.$1,
+                            backgroundColor: Colors.blue,
+                          ),
+                          const SizedBox(width: 8.0),
+                          Expanded(
+                            child: Wrap(
+                              children: names.map<Widget>((credit) {
+                                return cangyan.Capsule(
+                                  credit,
+                                  backgroundColor: Colors.lightBlue,
+                                );
+                              }).toList()
+                                ..add(const SizedBox(width: 4.0))
+                                ..add(const cangyan.Capsule("+")),
+                            ),
+                          )
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const Divider(),
+              ],
+            ),
           ),
         ),
       ),
