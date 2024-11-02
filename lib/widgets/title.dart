@@ -4,7 +4,16 @@ class Title extends StatelessWidget {
   final String text;
   final (int, int) number;
 
-  const Title(this.text, this.number, {super.key});
+  final TextOverflow? overflow;
+  final TextAlign? textAlign;
+
+  const Title(
+    this.text,
+    this.number, {
+    super.key,
+    this.overflow,
+    this.textAlign,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +30,13 @@ class Title extends StatelessWidget {
       title = '$title ($endNumber)';
     }
 
-    return Expanded(
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 16.0,
-        ),
-        overflow: TextOverflow.ellipsis,
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 16.0,
       ),
+      overflow: overflow ?? TextOverflow.ellipsis,
+      textAlign: textAlign ?? TextAlign.start,
     );
   }
 }
