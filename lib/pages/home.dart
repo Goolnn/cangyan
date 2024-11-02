@@ -121,7 +121,7 @@ class _Tile extends StatelessWidget {
                     Row(
                       children: [
                         cangyan.Category(summary.category()),
-                        cangyan.Title(summary.title()),
+                        cangyan.Title(summary.title(), summary.number()),
                         const cangyan.Progress(0.5),
                       ],
                     ),
