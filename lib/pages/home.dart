@@ -1,6 +1,7 @@
 import 'package:cangyan/core/api/cyfile/date.dart';
 import 'package:cangyan/core/api/cyfile/summary.dart';
 import 'package:cangyan/core/api/states/home.dart';
+import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -105,7 +106,12 @@ class _Tile extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  cangyan.Image(image: summary.cover()),
+                  AspectRatio(
+                    aspectRatio: 3.0 / 4.0,
+                    child: cangyan.Image(
+                      image: summary.cover(),
+                    ),
+                  ),
                   Positioned(
                     bottom: 2.0,
                     right: 2.0,
@@ -121,7 +127,12 @@ class _Tile extends StatelessWidget {
                     Row(
                       children: [
                         cangyan.Category(summary.category()),
-                        cangyan.Title(summary.title(), summary.number()),
+                        Expanded(
+                          child: cangyan.Title(
+                            summary.title(),
+                            summary.number(),
+                          ),
+                        ),
                         cangyan.Progress(summary.progress()),
                       ],
                     ),
@@ -155,11 +166,14 @@ class _Tile extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return InfoPage(
-        //     summary: summary,
-        //   );
-        // }));
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return InfoPage(
+            summary: summary,
+          );
+          //   return InfoPage(
+          //     summary: summary,
+          //   );
+        }));
       },
     );
   }
