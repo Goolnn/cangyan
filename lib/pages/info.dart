@@ -1,6 +1,7 @@
 import 'package:cangyan/core/api/cyfile/credit.dart';
 import 'package:cangyan/core/api/cyfile/date.dart';
 import 'package:cangyan/core/api/cyfile/project.dart';
+import 'package:cangyan/core/api/cyfile/page.dart' as cyfile;
 import 'package:cangyan/widgets/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,15 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
+  late List<cyfile.Page> pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pages = widget.project.pages();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,6 +130,31 @@ class _InfoPageState extends State<InfoPage> {
                   ),
                 ),
                 const Divider(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    children: [
+                      for (int i = 0; i < pages.length; i++)
+                        FractionallySizedBox(
+                          widthFactor: 1.0 / 3.0,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AspectRatio(
+                                  aspectRatio: 3.0 / 4.0,
+                                  child: cangyan.Image(
+                                    image: pages[i].data,
+                                  ),
+                                ),
+                              ),
+                              Text('第${i + 1}页'),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
