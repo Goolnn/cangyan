@@ -1,7 +1,7 @@
+import 'package:cangyan/core/api/cyfile/date.dart';
+import 'package:cangyan/core/api/cyfile/summary.dart';
 import 'package:cangyan/core/api/states/home.dart';
-import 'package:cangyan/pages/info.dart';
-import 'package:cangyan/widgets/capsule.dart' as cangyan;
-import 'package:cangyan/widgets/image.dart' as cangyan;
+import 'package:cangyan/widgets/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -105,11 +105,11 @@ class _Tile extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  cangyan.Image(image: summary.cover),
+                  cangyan.Image(image: summary.cover()),
                   Positioned(
                     bottom: 2.0,
                     right: 2.0,
-                    child: cangyan.Capsule('${summary.pageCount}页'),
+                    child: cangyan.Capsule('${summary.pageCount()}页'),
                   ),
                 ],
               ),
@@ -119,7 +119,7 @@ class _Tile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      summary.title,
+                      summary.title(),
                       style: const TextStyle(
                         fontSize: 18.0,
                       ),
@@ -131,14 +131,14 @@ class _Tile extends StatelessWidget {
                         Column(
                           children: [
                             Text(
-                              '创建于 ${_dateToString(summary.createdDate)}',
+                              '创建于 ${_dateToString(summary.createdDate())}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
                               ),
                             ),
                             Text(
-                              '修改于 ${_dateToString(summary.savedDate)}',
+                              '修改于 ${_dateToString(summary.savedDate())}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
@@ -156,22 +156,22 @@ class _Tile extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return InfoPage(
-            summary: summary,
-          );
-        }));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //   return InfoPage(
+        //     summary: summary,
+        //   );
+        // }));
       },
     );
   }
 
-  String _dateToString((int, int, int, int, int, int) date) {
-    final year = '${date.$1}年';
-    final month = '${date.$2}月';
-    final day = '${date.$3}日';
-    final hour = '${date.$4}'.padLeft(2, '0');
-    final minute = '${date.$5}'.padLeft(2, '0');
-    final second = '${date.$6}'.padLeft(2, '0');
+  String _dateToString(Date date) {
+    final year = '${date.year}年';
+    final month = '${date.month}月';
+    final day = '${date.day}日';
+    final hour = '${date.hour}'.padLeft(2, '0');
+    final minute = '${date.minute}'.padLeft(2, '0');
+    final second = '${date.second}'.padLeft(2, '0');
 
     return '$year$month$day $hour:$minute:$second';
   }
