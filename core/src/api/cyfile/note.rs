@@ -23,3 +23,17 @@ impl From<&cyfile::Note> for Note {
         }
     }
 }
+
+impl From<&Note> for cyfile::Note {
+    fn from(value: &Note) -> Self {
+        let texts = value.texts.iter().map(|text| text.into()).collect();
+
+        let mut note = cyfile::Note::new()
+            .with_coordinate(value.x, value.y)
+            .with_choice(value.choice);
+
+        *note.texts_mut() = texts;
+
+        note
+    }
+}
