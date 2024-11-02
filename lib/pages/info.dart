@@ -4,11 +4,16 @@ import 'package:cangyan/core/api/cyfile/project.dart';
 import 'package:cangyan/widgets/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
-class InfoPage extends StatelessWidget {
+class InfoPage extends StatefulWidget {
   final Project project;
 
   const InfoPage({super.key, required this.project});
 
+  @override
+  State<InfoPage> createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +28,7 @@ class InfoPage extends StatelessWidget {
                     horizontal: 48.0,
                     vertical: 8.0,
                   ),
-                  child: cangyan.Image(image: project.cover()),
+                  child: cangyan.Image(image: widget.project.cover()),
                 ),
                 const Divider(),
                 Padding(
@@ -33,14 +38,14 @@ class InfoPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          cangyan.Category(project.category()),
+                          cangyan.Category(widget.project.category()),
                           Expanded(
                             child: cangyan.Title(
-                              project.title(),
-                              project.number(),
+                              widget.project.title(),
+                              widget.project.number(),
                             ),
                           ),
-                          cangyan.Progress(project.progress()),
+                          cangyan.Progress(widget.project.progress()),
                         ],
                       ),
                       Padding(
@@ -55,14 +60,14 @@ class InfoPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              '创建于 ${_dateToString(project.createdDate())}',
+                              '创建于 ${_dateToString(widget.project.createdDate())}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
                               ),
                             ),
                             Text(
-                              '修改于 ${_dateToString(project.savedDate())}',
+                              '修改于 ${_dateToString(widget.project.savedDate())}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
@@ -86,7 +91,8 @@ class InfoPage extends StatelessWidget {
                       ("嵌字", Credit.typesetters),
                       ("监修", Credit.supervisors),
                     ].map<Widget>((pair) {
-                      final names = project.credits()[pair.$2] ?? <String>[];
+                      final names =
+                          widget.project.credits()[pair.$2] ?? <String>[];
 
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
