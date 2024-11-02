@@ -21,54 +21,58 @@ class InfoPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 48.0,
+                    vertical: 8.0,
                   ),
                   child: cangyan.Image(image: summary.cover()),
                 ),
                 const Divider(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        cangyan.Category(summary.category()),
-                        Expanded(
-                          child: cangyan.Title(
-                            summary.title(),
-                            summary.number(),
-                          ),
-                        ),
-                        cangyan.Progress(summary.progress()),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '简介' * 100,
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Column(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Text(
-                            '创建于 ${_dateToString(summary.createdDate())}',
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.grey,
+                          cangyan.Category(summary.category()),
+                          Expanded(
+                            child: cangyan.Title(
+                              summary.title(),
+                              summary.number(),
                             ),
                           ),
-                          Text(
-                            '修改于 ${_dateToString(summary.savedDate())}',
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.grey,
-                            ),
-                          ),
+                          cangyan.Progress(summary.progress()),
                         ],
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '简介' * 100,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Column(
+                          children: [
+                            Text(
+                              '创建于 ${_dateToString(summary.createdDate())}',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              '修改于 ${_dateToString(summary.savedDate())}',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 const Divider(),
                 Padding(
