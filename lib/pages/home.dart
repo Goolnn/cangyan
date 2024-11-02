@@ -126,28 +126,26 @@ class _Tile extends StatelessWidget {
                       ],
                     ),
                     const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              '创建于 ${_dateToString(summary.createdDate())}',
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.grey,
-                              ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Column(
+                        children: [
+                          Text(
+                            '创建于 ${_dateToString(summary.createdDate())}',
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey,
                             ),
-                            Text(
-                              '修改于 ${_dateToString(summary.savedDate())}',
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.grey,
-                              ),
+                          ),
+                          Text(
+                            '修改于 ${_dateToString(summary.savedDate())}',
+                            style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey,
                             ),
-                          ],
-                        )
-                      ],
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
