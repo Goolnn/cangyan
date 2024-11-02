@@ -7,10 +7,18 @@ pub struct Text {
 }
 
 impl From<&cyfile::Text> for Text {
-    fn from(text: &cyfile::Text) -> Self {
+    fn from(value: &cyfile::Text) -> Self {
         Text {
-            content: text.content().to_string(),
-            comment: text.comment().to_string(),
+            content: value.content().to_string(),
+            comment: value.comment().to_string(),
         }
+    }
+}
+
+impl From<&Text> for cyfile::Text {
+    fn from(value: &Text) -> Self {
+        cyfile::Text::new()
+            .with_content(value.content.clone())
+            .with_comment(value.comment.clone())
     }
 }
