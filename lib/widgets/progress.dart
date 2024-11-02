@@ -7,10 +7,20 @@ class Progress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color foregroundColor;
+
+    if (value != 1.0) {
+      foregroundColor = Colors.grey;
+    } else {
+      foregroundColor = Colors.lightGreen;
+    }
+
     return SizedBox(
       width: 16.0,
       height: 16.0,
       child: CircularProgressIndicator(
+        backgroundColor: Colors.grey.withOpacity(0.35),
+        color: foregroundColor,
         value: value,
       ),
     );
