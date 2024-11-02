@@ -1,5 +1,6 @@
-use super::Source;
 use crate::api::cyfile::Date;
+use crate::api::cyfile::Page;
+use crate::api::cyfile::Source;
 use cyfile::Credit;
 use flutter_rust_bridge::frb;
 use std::collections::HashMap;
@@ -8,14 +9,14 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 #[frb(opaque)]
-pub struct Summary {
+pub struct Project {
     source: Arc<Mutex<Source>>,
 }
 
-impl Summary {
+impl Project {
     #[frb(ignore)]
     pub fn new(source: Arc<Mutex<Source>>) -> Self {
-        Summary { source }
+        Project { source }
     }
 
     #[frb(sync)]
@@ -82,6 +83,20 @@ impl Summary {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         *source.file.project_mut().credits_mut() = credits;
+
+        source.save()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_pages(&mut self, pages: Vec<Page>) -> anyhow::Result<()> {
+        let mut source = self
+            .source
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        *source.file.project_mut().pages_mut() = pages.iter().map(|page| page.into()).collect();
 
         source.save()?;
 
@@ -204,5 +219,23 @@ impl Summary {
         } else {
             Ok(completed / total)
         }
+    }
+
+    #[frb(sync)]
+    pub fn pages(&self) -> anyhow::Result<Vec<Page>> {
+        let source = self
+            .source
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let pages = source
+            .file
+            .project()
+            .pages()
+            .iter()
+            .map(|page| page.into())
+            .collect();
+
+        Ok(pages)
     }
 }

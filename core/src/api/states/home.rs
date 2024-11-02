@@ -1,5 +1,5 @@
+use crate::api::cyfile::Project;
 use crate::api::cyfile::Source;
-use crate::api::cyfile::Summary;
 use cyfile::File;
 use flutter_rust_bridge::frb;
 use std::fs;
@@ -60,10 +60,10 @@ impl HomeState {
     }
 
     #[frb(sync)]
-    pub fn summaries(&self) -> Vec<Summary> {
+    pub fn projects(&self) -> Vec<Project> {
         self.sources
             .iter()
-            .map(|source| Summary::new(Arc::clone(source)))
+            .map(|source| Project::new(Arc::clone(source)))
             .collect()
     }
 }
