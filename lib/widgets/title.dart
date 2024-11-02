@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Title extends StatelessWidget {
-  final String text;
+  final String title;
 
-  const Title(this.text, {super.key});
+  const Title(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Text(
-        text,
+        title,
         style: const TextStyle(
           fontSize: 16.0,
         ),
