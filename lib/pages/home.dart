@@ -122,7 +122,7 @@ class _Tile extends StatelessWidget {
                       children: [
                         cangyan.Category(summary.category()),
                         cangyan.Title(summary.title(), summary.number()),
-                        const cangyan.Progress(0.5),
+                        cangyan.Progress(summary.progress()),
                       ],
                     ),
                     const Spacer(),

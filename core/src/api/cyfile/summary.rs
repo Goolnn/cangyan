@@ -178,4 +178,31 @@ impl Summary {
 
         Ok(source.file.project().pages().len() as u32)
     }
+
+    #[frb[sync]]
+    pub fn progress(&self) -> anyhow::Result<f64> {
+        let source = self
+            .source
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let mut total = 0.0;
+        let mut completed = 0.0;
+
+        for page in source.file.project().pages() {
+            for note in page.notes() {
+                total += 1.0;
+
+                if note.choice() != 0 {
+                    completed += 1.0;
+                }
+            }
+        }
+
+        if total == 0.0 {
+            Ok(0.0)
+        } else {
+            Ok(completed / total)
+        }
+    }
 }

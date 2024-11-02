@@ -24,6 +24,8 @@ abstract class Summary implements RustOpaqueInterface {
 
   int pageCount();
 
+  double progress();
+
   Date savedDate();
 
   void setCategory({required String category});
