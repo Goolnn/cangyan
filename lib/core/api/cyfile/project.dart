@@ -6,12 +6,15 @@
 import '../../frb_generated.dart';
 import 'credit.dart';
 import 'date.dart';
+import 'note.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'page.dart';
+import 'text.dart';
 
 // These functions are ignored (category: IgnoreBecauseExplicitAttribute): `new`
 
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Summary>>
-abstract class Summary implements RustOpaqueInterface {
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Project>>
+abstract class Project implements RustOpaqueInterface {
   String category();
 
   Uint8List? cover();
@@ -24,6 +27,8 @@ abstract class Summary implements RustOpaqueInterface {
 
   int pageCount();
 
+  List<Page> pages();
+
   double progress();
 
   Date savedDate();
@@ -35,6 +40,8 @@ abstract class Summary implements RustOpaqueInterface {
   void setCredits({required Map<Credit, Set<String>> credits});
 
   void setNumber({required (int, int) number});
+
+  void setPages({required List<Page> pages});
 
   void setTitle({required String title});
 
