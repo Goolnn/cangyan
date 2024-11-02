@@ -1,5 +1,5 @@
 import 'package:cangyan/core/api/cyfile/date.dart';
-import 'package:cangyan/core/api/cyfile/summary.dart';
+import 'package:cangyan/core/api/cyfile/project.dart';
 import 'package:cangyan/core/api/states/home.dart';
 import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets/widgets.dart' as cangyan;
@@ -62,18 +62,18 @@ class _HomePageState extends State<HomePage> {
               );
             }
 
-            final summaries = state?.summaries();
+            final projects = state?.projects();
 
-            if (summaries == null) {
+            if (projects == null) {
               return const Center(
-                child: Text('No summaries'),
+                child: Text('No projects'),
               );
             }
 
             return ListView.builder(
-              itemCount: summaries.length,
+              itemCount: projects.length,
               itemBuilder: (context, index) {
-                return _Tile(summaries[index]);
+                return _Tile(projects[index]);
               },
             );
           },
@@ -91,9 +91,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _Tile extends StatelessWidget {
-  final Summary summary;
+  final Project project;
 
-  const _Tile(this.summary);
+  const _Tile(this.project);
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +109,13 @@ class _Tile extends StatelessWidget {
                   AspectRatio(
                     aspectRatio: 3.0 / 4.0,
                     child: cangyan.Image(
-                      image: summary.cover(),
+                      image: project.cover(),
                     ),
                   ),
                   Positioned(
                     bottom: 2.0,
                     right: 2.0,
-                    child: cangyan.Capsule('${summary.pageCount()}页'),
+                    child: cangyan.Capsule('${project.pageCount()}页'),
                   ),
                 ],
               ),
@@ -126,14 +126,14 @@ class _Tile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        cangyan.Category(summary.category()),
+                        cangyan.Category(project.category()),
                         Expanded(
                           child: cangyan.Title(
-                            summary.title(),
-                            summary.number(),
+                            project.title(),
+                            project.number(),
                           ),
                         ),
-                        cangyan.Progress(summary.progress()),
+                        cangyan.Progress(project.progress()),
                       ],
                     ),
                     const Spacer(),
@@ -142,14 +142,14 @@ class _Tile extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '创建于 ${_dateToString(summary.createdDate())}',
+                            '创建于 ${_dateToString(project.createdDate())}',
                             style: const TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey,
                             ),
                           ),
                           Text(
-                            '修改于 ${_dateToString(summary.savedDate())}',
+                            '修改于 ${_dateToString(project.savedDate())}',
                             style: const TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey,
@@ -168,11 +168,8 @@ class _Tile extends StatelessWidget {
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return InfoPage(
-            summary: summary,
+            project: project,
           );
-          //   return InfoPage(
-          //     summary: summary,
-          //   );
         }));
       },
     );
