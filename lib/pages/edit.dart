@@ -30,7 +30,7 @@ class _EditPageState extends State<EditPage> {
 
   double noteSize = 36.0;
 
-  bool drawer = false;
+  int drawer = 0;
 
   late List<Note> notes;
 
@@ -113,12 +113,13 @@ class _EditPageState extends State<EditPage> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                drawer = true;
+                                drawer = i + 1;
                               });
                             },
                             child: Card(
                               shape: const CircleBorder(),
-                              color: Colors.red.withOpacity(0.75),
+                              color: Colors.red
+                                  .withOpacity(drawer - 1 == i ? 1.0 : 0.5),
                               child: Center(
                                 child: Text(
                                   '${i + 1}',
@@ -133,7 +134,7 @@ class _EditPageState extends State<EditPage> {
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOutCubic,
-                  bottom: drawer
+                  bottom: drawer != 0
                       ? MediaQuery.of(context).viewInsets.bottom
                       : -drawerWidth,
                   width: drawerWidth,
@@ -141,15 +142,41 @@ class _EditPageState extends State<EditPage> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        drawer = false;
+                        drawer = 0;
                       });
                     },
-                    child: const Card(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(child: TextField()),
-                        ],
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              if (drawer != 0)
+                                for (int i = 0;
+                                    i < notes[drawer - 1].texts.length;
+                                    i++)
+                                  Card(
+                                    elevation: 4.0,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(notes[drawer - 1]
+                                              .texts[i]
+                                              .content),
+                                          const Divider(),
+                                          Text(notes[drawer - 1]
+                                              .texts[i]
+                                              .comment),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
