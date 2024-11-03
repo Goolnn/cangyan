@@ -30,6 +30,8 @@ class _EditPageState extends State<EditPage> {
 
   double noteSize = 36.0;
 
+  bool drawer = false;
+
   late List<Note> notes;
 
   @override
@@ -72,48 +74,86 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            InteractiveViewer(
-              transformationController: _controller,
-              maxScale: 10.0,
-              child: Center(
-                key: _containerKey,
-                child: Image(
-                  key: _imageKey,
-                  image: MemoryImage(widget.page.data),
-                ),
-              ),
-            ),
-            if (containerWidth != null &&
-                imageWidth != null &&
-                containerHeight != null &&
-                imageHeight != null)
-              for (int i = 0; i < notes.length; i++)
-                Builder(builder: (context) {
-                  final centerX = (containerWidth! - noteSize) / 2.0 + offsetX;
-                  final centerY = (containerHeight! - noteSize) / 2.0 + offsetY;
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final drawerWidth = constraints.maxWidth;
+            final drawerHeight = constraints.maxHeight / 3.0;
 
-                  return Positioned(
-                    left: centerX + notes[i].x * imageWidth! * scale / 2.0,
-                    top: centerY - notes[i].y * imageHeight! * scale / 2.0,
-                    child: SizedBox(
-                      width: noteSize,
-                      height: noteSize,
-                      child: Card(
-                        shape: const CircleBorder(),
-                        color: Colors.red.withOpacity(0.75),
-                        child: Center(
-                          child: Text(
-                            '${i + 1}',
-                            style: const TextStyle(color: Colors.white),
+            return Stack(
+              children: [
+                InteractiveViewer(
+                  transformationController: _controller,
+                  maxScale: 10.0,
+                  child: Center(
+                    key: _containerKey,
+                    child: Image(
+                      key: _imageKey,
+                      image: MemoryImage(widget.page.data),
+                    ),
+                  ),
+                ),
+                if (containerWidth != null &&
+                    imageWidth != null &&
+                    containerHeight != null &&
+                    imageHeight != null)
+                  for (int i = 0; i < notes.length; i++)
+                    Builder(builder: (context) {
+                      final centerX =
+                          (containerWidth! - noteSize) / 2.0 + offsetX;
+                      final centerY =
+                          (containerHeight! - noteSize) / 2.0 + offsetY;
+
+                      return Positioned(
+                        left: centerX + notes[i].x * imageWidth! * scale / 2.0,
+                        top: centerY - notes[i].y * imageHeight! * scale / 2.0,
+                        child: SizedBox(
+                          width: noteSize,
+                          height: noteSize,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                drawer = true;
+                              });
+                            },
+                            child: Card(
+                              shape: const CircleBorder(),
+                              color: Colors.red.withOpacity(0.75),
+                              child: Center(
+                                child: Text(
+                                  '${i + 1}',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
+                      );
+                    }),
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeOutCubic,
+                  bottom: drawer ? 0.0 : -drawerWidth,
+                  width: drawerWidth,
+                  height: drawerHeight,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        drawer = false;
+                      });
+                    },
+                    child: const Card(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(child: TextField()),
+                        ],
                       ),
                     ),
-                  );
-                })
-          ],
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );
