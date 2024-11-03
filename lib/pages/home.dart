@@ -7,6 +7,7 @@ import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets/widgets.dart' as cangyan;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const platform = MethodChannel('goolnn.cangyan/intent');
+
   HomeState? state;
 
   @override
@@ -24,6 +27,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     _initState();
+
+    platform.setMethodCallHandler((call) async {
+      if (call.method == 'newIntent') {
+        setState(() {});
+      }
+    });
   }
 
   Future<void> _initState() async {
