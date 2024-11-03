@@ -238,4 +238,16 @@ impl Project {
 
         Ok(pages)
     }
+
+    #[frb(sync)]
+    pub fn delete(&self) -> anyhow::Result<()> {
+        let mut source = self
+            .source
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        source.delete()?;
+
+        Ok(())
+    }
 }

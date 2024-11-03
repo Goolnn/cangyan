@@ -13,4 +13,10 @@ impl Source {
     pub fn save(&self) -> anyhow::Result<()> {
         self.file.export(ExportArguments::new(&self.path))
     }
+
+    pub fn delete(&self) -> anyhow::Result<()> {
+        std::fs::remove_file(&self.path)?;
+        
+        Ok(())
+    }
 }

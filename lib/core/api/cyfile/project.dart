@@ -23,6 +23,8 @@ abstract class Project implements RustOpaqueInterface {
 
   Map<Credit, Set<String>> credits();
 
+  void delete();
+
   (int, int) number();
 
   int pageCount();

@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.5.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1166279161;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1359267897;
 
 // Section: executor
 
@@ -236,6 +236,54 @@ fn wire__crate__api__cyfile__project__Project_credits_impl(
                     let api_that_guard = api_that_guard.unwrap();
                     let output_ok =
                         crate::api::cyfile::project::Project::credits(&*api_that_guard)?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
+fn wire__crate__api__cyfile__project__Project_delete_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Project_delete",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Project>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = crate::api::cyfile::project::Project::delete(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -1333,7 +1381,7 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        17 => {
+        18 => {
             wire__crate__api__states__home__HomeState_load_impl(port, ptr, rust_vec_len, data_len)
         }
         _ => unreachable!(),
@@ -1356,38 +1404,39 @@ fn pde_ffi_dispatcher_sync_impl(
             data_len,
         ),
         4 => wire__crate__api__cyfile__project__Project_credits_impl(ptr, rust_vec_len, data_len),
-        5 => wire__crate__api__cyfile__project__Project_number_impl(ptr, rust_vec_len, data_len),
-        6 => {
+        5 => wire__crate__api__cyfile__project__Project_delete_impl(ptr, rust_vec_len, data_len),
+        6 => wire__crate__api__cyfile__project__Project_number_impl(ptr, rust_vec_len, data_len),
+        7 => {
             wire__crate__api__cyfile__project__Project_page_count_impl(ptr, rust_vec_len, data_len)
         }
-        7 => wire__crate__api__cyfile__project__Project_pages_impl(ptr, rust_vec_len, data_len),
-        8 => wire__crate__api__cyfile__project__Project_progress_impl(ptr, rust_vec_len, data_len),
-        9 => {
+        8 => wire__crate__api__cyfile__project__Project_pages_impl(ptr, rust_vec_len, data_len),
+        9 => wire__crate__api__cyfile__project__Project_progress_impl(ptr, rust_vec_len, data_len),
+        10 => {
             wire__crate__api__cyfile__project__Project_saved_date_impl(ptr, rust_vec_len, data_len)
         }
-        10 => wire__crate__api__cyfile__project__Project_set_category_impl(
+        11 => wire__crate__api__cyfile__project__Project_set_category_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        11 => {
+        12 => {
             wire__crate__api__cyfile__project__Project_set_cover_impl(ptr, rust_vec_len, data_len)
         }
-        12 => {
+        13 => {
             wire__crate__api__cyfile__project__Project_set_credits_impl(ptr, rust_vec_len, data_len)
         }
-        13 => {
+        14 => {
             wire__crate__api__cyfile__project__Project_set_number_impl(ptr, rust_vec_len, data_len)
         }
-        14 => {
+        15 => {
             wire__crate__api__cyfile__project__Project_set_pages_impl(ptr, rust_vec_len, data_len)
         }
-        15 => {
+        16 => {
             wire__crate__api__cyfile__project__Project_set_title_impl(ptr, rust_vec_len, data_len)
         }
-        16 => wire__crate__api__cyfile__project__Project_title_impl(ptr, rust_vec_len, data_len),
-        18 => wire__crate__api__states__home__HomeState_new_impl(ptr, rust_vec_len, data_len),
-        19 => wire__crate__api__states__home__HomeState_projects_impl(ptr, rust_vec_len, data_len),
+        17 => wire__crate__api__cyfile__project__Project_title_impl(ptr, rust_vec_len, data_len),
+        19 => wire__crate__api__states__home__HomeState_new_impl(ptr, rust_vec_len, data_len),
+        20 => wire__crate__api__states__home__HomeState_projects_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
