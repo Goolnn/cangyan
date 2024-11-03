@@ -76,7 +76,35 @@ class _HomePageState extends State<HomePage> {
             return ListView.builder(
               itemCount: projects.length,
               itemBuilder: (context, index) {
-                return _Tile(projects[index]);
+                return _Tile(projects[index], onDelete: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('删除项目'),
+                        content: const Text('是否删除项目？'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('取消'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                projects[index].delete();
+                              });
+
+                              Navigator.pop(context);
+                            },
+                            child: const Text('确定'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                });
               },
             );
           },
@@ -124,11 +152,21 @@ class _HomePageState extends State<HomePage> {
 class _Tile extends StatelessWidget {
   final Project project;
 
-  const _Tile(this.project);
+  final void Function()? onDelete;
+
+  const _Tile(this.project, {required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return InfoPage(
+            project: project,
+          );
+        }));
+      },
+      onLongPress: onDelete,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
@@ -196,13 +234,6 @@ class _Tile extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return InfoPage(
-            project: project,
-          );
-        }));
-      },
     );
   }
 
