@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cangyan/core/api/cyfile/date.dart';
 import 'package:cangyan/core/api/cyfile/project.dart';
 import 'package:cangyan/core/api/states/home.dart';
 import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets/widgets.dart' as cangyan;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -79,12 +82,40 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add),
-        onPressed: () {},
+      floatingActionButton: GestureDetector(
+        onLongPress: () async {
+          FilePickerResult? result = await FilePicker.platform.pickFiles(
+            allowMultiple: true,
+          );
+
+          if (result == null) {
+            return;
+          }
+
+          for (final file in result.files) {
+            final extension = file.extension;
+
+            if (extension != 'cy') {
+              continue;
+            }
+
+            final directory = await getExternalStorageDirectory();
+
+            final source = File(file.path!);
+            final destination = File('${directory!.path}/${file.name}');
+
+            await source.copy(destination.path);
+          }
+
+          setState(() {});
+        },
+        child: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add),
+          onPressed: () {},
+        ),
       ),
     );
   }
