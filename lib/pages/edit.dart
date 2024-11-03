@@ -73,6 +73,7 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -132,7 +133,9 @@ class _EditPageState extends State<EditPage> {
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOutCubic,
-                  bottom: drawer ? 0.0 : -drawerWidth,
+                  bottom: drawer
+                      ? MediaQuery.of(context).viewInsets.bottom
+                      : -drawerWidth,
                   width: drawerWidth,
                   height: drawerHeight,
                   child: GestureDetector(
