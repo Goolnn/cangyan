@@ -1,4 +1,5 @@
 import 'package:cangyan/core/file.dart' as cangyan;
+import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class EditPage extends StatefulWidget {
@@ -26,8 +27,6 @@ class _EditPageState extends State<EditPage> {
 
   double offsetX = 0.0;
   double offsetY = 0.0;
-
-  double noteSize = 36.0;
 
   int drawer = 0;
 
@@ -98,35 +97,20 @@ class _EditPageState extends State<EditPage> {
                     imageHeight != null)
                   for (int i = 0; i < notes.length; i++)
                     Builder(builder: (context) {
-                      final centerX =
-                          (containerWidth! - noteSize) / 2.0 + offsetX;
-                      final centerY =
-                          (containerHeight! - noteSize) / 2.0 + offsetY;
+                      final centerX = containerWidth! / 2.0 + offsetX;
+                      final centerY = containerHeight! / 2.0 + offsetY;
 
                       return Positioned(
                         left: centerX + notes[i].x * imageWidth! * scale / 2.0,
                         top: centerY - notes[i].y * imageHeight! * scale / 2.0,
-                        child: SizedBox(
-                          width: noteSize,
-                          height: noteSize,
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                drawer = i + 1;
-                              });
-                            },
-                            child: Card(
-                              shape: const CircleBorder(),
-                              color: Colors.red
-                                  .withOpacity(drawer - 1 == i ? 1.0 : 0.5),
-                              child: Center(
-                                child: Text(
-                                  '${i + 1}',
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
+                        child: cangyan.Mark(
+                          index: i + 1,
+                          isDone: notes[i].choice != 0,
+                          onPressed: () {
+                            setState(() {
+                              drawer = i + 1;
+                            });
+                          },
                         ),
                       );
                     }),
