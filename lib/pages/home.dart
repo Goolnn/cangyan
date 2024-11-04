@@ -1,5 +1,4 @@
-import 'package:cangyan/core/api/cyfile/date.dart';
-import 'package:cangyan/core/api/cyfile/project.dart';
+import 'package:cangyan/core/file.dart' as cangyan;
 import 'package:cangyan/core/api/states/home.dart';
 import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets.dart' as cangyan;
@@ -133,7 +132,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _Tile extends StatelessWidget {
-  final Project project;
+  final cangyan.Project project;
 
   final void Function()? onDelete;
 
@@ -220,7 +219,7 @@ class _Tile extends StatelessWidget {
     );
   }
 
-  String _dateToString(Date date) {
+  String _dateToString(cangyan.Date date) {
     final year = '${date.year}年';
     final month = '${date.month}月';
     final day = '${date.day}日';

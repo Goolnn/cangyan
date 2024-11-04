@@ -1,5 +1,4 @@
-import 'package:cangyan/core/api/cyfile/note.dart';
-import 'package:cangyan/core/api/cyfile/page.dart' as cangyan;
+import 'package:cangyan/core/file.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class EditPage extends StatefulWidget {
@@ -32,7 +31,7 @@ class _EditPageState extends State<EditPage> {
 
   int drawer = 0;
 
-  late List<Note> notes;
+  late List<cangyan.Note> notes;
 
   @override
   void initState() {

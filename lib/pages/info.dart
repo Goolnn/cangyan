@@ -1,13 +1,10 @@
-import 'package:cangyan/core/api/cyfile/credit.dart';
-import 'package:cangyan/core/api/cyfile/date.dart';
-import 'package:cangyan/core/api/cyfile/project.dart';
-import 'package:cangyan/core/api/cyfile/page.dart' as cyfile;
+import 'package:cangyan/core/file.dart' as cangyan;
 import 'package:cangyan/pages/edit.dart';
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatefulWidget {
-  final Project project;
+  final cangyan.Project project;
 
   const InfoPage({super.key, required this.project});
 
@@ -16,7 +13,7 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
-  late List<cyfile.Page> pages;
+  late List<cangyan.Page> pages;
 
   @override
   void initState() {
@@ -95,12 +92,12 @@ class _InfoPageState extends State<InfoPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      ("作者", Credit.artists),
-                      ("翻译", Credit.translators),
-                      ("校对", Credit.proofreaders),
-                      ("修图", Credit.retouchers),
-                      ("嵌字", Credit.typesetters),
-                      ("监修", Credit.supervisors),
+                      ("作者", cangyan.Credit.artists),
+                      ("翻译", cangyan.Credit.translators),
+                      ("校对", cangyan.Credit.proofreaders),
+                      ("修图", cangyan.Credit.retouchers),
+                      ("嵌字", cangyan.Credit.typesetters),
+                      ("监修", cangyan.Credit.supervisors),
                     ].map<Widget>((pair) {
                       final names =
                           widget.project.credits()[pair.$2] ?? <String>[];
@@ -177,7 +174,7 @@ class _InfoPageState extends State<InfoPage> {
     );
   }
 
-  String _dateToString(Date date) {
+  String _dateToString(cangyan.Date date) {
     final year = '${date.year}年';
     final month = '${date.month}月';
     final day = '${date.day}日';
