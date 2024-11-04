@@ -17,13 +17,35 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel)
+        MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            channel
+        ).setMethodCallHandler { call, result ->
+            if (call.method == "openIntent") {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "*/*"
+                }
+
+                startActivityForResult(intent, 1001)
+
+                result.success(null)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+            copyIntent(data)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        handleIntent(intent)
+        copyIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -33,7 +55,7 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun copyIntent(intent: Intent?) {
-        if (intent.action != Intent.ACTION_VIEW) {
+        if (intent == null) {
             return
         }
 
