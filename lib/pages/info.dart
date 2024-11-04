@@ -106,7 +106,7 @@ class _InfoPageState extends State<InfoPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           cangyan.Capsule(
-                            pair.$1,
+                            Text(pair.$1),
                             backgroundColor: Colors.blue,
                           ),
                           const SizedBox(width: 8.0),
@@ -114,12 +114,14 @@ class _InfoPageState extends State<InfoPage> {
                             child: Wrap(
                               children: names.map<Widget>((credit) {
                                 return cangyan.Capsule(
-                                  credit,
+                                  Text(credit),
                                   backgroundColor: Colors.lightBlue,
                                 );
                               }).toList()
                                 ..add(const SizedBox(width: 4.0))
-                                ..add(const cangyan.Capsule("+")),
+                                ..add(const cangyan.Capsule(
+                                  Text("+"),
+                                )),
                             ),
                           )
                         ],

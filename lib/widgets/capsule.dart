@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Capsule extends StatelessWidget {
-  final String text;
+  final Text text;
 
   final Color? backgroundColor;
-  final Color? textColor;
 
   const Capsule(
     this.text, {
     super.key,
     this.backgroundColor,
-    this.textColor,
   });
 
   @override
@@ -21,14 +19,14 @@ class Capsule extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
-          vertical: 4.0,
+          vertical: 6.0,
         ),
-        child: Text(
-          text,
-          style: TextStyle(
+        child: DefaultTextStyle(
+          style: const TextStyle(
+            color: Colors.white,
             fontSize: 13.0,
-            color: textColor ?? Colors.white,
           ),
+          child: text,
         ),
       ),
     );
