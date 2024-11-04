@@ -28,7 +28,9 @@ class _EditPageState extends State<EditPage> {
   double offsetX = 0.0;
   double offsetY = 0.0;
 
-  int drawer = 0;
+  int index = 0;
+
+  bool isOpen = false;
 
   late List<cangyan.Note> notes;
 
@@ -108,7 +110,8 @@ class _EditPageState extends State<EditPage> {
                           isDone: notes[i].choice != 0,
                           onPressed: () {
                             setState(() {
-                              drawer = i + 1;
+                              isOpen = true;
+                              index = i;
                             });
                           },
                         ),
@@ -125,51 +128,19 @@ class _EditPageState extends State<EditPage> {
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOutCubic,
-                  bottom: drawer != 0
+                  bottom: isOpen
                       ? MediaQuery.of(context).viewInsets.bottom
                       : -drawerWidth,
                   width: drawerWidth,
                   height: drawerHeight,
-                  child: GestureDetector(
-                    onTap: () {
+                  child: cangyan.TextPad(
+                    notes: widget.page.notes,
+                    index: index,
+                    onClose: () {
                       setState(() {
-                        drawer = 0;
+                        isOpen = false;
                       });
                     },
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              if (drawer != 0)
-                                for (int i = 0;
-                                    i < notes[drawer - 1].texts.length;
-                                    i++)
-                                  Card(
-                                    elevation: 4.0,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(notes[drawer - 1]
-                                              .texts[i]
-                                              .content),
-                                          const Divider(),
-                                          Text(notes[drawer - 1]
-                                              .texts[i]
-                                              .comment),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                   ),
                 )
               ],
