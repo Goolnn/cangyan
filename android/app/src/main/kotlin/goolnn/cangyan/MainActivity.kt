@@ -29,10 +29,10 @@ class MainActivity : FlutterActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        handleIntent(intent)
+        copyIntent(intent)
     }
 
-    private fun handleIntent(intent: Intent) {
+    private fun copyIntent(intent: Intent?) {
         if (intent.action != Intent.ACTION_VIEW) {
             return
         }
