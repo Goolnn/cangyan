@@ -2,7 +2,7 @@ import 'package:cangyan/core/api/cyfile/date.dart';
 import 'package:cangyan/core/api/cyfile/project.dart';
 import 'package:cangyan/core/api/states/home.dart';
 import 'package:cangyan/pages/info.dart';
-import 'package:cangyan/widgets/widgets.dart' as cangyan;
+import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';

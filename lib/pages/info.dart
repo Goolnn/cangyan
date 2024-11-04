@@ -3,7 +3,7 @@ import 'package:cangyan/core/api/cyfile/date.dart';
 import 'package:cangyan/core/api/cyfile/project.dart';
 import 'package:cangyan/core/api/cyfile/page.dart' as cyfile;
 import 'package:cangyan/pages/edit.dart';
-import 'package:cangyan/widgets/widgets.dart' as cangyan;
+import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatefulWidget {
