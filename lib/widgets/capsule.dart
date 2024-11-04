@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
 class Capsule extends StatelessWidget {
-  final Text text;
+  final Color? color;
+  final Widget child;
 
-  final Color? backgroundColor;
-
-  const Capsule(
-    this.text, {
+  const Capsule({
     super.key,
-    this.backgroundColor,
+    this.color,
+    required this.child,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: const StadiumBorder(),
-      color: backgroundColor ?? Colors.black.withOpacity(0.25),
+      color: color ?? Colors.black.withOpacity(0.25),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
@@ -26,7 +25,7 @@ class Capsule extends StatelessWidget {
             color: Colors.white,
             fontSize: 13.0,
           ),
-          child: text,
+          child: child,
         ),
       ),
     );

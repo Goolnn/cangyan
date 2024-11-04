@@ -119,7 +119,7 @@ class _EditPageState extends State<EditPage> {
                     top: 16.0,
                     left: 16.0,
                     child: cangyan.Capsule(
-                      Text('×${scale.toStringAsFixed(2)}'),
+                      child: Text('×${scale.toStringAsFixed(2)}'),
                     ),
                   ),
                 AnimatedPositioned(

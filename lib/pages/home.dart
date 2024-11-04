@@ -167,7 +167,7 @@ class _Tile extends StatelessWidget {
                     bottom: 2.0,
                     right: 2.0,
                     child: cangyan.Capsule(
-                      Text('${project.pageCount()}页'),
+                      child: Text('${project.pageCount()}页'),
                     ),
                   ),
                 ],
