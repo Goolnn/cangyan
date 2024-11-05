@@ -84,7 +84,22 @@ class _EditPageState extends State<EditPage> {
               children: [
                 InteractiveViewer(
                   transformationController: _controller,
+                  boundaryMargin: EdgeInsets.symmetric(
+                    horizontal: imageWidth == null
+                        ? 0
+                        : imageWidth! / scale / 2.0 -
+                            ((containerWidth! - imageWidth!) *
+                                (1 - 1 / scale) /
+                                2.0),
+                    vertical: imageHeight == null
+                        ? 0
+                        : imageHeight! / scale / 2.0 -
+                            ((containerHeight! - imageHeight!) *
+                                (1 - 1 / scale) /
+                                2.0),
+                  ),
                   maxScale: 10.0,
+                  minScale: 1.0,
                   child: Center(
                     key: _containerKey,
                     child: Image(
@@ -125,22 +140,33 @@ class _EditPageState extends State<EditPage> {
                       child: Text('×${scale.toStringAsFixed(2)}'),
                     ),
                   ),
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeOutCubic,
-                  bottom: isOpen
-                      ? MediaQuery.of(context).viewInsets.bottom
-                      : -drawerWidth,
-                  width: drawerWidth,
-                  height: drawerHeight,
-                  child: cangyan.TextPad(
-                    notes: widget.page.notes,
-                    index: index,
-                    onClose: () {
+                PopScope(
+                  canPop: false,
+                  onPopInvokedWithResult: (didPop, result) {
+                    if (didPop) {
+                      return;
+                    }
+
+                    if (isOpen) {
                       setState(() {
                         isOpen = false;
                       });
-                    },
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: AnimatedPositioned(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeOutCubic,
+                    bottom: isOpen
+                        ? MediaQuery.of(context).viewInsets.bottom
+                        : -drawerWidth,
+                    width: drawerWidth,
+                    height: drawerHeight,
+                    child: cangyan.TextPad(
+                      notes: widget.page.notes,
+                      index: index,
+                    ),
                   ),
                 )
               ],
