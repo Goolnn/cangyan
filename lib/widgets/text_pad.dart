@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 class TextPad extends StatelessWidget {
   final List<cangyan.Note> notes;
   final int index;
-  final void Function() onClose;
 
   const TextPad({
     super.key,
     required this.notes,
     required this.index,
-    required this.onClose,
   });
 
   @override
@@ -21,30 +19,28 @@ class TextPad extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Stack(
+            Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox.fromSize(
-                      size: const Size.fromRadius(16.0),
-                      child: RawMaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: () {},
-                        child: const Icon(Icons.add),
-                      ),
-                    ),
-                    Text('${index + 1}'),
-                    SizedBox.fromSize(
-                      size: const Size.fromRadius(16.0),
-                      child: RawMaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: onClose,
-                        child: const Icon(Icons.close),
-                      ),
-                    ),
-                  ],
+                const SizedBox(width: 8.0),
+                Text(
+                  '${index + 1}',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
                 ),
+                const Spacer(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox.square(
+                    dimension: 32.0,
+                    child: RawMaterialButton(
+                      shape: const CircleBorder(),
+                      onPressed: () {},
+                      child: const Icon(Icons.add),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8.0),
               ],
             ),
             const SizedBox(height: 4.0),
