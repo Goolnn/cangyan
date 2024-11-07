@@ -12,8 +12,16 @@ pub struct Source {
 
 impl Source {
     pub fn open(path: impl AsRef<Path>) -> anyhow::Result<Self> {
-        let project = Project::from(&cyfile::File::open(path.as_ref())?);
+        let mut project = Project::from(&cyfile::File::open(path.as_ref())?);
         let path = path.as_ref().to_path_buf();
+
+        if project.title.is_empty() {
+            let file_name = path.file_stem();
+
+            if let Some(title) = file_name {
+                project.title = title.to_string_lossy().to_string();
+            }
+        }
 
         Ok(Self { project, path })
     }
