@@ -1,2 +1,2 @@
-pub mod cyfile;
+pub mod file;
 pub mod states;
