@@ -1,5 +1,7 @@
-use super::Note;
+use crate::api::file::Note;
+use flutter_rust_bridge::frb;
 
+#[frb(non_opaque)]
 pub struct Page {
     pub data: Vec<u8>,
 
