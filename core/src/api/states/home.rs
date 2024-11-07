@@ -1,8 +1,5 @@
-use crate::api::cyfile::Project;
-use crate::api::cyfile::Source;
-use cyfile::File;
+use crate::api::file::Source;
 use flutter_rust_bridge::frb;
-use std::fs;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -23,7 +20,7 @@ impl HomeState {
         HomeState { workspace, sources }
     }
 
-    pub fn load(&mut self) {
+    pub fn load(&mut self) -> anyhow::Result<()> {
         self.sources.clear();
 
         if let Ok(entries) = self.workspace.read_dir() {
@@ -32,38 +29,13 @@ impl HomeState {
                     continue;
                 }
 
-                let stream = match fs::File::open(entry.path()) {
-                    Ok(stream) => stream,
-                    _ => continue,
-                };
-
-                let mut file = match File::open(stream) {
-                    Ok(file) => file,
-                    _ => continue,
-                };
-
-                if file.project().title().is_empty() {
-                    let file_path = entry.path();
-                    let file_name = file_path.file_stem();
-
-                    if let Some(file_name) = file_name {
-                        file.project_mut().set_title(file_name.to_string_lossy());
-                    }
-                }
-
                 let path = entry.path();
-                let source = Arc::new(Mutex::new(Source { file, path }));
+                let source = Source::open(path)?;
 
-                self.sources.push(source);
+                self.sources.push(Arc::new(Mutex::from(source)));
             }
         }
-    }
 
-    #[frb(sync)]
-    pub fn projects(&self) -> Vec<Project> {
-        self.sources
-            .iter()
-            .map(|source| Project::new(Arc::clone(source)))
-            .collect()
+        Ok(())
     }
 }
