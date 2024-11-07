@@ -10,8 +10,8 @@ pub struct Date {
     pub second: u8,
 }
 
-impl From<cyfile::Date> for Date {
-    fn from(date: cyfile::Date) -> Self {
+impl From<&cyfile::Date> for Date {
+    fn from(date: &cyfile::Date) -> Self {
         Date {
             year: date.year(),
             month: date.month(),
