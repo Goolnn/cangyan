@@ -1,6 +1,5 @@
 import 'package:cangyan/core/file.dart' as cangyan;
-import 'package:cangyan/core/api/states/home.dart';
-import 'package:cangyan/pages/info.dart';
+import 'package:cangyan/core/states.dart' as cangyan;
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
-  HomeState? state;
+  cangyan.HomeState? state;
 
   @override
   void initState() {
@@ -39,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     setState(() {
-      state = HomeState(workspace: workspace.path);
+      state = cangyan.HomeState(workspace: workspace.path);
     });
   }
 
@@ -66,22 +65,22 @@ class _HomePageState extends State<HomePage> {
 
             if (snapshot.hasError) {
               return Center(
-                child: Text('Error: ${snapshot.error}'),
+                child: Text('错误：${snapshot.error}'),
               );
             }
 
-            final projects = state?.projects();
+            final summaries = snapshot.data;
 
-            if (projects == null) {
+            if (summaries == null) {
               return const Center(
-                child: Text('No projects'),
+                child: Text('没有项目'),
               );
             }
 
             return ListView.builder(
-              itemCount: projects.length,
+              itemCount: summaries.length,
               itemBuilder: (context, index) {
-                return _Tile(projects[index], onDelete: () {
+                return _Tile(summaries[index], onDelete: () {
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -97,11 +96,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              setState(() {
-                                projects[index].delete();
-                              });
+                              // setState(() {
+                              //   summaries[index].delete();
+                              // });
 
-                              Navigator.pop(context);
+                              // Navigator.pop(context);
                             },
                             child: const Text('确定'),
                           ),
@@ -132,21 +131,21 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _Tile extends StatelessWidget {
-  final cangyan.Project project;
+  final cangyan.Summary summary;
 
   final void Function()? onDelete;
 
-  const _Tile(this.project, {required this.onDelete});
+  const _Tile(this.summary, {required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return InfoPage(
-            project: project,
-          );
-        }));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //   return InfoPage(
+        //     project: project,
+        //   );
+        // }));
       },
       onLongPress: onDelete,
       child: Padding(
@@ -160,14 +159,14 @@ class _Tile extends StatelessWidget {
                   AspectRatio(
                     aspectRatio: 3.0 / 4.0,
                     child: cangyan.Image(
-                      image: project.cover(),
+                      image: summary.cover(),
                     ),
                   ),
                   Positioned(
                     bottom: 2.0,
                     right: 2.0,
                     child: cangyan.Capsule(
-                      child: Text('${project.pageCount()}页'),
+                      child: Text('${summary.pageCount()}页'),
                     ),
                   ),
                 ],
@@ -179,14 +178,14 @@ class _Tile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        cangyan.Category(project.category()),
+                        cangyan.Category(summary.category()),
                         Expanded(
                           child: cangyan.Title(
-                            project.title(),
-                            project.number(),
+                            summary.title(),
+                            summary.number(),
                           ),
                         ),
-                        cangyan.Progress(project.progress()),
+                        // cangyan.Progress(summary.progress()),
                       ],
                     ),
                     const Spacer(),
@@ -195,14 +194,14 @@ class _Tile extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '创建于 ${_dateToString(project.createdDate())}',
+                            '创建于 ${_dateToString(summary.createdDate())}',
                             style: const TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey,
                             ),
                           ),
                           Text(
-                            '修改于 ${_dateToString(project.savedDate())}',
+                            '更新于 ${_dateToString(summary.updatedDate())}',
                             style: const TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey,
