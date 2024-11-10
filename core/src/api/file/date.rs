@@ -1,6 +1,7 @@
 use flutter_rust_bridge::frb;
 
 #[frb(non_opaque)]
+#[derive(Clone, Copy)]
 pub struct Date {
     pub year: u16,
     pub month: u8,
