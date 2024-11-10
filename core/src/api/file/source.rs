@@ -15,6 +15,7 @@ impl Source {
         Source { file }
     }
 
+    #[frb(sync)]
     pub fn cover(&self) -> anyhow::Result<Vec<u8>> {
         let file = self
             .file
@@ -24,6 +25,7 @@ impl Source {
         Ok(file.project.cover.clone())
     }
 
+    #[frb(sync)]
     pub fn page_count(&self) -> anyhow::Result<usize> {
         let file = self
             .file
@@ -33,6 +35,7 @@ impl Source {
         Ok(file.project.pages.len())
     }
 
+    #[frb(sync)]
     pub fn category(&self) -> anyhow::Result<String> {
         let file = self
             .file
@@ -42,6 +45,7 @@ impl Source {
         Ok(file.project.category.clone())
     }
 
+    #[frb(sync)]
     pub fn title(&self) -> anyhow::Result<String> {
         let file = self
             .file
@@ -51,6 +55,7 @@ impl Source {
         Ok(file.project.title.clone())
     }
 
+    #[frb(sync)]
     pub fn number(&self) -> anyhow::Result<(u32, u32)> {
         let file = self
             .file
@@ -60,6 +65,7 @@ impl Source {
         Ok(file.project.number)
     }
 
+    #[frb(sync)]
     pub fn comment(&self) -> anyhow::Result<String> {
         let file = self
             .file
@@ -69,6 +75,7 @@ impl Source {
         Ok(file.project.comment.clone())
     }
 
+    #[frb(sync)]
     pub fn created_date(&self) -> anyhow::Result<Date> {
         let file = self
             .file
@@ -78,6 +85,7 @@ impl Source {
         Ok(file.project.created_date)
     }
 
+    #[frb(sync)]
     pub fn updated_date(&self) -> anyhow::Result<Date> {
         let file = self
             .file
