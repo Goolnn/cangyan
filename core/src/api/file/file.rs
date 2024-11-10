@@ -5,12 +5,12 @@ use std::path::Path;
 use std::path::PathBuf;
 
 #[frb(ignore)]
-pub struct Source {
+pub struct File {
     pub project: Project,
     pub path: PathBuf,
 }
 
-impl Source {
+impl File {
     pub fn open(path: impl AsRef<Path>) -> anyhow::Result<Self> {
         let mut project = Project::from(&cyfile::File::open(path.as_ref())?);
         let path = path.as_ref().to_path_buf();

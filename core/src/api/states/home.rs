@@ -1,4 +1,4 @@
-use crate::api::file::Source;
+use crate::api::file::File;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -8,20 +8,20 @@ use std::sync::Mutex;
 pub struct HomeState {
     workspace: PathBuf,
 
-    sources: Vec<Arc<Mutex<Source>>>,
+    files: Vec<Arc<Mutex<File>>>,
 }
 
 impl HomeState {
     #[frb(sync)]
     pub fn new(workspace: String) -> Self {
         let workspace = PathBuf::from(workspace);
-        let sources = Vec::new();
+        let files = Vec::new();
 
-        HomeState { workspace, sources }
+        HomeState { workspace, files }
     }
 
-    pub fn load(&mut self) -> anyhow::Result<Vec<Arc<Mutex<Source>>>> {
-        self.sources.clear();
+    pub fn load(&mut self) -> anyhow::Result<Vec<Arc<Mutex<File>>>> {
+        self.files.clear();
 
         if let Ok(entries) = self.workspace.read_dir() {
             for entry in entries.flatten() {
@@ -30,12 +30,12 @@ impl HomeState {
                 }
 
                 let path = entry.path();
-                let source = Source::open(path)?;
+                let file = File::open(path)?;
 
-                self.sources.push(Arc::new(Mutex::from(source)));
+                self.files.push(Arc::new(Mutex::from(file)));
             }
         }
 
-        Ok(self.sources.clone())
+        Ok(self.files.clone())
     }
 }
