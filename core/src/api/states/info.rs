@@ -16,11 +16,11 @@ impl InfoState {
     }
 }
 
-#[frb]
+#[frb(sync)]
 impl From<&Summary> for InfoState {
-    fn from(value: &Summary) -> Self {
+    fn from(summary: &Summary) -> Self {
         Self {
-            file: value.file.clone(),
+            file: summary.file.clone(),
         }
     }
 }
