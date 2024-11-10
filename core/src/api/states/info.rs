@@ -14,6 +14,11 @@ impl InfoState {
     pub fn new(file: Arc<Mutex<File>>) -> Self {
         InfoState { file }
     }
+
+    #[frb(sync)]
+    pub fn summary(&self) -> Summary {
+        Summary::new(self.file.clone())
+    }
 }
 
 #[frb(sync)]
