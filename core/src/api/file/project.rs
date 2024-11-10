@@ -24,8 +24,6 @@ pub struct Project {
     pub pages: Vec<Page>,
 }
 
-impl Project {}
-
 impl From<&cyfile::Project> for Project {
     fn from(value: &cyfile::Project) -> Self {
         Self {
