@@ -8,5 +8,5 @@ crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.5.0"
-cyfile = { git = "https://github.com/Goolnn/cyfile", tag = "v0.4.1" }
+cyfile = { git = "https://github.com/Goolnn/cyfile", tag = "v0.4.2" }
 anyhow = "1.0.92"
