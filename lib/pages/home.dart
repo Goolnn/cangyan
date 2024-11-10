@@ -1,5 +1,6 @@
 import 'package:cangyan/core/file.dart' as cangyan;
 import 'package:cangyan/core/states.dart' as cangyan;
+import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -141,11 +142,11 @@ class _Tile extends StatelessWidget {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return InfoPage(
-        //     project: project,
-        //   );
-        // }));
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return InfoPage(
+            summary: summary,
+          );
+        }));
       },
       onLongPress: onDelete,
       child: Padding(
