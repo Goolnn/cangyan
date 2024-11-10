@@ -1,9 +1,10 @@
-use crate::api::cyfile::File;
+pub use crate::api::cyfile::File;
+pub use std::sync::Mutex;
+
 use crate::api::cyfile::Summary;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 use std::sync::Arc;
-use std::sync::Mutex;
 
 #[frb(opaque)]
 pub struct HomeState {
