@@ -1,5 +1,5 @@
 use crate::api::file::File;
-use crate::api::file::Source;
+use crate::api::file::Summary;
 use std::sync::Arc;
 use std::sync::Mutex;
 
@@ -13,8 +13,8 @@ impl Handle {
     }
 }
 
-impl From<&Source> for Handle {
-    fn from(value: &Source) -> Self {
+impl From<&Summary> for Handle {
+    fn from(value: &Summary) -> Self {
         Handle {
             file: value.file.clone(),
         }

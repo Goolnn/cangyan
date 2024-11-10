@@ -5,14 +5,14 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 #[frb(opaque)]
-pub struct Source {
+pub struct Summary {
     pub(crate) file: Arc<Mutex<File>>,
 }
 
-impl Source {
+impl Summary {
     #[frb(ignore)]
     pub fn new(file: Arc<Mutex<File>>) -> Self {
-        Source { file }
+        Summary { file }
     }
 
     #[frb(sync)]

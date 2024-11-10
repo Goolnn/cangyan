@@ -1,5 +1,5 @@
 use crate::api::file::File;
-use crate::api::file::Source;
+use crate::api::file::Summary;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -21,7 +21,7 @@ impl HomeState {
         HomeState { workspace, files }
     }
 
-    pub fn load(&mut self) -> anyhow::Result<Vec<Source>> {
+    pub fn load(&mut self) -> anyhow::Result<Vec<Summary>> {
         self.files.clear();
 
         if let Ok(entries) = self.workspace.read_dir() {
@@ -40,7 +40,7 @@ impl HomeState {
         Ok(self
             .files
             .iter()
-            .map(|file| Source::new(file.clone()))
+            .map(|file| Summary::new(file.clone()))
             .collect())
     }
 }
