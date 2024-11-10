@@ -43,7 +43,7 @@ impl From<&cyfile::Project> for Project {
 
             credits: value.credits().to_owned(),
 
-            pages: value.pages().iter().map(|page| Page::from(page)).collect(),
+            pages: value.pages().iter().map(Page::from).collect(),
         }
     }
 }
@@ -57,12 +57,6 @@ impl From<&Project> for cyfile::Project {
             .with_number(value.number)
             .with_comment(value.comment.to_string())
             .with_credits(value.credits.to_owned())
-            .with_pages(
-                value
-                    .pages
-                    .iter()
-                    .map(|page| cyfile::Page::from(page))
-                    .collect(),
-            )
+            .with_pages(value.pages.iter().map(cyfile::Page::from).collect())
     }
 }
