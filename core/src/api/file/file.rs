@@ -36,4 +36,13 @@ impl File {
 
         Ok(Self { project, path })
     }
+
+    pub fn save(&self) -> anyhow::Result<()> {
+        cyfile::File::export(
+            &cyfile::Project::from(&self.project),
+            ExportArguments::new(&self.path).with_version((0, 1)),
+        )?;
+
+        Ok(())
+    }
 }
