@@ -6,7 +6,7 @@ use std::sync::Mutex;
 
 #[frb(opaque)]
 pub struct Source {
-    file: Arc<Mutex<File>>,
+    pub(crate) file: Arc<Mutex<File>>,
 }
 
 impl Source {
