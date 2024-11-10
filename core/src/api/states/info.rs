@@ -1,5 +1,6 @@
 use crate::api::cyfile::File;
 use crate::api::cyfile::Summary;
+use crate::api::states::EditState;
 use cyfile::Credit;
 use flutter_rust_bridge::frb;
 use std::collections::HashMap;
@@ -105,6 +106,11 @@ impl InfoState {
         file.save()?;
 
         Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn open_page(&self, index: usize) -> EditState {
+        EditState::new(self.file.clone(), index)
     }
 }
 
