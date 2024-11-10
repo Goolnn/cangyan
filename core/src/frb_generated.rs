@@ -25,8 +25,8 @@
 
 // Section: imports
 
-use crate::api::file::handle::*;
-use crate::api::file::summary::*;
+use crate::api::cyfile::handle::*;
+use crate::api::cyfile::summary::*;
 use crate::api::states::home::*;
 use crate::api::states::info::*;
 use crate::*;
@@ -77,7 +77,7 @@ fn wire__crate__api__file__handle__Handle_new_impl(
             move |context| {
                 transform_result_sse::<_, ()>((move || {
                     let output_ok =
-                        Result::<_, ()>::Ok(crate::api::file::handle::Handle::new(api_file))?;
+                        Result::<_, ()>::Ok(crate::api::cyfile::handle::Handle::new(api_file))?;
                     Ok(output_ok)
                 })())
             }
@@ -125,7 +125,8 @@ fn wire__crate__api__file__summary__Summary_category_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::file::summary::Summary::category(&*api_that_guard)?;
+                    let output_ok =
+                        crate::api::cyfile::summary::Summary::category(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -173,7 +174,8 @@ fn wire__crate__api__file__summary__Summary_comment_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::file::summary::Summary::comment(&*api_that_guard)?;
+                    let output_ok =
+                        crate::api::cyfile::summary::Summary::comment(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -221,7 +223,7 @@ fn wire__crate__api__file__summary__Summary_cover_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::file::summary::Summary::cover(&*api_that_guard)?;
+                    let output_ok = crate::api::cyfile::summary::Summary::cover(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -270,7 +272,7 @@ fn wire__crate__api__file__summary__Summary_created_date_impl(
                     }
                     let api_that_guard = api_that_guard.unwrap();
                     let output_ok =
-                        crate::api::file::summary::Summary::created_date(&*api_that_guard)?;
+                        crate::api::cyfile::summary::Summary::created_date(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -318,7 +320,8 @@ fn wire__crate__api__file__summary__Summary_credits_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::file::summary::Summary::credits(&*api_that_guard)?;
+                    let output_ok =
+                        crate::api::cyfile::summary::Summary::credits(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -366,7 +369,7 @@ fn wire__crate__api__file__summary__Summary_number_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::file::summary::Summary::number(&*api_that_guard)?;
+                    let output_ok = crate::api::cyfile::summary::Summary::number(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -415,7 +418,7 @@ fn wire__crate__api__file__summary__Summary_page_count_impl(
                     }
                     let api_that_guard = api_that_guard.unwrap();
                     let output_ok =
-                        crate::api::file::summary::Summary::page_count(&*api_that_guard)?;
+                        crate::api::cyfile::summary::Summary::page_count(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -463,7 +466,7 @@ fn wire__crate__api__file__summary__Summary_pages_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::file::summary::Summary::pages(&*api_that_guard)?;
+                    let output_ok = crate::api::cyfile::summary::Summary::pages(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -511,7 +514,7 @@ fn wire__crate__api__file__summary__Summary_title_impl(
                         }
                     }
                     let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::file::summary::Summary::title(&*api_that_guard)?;
+                    let output_ok = crate::api::cyfile::summary::Summary::title(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -560,7 +563,7 @@ fn wire__crate__api__file__summary__Summary_updated_date_impl(
                     }
                     let api_that_guard = api_that_guard.unwrap();
                     let output_ok =
-                        crate::api::file::summary::Summary::updated_date(&*api_that_guard)?;
+                        crate::api::cyfile::summary::Summary::updated_date(&*api_that_guard)?;
                     Ok(output_ok)
                 })(),
             )
@@ -860,14 +863,14 @@ impl SseDecode for Summary {
 
 impl SseDecode
     for std::collections::HashMap<
-        crate::api::file::credit::Credit,
+        crate::api::cyfile::credit::Credit,
         std::collections::HashSet<String>,
     >
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <Vec<(
-            crate::api::file::credit::Credit,
+            crate::api::cyfile::credit::Credit,
             std::collections::HashSet<String>,
         )>>::sse_decode(deserializer);
         return inner.into_iter().collect();
@@ -936,23 +939,23 @@ impl SseDecode for String {
     }
 }
 
-impl SseDecode for crate::api::file::credit::Credit {
+impl SseDecode for crate::api::cyfile::credit::Credit {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <i32>::sse_decode(deserializer);
         return match inner {
-            0 => crate::api::file::credit::Credit::Artists,
-            1 => crate::api::file::credit::Credit::Translators,
-            2 => crate::api::file::credit::Credit::Proofreaders,
-            3 => crate::api::file::credit::Credit::Retouchers,
-            4 => crate::api::file::credit::Credit::Typesetters,
-            5 => crate::api::file::credit::Credit::Supervisors,
+            0 => crate::api::cyfile::credit::Credit::Artists,
+            1 => crate::api::cyfile::credit::Credit::Translators,
+            2 => crate::api::cyfile::credit::Credit::Proofreaders,
+            3 => crate::api::cyfile::credit::Credit::Retouchers,
+            4 => crate::api::cyfile::credit::Credit::Typesetters,
+            5 => crate::api::cyfile::credit::Credit::Supervisors,
             _ => unreachable!("Invalid variant for Credit: {}", inner),
         };
     }
 }
 
-impl SseDecode for crate::api::file::date::Date {
+impl SseDecode for crate::api::cyfile::date::Date {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_year = <u16>::sse_decode(deserializer);
@@ -961,7 +964,7 @@ impl SseDecode for crate::api::file::date::Date {
         let mut var_hour = <u8>::sse_decode(deserializer);
         let mut var_minute = <u8>::sse_decode(deserializer);
         let mut var_second = <u8>::sse_decode(deserializer);
-        return crate::api::file::date::Date {
+        return crate::api::cyfile::date::Date {
             year: var_year,
             month: var_month,
             day: var_day,
@@ -1029,7 +1032,7 @@ impl SseDecode for Vec<u8> {
 
 impl SseDecode
     for Vec<(
-        crate::api::file::credit::Credit,
+        crate::api::cyfile::credit::Credit,
         std::collections::HashSet<String>,
     )>
 {
@@ -1039,7 +1042,7 @@ impl SseDecode
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<(
-                crate::api::file::credit::Credit,
+                crate::api::cyfile::credit::Credit,
                 std::collections::HashSet<String>,
             )>::sse_decode(deserializer));
         }
@@ -1049,13 +1052,13 @@ impl SseDecode
 
 impl SseDecode
     for (
-        crate::api::file::credit::Credit,
+        crate::api::cyfile::credit::Credit,
         std::collections::HashSet<String>,
     )
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <crate::api::file::credit::Credit>::sse_decode(deserializer);
+        let mut var_field0 = <crate::api::cyfile::credit::Credit>::sse_decode(deserializer);
         let mut var_field1 = <std::collections::HashSet<String>>::sse_decode(deserializer);
         return (var_field0, var_field1);
     }
@@ -1235,32 +1238,32 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Summary>> for Summary {
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<crate::api::file::credit::Credit> {
+impl flutter_rust_bridge::IntoDart for FrbWrapper<crate::api::cyfile::credit::Credit> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self.0 {
-            crate::api::file::credit::Credit::Artists => 0.into_dart(),
-            crate::api::file::credit::Credit::Translators => 1.into_dart(),
-            crate::api::file::credit::Credit::Proofreaders => 2.into_dart(),
-            crate::api::file::credit::Credit::Retouchers => 3.into_dart(),
-            crate::api::file::credit::Credit::Typesetters => 4.into_dart(),
-            crate::api::file::credit::Credit::Supervisors => 5.into_dart(),
+            crate::api::cyfile::credit::Credit::Artists => 0.into_dart(),
+            crate::api::cyfile::credit::Credit::Translators => 1.into_dart(),
+            crate::api::cyfile::credit::Credit::Proofreaders => 2.into_dart(),
+            crate::api::cyfile::credit::Credit::Retouchers => 3.into_dart(),
+            crate::api::cyfile::credit::Credit::Typesetters => 4.into_dart(),
+            crate::api::cyfile::credit::Credit::Supervisors => 5.into_dart(),
             _ => unreachable!(),
         }
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<crate::api::file::credit::Credit>
+    for FrbWrapper<crate::api::cyfile::credit::Credit>
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<crate::api::file::credit::Credit>>
-    for crate::api::file::credit::Credit
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<crate::api::cyfile::credit::Credit>>
+    for crate::api::cyfile::credit::Credit
 {
-    fn into_into_dart(self) -> FrbWrapper<crate::api::file::credit::Credit> {
+    fn into_into_dart(self) -> FrbWrapper<crate::api::cyfile::credit::Credit> {
         self.into()
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::file::date::Date {
+impl flutter_rust_bridge::IntoDart for crate::api::cyfile::date::Date {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.year.into_into_dart().into_dart(),
@@ -1273,11 +1276,14 @@ impl flutter_rust_bridge::IntoDart for crate::api::file::date::Date {
         .into_dart()
     }
 }
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::file::date::Date {}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::file::date::Date>
-    for crate::api::file::date::Date
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::cyfile::date::Date
 {
-    fn into_into_dart(self) -> crate::api::file::date::Date {
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::cyfile::date::Date>
+    for crate::api::cyfile::date::Date
+{
+    fn into_into_dart(self) -> crate::api::cyfile::date::Date {
         self
     }
 }
@@ -1326,14 +1332,14 @@ impl SseEncode for Summary {
 
 impl SseEncode
     for std::collections::HashMap<
-        crate::api::file::credit::Credit,
+        crate::api::cyfile::credit::Credit,
         std::collections::HashSet<String>,
     >
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<(
-            crate::api::file::credit::Credit,
+            crate::api::cyfile::credit::Credit,
             std::collections::HashSet<String>,
         )>>::sse_encode(self.into_iter().collect(), serializer);
     }
@@ -1404,17 +1410,17 @@ impl SseEncode for String {
     }
 }
 
-impl SseEncode for crate::api::file::credit::Credit {
+impl SseEncode for crate::api::cyfile::credit::Credit {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(
             match self {
-                crate::api::file::credit::Credit::Artists => 0,
-                crate::api::file::credit::Credit::Translators => 1,
-                crate::api::file::credit::Credit::Proofreaders => 2,
-                crate::api::file::credit::Credit::Retouchers => 3,
-                crate::api::file::credit::Credit::Typesetters => 4,
-                crate::api::file::credit::Credit::Supervisors => 5,
+                crate::api::cyfile::credit::Credit::Artists => 0,
+                crate::api::cyfile::credit::Credit::Translators => 1,
+                crate::api::cyfile::credit::Credit::Proofreaders => 2,
+                crate::api::cyfile::credit::Credit::Retouchers => 3,
+                crate::api::cyfile::credit::Credit::Typesetters => 4,
+                crate::api::cyfile::credit::Credit::Supervisors => 5,
                 _ => {
                     unimplemented!("");
                 }
@@ -1424,7 +1430,7 @@ impl SseEncode for crate::api::file::credit::Credit {
     }
 }
 
-impl SseEncode for crate::api::file::date::Date {
+impl SseEncode for crate::api::cyfile::date::Date {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <u16>::sse_encode(self.year, serializer);
@@ -1485,7 +1491,7 @@ impl SseEncode for Vec<u8> {
 
 impl SseEncode
     for Vec<(
-        crate::api::file::credit::Credit,
+        crate::api::cyfile::credit::Credit,
         std::collections::HashSet<String>,
     )>
 {
@@ -1494,7 +1500,7 @@ impl SseEncode
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <(
-                crate::api::file::credit::Credit,
+                crate::api::cyfile::credit::Credit,
                 std::collections::HashSet<String>,
             )>::sse_encode(item, serializer);
         }
@@ -1503,13 +1509,13 @@ impl SseEncode
 
 impl SseEncode
     for (
-        crate::api::file::credit::Credit,
+        crate::api::cyfile::credit::Credit,
         std::collections::HashSet<String>,
     )
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <crate::api::file::credit::Credit>::sse_encode(self.0, serializer);
+        <crate::api::cyfile::credit::Credit>::sse_encode(self.0, serializer);
         <std::collections::HashSet<String>>::sse_encode(self.1, serializer);
     }
 }
@@ -1573,8 +1579,8 @@ mod io {
     // Section: imports
 
     use super::*;
-    use crate::api::file::handle::*;
-    use crate::api::file::summary::*;
+    use crate::api::cyfile::handle::*;
+    use crate::api::cyfile::summary::*;
     use crate::api::states::home::*;
     use crate::api::states::info::*;
     use crate::*;
@@ -1670,8 +1676,8 @@ mod web {
     // Section: imports
 
     use super::*;
-    use crate::api::file::handle::*;
-    use crate::api::file::summary::*;
+    use crate::api::cyfile::handle::*;
+    use crate::api::cyfile::summary::*;
     use crate::api::states::home::*;
     use crate::api::states::info::*;
     use crate::*;

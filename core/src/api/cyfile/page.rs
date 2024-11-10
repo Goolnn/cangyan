@@ -1,4 +1,4 @@
-use crate::api::file::Note;
+use crate::api::cyfile::Note;
 use flutter_rust_bridge::frb;
 
 #[frb(non_opaque)]

@@ -1,5 +1,5 @@
-use crate::api::file::Date;
-use crate::api::file::File;
+use crate::api::cyfile::Date;
+use crate::api::cyfile::File;
 use cyfile::Credit;
 use flutter_rust_bridge::frb;
 use std::collections::HashMap;

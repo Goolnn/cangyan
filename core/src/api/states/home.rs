@@ -1,5 +1,5 @@
-use crate::api::file::File;
-use crate::api::file::Summary;
+use crate::api::cyfile::File;
+use crate::api::cyfile::Summary;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 use std::sync::Arc;
