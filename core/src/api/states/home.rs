@@ -20,7 +20,7 @@ impl HomeState {
         HomeState { workspace, sources }
     }
 
-    pub fn load(&mut self) -> anyhow::Result<()> {
+    pub fn load(&mut self) -> anyhow::Result<Vec<Arc<Mutex<Source>>>> {
         self.sources.clear();
 
         if let Ok(entries) = self.workspace.read_dir() {
@@ -36,6 +36,6 @@ impl HomeState {
             }
         }
 
-        Ok(())
+        Ok(self.sources.clone())
     }
 }
