@@ -1,6 +1,9 @@
 use crate::api::file::Date;
 use crate::api::file::File;
+use cyfile::Credit;
 use flutter_rust_bridge::frb;
+use std::collections::HashMap;
+use std::collections::HashSet;
 use std::sync::Arc;
 use std::sync::Mutex;
 
@@ -93,5 +96,30 @@ impl Summary {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         Ok(file.project.updated_date)
+    }
+
+    #[frb(sync)]
+    pub fn credits(&self) -> anyhow::Result<HashMap<Credit, HashSet<String>>> {
+        let file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        Ok(file.project.credits.clone())
+    }
+
+    #[frb(sync)]
+    pub fn pages(&self) -> anyhow::Result<Vec<Vec<u8>>> {
+        let file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        Ok(file
+            .project
+            .pages
+            .iter()
+            .map(|page| page.data.clone())
+            .collect())
     }
 }
