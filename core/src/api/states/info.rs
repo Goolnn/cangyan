@@ -32,6 +32,8 @@ impl InfoState {
 
         file.project.cover = cover;
 
+        file.save()?;
+
         Ok(())
     }
 
@@ -43,6 +45,8 @@ impl InfoState {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         file.project.category = category;
+
+        file.save()?;
 
         Ok(())
     }
@@ -56,6 +60,8 @@ impl InfoState {
 
         file.project.title = title;
 
+        file.save()?;
+
         Ok(())
     }
 
@@ -67,6 +73,8 @@ impl InfoState {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         file.project.number = number;
+
+        file.save()?;
 
         Ok(())
     }
@@ -80,6 +88,8 @@ impl InfoState {
 
         file.project.comment = comment;
 
+        file.save()?;
+
         Ok(())
     }
 
@@ -91,6 +101,8 @@ impl InfoState {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         file.project.credits = credits;
+
+        file.save()?;
 
         Ok(())
     }
