@@ -1,6 +1,7 @@
 use flutter_rust_bridge::frb;
 
 #[frb(non_opaque)]
+#[derive(Clone)]
 pub struct Text {
     pub content: String,
     pub comment: String,

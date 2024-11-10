@@ -2,6 +2,7 @@ use crate::api::cyfile::Text;
 use flutter_rust_bridge::frb;
 
 #[frb(non_opaque)]
+#[derive(Clone)]
 pub struct Note {
     pub x: f64,
     pub y: f64,

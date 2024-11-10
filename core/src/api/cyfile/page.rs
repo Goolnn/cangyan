@@ -2,6 +2,7 @@ use crate::api::cyfile::Note;
 use flutter_rust_bridge::frb;
 
 #[frb(non_opaque)]
+#[derive(Clone)]
 pub struct Page {
     pub data: Vec<u8>,
 
