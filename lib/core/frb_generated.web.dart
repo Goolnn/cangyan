@@ -6,10 +6,10 @@
 // Static analysis wrongly picks the IO variant, thus ignore this
 // ignore_for_file: argument_type_not_assignable
 
-import 'api/file/credit.dart';
-import 'api/file/date.dart';
-import 'api/file/handle.dart';
-import 'api/file/summary.dart';
+import 'api/cyfile/credit.dart';
+import 'api/cyfile/date.dart';
+import 'api/cyfile/handle.dart';
+import 'api/cyfile/summary.dart';
 import 'api/states/home.dart';
 import 'api/states/info.dart';
 import 'dart:async';

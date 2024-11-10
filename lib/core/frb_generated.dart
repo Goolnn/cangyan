@@ -3,10 +3,10 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'api/file/credit.dart';
-import 'api/file/date.dart';
-import 'api/file/handle.dart';
-import 'api/file/summary.dart';
+import 'api/cyfile/credit.dart';
+import 'api/cyfile/date.dart';
+import 'api/cyfile/handle.dart';
+import 'api/cyfile/summary.dart';
 import 'api/states/home.dart';
 import 'api/states/info.dart';
 import 'dart:async';
@@ -72,7 +72,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => -1880207807;
+  int get rustContentHash => 316512489;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -83,28 +83,28 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  Future<Handle> crateApiFileHandleHandleNew({required ArcMutexFile file});
+  Future<Handle> crateApiCyfileHandleHandleNew({required ArcMutexFile file});
 
-  String crateApiFileSummarySummaryCategory({required Summary that});
+  String crateApiCyfileSummarySummaryCategory({required Summary that});
 
-  String crateApiFileSummarySummaryComment({required Summary that});
+  String crateApiCyfileSummarySummaryComment({required Summary that});
 
-  Uint8List crateApiFileSummarySummaryCover({required Summary that});
+  Uint8List crateApiCyfileSummarySummaryCover({required Summary that});
 
-  Date crateApiFileSummarySummaryCreatedDate({required Summary that});
+  Date crateApiCyfileSummarySummaryCreatedDate({required Summary that});
 
-  Map<Credit, Set<String>> crateApiFileSummarySummaryCredits(
+  Map<Credit, Set<String>> crateApiCyfileSummarySummaryCredits(
       {required Summary that});
 
-  (int, int) crateApiFileSummarySummaryNumber({required Summary that});
+  (int, int) crateApiCyfileSummarySummaryNumber({required Summary that});
 
-  BigInt crateApiFileSummarySummaryPageCount({required Summary that});
+  BigInt crateApiCyfileSummarySummaryPageCount({required Summary that});
 
-  List<Uint8List> crateApiFileSummarySummaryPages({required Summary that});
+  List<Uint8List> crateApiCyfileSummarySummaryPages({required Summary that});
 
-  String crateApiFileSummarySummaryTitle({required Summary that});
+  String crateApiCyfileSummarySummaryTitle({required Summary that});
 
-  Date crateApiFileSummarySummaryUpdatedDate({required Summary that});
+  Date crateApiCyfileSummarySummaryUpdatedDate({required Summary that});
 
   Future<List<Summary>> crateApiStatesHomeHomeStateLoad(
       {required HomeState that});
@@ -163,7 +163,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  Future<Handle> crateApiFileHandleHandleNew({required ArcMutexFile file}) {
+  Future<Handle> crateApiCyfileHandleHandleNew({required ArcMutexFile file}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -177,20 +177,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHandle,
         decodeErrorData: null,
       ),
-      constMeta: kCrateApiFileHandleHandleNewConstMeta,
+      constMeta: kCrateApiCyfileHandleHandleNewConstMeta,
       argValues: [file],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileHandleHandleNewConstMeta =>
+  TaskConstMeta get kCrateApiCyfileHandleHandleNewConstMeta =>
       const TaskConstMeta(
         debugName: "Handle_new",
         argNames: ["file"],
       );
 
   @override
-  String crateApiFileSummarySummaryCategory({required Summary that}) {
+  String crateApiCyfileSummarySummaryCategory({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -202,20 +202,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryCategoryConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryCategoryConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryCategoryConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryCategoryConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_category",
         argNames: ["that"],
       );
 
   @override
-  String crateApiFileSummarySummaryComment({required Summary that}) {
+  String crateApiCyfileSummarySummaryComment({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -227,20 +227,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryCommentConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryCommentConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryCommentConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryCommentConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_comment",
         argNames: ["that"],
       );
 
   @override
-  Uint8List crateApiFileSummarySummaryCover({required Summary that}) {
+  Uint8List crateApiCyfileSummarySummaryCover({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -252,20 +252,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_list_prim_u_8_strict,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryCoverConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryCoverConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryCoverConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryCoverConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_cover",
         argNames: ["that"],
       );
 
   @override
-  Date crateApiFileSummarySummaryCreatedDate({required Summary that}) {
+  Date crateApiCyfileSummarySummaryCreatedDate({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -277,20 +277,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_date,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryCreatedDateConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryCreatedDateConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryCreatedDateConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryCreatedDateConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_created_date",
         argNames: ["that"],
       );
 
   @override
-  Map<Credit, Set<String>> crateApiFileSummarySummaryCredits(
+  Map<Credit, Set<String>> crateApiCyfileSummarySummaryCredits(
       {required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
@@ -303,20 +303,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_Map_credit_Set_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryCreditsConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryCreditsConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryCreditsConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryCreditsConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_credits",
         argNames: ["that"],
       );
 
   @override
-  (int, int) crateApiFileSummarySummaryNumber({required Summary that}) {
+  (int, int) crateApiCyfileSummarySummaryNumber({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -328,20 +328,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_record_u_32_u_32,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryNumberConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryNumberConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryNumberConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryNumberConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_number",
         argNames: ["that"],
       );
 
   @override
-  BigInt crateApiFileSummarySummaryPageCount({required Summary that}) {
+  BigInt crateApiCyfileSummarySummaryPageCount({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -353,20 +353,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_usize,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryPageCountConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryPageCountConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryPageCountConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryPageCountConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_page_count",
         argNames: ["that"],
       );
 
   @override
-  List<Uint8List> crateApiFileSummarySummaryPages({required Summary that}) {
+  List<Uint8List> crateApiCyfileSummarySummaryPages({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -378,20 +378,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_list_list_prim_u_8_strict,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryPagesConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryPagesConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryPagesConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryPagesConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_pages",
         argNames: ["that"],
       );
 
   @override
-  String crateApiFileSummarySummaryTitle({required Summary that}) {
+  String crateApiCyfileSummarySummaryTitle({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -403,20 +403,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryTitleConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryTitleConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryTitleConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryTitleConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_title",
         argNames: ["that"],
       );
 
   @override
-  Date crateApiFileSummarySummaryUpdatedDate({required Summary that}) {
+  Date crateApiCyfileSummarySummaryUpdatedDate({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -428,13 +428,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeSuccessData: sse_decode_date,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiFileSummarySummaryUpdatedDateConstMeta,
+      constMeta: kCrateApiCyfileSummarySummaryUpdatedDateConstMeta,
       argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiFileSummarySummaryUpdatedDateConstMeta =>
+  TaskConstMeta get kCrateApiCyfileSummarySummaryUpdatedDateConstMeta =>
       const TaskConstMeta(
         debugName: "Summary_updated_date",
         argNames: ["that"],
@@ -1529,48 +1529,50 @@ class SummaryImpl extends RustOpaque implements Summary {
         RustLib.instance.api.rust_arc_decrement_strong_count_SummaryPtr,
   );
 
-  String category() => RustLib.instance.api.crateApiFileSummarySummaryCategory(
+  String category() =>
+      RustLib.instance.api.crateApiCyfileSummarySummaryCategory(
         that: this,
       );
 
-  String comment() => RustLib.instance.api.crateApiFileSummarySummaryComment(
+  String comment() => RustLib.instance.api.crateApiCyfileSummarySummaryComment(
         that: this,
       );
 
-  Uint8List cover() => RustLib.instance.api.crateApiFileSummarySummaryCover(
+  Uint8List cover() => RustLib.instance.api.crateApiCyfileSummarySummaryCover(
         that: this,
       );
 
   Date createdDate() =>
-      RustLib.instance.api.crateApiFileSummarySummaryCreatedDate(
+      RustLib.instance.api.crateApiCyfileSummarySummaryCreatedDate(
         that: this,
       );
 
   Map<Credit, Set<String>> credits() =>
-      RustLib.instance.api.crateApiFileSummarySummaryCredits(
+      RustLib.instance.api.crateApiCyfileSummarySummaryCredits(
         that: this,
       );
 
-  (int, int) number() => RustLib.instance.api.crateApiFileSummarySummaryNumber(
+  (int, int) number() =>
+      RustLib.instance.api.crateApiCyfileSummarySummaryNumber(
         that: this,
       );
 
   BigInt pageCount() =>
-      RustLib.instance.api.crateApiFileSummarySummaryPageCount(
+      RustLib.instance.api.crateApiCyfileSummarySummaryPageCount(
         that: this,
       );
 
   List<Uint8List> pages() =>
-      RustLib.instance.api.crateApiFileSummarySummaryPages(
+      RustLib.instance.api.crateApiCyfileSummarySummaryPages(
         that: this,
       );
 
-  String title() => RustLib.instance.api.crateApiFileSummarySummaryTitle(
+  String title() => RustLib.instance.api.crateApiCyfileSummarySummaryTitle(
         that: this,
       );
 
   Date updatedDate() =>
-      RustLib.instance.api.crateApiFileSummarySummaryUpdatedDate(
+      RustLib.instance.api.crateApiCyfileSummarySummaryUpdatedDate(
         that: this,
       );
 }

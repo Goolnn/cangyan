@@ -42,7 +42,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.5.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1880207807;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 316512489;
 
 // Section: executor
 
@@ -50,7 +50,7 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire__crate__api__file__handle__Handle_new_impl(
+fn wire__crate__api__cyfile__handle__Handle_new_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -84,7 +84,7 @@ fn wire__crate__api__file__handle__Handle_new_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_category_impl(
+fn wire__crate__api__cyfile__summary__Summary_category_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -133,7 +133,7 @@ fn wire__crate__api__file__summary__Summary_category_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_comment_impl(
+fn wire__crate__api__cyfile__summary__Summary_comment_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -182,7 +182,7 @@ fn wire__crate__api__file__summary__Summary_comment_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_cover_impl(
+fn wire__crate__api__cyfile__summary__Summary_cover_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -230,7 +230,7 @@ fn wire__crate__api__file__summary__Summary_cover_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_created_date_impl(
+fn wire__crate__api__cyfile__summary__Summary_created_date_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -279,7 +279,7 @@ fn wire__crate__api__file__summary__Summary_created_date_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_credits_impl(
+fn wire__crate__api__cyfile__summary__Summary_credits_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -328,7 +328,7 @@ fn wire__crate__api__file__summary__Summary_credits_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_number_impl(
+fn wire__crate__api__cyfile__summary__Summary_number_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -376,7 +376,7 @@ fn wire__crate__api__file__summary__Summary_number_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_page_count_impl(
+fn wire__crate__api__cyfile__summary__Summary_page_count_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -425,7 +425,7 @@ fn wire__crate__api__file__summary__Summary_page_count_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_pages_impl(
+fn wire__crate__api__cyfile__summary__Summary_pages_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -473,7 +473,7 @@ fn wire__crate__api__file__summary__Summary_pages_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_title_impl(
+fn wire__crate__api__cyfile__summary__Summary_title_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -521,7 +521,7 @@ fn wire__crate__api__file__summary__Summary_title_impl(
         },
     )
 }
-fn wire__crate__api__file__summary__Summary_updated_date_impl(
+fn wire__crate__api__cyfile__summary__Summary_updated_date_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -1122,7 +1122,7 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire__crate__api__file__handle__Handle_new_impl(port, ptr, rust_vec_len, data_len),
+        1 => wire__crate__api__cyfile__handle__Handle_new_impl(port, ptr, rust_vec_len, data_len),
         12 => {
             wire__crate__api__states__home__HomeState_load_impl(port, ptr, rust_vec_len, data_len)
         }
@@ -1138,20 +1138,26 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        2 => wire__crate__api__file__summary__Summary_category_impl(ptr, rust_vec_len, data_len),
-        3 => wire__crate__api__file__summary__Summary_comment_impl(ptr, rust_vec_len, data_len),
-        4 => wire__crate__api__file__summary__Summary_cover_impl(ptr, rust_vec_len, data_len),
-        5 => {
-            wire__crate__api__file__summary__Summary_created_date_impl(ptr, rust_vec_len, data_len)
+        2 => wire__crate__api__cyfile__summary__Summary_category_impl(ptr, rust_vec_len, data_len),
+        3 => wire__crate__api__cyfile__summary__Summary_comment_impl(ptr, rust_vec_len, data_len),
+        4 => wire__crate__api__cyfile__summary__Summary_cover_impl(ptr, rust_vec_len, data_len),
+        5 => wire__crate__api__cyfile__summary__Summary_created_date_impl(
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        6 => wire__crate__api__cyfile__summary__Summary_credits_impl(ptr, rust_vec_len, data_len),
+        7 => wire__crate__api__cyfile__summary__Summary_number_impl(ptr, rust_vec_len, data_len),
+        8 => {
+            wire__crate__api__cyfile__summary__Summary_page_count_impl(ptr, rust_vec_len, data_len)
         }
-        6 => wire__crate__api__file__summary__Summary_credits_impl(ptr, rust_vec_len, data_len),
-        7 => wire__crate__api__file__summary__Summary_number_impl(ptr, rust_vec_len, data_len),
-        8 => wire__crate__api__file__summary__Summary_page_count_impl(ptr, rust_vec_len, data_len),
-        9 => wire__crate__api__file__summary__Summary_pages_impl(ptr, rust_vec_len, data_len),
-        10 => wire__crate__api__file__summary__Summary_title_impl(ptr, rust_vec_len, data_len),
-        11 => {
-            wire__crate__api__file__summary__Summary_updated_date_impl(ptr, rust_vec_len, data_len)
-        }
+        9 => wire__crate__api__cyfile__summary__Summary_pages_impl(ptr, rust_vec_len, data_len),
+        10 => wire__crate__api__cyfile__summary__Summary_title_impl(ptr, rust_vec_len, data_len),
+        11 => wire__crate__api__cyfile__summary__Summary_updated_date_impl(
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
         13 => wire__crate__api__states__home__HomeState_new_impl(ptr, rust_vec_len, data_len),
         14 => wire__crate__api__states__info__InfoState_from_impl(ptr, rust_vec_len, data_len),
         15 => wire__crate__api__states__info__InfoState_new_impl(ptr, rust_vec_len, data_len),

@@ -13,5 +13,5 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 abstract class Handle implements RustOpaqueInterface {
   // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   static Future<Handle> newInstance({required ArcMutexFile file}) =>
-      RustLib.instance.api.crateApiFileHandleHandleNew(file: file);
+      RustLib.instance.api.crateApiCyfileHandleHandleNew(file: file);
 }
