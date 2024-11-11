@@ -4,10 +4,14 @@ import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final cangyan.HomeState state;
+
+  HomePage({
+    super.key,
+    required String workspace,
+  }) : state = cangyan.HomeState(workspace: workspace);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,13 +20,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
-  cangyan.HomeState? state;
-
   @override
   void initState() {
     super.initState();
-
-    _initState();
 
     platform.setMethodCallHandler((call) async {
       if (call.method == 'newIntent') {
@@ -31,32 +31,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _initState() async {
-    final workspace = await getExternalStorageDirectory();
-
-    if (workspace == null) {
-      return;
-    }
-
-    setState(() {
-      state = cangyan.HomeState(workspace: workspace.path);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (state == null) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: state?.load(),
+          future: widget.state.load(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
