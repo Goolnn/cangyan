@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 class EditableText extends StatefulWidget {
   final String text;
+
+  final bool editable;
+
   final void Function(String)? onSubmitted;
 
   const EditableText(
     this.text, {
     super.key,
+    this.editable = true,
     this.onSubmitted,
   });
 
@@ -32,6 +36,10 @@ class _EditableTextState extends State<EditableText> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () {
+        if (!widget.editable) {
+          return;
+        }
+
         setState(() {
           _isEditing = true;
 
@@ -39,10 +47,13 @@ class _EditableTextState extends State<EditableText> {
         });
       },
       onLongPress: () {
+        if (!widget.editable) {
+          return;
+        }
+
         setState(() {
           _isEditing = true;
 
-          // 全选文本
           _controller = TextEditingController(text: _text);
           _controller.selection = TextSelection(
             baseOffset: 0,
