@@ -47,9 +47,11 @@ class _InfoPageState extends State<InfoPage> {
                         children: [
                           cangyan.Category(summary.category()),
                           Expanded(
-                            child: cangyan.Title(
+                            child: cangyan.EditableText(
                               summary.title(),
-                              summary.number(),
+                              onSubmitted: (text) {
+                                widget.state.setTitle(title: text);
+                              },
                             ),
                           ),
                           const cangyan.Progress(0.0),
