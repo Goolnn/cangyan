@@ -32,12 +32,10 @@ class _InfoPageState extends State<InfoPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 48.0,
-                      vertical: 8.0,
-                    ),
-                    child: Icon(Icons.image_not_supported)),
+                SizedBox(
+                  height: 256.0 + 64.0,
+                  child: Image.memory(summary.cover()),
+                ),
                 const Divider(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -53,14 +51,16 @@ class _InfoPageState extends State<InfoPage> {
                               summary.number(),
                             ),
                           ),
-                          // cangyan.Progress(summary.progress()),
+                          const cangyan.Progress(0.0),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '简介' * 100,
-                          textAlign: TextAlign.start,
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          minHeight: 48.0,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(summary.comment()),
                         ),
                       ),
                       Align(
