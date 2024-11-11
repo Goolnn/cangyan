@@ -24,6 +24,7 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     final summary = widget.state.summary();
+    final pages = summary.pages();
 
     return Scaffold(
       body: SafeArea(
@@ -88,85 +89,85 @@ class _InfoPageState extends State<InfoPage> {
                   ),
                 ),
                 const Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      ("作者", cangyan.Credit.artists),
-                      ("翻译", cangyan.Credit.translators),
-                      ("校对", cangyan.Credit.proofreaders),
-                      ("修图", cangyan.Credit.retouchers),
-                      ("嵌字", cangyan.Credit.typesetters),
-                      ("监修", cangyan.Credit.supervisors),
-                    ].map<Widget>((pair) {
-                      final names = summary.credits()[pair.$2] ?? <String>[];
-
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          cangyan.Capsule(
-                            color: Colors.blue,
-                            child: Text(pair.$1),
-                          ),
-                          const SizedBox(width: 8.0),
-                          Expanded(
-                            child: Wrap(
-                              children: names.map<Widget>((credit) {
-                                return cangyan.Capsule(
-                                  color: Colors.lightBlue,
-                                  child: Text(credit),
-                                );
-                              }).toList()
-                                ..add(const SizedBox(width: 4.0))
-                                ..add(const cangyan.Capsule(
-                                  child: Text("+"),
-                                )),
-                            ),
-                          )
-                        ],
-                      );
-                    }).toList(),
-                  ),
-                ),
-                // const Divider(),
-                // Align(
-                //   alignment: Alignment.centerLeft,
-                //   child: Wrap(
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Column(
                 //     children: [
-                //       for (int i = 0; i < pages.length; i++)
-                //         FractionallySizedBox(
-                //           widthFactor: 1.0 / 3.0,
-                //           child: Column(
-                //             children: [
-                //               Padding(
-                //                 padding: const EdgeInsets.all(8.0),
-                //                 child: GestureDetector(
-                //                   behavior: HitTestBehavior.translucent,
-                //                   onTap: () {
-                //                     Navigator.push(
-                //                       context,
-                //                       MaterialPageRoute(builder: (context) {
-                //                         return EditPage(
-                //                           page: pages[i],
-                //                         );
-                //                       }),
-                //                     );
-                //                   },
-                //                   child: AspectRatio(
-                //                     aspectRatio: 3.0 / 4.0,
-                //                     child: cangyan.Image(
-                //                       image: pages[i].data,
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //               Text('第${i + 1}页'),
-                //             ],
+                //       ("作者", cangyan.Credit.artists),
+                //       ("翻译", cangyan.Credit.translators),
+                //       ("校对", cangyan.Credit.proofreaders),
+                //       ("修图", cangyan.Credit.retouchers),
+                //       ("嵌字", cangyan.Credit.typesetters),
+                //       ("监修", cangyan.Credit.supervisors),
+                //     ].map<Widget>((pair) {
+                //       final names = summary.credits()[pair.$2] ?? <String>[];
+
+                //       return Row(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           cangyan.Capsule(
+                //             color: Colors.blue,
+                //             child: Text(pair.$1),
                 //           ),
-                //         ),
-                //     ],
+                //           const SizedBox(width: 8.0),
+                //           Expanded(
+                //             child: Wrap(
+                //               children: names.map<Widget>((credit) {
+                //                 return cangyan.Capsule(
+                //                   color: Colors.lightBlue,
+                //                   child: Text(credit),
+                //                 );
+                //               }).toList()
+                //                 ..add(const SizedBox(width: 4.0))
+                //                 ..add(const cangyan.Capsule(
+                //                   child: Text("+"),
+                //                 )),
+                //             ),
+                //           )
+                //         ],
+                //       );
+                //     }).toList(),
                 //   ),
                 // ),
+                // const Divider(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    children: [
+                      for (int i = 0; i < pages.length; i++)
+                        FractionallySizedBox(
+                          widthFactor: 1.0 / 3.0,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(builder: (context) {
+                                    //     return EditPage(
+                                    //       page: pages[i],
+                                    //     );
+                                    //   }),
+                                    // );
+                                  },
+                                  child: AspectRatio(
+                                    aspectRatio: 3.0 / 4.0,
+                                    child: cangyan.Image(
+                                      image: pages[i],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text('第${i + 1}页'),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
