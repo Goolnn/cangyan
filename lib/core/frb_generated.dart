@@ -106,12 +106,12 @@ abstract class RustLibApi extends BaseApi {
 
   Date crateApiCyfileSummarySummaryUpdatedDate({required Summary that});
 
-  Future<EditState> crateApiStatesEditEditStateNew(
+  EditState crateApiStatesEditEditStateNew(
       {required ArcMutexFile file, required BigInt pageIndex});
 
-  Future<Page?> crateApiStatesEditEditStatePage({required EditState that});
+  Page? crateApiStatesEditEditStatePage({required EditState that});
 
-  Future<void> crateApiStatesEditEditStateSetPage(
+  void crateApiStatesEditEditStateSetPage(
       {required EditState that, required Page page});
 
   Future<List<Summary>> crateApiStatesHomeHomeStateLoad(
@@ -445,16 +445,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<EditState> crateApiStatesEditEditStateNew(
+  EditState crateApiStatesEditEditStateNew(
       {required ArcMutexFile file, required BigInt pageIndex}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
             file, serializer);
         sse_encode_usize(pageIndex, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 11, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -474,14 +473,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<Page?> crateApiStatesEditEditStatePage({required EditState that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+  Page? crateApiStatesEditEditStatePage({required EditState that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
             that, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 12, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_page,
@@ -500,16 +498,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<void> crateApiStatesEditEditStateSetPage(
+  void crateApiStatesEditEditStateSetPage(
       {required EditState that, required Page page}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
             that, serializer);
         sse_encode_box_autoadd_page(page, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 13, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -2009,11 +2006,11 @@ class EditStateImpl extends RustOpaque implements EditState {
         RustLib.instance.api.rust_arc_decrement_strong_count_EditStatePtr,
   );
 
-  Future<Page?> page() => RustLib.instance.api.crateApiStatesEditEditStatePage(
+  Page? page() => RustLib.instance.api.crateApiStatesEditEditStatePage(
         that: this,
       );
 
-  Future<void> setPage({required Page page}) => RustLib.instance.api
+  void setPage({required Page page}) => RustLib.instance.api
       .crateApiStatesEditEditStateSetPage(that: this, page: page);
 }
 
