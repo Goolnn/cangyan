@@ -166,7 +166,7 @@ class _Tile extends StatelessWidget {
                             summary.number(),
                           ),
                         ),
-                        // cangyan.Progress(summary.progress()),
+                        const cangyan.Progress(0.0),
                       ],
                     ),
                     const Spacer(),
