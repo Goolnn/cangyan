@@ -14,6 +14,8 @@ Future<void> main() async {
     ),
   );
 
+  WidgetsFlutterBinding.ensureInitialized();
+
   final workspace = await getExternalStorageDirectory();
 
   if (workspace == null) {
