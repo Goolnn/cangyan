@@ -57,7 +57,7 @@ class _InfoPageState extends State<InfoPage> {
                       ),
                       ConstrainedBox(
                         constraints: const BoxConstraints(
-                          minHeight: 48.0,
+                          minHeight: 64.0 + 16.0,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
