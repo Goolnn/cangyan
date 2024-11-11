@@ -49,6 +49,7 @@ class _InfoPageState extends State<InfoPage> {
                           Expanded(
                             child: cangyan.EditableText(
                               summary.title(),
+                              editable: false,
                               onSubmitted: (text) {
                                 widget.state.setTitle(title: text);
                               },
