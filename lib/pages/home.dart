@@ -169,7 +169,12 @@ class _Tile extends StatelessWidget {
                         const cangyan.Progress(0.0),
                       ],
                     ),
-                    const Spacer(),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(summary.comment()),
+                      ),
+                    ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Column(
