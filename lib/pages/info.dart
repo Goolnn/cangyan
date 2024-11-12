@@ -1,5 +1,6 @@
 import 'package:cangyan/core/file.dart' as cangyan;
 import 'package:cangyan/core/states.dart' as cangyan;
+import 'package:cangyan/pages/edit.dart';
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
@@ -147,14 +148,18 @@ class _InfoPageState extends State<InfoPage> {
                                 child: GestureDetector(
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(builder: (context) {
-                                    //     return EditPage(
-                                    //       page: pages[i],
-                                    //     );
-                                    //   }),
-                                    // );
+                                    final editState = widget.state.openPage(
+                                      index: BigInt.from(i),
+                                    );
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return EditPage(
+                                          state: editState,
+                                        );
+                                      }),
+                                    );
                                   },
                                   child: AspectRatio(
                                     aspectRatio: 3.0 / 4.0,
