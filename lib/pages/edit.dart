@@ -54,6 +54,13 @@ class _EditPageState extends State<EditPage> {
   }
 
   @override
+  void dispose() {
+    viewerController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final image = MemoryImage(page.data);
 
