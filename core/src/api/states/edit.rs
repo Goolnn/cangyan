@@ -33,6 +33,32 @@ impl EditState {
     }
 
     #[frb(sync)]
+    pub fn move_note_to(&self, note_index: usize, x: f64, y: f64) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let page = file
+            .project
+            .pages
+            .get_mut(self.page_index)
+            .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
+
+        let note = page
+            .notes
+            .get_mut(note_index)
+            .ok_or_else(|| anyhow::anyhow!("note index out of bounds: {}", note_index))?;
+
+        note.x = x;
+        note.y = y;
+
+        file.save()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
     pub fn append_note(&self, x: f64, y: f64) -> anyhow::Result<()> {
         let mut file = self
             .file
