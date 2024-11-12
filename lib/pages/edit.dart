@@ -28,6 +28,7 @@ class _EditPageState extends State<EditPage> {
   Offset offset = Offset.zero;
 
   bool openPad = false;
+  bool editing = false;
 
   int index = 0;
 
@@ -212,7 +213,7 @@ class _EditPageState extends State<EditPage> {
             if (viewerSize != null)
               Builder(builder: (context) {
                 final padWidth = viewerSize!.width;
-                final padHeight = viewerSize!.height / 3.0;
+                final padHeight = viewerSize!.height / (editing ? 6.0 : 3.0);
 
                 return PopScope(
                   canPop: false,
@@ -240,6 +241,16 @@ class _EditPageState extends State<EditPage> {
                     child: cangyan.TextPad(
                       notes: page.notes,
                       index: index,
+                      onEditing: () {
+                        setState(() {
+                          editing = true;
+                        });
+                      },
+                      onSubmitted: () {
+                        setState(() {
+                          editing = false;
+                        });
+                      },
                     ),
                   ),
                 );
