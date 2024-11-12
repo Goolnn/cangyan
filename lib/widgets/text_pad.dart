@@ -44,35 +44,31 @@ class TextPad extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 4.0),
+            const Text('初译'),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    if (index >= 0)
-                      for (int i = 0; i < notes[index].texts.length; i++)
-                        SizedBox(
-                          width: double.infinity,
-                          child: Card(
-                            elevation: 4.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(notes[index].texts[i].content),
-                                  if (notes[index]
-                                      .texts[i]
-                                      .comment
-                                      .isNotEmpty) ...[
-                                    const Divider(),
-                                    Text(notes[index].texts[i].comment),
-                                  ],
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      notes[index].texts[0].content,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Text('校对'),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      notes[index].texts[0].comment,
+                    ),
+                  ),
                 ),
               ),
             )
