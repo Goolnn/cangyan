@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:cangyan/core/states.dart' as cangyan;
 import 'package:cangyan/core/file.dart' as cangyan;
+import 'package:cangyan/core/states.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class EditPage extends StatefulWidget {
@@ -81,15 +81,21 @@ class _EditPageState extends State<EditPage> {
                   return Container();
                 }
 
+                if (pageSize == null) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
                 final widthRatio = viewerSize!.width / imageSize!.width;
                 final heightRatio = viewerSize!.height / imageSize!.height;
 
                 final scale = min(widthRatio, heightRatio);
 
+                    setState(() {
                 pageSize = Size(
                   imageSize!.width * scale,
                   imageSize!.height * scale,
                 );
+                    });
+                  });
+                }
 
                 return Center(
                   child: SizedBox.fromSize(
