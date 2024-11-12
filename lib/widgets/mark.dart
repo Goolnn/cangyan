@@ -6,13 +6,13 @@ class Mark extends StatelessWidget {
 
   final int index;
   final bool isDone;
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
   const Mark({
     super.key,
     required this.index,
-    required this.isDone,
-    required this.onPressed,
+    this.isDone = false,
+    this.onPressed,
   });
 
   @override
