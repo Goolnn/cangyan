@@ -27,6 +27,10 @@ class _EditPageState extends State<EditPage> {
 
   Offset offset = Offset.zero;
 
+  bool openPad = false;
+
+  int index = 0;
+
   Size? viewerSize;
   Size? imageSize;
   Size? pageSize;
@@ -185,6 +189,12 @@ class _EditPageState extends State<EditPage> {
                       top: center.y - offset.dy,
                       child: cangyan.Mark(
                         index: i + 1,
+                        onPressed: () {
+                          setState(() {
+                            openPad = true;
+                            index = i;
+                          });
+                        },
                       ),
                     );
                   }
@@ -198,6 +208,41 @@ class _EditPageState extends State<EditPage> {
                   child: Text('×${scale.toStringAsFixed(2)}'),
                 ),
               ),
+            if (viewerSize != null)
+              Builder(builder: (context) {
+                final padWidth = viewerSize!.width;
+                final padHeight = viewerSize!.height / 3.0;
+
+                return PopScope(
+                  canPop: false,
+                  onPopInvokedWithResult: (didPop, result) {
+                    if (didPop) {
+                      return;
+                    }
+
+                    if (openPad) {
+                      setState(() {
+                        openPad = false;
+                      });
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: AnimatedPositioned(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeOutCubic,
+                    bottom: openPad
+                        ? MediaQuery.of(context).viewInsets.bottom
+                        : -padWidth,
+                    width: padWidth,
+                    height: padHeight,
+                    child: cangyan.TextPad(
+                      notes: page.notes,
+                      index: index,
+                    ),
+                  ),
+                );
+              }),
           ],
         ),
       ),
