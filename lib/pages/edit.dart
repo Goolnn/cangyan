@@ -190,6 +190,14 @@ class _EditPageState extends State<EditPage> {
                   }
                 },
               ),
+            if (scale != 1.0)
+              Positioned(
+                top: 16.0,
+                left: 16.0,
+                child: cangyan.Capsule(
+                  child: Text('×${scale.toStringAsFixed(2)}'),
+                ),
+              ),
           ],
         ),
       ),
