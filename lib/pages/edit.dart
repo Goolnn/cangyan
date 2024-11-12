@@ -63,10 +63,39 @@ class _EditPageState extends State<EditPage> {
           children: [
             Builder(
               builder: (context) {
+                var margin = EdgeInsets.zero;
+
+                if (pageSize != null) {
+                  const scale = 1.0;
+
+                  final halfScaledPageSize = Size(
+                    pageSize!.width / scale / 2.0,
+                    pageSize!.height / scale / 2.0,
+                  );
+
+                  final diffSize = Size(
+                    viewerSize!.width - pageSize!.width,
+                    viewerSize!.height - pageSize!.height,
+                  );
+
+                  const factor = (1 - 1 / scale) / 2.0;
+
+                  final symmetric = Size(
+                    halfScaledPageSize.width - (diffSize.width * factor),
+                    halfScaledPageSize.height - (diffSize.height * factor),
+                  );
+
+                  margin = EdgeInsets.symmetric(
+                    horizontal: symmetric.width,
+                    vertical: symmetric.height,
+                  );
+                }
+
                 return InteractiveViewer(
                   key: viewerKey,
                   minScale: 1.0,
                   maxScale: 10.0,
+                  boundaryMargin: margin,
                   child: Center(
                     child: Image(
                       image: image,
@@ -83,16 +112,16 @@ class _EditPageState extends State<EditPage> {
 
                 if (pageSize == null) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                final widthRatio = viewerSize!.width / imageSize!.width;
-                final heightRatio = viewerSize!.height / imageSize!.height;
+                    final widthRatio = viewerSize!.width / imageSize!.width;
+                    final heightRatio = viewerSize!.height / imageSize!.height;
 
-                final scale = min(widthRatio, heightRatio);
+                    final scale = min(widthRatio, heightRatio);
 
                     setState(() {
-                pageSize = Size(
-                  imageSize!.width * scale,
-                  imageSize!.height * scale,
-                );
+                      pageSize = Size(
+                        imageSize!.width * scale,
+                        imageSize!.height * scale,
+                      );
                     });
                   });
                 }
