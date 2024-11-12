@@ -100,6 +100,7 @@ class _EditPageState extends State<EditPage> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
