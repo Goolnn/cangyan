@@ -17,9 +17,12 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
+  final viewerController = TransformationController();
   final viewerKey = GlobalKey();
 
   late cangyan.Page page;
+
+  late double scale = 1.0;
 
   Size? viewerSize;
   Size? imageSize;
@@ -35,6 +38,16 @@ class _EditPageState extends State<EditPage> {
       setState(() {
         viewerSize = viewer.size;
       });
+    });
+
+    viewerController.addListener(() {
+      final scale = viewerController.value.getMaxScaleOnAxis();
+
+      if (this.scale != scale) {
+        setState(() {
+          this.scale = scale;
+        });
+      }
     });
 
     page = widget.state.page()!;
@@ -66,8 +79,6 @@ class _EditPageState extends State<EditPage> {
                 var margin = EdgeInsets.zero;
 
                 if (pageSize != null) {
-                  const scale = 1.0;
-
                   final halfScaledPageSize = Size(
                     pageSize!.width / scale / 2.0,
                     pageSize!.height / scale / 2.0,
@@ -78,7 +89,7 @@ class _EditPageState extends State<EditPage> {
                     viewerSize!.height - pageSize!.height,
                   );
 
-                  const factor = (1 - 1 / scale) / 2.0;
+                  final factor = (1 - 1 / scale) / 2.0;
 
                   final symmetric = Size(
                     halfScaledPageSize.width - (diffSize.width * factor),
@@ -93,6 +104,7 @@ class _EditPageState extends State<EditPage> {
 
                 return InteractiveViewer(
                   key: viewerKey,
+                  transformationController: viewerController,
                   minScale: 1.0,
                   maxScale: 10.0,
                   boundaryMargin: margin,
