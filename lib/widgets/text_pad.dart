@@ -20,78 +20,137 @@ class TextPad extends StatefulWidget {
 }
 
 class _TextPadState extends State<TextPad> {
-  late cangyan.Note note;
+  final controller = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-
-    note = widget.notes[widget.index];
-  }
+  bool editing = false;
 
   @override
   Widget build(BuildContext context) {
+    cangyan.Note note = widget.notes[widget.index];
+
+    String content = note.texts[0].content;
+    String comment = note.texts[0].comment;
+
     return Card(
       elevation: 8.0,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const SizedBox(width: 8.0),
-                Text(
-                  '${widget.index + 1}',
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                const Spacer(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox.square(
-                    dimension: 32.0,
-                    child: RawMaterialButton(
-                      shape: const CircleBorder(),
-                      onPressed: () {},
-                      child: const Icon(Icons.add),
+        child: editing
+            ? Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        isCollapsed: true,
+                      ),
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                      ),
+                      autofocus: true,
+                      maxLines: null,
                     ),
                   ),
-                ),
-                const SizedBox(width: 8.0),
-              ],
-            ),
-            const SizedBox(height: 4.0),
-            const Text('初译'),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      note.texts[0].content,
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        editing = false;
+
+                        content = controller.text;
+                      });
+
+                      if (widget.onSubmitted != null) {
+                        widget.onSubmitted!();
+                      }
+                    },
+                    icon: const Icon(Icons.check),
+                  ),
+                ],
+              )
+            : Column(
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 8.0),
+                      Text(
+                        '${widget.index + 1}',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      const Spacer(),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: SizedBox.square(
+                          dimension: 32.0,
+                          child: RawMaterialButton(
+                            shape: const CircleBorder(),
+                            onPressed: () {},
+                            child: const Icon(Icons.add),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                    ],
+                  ),
+                  const SizedBox(height: 4.0),
+                  const Text('初译'),
+                  Expanded(
+                    child: GestureDetector(
+                      onLongPress: () {
+                        setState(() {
+                          editing = true;
+
+                          controller.text = content;
+                        });
+
+                        if (widget.onEditing != null) {
+                          widget.onEditing!();
+                        }
+                      },
+                      child: Scrollbar(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              content,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  const Text('校对'),
+                  Expanded(
+                    child: GestureDetector(
+                      onLongPress: () {
+                        setState(() {
+                          editing = true;
+
+                          controller.text = comment;
+                        });
+
+                        if (widget.onEditing != null) {
+                          widget.onEditing!();
+                        }
+                      },
+                      child: Scrollbar(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              comment,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
-            const Text('校对'),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      note.texts[0].comment,
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
