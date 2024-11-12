@@ -11,13 +11,21 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<InfoState>>
 abstract class InfoState implements RustOpaqueInterface {
+  void appendPage({required List<int> image});
+
   static InfoState from({required Summary summary}) =>
       RustLib.instance.api.crateApiStatesInfoInfoStateFrom(summary: summary);
+
+  void insertPageAfter({required BigInt index, required List<int> image});
+
+  void insertPageBefore({required BigInt index, required List<int> image});
 
   factory InfoState({required ArcMutexFile file}) =>
       RustLib.instance.api.crateApiStatesInfoInfoStateNew(file: file);
 
   EditState openPage({required BigInt index});
+
+  void removePage({required BigInt index});
 
   void setCategory({required String category});
 

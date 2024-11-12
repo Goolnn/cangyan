@@ -74,7 +74,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => 2130426659;
+  int get rustContentHash => 1531296329;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -106,24 +106,59 @@ abstract class RustLibApi extends BaseApi {
 
   Date crateApiCyfileSummarySummaryUpdatedDate({required Summary that});
 
+  void crateApiStatesEditEditStateAppendNote(
+      {required EditState that, required double x, required double y});
+
+  void crateApiStatesEditEditStateModifyNoteComment(
+      {required EditState that,
+      required BigInt noteIndex,
+      required String comment});
+
+  void crateApiStatesEditEditStateModifyNoteContent(
+      {required EditState that,
+      required BigInt noteIndex,
+      required String content});
+
+  void crateApiStatesEditEditStateMoveNoteTo(
+      {required EditState that,
+      required BigInt noteIndex,
+      required double x,
+      required double y});
+
   EditState crateApiStatesEditEditStateNew(
       {required ArcMutexFile file, required BigInt pageIndex});
 
   Page? crateApiStatesEditEditStatePage({required EditState that});
 
-  void crateApiStatesEditEditStateSetPage(
-      {required EditState that, required Page page});
+  void crateApiStatesEditEditStateRemoveNote(
+      {required EditState that, required BigInt noteIndex});
 
   Future<List<Summary>> crateApiStatesHomeHomeStateLoad(
       {required HomeState that});
 
   HomeState crateApiStatesHomeHomeStateNew({required String workspace});
 
+  void crateApiStatesInfoInfoStateAppendPage(
+      {required InfoState that, required List<int> image});
+
   InfoState crateApiStatesInfoInfoStateFrom({required Summary summary});
+
+  void crateApiStatesInfoInfoStateInsertPageAfter(
+      {required InfoState that,
+      required BigInt index,
+      required List<int> image});
+
+  void crateApiStatesInfoInfoStateInsertPageBefore(
+      {required InfoState that,
+      required BigInt index,
+      required List<int> image});
 
   InfoState crateApiStatesInfoInfoStateNew({required ArcMutexFile file});
 
   EditState crateApiStatesInfoInfoStateOpenPage(
+      {required InfoState that, required BigInt index});
+
+  void crateApiStatesInfoInfoStateRemovePage(
       {required InfoState that, required BigInt index});
 
   void crateApiStatesInfoInfoStateSetCategory(
@@ -445,6 +480,126 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiStatesEditEditStateAppendNote(
+      {required EditState that, required double x, required double y}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
+            that, serializer);
+        sse_encode_f_64(x, serializer);
+        sse_encode_f_64(y, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesEditEditStateAppendNoteConstMeta,
+      argValues: [that, x, y],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesEditEditStateAppendNoteConstMeta =>
+      const TaskConstMeta(
+        debugName: "EditState_append_note",
+        argNames: ["that", "x", "y"],
+      );
+
+  @override
+  void crateApiStatesEditEditStateModifyNoteComment(
+      {required EditState that,
+      required BigInt noteIndex,
+      required String comment}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
+            that, serializer);
+        sse_encode_usize(noteIndex, serializer);
+        sse_encode_String(comment, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesEditEditStateModifyNoteCommentConstMeta,
+      argValues: [that, noteIndex, comment],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesEditEditStateModifyNoteCommentConstMeta =>
+      const TaskConstMeta(
+        debugName: "EditState_modify_note_comment",
+        argNames: ["that", "noteIndex", "comment"],
+      );
+
+  @override
+  void crateApiStatesEditEditStateModifyNoteContent(
+      {required EditState that,
+      required BigInt noteIndex,
+      required String content}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
+            that, serializer);
+        sse_encode_usize(noteIndex, serializer);
+        sse_encode_String(content, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesEditEditStateModifyNoteContentConstMeta,
+      argValues: [that, noteIndex, content],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesEditEditStateModifyNoteContentConstMeta =>
+      const TaskConstMeta(
+        debugName: "EditState_modify_note_content",
+        argNames: ["that", "noteIndex", "content"],
+      );
+
+  @override
+  void crateApiStatesEditEditStateMoveNoteTo(
+      {required EditState that,
+      required BigInt noteIndex,
+      required double x,
+      required double y}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
+            that, serializer);
+        sse_encode_usize(noteIndex, serializer);
+        sse_encode_f_64(x, serializer);
+        sse_encode_f_64(y, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesEditEditStateMoveNoteToConstMeta,
+      argValues: [that, noteIndex, x, y],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesEditEditStateMoveNoteToConstMeta =>
+      const TaskConstMeta(
+        debugName: "EditState_move_note_to",
+        argNames: ["that", "noteIndex", "x", "y"],
+      );
+
+  @override
   EditState crateApiStatesEditEditStateNew(
       {required ArcMutexFile file, required BigInt pageIndex}) {
     return handler.executeSync(SyncTask(
@@ -453,7 +608,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
             file, serializer);
         sse_encode_usize(pageIndex, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -479,7 +634,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_page,
@@ -498,30 +653,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiStatesEditEditStateSetPage(
-      {required EditState that, required Page page}) {
+  void crateApiStatesEditEditStateRemoveNote(
+      {required EditState that, required BigInt noteIndex}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditState(
             that, serializer);
-        sse_encode_box_autoadd_page(page, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        sse_encode_usize(noteIndex, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiStatesEditEditStateSetPageConstMeta,
-      argValues: [that, page],
+      constMeta: kCrateApiStatesEditEditStateRemoveNoteConstMeta,
+      argValues: [that, noteIndex],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiStatesEditEditStateSetPageConstMeta =>
+  TaskConstMeta get kCrateApiStatesEditEditStateRemoveNoteConstMeta =>
       const TaskConstMeta(
-        debugName: "EditState_set_page",
-        argNames: ["that", "page"],
+        debugName: "EditState_remove_note",
+        argNames: ["that", "noteIndex"],
       );
 
   @override
@@ -533,7 +688,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 14, port: port_);
+            funcId: 18, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -558,7 +713,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(workspace, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -578,13 +733,40 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiStatesInfoInfoStateAppendPage(
+      {required InfoState that, required List<int> image}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        sse_encode_list_prim_u_8_loose(image, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateAppendPageConstMeta,
+      argValues: [that, image],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateAppendPageConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_append_page",
+        argNames: ["that", "image"],
+      );
+
+  @override
   InfoState crateApiStatesInfoInfoStateFrom({required Summary summary}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
             summary, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -604,13 +786,73 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiStatesInfoInfoStateInsertPageAfter(
+      {required InfoState that,
+      required BigInt index,
+      required List<int> image}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        sse_encode_usize(index, serializer);
+        sse_encode_list_prim_u_8_loose(image, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateInsertPageAfterConstMeta,
+      argValues: [that, index, image],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateInsertPageAfterConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_insert_page_after",
+        argNames: ["that", "index", "image"],
+      );
+
+  @override
+  void crateApiStatesInfoInfoStateInsertPageBefore(
+      {required InfoState that,
+      required BigInt index,
+      required List<int> image}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        sse_encode_usize(index, serializer);
+        sse_encode_list_prim_u_8_loose(image, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateInsertPageBeforeConstMeta,
+      argValues: [that, index, image],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateInsertPageBeforeConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_insert_page_before",
+        argNames: ["that", "index", "image"],
+      );
+
+  @override
   InfoState crateApiStatesInfoInfoStateNew({required ArcMutexFile file}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
             file, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -638,7 +880,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
         sse_encode_usize(index, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -658,6 +900,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiStatesInfoInfoStateRemovePage(
+      {required InfoState that, required BigInt index}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
+            that, serializer);
+        sse_encode_usize(index, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiStatesInfoInfoStateRemovePageConstMeta,
+      argValues: [that, index],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStatesInfoInfoStateRemovePageConstMeta =>
+      const TaskConstMeta(
+        debugName: "InfoState_remove_page",
+        argNames: ["that", "index"],
+      );
+
+  @override
   void crateApiStatesInfoInfoStateSetCategory(
       {required InfoState that, required String category}) {
     return handler.executeSync(SyncTask(
@@ -666,7 +935,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
         sse_encode_String(category, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -693,7 +962,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
         sse_encode_String(comment, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -720,7 +989,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
         sse_encode_list_prim_u_8_loose(cover, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -747,7 +1016,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
         sse_encode_Map_credit_Set_String(credits, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -774,7 +1043,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
         sse_encode_box_autoadd_record_u_32_u_32(number, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -801,7 +1070,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
         sse_encode_String(title, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -826,7 +1095,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerInfoState(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2006,12 +2275,31 @@ class EditStateImpl extends RustOpaque implements EditState {
         RustLib.instance.api.rust_arc_decrement_strong_count_EditStatePtr,
   );
 
+  void appendNote({required double x, required double y}) =>
+      RustLib.instance.api
+          .crateApiStatesEditEditStateAppendNote(that: this, x: x, y: y);
+
+  void modifyNoteComment(
+          {required BigInt noteIndex, required String comment}) =>
+      RustLib.instance.api.crateApiStatesEditEditStateModifyNoteComment(
+          that: this, noteIndex: noteIndex, comment: comment);
+
+  void modifyNoteContent(
+          {required BigInt noteIndex, required String content}) =>
+      RustLib.instance.api.crateApiStatesEditEditStateModifyNoteContent(
+          that: this, noteIndex: noteIndex, content: content);
+
+  void moveNoteTo(
+          {required BigInt noteIndex, required double x, required double y}) =>
+      RustLib.instance.api.crateApiStatesEditEditStateMoveNoteTo(
+          that: this, noteIndex: noteIndex, x: x, y: y);
+
   Page? page() => RustLib.instance.api.crateApiStatesEditEditStatePage(
         that: this,
       );
 
-  void setPage({required Page page}) => RustLib.instance.api
-      .crateApiStatesEditEditStateSetPage(that: this, page: page);
+  void removeNote({required BigInt noteIndex}) => RustLib.instance.api
+      .crateApiStatesEditEditStateRemoveNote(that: this, noteIndex: noteIndex);
 }
 
 @sealed
@@ -2058,8 +2346,22 @@ class InfoStateImpl extends RustOpaque implements InfoState {
         RustLib.instance.api.rust_arc_decrement_strong_count_InfoStatePtr,
   );
 
+  void appendPage({required List<int> image}) => RustLib.instance.api
+      .crateApiStatesInfoInfoStateAppendPage(that: this, image: image);
+
+  void insertPageAfter({required BigInt index, required List<int> image}) =>
+      RustLib.instance.api.crateApiStatesInfoInfoStateInsertPageAfter(
+          that: this, index: index, image: image);
+
+  void insertPageBefore({required BigInt index, required List<int> image}) =>
+      RustLib.instance.api.crateApiStatesInfoInfoStateInsertPageBefore(
+          that: this, index: index, image: image);
+
   EditState openPage({required BigInt index}) => RustLib.instance.api
       .crateApiStatesInfoInfoStateOpenPage(that: this, index: index);
+
+  void removePage({required BigInt index}) => RustLib.instance.api
+      .crateApiStatesInfoInfoStateRemovePage(that: this, index: index);
 
   void setCategory({required String category}) => RustLib.instance.api
       .crateApiStatesInfoInfoStateSetCategory(that: this, category: category);

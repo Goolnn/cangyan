@@ -14,11 +14,20 @@ abstract class ArcMutexFile implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EditState>>
 abstract class EditState implements RustOpaqueInterface {
+  void appendNote({required double x, required double y});
+
+  void modifyNoteComment({required BigInt noteIndex, required String comment});
+
+  void modifyNoteContent({required BigInt noteIndex, required String content});
+
+  void moveNoteTo(
+      {required BigInt noteIndex, required double x, required double y});
+
   factory EditState({required ArcMutexFile file, required BigInt pageIndex}) =>
       RustLib.instance.api
           .crateApiStatesEditEditStateNew(file: file, pageIndex: pageIndex);
 
   Page? page();
 
-  void setPage({required Page page});
+  void removeNote({required BigInt noteIndex});
 }
