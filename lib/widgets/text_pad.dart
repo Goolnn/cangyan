@@ -1,4 +1,4 @@
-import 'package:cangyan/core/file.dart' as cangyan;
+import 'package:cangyan/core/cyfile.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class TextPad extends StatefulWidget {

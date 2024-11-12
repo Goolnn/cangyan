@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:cangyan/core/file.dart' as cangyan;
+import 'package:cangyan/core/cyfile.dart' as cangyan;
 import 'package:cangyan/core/states.dart' as cangyan;
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';

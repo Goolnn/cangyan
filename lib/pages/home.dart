@@ -1,4 +1,4 @@
-import 'package:cangyan/core/file.dart' as cangyan;
+import 'package:cangyan/core/cyfile.dart' as cangyan;
 import 'package:cangyan/core/states.dart' as cangyan;
 import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets.dart' as cangyan;
