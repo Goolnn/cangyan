@@ -59,14 +59,9 @@ class _InfoPageState extends State<InfoPage> {
                           const cangyan.Progress(0.0),
                         ],
                       ),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minHeight: 64.0 + 16.0,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(summary.comment()),
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(summary.comment()),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
