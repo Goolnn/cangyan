@@ -22,7 +22,9 @@ class _EditPageState extends State<EditPage> {
 
   late cangyan.Page page;
 
-  late double scale = 1.0;
+  double scale = 1.0;
+
+  Offset offset = Offset.zero;
 
   Size? viewerSize;
   Size? imageSize;
@@ -41,13 +43,28 @@ class _EditPageState extends State<EditPage> {
     });
 
     viewerController.addListener(() {
-      final scale = viewerController.value.getMaxScaleOnAxis();
-
-      if (this.scale != scale) {
-        setState(() {
-          this.scale = scale;
-        });
+      if (viewerSize == null) {
+        return;
       }
+
+      Matrix4 matrix = viewerController.value;
+
+      double scale = matrix.getMaxScaleOnAxis();
+
+      double centerX = viewerSize!.width * (scale - 1.0) / 2.0;
+      double centerY = viewerSize!.height * (scale - 1.0) / 2.0;
+
+      double offsetX = matrix.getTranslation().x + centerX;
+      double offsetY = matrix.getTranslation().y + centerY;
+
+      setState(() {
+        this.scale = scale;
+
+        offset = Offset(
+          offsetX,
+          offsetY,
+        );
+      });
     });
 
     page = widget.state.page()!;
@@ -146,9 +163,15 @@ class _EditPageState extends State<EditPage> {
                 }
 
                 return Center(
-                  child: SizedBox.fromSize(
-                    size: pageSize,
-                    child: const Placeholder(),
+                  child: Transform.translate(
+                    offset: offset,
+                    child: Transform.scale(
+                      scale: scale,
+                      child: SizedBox.fromSize(
+                        size: pageSize,
+                        child: const Placeholder(),
+                      ),
+                    ),
                   ),
                 );
               },
