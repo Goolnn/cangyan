@@ -70,29 +70,16 @@ class _TextPadState extends State<TextPad> {
               )
             : Column(
                 children: [
-                  Row(
-                    children: [
-                      const SizedBox(width: 8.0),
-                      Text(
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
                         '${widget.index + 1}',
                         style: const TextStyle(
                           fontSize: 16.0,
                         ),
                       ),
-                      const Spacer(),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: SizedBox.square(
-                          dimension: 32.0,
-                          child: RawMaterialButton(
-                            shape: const CircleBorder(),
-                            onPressed: () {},
-                            child: const Icon(Icons.add),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 4.0),
                   const Text('初译'),
