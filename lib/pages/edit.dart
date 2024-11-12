@@ -218,7 +218,7 @@ class _EditPageState extends State<EditPage> {
                 return PopScope(
                   canPop: false,
                   onPopInvokedWithResult: (didPop, result) {
-                    if (didPop) {
+                    if (didPop || editing) {
                       return;
                     }
 
