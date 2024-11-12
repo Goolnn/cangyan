@@ -1,4 +1,5 @@
 use crate::api::cyfile::File;
+use crate::api::cyfile::Page;
 use crate::api::cyfile::Summary;
 use crate::api::states::EditState;
 use cyfile::Credit;
@@ -102,6 +103,57 @@ impl InfoState {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         file.project.credits = credits;
+
+        file.save()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn append_page(&self, image: Vec<u8>) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let page = cyfile::Page::new(image);
+
+        file.project.pages.push(Page::from(&page));
+
+        file.save()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn insert_page_before(&self, index: usize, image: Vec<u8>) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let page = cyfile::Page::new(image);
+
+        file.project.pages.insert(index, Page::from(&page));
+
+        file.save()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn insert_page_after(&self, index: usize, image: Vec<u8>) -> anyhow::Result<()> {
+        self.insert_page_before(index + 1, image)
+    }
+
+    #[frb(sync)]
+    pub fn remove_page(&self, index: usize) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project.pages.remove(index);
 
         file.save()?;
 
