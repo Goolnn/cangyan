@@ -213,7 +213,7 @@ class _EditPageState extends State<EditPage> {
             if (viewerSize != null)
               Builder(builder: (context) {
                 final padWidth = viewerSize!.width;
-                final padHeight = viewerSize!.height / (editing ? 6.0 : 3.0);
+                final padHeight = viewerSize!.height / (editing ? 8.0 : 3.0);
 
                 return PopScope(
                   canPop: false,
