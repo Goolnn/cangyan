@@ -82,58 +82,73 @@ class _TextPadState extends State<TextPad> {
                     ),
                   ),
                   const SizedBox(height: 4.0),
-                  const Text('初译'),
-                  Expanded(
-                    child: GestureDetector(
-                      onLongPress: () {
-                        setState(() {
-                          editing = true;
+                  Flexible(
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Column(
+                            children: [
+                              const Text('初译'),
+                              Expanded(
+                                child: GestureDetector(
+                                  onLongPress: () {
+                                    setState(() {
+                                      editing = true;
 
-                          controller.text = content;
-                        });
+                                      controller.text = content;
+                                    });
 
-                        if (widget.onEditing != null) {
-                          widget.onEditing!();
-                        }
-                      },
-                      child: Scrollbar(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              content,
-                            ),
+                                    if (widget.onEditing != null) {
+                                      widget.onEditing!();
+                                    }
+                                  },
+                                  child: SingleChildScrollView(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: Text(
+                                        content,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  const Text('校对'),
-                  Expanded(
-                    child: GestureDetector(
-                      onLongPress: () {
-                        setState(() {
-                          editing = true;
+                        const VerticalDivider(),
+                        Flexible(
+                          child: Column(
+                            children: [
+                              const Text('校对'),
+                              Expanded(
+                                child: GestureDetector(
+                                  onLongPress: () {
+                                    setState(() {
+                                      editing = true;
 
-                          controller.text = comment;
-                        });
+                                      controller.text = comment;
+                                    });
 
-                        if (widget.onEditing != null) {
-                          widget.onEditing!();
-                        }
-                      },
-                      child: Scrollbar(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              comment,
-                            ),
+                                    if (widget.onEditing != null) {
+                                      widget.onEditing!();
+                                    }
+                                  },
+                                  child: SingleChildScrollView(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: Text(
+                                        comment,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   )
                 ],
