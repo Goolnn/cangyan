@@ -36,40 +36,56 @@ class _TextPadState extends State<TextPad> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: editing
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: controller,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        isCollapsed: true,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      autofocus: true,
-                      maxLines: null,
-                    ),
-                  ),
-                  Center(
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          editing = false;
+            ? PopScope(
+                canPop: false,
+                onPopInvokedWithResult: (didPop, result) {
+                  if (didPop) {
+                    return;
+                  }
 
-                          content = controller.text;
-                        });
+                  setState(() {
+                    editing = false;
 
-                        if (widget.onSubmitted != null) {
-                          widget.onSubmitted!();
-                        }
-                      },
-                      icon: const Icon(Icons.check),
+                    if (widget.onSubmitted != null) {
+                      widget.onSubmitted!();
+                    }
+                  });
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          isCollapsed: true,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                        ),
+                        autofocus: true,
+                        maxLines: null,
+                      ),
                     ),
-                  ),
-                ],
+                    Center(
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            editing = false;
+
+                            content = controller.text;
+                          });
+
+                          if (widget.onSubmitted != null) {
+                            widget.onSubmitted!();
+                          }
+                        },
+                        icon: const Icon(Icons.check),
+                      ),
+                    ),
+                  ],
+                ),
               )
             : Column(
                 children: [
