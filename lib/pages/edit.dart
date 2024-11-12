@@ -98,47 +98,52 @@ class _EditPageState extends State<EditPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            Builder(
-              builder: (context) {
-                var margin = EdgeInsets.zero;
-
-                if (pageSize != null) {
-                  final halfScaledPageSize = Size(
-                    pageSize!.width / scale / 2.0,
-                    pageSize!.height / scale / 2.0,
-                  );
-
-                  final diffSize = Size(
-                    viewerSize!.width - pageSize!.width,
-                    viewerSize!.height - pageSize!.height,
-                  );
-
-                  final factor = (1 - 1 / scale) / 2.0;
-
-                  final symmetric = Size(
-                    halfScaledPageSize.width - (diffSize.width * factor),
-                    halfScaledPageSize.height - (diffSize.height * factor),
-                  );
-
-                  margin = EdgeInsets.symmetric(
-                    horizontal: symmetric.width,
-                    vertical: symmetric.height,
-                  );
-                }
-
-                return InteractiveViewer(
-                  key: viewerKey,
-                  transformationController: viewerController,
-                  minScale: 1.0,
-                  maxScale: 10.0,
-                  boundaryMargin: margin,
-                  child: Center(
-                    child: Image(
-                      image: image,
-                    ),
-                  ),
-                );
+            GestureDetector(
+              onDoubleTap: () {
+                viewerController.value = Matrix4.identity();
               },
+              child: Builder(
+                builder: (context) {
+                  var margin = EdgeInsets.zero;
+
+                  if (pageSize != null) {
+                    final halfScaledPageSize = Size(
+                      pageSize!.width / scale / 2.0,
+                      pageSize!.height / scale / 2.0,
+                    );
+
+                    final diffSize = Size(
+                      viewerSize!.width - pageSize!.width,
+                      viewerSize!.height - pageSize!.height,
+                    );
+
+                    final factor = (1 - 1 / scale) / 2.0;
+
+                    final symmetric = Size(
+                      halfScaledPageSize.width - (diffSize.width * factor),
+                      halfScaledPageSize.height - (diffSize.height * factor),
+                    );
+
+                    margin = EdgeInsets.symmetric(
+                      horizontal: symmetric.width,
+                      vertical: symmetric.height,
+                    );
+                  }
+
+                  return InteractiveViewer(
+                    key: viewerKey,
+                    transformationController: viewerController,
+                    minScale: 1.0,
+                    maxScale: 10.0,
+                    boundaryMargin: margin,
+                    child: Center(
+                      child: Image(
+                        image: image,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             Builder(
               builder: (context) {
