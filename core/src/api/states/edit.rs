@@ -20,20 +20,6 @@ impl EditState {
     }
 
     #[frb(sync)]
-    pub fn set_page(&self, page: Page) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
-
-        file.project.pages[self.page_index] = page;
-
-        file.save()?;
-
-        Ok(())
-    }
-
-    #[frb(sync)]
     pub fn move_note_to(&self, note_index: usize, x: f64, y: f64) -> anyhow::Result<()> {
         let mut file = self
             .file
