@@ -1,7 +1,7 @@
 import 'package:cangyan/core/file.dart' as cangyan;
 import 'package:flutter/material.dart';
 
-class TextPad extends StatelessWidget {
+class TextPad extends StatefulWidget {
   final List<cangyan.Note> notes;
   final int index;
   final void Function()? onEditing;
@@ -16,6 +16,20 @@ class TextPad extends StatelessWidget {
   });
 
   @override
+  State<TextPad> createState() => _TextPadState();
+}
+
+class _TextPadState extends State<TextPad> {
+  late cangyan.Note note;
+
+  @override
+  void initState() {
+    super.initState();
+
+    note = widget.notes[widget.index];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 8.0,
@@ -27,7 +41,7 @@ class TextPad extends StatelessWidget {
               children: [
                 const SizedBox(width: 8.0),
                 Text(
-                  '${index + 1}',
+                  '${widget.index + 1}',
                   style: const TextStyle(
                     fontSize: 16.0,
                   ),
@@ -56,7 +70,7 @@ class TextPad extends StatelessWidget {
                   child: SizedBox(
                     width: double.infinity,
                     child: Text(
-                      notes[index].texts[0].content,
+                      note.texts[0].content,
                     ),
                   ),
                 ),
@@ -70,7 +84,7 @@ class TextPad extends StatelessWidget {
                   child: SizedBox(
                     width: double.infinity,
                     child: Text(
-                      notes[index].texts[0].comment,
+                      note.texts[0].comment,
                     ),
                   ),
                 ),
