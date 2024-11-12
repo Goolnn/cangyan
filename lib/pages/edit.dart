@@ -231,7 +231,7 @@ class _EditPageState extends State<EditPage> {
                     }
                   },
                   child: AnimatedPositioned(
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 400),
                     curve: Curves.easeOutCubic,
                     bottom: openPad
                         ? MediaQuery.of(context).viewInsets.bottom
