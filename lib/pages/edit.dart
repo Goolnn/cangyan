@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cangyan/core/file.dart' as cangyan;
 import 'package:cangyan/core/states.dart' as cangyan;
+import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class EditPage extends StatefulWidget {
@@ -145,42 +146,50 @@ class _EditPageState extends State<EditPage> {
                 },
               ),
             ),
-            Builder(
-              builder: (context) {
-                if (viewerSize == null || imageSize == null) {
-                  return Container();
-                }
+            for (int i = 0; i < page.notes.length; i++)
+              Builder(
+                builder: (context) {
+                  if (viewerSize == null || imageSize == null) {
+                    return Container();
+                  }
 
-                if (pageSize == null) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    final widthRatio = viewerSize!.width / imageSize!.width;
-                    final heightRatio = viewerSize!.height / imageSize!.height;
+                  if (pageSize == null) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      final hertRadio = viewerSize!.width / imageSize!.width;
+                      final vertRadio = viewerSize!.height / imageSize!.height;
 
-                    final scale = min(widthRatio, heightRatio);
+                      final scale = min(hertRadio, vertRadio);
 
-                    setState(() {
-                      pageSize = Size(
-                        imageSize!.width * scale,
-                        imageSize!.height * scale,
-                      );
+                      setState(() {
+                        pageSize = Size(
+                          imageSize!.width * scale,
+                          imageSize!.height * scale,
+                        );
+                      });
                     });
-                  });
-                }
 
-                return Center(
-                  child: Transform.translate(
-                    offset: offset,
-                    child: Transform.scale(
-                      scale: scale,
-                      child: SizedBox.fromSize(
-                        size: pageSize,
-                        child: const Placeholder(),
+                    return Container();
+                  } else {
+                    final center = Point(
+                      viewerSize!.width / 2.0 + this.offset.dx,
+                      viewerSize!.height / 2.0 + this.offset.dy,
+                    );
+
+                    final offset = Offset(
+                      page.notes[i].x * pageSize!.width * scale / 2.0,
+                      page.notes[i].y * pageSize!.height * scale / 2.0,
+                    );
+
+                    return Positioned(
+                      left: center.x + offset.dx,
+                      top: center.y - offset.dy,
+                      child: cangyan.Mark(
+                        index: i + 1,
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  }
+                },
+              ),
           ],
         ),
       ),
