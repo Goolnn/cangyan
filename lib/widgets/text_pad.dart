@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 class TextPad extends StatelessWidget {
   final List<cangyan.Note> notes;
   final int index;
+  final void Function()? onEditing;
+  final void Function()? onSubmitted;
 
   const TextPad({
     super.key,
     required this.notes,
     required this.index,
+    this.onEditing,
+    this.onSubmitted,
   });
 
   @override
