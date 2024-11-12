@@ -37,6 +37,7 @@ class _TextPadState extends State<TextPad> {
         padding: const EdgeInsets.all(8.0),
         child: editing
             ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: TextField(
@@ -52,19 +53,21 @@ class _TextPadState extends State<TextPad> {
                       maxLines: null,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        editing = false;
+                  Center(
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          editing = false;
 
-                        content = controller.text;
-                      });
+                          content = controller.text;
+                        });
 
-                      if (widget.onSubmitted != null) {
-                        widget.onSubmitted!();
-                      }
-                    },
-                    icon: const Icon(Icons.check),
+                        if (widget.onSubmitted != null) {
+                          widget.onSubmitted!();
+                        }
+                      },
+                      icon: const Icon(Icons.check),
+                    ),
                   ),
                 ],
               )
