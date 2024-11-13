@@ -1,9 +1,12 @@
 import 'package:cangyan/widgets.dart' as cangyan;
+import 'package:cangyan/core.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CreatePage extends StatefulWidget {
-  const CreatePage({super.key});
+  final cangyan.CreateState state;
+
+  const CreatePage(this.state, {super.key});
 
   @override
   State<CreatePage> createState() => _CreatePageState();
@@ -11,6 +14,8 @@ class CreatePage extends StatefulWidget {
 
 class _CreatePageState extends State<CreatePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
+
+  final controller = TextEditingController();
 
   final images = <Uint8List>[];
 
@@ -40,6 +45,7 @@ class _CreatePageState extends State<CreatePage> {
                   const Text('标题：'),
                   Expanded(
                     child: TextField(
+                      controller: controller,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -47,6 +53,9 @@ class _CreatePageState extends State<CreatePage> {
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(4.0),
                       ),
+                      onChanged: (text) {
+                        setState(() {});
+                      },
                       style: const TextStyle(fontSize: 14.0),
                     ),
                   ),
@@ -128,14 +137,21 @@ class _CreatePageState extends State<CreatePage> {
                   children: [
                     FilledButton.tonal(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).pop(false);
                       },
                       child: const Text('取消'),
                     ),
                     FilledButton(
-                      onPressed: () {
-                        // TODO
-                      },
+                      onPressed: controller.text.isEmpty || images.isEmpty
+                          ? null
+                          : () {
+                              widget.state.create(
+                                title: controller.text,
+                                images: images,
+                              );
+
+                              Navigator.of(context).pop(true);
+                            },
                       child: const Text('创建'),
                     ),
                   ],
