@@ -105,13 +105,20 @@ class _HomePageState extends State<HomePage> {
           foregroundColor: Colors.white,
           shape: const CircleBorder(),
           child: const Icon(Icons.add),
-          onPressed: () {
-            showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) {
-                  return const cangyan.CreatePage();
-                });
+          onPressed: () async {
+            await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return cangyan.CreatePage(
+                  widget.state.create(),
+                );
+              },
+            ).then((result) {
+              if (result == true) {
+                setState(() {});
+              }
+            });
           },
         ),
       ),
