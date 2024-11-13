@@ -1,7 +1,7 @@
 use flutter_rust_bridge::frb;
 
-#[derive(Clone)]
 #[frb]
+#[derive(Clone)]
 pub struct Text {
     #[frb(non_final)]
     pub content: String,

@@ -1,14 +1,18 @@
 use crate::api::cyfile::Text;
 use flutter_rust_bridge::frb;
 
-#[frb(non_opaque)]
+#[frb]
 #[derive(Clone)]
 pub struct Note {
+    #[frb(non_final)]
     pub x: f64,
+    #[frb(non_final)]
     pub y: f64,
 
+    #[frb(non_final)]
     pub choice: u32,
 
+    #[frb(non_final)]
     pub texts: Vec<Text>,
 }
 
