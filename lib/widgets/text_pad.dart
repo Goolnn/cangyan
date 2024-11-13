@@ -1,13 +1,16 @@
-import 'package:cangyan/core/cyfile.dart' as cangyan;
+import 'package:cangyan/core.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class TextPad extends StatefulWidget {
+  final cangyan.EditState state;
+
   final List<cangyan.Note> notes;
   final int index;
   final void Function()? onEditing;
   final void Function()? onSubmitted;
 
-  const TextPad({
+  const TextPad(
+    this.state, {
     super.key,
     required this.notes,
     required this.index,
@@ -26,10 +29,8 @@ class _TextPadState extends State<TextPad> {
 
   @override
   Widget build(BuildContext context) {
-    cangyan.Note note = widget.notes[widget.index];
-
-    String content = note.texts[0].content;
-    String comment = note.texts[0].comment;
+    final note = widget.notes[widget.index];
+    final text = note.texts[0];
 
     return Card(
       elevation: 8.0,
@@ -74,7 +75,12 @@ class _TextPadState extends State<TextPad> {
                           setState(() {
                             editing = false;
 
-                            content = controller.text;
+                            widget.state.modifyNoteContent(
+                              noteIndex: BigInt.from(widget.index),
+                              content: controller.text,
+                            );
+
+                            text.content = controller.text;
                           });
 
                           if (widget.onSubmitted != null) {
@@ -114,7 +120,7 @@ class _TextPadState extends State<TextPad> {
                                     setState(() {
                                       editing = true;
 
-                                      controller.text = content;
+                                      controller.text = text.content;
                                     });
 
                                     if (widget.onEditing != null) {
@@ -126,7 +132,7 @@ class _TextPadState extends State<TextPad> {
                                     child: SizedBox(
                                       width: double.infinity,
                                       child: Text(
-                                        content,
+                                        text.content,
                                       ),
                                     ),
                                   ),
@@ -146,7 +152,7 @@ class _TextPadState extends State<TextPad> {
                                     setState(() {
                                       editing = true;
 
-                                      controller.text = comment;
+                                      controller.text = text.comment;
                                     });
 
                                     if (widget.onEditing != null) {
@@ -158,7 +164,7 @@ class _TextPadState extends State<TextPad> {
                                     child: SizedBox(
                                       width: double.infinity,
                                       child: Text(
-                                        comment,
+                                        text.comment,
                                       ),
                                     ),
                                   ),
