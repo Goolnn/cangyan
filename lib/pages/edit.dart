@@ -225,6 +225,48 @@ class _EditPageState extends State<EditPage> {
                             index = i;
                           });
                         },
+                        onLongPressed: () {
+                          setState(() {
+                            openPad = false;
+                          });
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('删除'),
+                                content: const Text('确认删除这个标记吗？'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('取消'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      if (index == i) {
+                                        setState(() {
+                                          index = 0;
+                                        });
+                                      }
+
+                                      widget.state.removeNote(
+                                        noteIndex: BigInt.from(i),
+                                      );
+
+                                      setState(() {
+                                        page.notes.removeAt(i);
+                                      });
+
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('确认'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                       ),
                     );
                   }
