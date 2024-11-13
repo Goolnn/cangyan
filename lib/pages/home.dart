@@ -5,6 +5,7 @@ import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:cangyan/pages.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
   final cangyan.HomeState state;
@@ -63,33 +64,93 @@ class _HomePageState extends State<HomePage> {
               itemCount: summaries.length,
               itemBuilder: (context, index) {
                 return _Tile(summaries[index], onDelete: () {
-                  showDialog(
+                  showModalBottomSheet(
                     context: context,
                     builder: (context) {
-                      return AlertDialog(
-                        title: const Text('删除项目'),
-                        content: const Text('是否删除项目？'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('取消'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                widget.state.delete(index: BigInt.from(index));
-                              });
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.share),
+                            title: const Text('分享'),
+                            onTap: () {
+                              final filepath = widget.state.filepath(
+                                index: BigInt.from(index),
+                              );
+
+                              Share.shareXFiles([XFile(filepath)]);
 
                               Navigator.pop(context);
                             },
-                            child: const Text('确定'),
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.delete),
+                            title: const Text('删除'),
+                            onTap: () {
+                              Navigator.pop(context);
+
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('删除项目'),
+                                    content: const Text('是否删除项目？'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('取消'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            widget.state.delete(
+                                              index: BigInt.from(index),
+                                            );
+                                          });
+
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('确定'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ],
                       );
                     },
                   );
+                  // showDialog(
+                  //   context: context,
+                  //   builder: (context) {
+                  //     return AlertDialog(
+                  //       title: const Text('删除项目'),
+                  //       content: const Text('是否删除项目？'),
+                  //       actions: [
+                  //         TextButton(
+                  //           onPressed: () {
+                  //             Navigator.pop(context);
+                  //           },
+                  //           child: const Text('取消'),
+                  //         ),
+                  //         TextButton(
+                  //           onPressed: () {
+                  //             setState(() {
+                  //               widget.state.delete(index: BigInt.from(index));
+                  //             });
+
+                  //             Navigator.pop(context);
+                  //           },
+                  //           child: const Text('确定'),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   },
+                  // );
                 });
               },
             );
