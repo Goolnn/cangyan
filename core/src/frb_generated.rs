@@ -26,6 +26,7 @@
 // Section: imports
 
 use crate::api::cyfile::summary::*;
+use crate::api::states::create::*;
 use crate::api::states::edit::*;
 use crate::api::states::home::*;
 use crate::api::states::info::*;
@@ -41,7 +42,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.5.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1531296329;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1913155039;
 
 // Section: executor
 
@@ -535,6 +536,60 @@ fn wire__crate__api__cyfile__summary__Summary_updated_date_impl(
         },
     )
 }
+fn wire__crate__api__states__create__CreateState_create_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "CreateState_create",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>,
+            >>::sse_decode(&mut deserializer);
+            let api_title = <String>::sse_decode(&mut deserializer);
+            let api_images = <Vec<Vec<u8>>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = crate::api::states::create::CreateState::create(
+                        &*api_that_guard,
+                        api_title,
+                        api_images,
+                    )?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
 fn wire__crate__api__states__edit__EditState_append_note_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -884,6 +939,54 @@ fn wire__crate__api__states__edit__EditState_remove_note_impl(
                     Ok(output_ok)
                 })(),
             )
+        },
+    )
+}
+fn wire__crate__api__states__home__HomeState_create_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "HomeState_create",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<HomeState>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(crate::api::states::home::HomeState::create(
+                    &*api_that_guard,
+                ))?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -1682,6 +1785,9 @@ flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<Mutex<File>>>
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>
+);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<EditState>
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
@@ -1709,6 +1815,16 @@ impl SseDecode for Arc<Mutex<File>> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueMoi<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<Mutex<File>>>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
+impl SseDecode for CreateState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueMoi<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -1772,6 +1888,16 @@ impl SseDecode
 
 impl SseDecode
     for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<Mutex<File>>>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2099,7 +2225,7 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        18 => {
+        20 => {
             wire__crate__api__states__home__HomeState_load_impl(port, ptr, rust_vec_len, data_len)
         }
         _ => unreachable!(),
@@ -2135,61 +2261,65 @@ fn pde_ffi_dispatcher_sync_impl(
             data_len,
         ),
         11 => {
+            wire__crate__api__states__create__CreateState_create_impl(ptr, rust_vec_len, data_len)
+        }
+        12 => {
             wire__crate__api__states__edit__EditState_append_note_impl(ptr, rust_vec_len, data_len)
         }
-        12 => wire__crate__api__states__edit__EditState_modify_note_comment_impl(
+        13 => wire__crate__api__states__edit__EditState_modify_note_comment_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        13 => wire__crate__api__states__edit__EditState_modify_note_content_impl(
+        14 => wire__crate__api__states__edit__EditState_modify_note_content_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        14 => {
+        15 => {
             wire__crate__api__states__edit__EditState_move_note_to_impl(ptr, rust_vec_len, data_len)
         }
-        15 => wire__crate__api__states__edit__EditState_new_impl(ptr, rust_vec_len, data_len),
-        16 => wire__crate__api__states__edit__EditState_page_impl(ptr, rust_vec_len, data_len),
-        17 => {
+        16 => wire__crate__api__states__edit__EditState_new_impl(ptr, rust_vec_len, data_len),
+        17 => wire__crate__api__states__edit__EditState_page_impl(ptr, rust_vec_len, data_len),
+        18 => {
             wire__crate__api__states__edit__EditState_remove_note_impl(ptr, rust_vec_len, data_len)
         }
-        19 => wire__crate__api__states__home__HomeState_new_impl(ptr, rust_vec_len, data_len),
-        20 => {
+        19 => wire__crate__api__states__home__HomeState_create_impl(ptr, rust_vec_len, data_len),
+        21 => wire__crate__api__states__home__HomeState_new_impl(ptr, rust_vec_len, data_len),
+        22 => {
             wire__crate__api__states__info__InfoState_append_page_impl(ptr, rust_vec_len, data_len)
         }
-        21 => wire__crate__api__states__info__InfoState_from_impl(ptr, rust_vec_len, data_len),
-        22 => wire__crate__api__states__info__InfoState_insert_page_after_impl(
+        23 => wire__crate__api__states__info__InfoState_from_impl(ptr, rust_vec_len, data_len),
+        24 => wire__crate__api__states__info__InfoState_insert_page_after_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        23 => wire__crate__api__states__info__InfoState_insert_page_before_impl(
+        25 => wire__crate__api__states__info__InfoState_insert_page_before_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        24 => wire__crate__api__states__info__InfoState_new_impl(ptr, rust_vec_len, data_len),
-        25 => wire__crate__api__states__info__InfoState_open_page_impl(ptr, rust_vec_len, data_len),
-        26 => {
+        26 => wire__crate__api__states__info__InfoState_new_impl(ptr, rust_vec_len, data_len),
+        27 => wire__crate__api__states__info__InfoState_open_page_impl(ptr, rust_vec_len, data_len),
+        28 => {
             wire__crate__api__states__info__InfoState_remove_page_impl(ptr, rust_vec_len, data_len)
         }
-        27 => {
+        29 => {
             wire__crate__api__states__info__InfoState_set_category_impl(ptr, rust_vec_len, data_len)
         }
-        28 => {
+        30 => {
             wire__crate__api__states__info__InfoState_set_comment_impl(ptr, rust_vec_len, data_len)
         }
-        29 => wire__crate__api__states__info__InfoState_set_cover_impl(ptr, rust_vec_len, data_len),
-        30 => {
+        31 => wire__crate__api__states__info__InfoState_set_cover_impl(ptr, rust_vec_len, data_len),
+        32 => {
             wire__crate__api__states__info__InfoState_set_credits_impl(ptr, rust_vec_len, data_len)
         }
-        31 => {
+        33 => {
             wire__crate__api__states__info__InfoState_set_number_impl(ptr, rust_vec_len, data_len)
         }
-        32 => wire__crate__api__states__info__InfoState_set_title_impl(ptr, rust_vec_len, data_len),
-        33 => wire__crate__api__states__info__InfoState_summary_impl(ptr, rust_vec_len, data_len),
+        34 => wire__crate__api__states__info__InfoState_set_title_impl(ptr, rust_vec_len, data_len),
+        35 => wire__crate__api__states__info__InfoState_summary_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -2207,6 +2337,21 @@ impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<
 
 impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Arc<Mutex<File>>>> for Arc<Mutex<File>> {
     fn into_into_dart(self) -> FrbWrapper<Arc<Mutex<File>>> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<CreateState> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<CreateState> {}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<CreateState>> for CreateState {
+    fn into_into_dart(self) -> FrbWrapper<CreateState> {
         self.into()
     }
 }
@@ -2401,6 +2546,13 @@ impl SseEncode for Arc<Mutex<File>> {
     }
 }
 
+impl SseEncode for CreateState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
+    }
+}
+
 impl SseEncode for EditState {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -2446,6 +2598,17 @@ impl SseEncode
 
 impl SseEncode
     for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<Mutex<File>>>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -2744,6 +2907,7 @@ mod io {
 
     use super::*;
     use crate::api::cyfile::summary::*;
+    use crate::api::states::create::*;
     use crate::api::states::edit::*;
     use crate::api::states::home::*;
     use crate::api::states::info::*;
@@ -2769,6 +2933,20 @@ mod io {
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < Mutex < File > >>>::decrement_strong_count(ptr as _);
+    }
+
+    #[no_mangle]
+    pub extern "C" fn frbgen_cangyan_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCreateState(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>>::increment_strong_count(ptr as _);
+    }
+
+    #[no_mangle]
+    pub extern "C" fn frbgen_cangyan_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCreateState(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>>::decrement_strong_count(ptr as _);
     }
 
     #[no_mangle]
@@ -2840,6 +3018,7 @@ mod web {
 
     use super::*;
     use crate::api::cyfile::summary::*;
+    use crate::api::states::create::*;
     use crate::api::states::edit::*;
     use crate::api::states::home::*;
     use crate::api::states::info::*;
@@ -2867,6 +3046,20 @@ mod web {
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < Mutex < File > >>>::decrement_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCreateState(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCreateState(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<CreateState>>::decrement_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]

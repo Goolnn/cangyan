@@ -5,10 +5,13 @@
 
 import '../../frb_generated.dart';
 import '../cyfile/summary.dart';
+import 'create.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<HomeState>>
 abstract class HomeState implements RustOpaqueInterface {
+  CreateState create();
+
   Future<List<Summary>> load();
 
   factory HomeState({required String workspace}) =>
