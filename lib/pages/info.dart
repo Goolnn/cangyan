@@ -177,11 +177,13 @@ class _InfoPageState extends State<InfoPage> {
                                           value: 2,
                                           child: Text("向后插入新页"),
                                         ),
-                                        const PopupMenuDivider(),
-                                        const PopupMenuItem(
-                                          value: 3,
-                                          child: Text("删除页面"),
-                                        ),
+                                        if (pages.length > 1) ...[
+                                          const PopupMenuDivider(),
+                                          const PopupMenuItem(
+                                            value: 3,
+                                            child: Text("删除页面"),
+                                          ),
+                                        ],
                                       ],
                                     ).then((value) async {
                                       if (value case 1) {
