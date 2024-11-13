@@ -2,6 +2,7 @@ pub use crate::api::cyfile::File;
 pub use std::sync::Mutex;
 
 use crate::api::cyfile::Summary;
+use crate::api::states::CreateState;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -43,5 +44,10 @@ impl HomeState {
             .iter()
             .map(|file| Summary::new(file.clone()))
             .collect())
+    }
+
+    #[frb(sync)]
+    pub fn create(&self) -> CreateState {
+        CreateState::from(self.workspace.clone())
     }
 }
