@@ -27,6 +27,8 @@ class _TextPadState extends State<TextPad> {
 
   bool editing = false;
 
+  EditingField? field;
+
   @override
   Widget build(BuildContext context) {
     final note = widget.notes[widget.index];
@@ -75,13 +77,29 @@ class _TextPadState extends State<TextPad> {
                           setState(() {
                             editing = false;
 
-                            widget.state.modifyNoteContent(
-                              noteIndex: BigInt.from(widget.index),
-                              content: controller.text,
-                            );
+                            switch (field) {
+                              case EditingField.content:
+                                widget.state.modifyNoteContent(
+                                  noteIndex: BigInt.from(widget.index),
+                                  content: controller.text,
+                                );
 
-                            text.content = controller.text;
+                                text.content = controller.text;
+                                break;
+                              case EditingField.comment:
+                                widget.state.modifyNoteComment(
+                                  noteIndex: BigInt.from(widget.index),
+                                  comment: controller.text,
+                                );
+
+                                text.comment = controller.text;
+                                break;
+                              default:
+                                break;
+                            }
                           });
+
+                          field = null;
 
                           if (widget.onSubmitted != null) {
                             widget.onSubmitted!();
@@ -120,6 +138,8 @@ class _TextPadState extends State<TextPad> {
                                     setState(() {
                                       editing = true;
 
+                                      field = EditingField.content;
+
                                       controller.text = text.content;
                                     });
 
@@ -152,6 +172,8 @@ class _TextPadState extends State<TextPad> {
                                     setState(() {
                                       editing = true;
 
+                                      field = EditingField.comment;
+
                                       controller.text = text.comment;
                                     });
 
@@ -181,4 +203,9 @@ class _TextPadState extends State<TextPad> {
       ),
     );
   }
+}
+
+enum EditingField {
+  content,
+  comment,
 }
