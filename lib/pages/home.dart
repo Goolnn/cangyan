@@ -78,11 +78,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              // setState(() {
-                              //   summaries[index].delete();
-                              // });
+                              setState(() {
+                                widget.state.delete(index: BigInt.from(index));
+                              });
 
-                              // Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: const Text('确定'),
                           ),
