@@ -239,6 +239,7 @@ class _EditPageState extends State<EditPage> {
                     width: padWidth,
                     height: padHeight,
                     child: cangyan.TextPad(
+                      widget.state,
                       notes: page.notes,
                       index: index,
                       onEditing: () {
