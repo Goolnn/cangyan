@@ -43,6 +43,19 @@ impl File {
         Ok(())
     }
 
+    pub fn rename(&mut self, title: impl ToString) -> anyhow::Result<()> {
+        let file_name = format!("{}.cy", title.to_string());
+
+        let source = self.path.clone();
+        let target = self.path.with_file_name(file_name.clone());
+
+        std::fs::rename(source, target)?;
+
+        self.path.set_file_name(file_name);
+
+        Ok(())
+    }
+
     pub fn save(&self) -> anyhow::Result<()> {
         cyfile::File::export(
             &cyfile::Project::from(&self.project),

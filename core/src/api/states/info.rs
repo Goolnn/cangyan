@@ -60,6 +60,8 @@ impl InfoState {
             .lock()
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
+        file.rename(&title)?;
+
         file.project.title = title;
 
         file.save()?;
