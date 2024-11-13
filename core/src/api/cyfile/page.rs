@@ -1,11 +1,13 @@
 use crate::api::cyfile::Note;
 use flutter_rust_bridge::frb;
 
-#[frb(non_opaque)]
+#[frb]
 #[derive(Clone)]
 pub struct Page {
+    #[frb(non_final)]
     pub data: Vec<u8>,
 
+    #[frb(non_final)]
     pub notes: Vec<Note>,
 }
 

@@ -5,22 +5,31 @@ use flutter_rust_bridge::frb;
 use std::collections::HashMap;
 use std::collections::HashSet;
 
-#[frb(non_opaque)]
+#[frb]
 pub struct Project {
+    #[frb(non_final)]
     pub cover: Vec<u8>,
 
+    #[frb(non_final)]
     pub category: String,
+    #[frb(non_final)]
     pub title: String,
 
+    #[frb(non_final)]
     pub number: (u32, u32),
 
+    #[frb(non_final)]
     pub comment: String,
 
+    #[frb(non_final)]
     pub created_date: Date,
+    #[frb(non_final)]
     pub updated_date: Date,
 
+    #[frb(non_final)]
     pub credits: HashMap<Credit, HashSet<String>>,
 
+    #[frb(non_final)]
     pub pages: Vec<Page>,
 }
 
