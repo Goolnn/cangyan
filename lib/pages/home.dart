@@ -113,56 +113,103 @@ class _HomePageState extends State<HomePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '新建项目',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
-                          const Divider(),
-                          Row(
-                            children: [
-                              const Text('标题：'),
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    isCollapsed: true,
-                                    contentPadding: const EdgeInsets.all(4.0),
-                                  ),
-                                  style: const TextStyle(fontSize: 14.0),
-                                ),
+                    child: SizedBox(
+                      height: 512.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '新建项目',
+                                style: TextStyle(fontSize: 20.0),
                               ),
-                            ],
-                          ),
-                          const Divider(),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Wrap(
-                              spacing: 8.0,
+                            ),
+                            const Divider(),
+                            Row(
                               children: [
-                                FilledButton.tonal(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('取消'),
-                                ),
-                                FilledButton(
-                                  onPressed: () {},
-                                  child: const Text('创建'),
+                                const Text('标题：'),
+                                Expanded(
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      isCollapsed: true,
+                                      contentPadding: const EdgeInsets.all(4.0),
+                                    ),
+                                    style: const TextStyle(fontSize: 14.0),
+                                  ),
                                 ),
                               ],
                             ),
-                          )
-                        ],
+                            const Divider(),
+                            Expanded(
+                              child: Stack(
+                                children: [
+                                  SingleChildScrollView(
+                                    child: Wrap(
+                                      children: [
+                                        for (int i = 0; i < 20; i++)
+                                          FractionallySizedBox(
+                                            widthFactor: 1.0 / 3.0,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                children: [
+                                                  const AspectRatio(
+                                                    aspectRatio: 3.0 / 4.0,
+                                                    child: Placeholder(),
+                                                  ),
+                                                  const SizedBox(height: 4.0),
+                                                  Text('第${i + 1}页'),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                      ],
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 16.0,
+                                    right: 8.0,
+                                    child: FloatingActionButton.small(
+                                      shape: const CircleBorder(),
+                                      onPressed: () {
+                                        // TODO
+                                      },
+                                      child: const Icon(Icons.add),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Wrap(
+                                spacing: 8.0,
+                                children: [
+                                  FilledButton.tonal(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('取消'),
+                                  ),
+                                  FilledButton(
+                                    onPressed: () {
+                                      // TODO
+                                    },
+                                    child: const Text('创建'),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
