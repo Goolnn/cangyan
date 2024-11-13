@@ -104,7 +104,70 @@ class _HomePageState extends State<HomePage> {
           foregroundColor: Colors.white,
           shape: const CircleBorder(),
           child: const Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              '新建项目',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ),
+                          const Divider(),
+                          Row(
+                            children: [
+                              const Text('标题：'),
+                              Expanded(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    isCollapsed: true,
+                                    contentPadding: const EdgeInsets.all(4.0),
+                                  ),
+                                  style: const TextStyle(fontSize: 14.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Divider(),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Wrap(
+                              spacing: 8.0,
+                              children: [
+                                FilledButton.tonal(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('取消'),
+                                ),
+                                FilledButton(
+                                  onPressed: () {},
+                                  child: const Text('创建'),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          },
         ),
       ),
     );
