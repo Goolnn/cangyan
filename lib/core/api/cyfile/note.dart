@@ -10,12 +10,12 @@ import 'text.dart';
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `from`, `from`
 
 class Note {
-  final double x;
-  final double y;
-  final int choice;
-  final List<Text> texts;
+  double x;
+  double y;
+  int choice;
+  List<Text> texts;
 
-  const Note({
+  Note({
     required this.x,
     required this.y,
     required this.choice,
