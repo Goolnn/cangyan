@@ -14,6 +14,8 @@ import java.io.InputStream
 class MainActivity : FlutterActivity() {
     private val channel = "goolnn.cangyan/intent"
 
+    private var resultCallback: MethodChannel.Result? = null
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
@@ -30,6 +32,15 @@ class MainActivity : FlutterActivity() {
                 startActivityForResult(intent, 1001)
 
                 result.success(null)
+            } else if (call.method == "openImages") {
+                resultCallback = result
+
+                val intent = Intent(Intent.ACTION_PICK).apply {
+                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                    type = "image/*"
+                }
+
+                startActivityForResult(intent, 1002)
             }
         }
     }
@@ -39,6 +50,28 @@ class MainActivity : FlutterActivity() {
 
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             copyIntent(data)
+        } else if (requestCode == 1002 && resultCode == RESULT_OK) {
+            val imagesData = mutableListOf<ByteArray>()
+
+            data?.let { intentData ->
+                if (intentData.clipData != null) {
+                    val clipData = intentData.clipData!!
+
+                    for (i in 0 until clipData.itemCount) {
+                        val uri = clipData.getItemAt(i).uri
+
+                        imagesData.add(readBytes(uri))
+                    }
+                } else {
+                    intentData.data?.let { uri ->
+                        imagesData.add(readBytes(uri))
+                    }
+                }
+            }
+
+            resultCallback?.success(imagesData)
+        } else if (requestCode == 1002) {
+            resultCallback?.error("Cancelled", "No images selected", null)
         }
     }
 
@@ -88,5 +121,11 @@ class MainActivity : FlutterActivity() {
 
             channel.invokeMethod("newIntent", null)
         }
+    }
+
+    private fun readBytes(uri: Uri): ByteArray {
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+
+        return inputStream?.readBytes() ?: ByteArray(0)
     }
 }
