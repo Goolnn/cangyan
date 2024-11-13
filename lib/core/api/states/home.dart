@@ -12,6 +12,8 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 abstract class HomeState implements RustOpaqueInterface {
   CreateState create();
 
+  void delete({required BigInt index});
+
   Future<List<Summary>> load();
 
   factory HomeState({required String workspace}) =>

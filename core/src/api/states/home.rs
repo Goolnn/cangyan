@@ -47,6 +47,20 @@ impl HomeState {
     }
 
     #[frb(sync)]
+    pub fn delete(&self, index: usize) -> anyhow::Result<()> {
+        let file = self
+            .files
+            .get(index)
+            .ok_or_else(|| anyhow::anyhow!("file not found"))?
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.delete()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
     pub fn create(&self) -> CreateState {
         CreateState::from(self.workspace.clone())
     }
