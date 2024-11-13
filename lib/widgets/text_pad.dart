@@ -31,6 +31,10 @@ class _TextPadState extends State<TextPad> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.notes.isEmpty) {
+      return const Card();
+    }
+
     final note = widget.notes[widget.index];
     final text = note.texts[0];
 
