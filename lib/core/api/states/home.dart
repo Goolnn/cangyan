@@ -14,6 +14,8 @@ abstract class HomeState implements RustOpaqueInterface {
 
   void delete({required BigInt index});
 
+  String filepath({required BigInt index});
+
   Future<List<Summary>> load();
 
   factory HomeState({required String workspace}) =>

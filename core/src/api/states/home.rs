@@ -61,6 +61,18 @@ impl HomeState {
     }
 
     #[frb(sync)]
+    pub fn filepath(&self, index: usize) -> anyhow::Result<String> {
+        let file = self
+            .files
+            .get(index)
+            .ok_or_else(|| anyhow::anyhow!("file not found"))?
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        Ok(file.path.to_string_lossy().to_string())
+    }
+
+    #[frb(sync)]
     pub fn create(&self) -> CreateState {
         CreateState::from(self.workspace.clone())
     }
