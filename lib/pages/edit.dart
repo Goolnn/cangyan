@@ -144,8 +144,36 @@ class _EditPageState extends State<EditPage> {
                     maxScale: 10.0,
                     boundaryMargin: margin,
                     child: Center(
-                      child: Image(
-                        image: image,
+                      child: GestureDetector(
+                        onLongPressStart: (details) {
+                          final position = details.localPosition;
+                          final coordiante = Offset(
+                            (position.dx / pageSize!.width * 2.0 - 1.0),
+                            -(position.dy / pageSize!.height * 2.0 - 1.0),
+                          );
+
+                          widget.state.appendNote(
+                            x: coordiante.dx,
+                            y: coordiante.dy,
+                          );
+
+                          setState(() {
+                            page.notes.add(cangyan.Note(
+                              x: coordiante.dx,
+                              y: coordiante.dy,
+                              choice: 0,
+                              texts: [
+                                cangyan.Text(
+                                  content: '',
+                                  comment: '',
+                                )
+                              ],
+                            ));
+                          });
+                        },
+                        child: Image(
+                          image: image,
+                        ),
                       ),
                     ),
                   );
