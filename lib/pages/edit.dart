@@ -135,6 +135,20 @@ class _EditPageState extends State<EditPage> {
                       horizontal: symmetric.width,
                       vertical: symmetric.height,
                     );
+                  } else if (imageSize != null && viewerSize != null) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      final hertRadio = viewerSize!.width / imageSize!.width;
+                      final vertRadio = viewerSize!.height / imageSize!.height;
+
+                      final scale = min(hertRadio, vertRadio);
+
+                      setState(() {
+                        pageSize = Size(
+                          imageSize!.width * scale,
+                          imageSize!.height * scale,
+                        );
+                      });
+                    });
                   }
 
                   return InteractiveViewer(
@@ -183,93 +197,77 @@ class _EditPageState extends State<EditPage> {
             for (int i = 0; i < page.notes.length; i++)
               Builder(
                 builder: (context) {
-                  if (viewerSize == null || imageSize == null) {
+                  if (viewerSize == null ||
+                      imageSize == null ||
+                      pageSize == null) {
                     return Container();
                   }
 
-                  if (pageSize == null) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      final hertRadio = viewerSize!.width / imageSize!.width;
-                      final vertRadio = viewerSize!.height / imageSize!.height;
+                  final center = Point(
+                    viewerSize!.width / 2.0 + this.offset.dx,
+                    viewerSize!.height / 2.0 + this.offset.dy,
+                  );
 
-                      final scale = min(hertRadio, vertRadio);
+                  final offset = Offset(
+                    page.notes[i].x * pageSize!.width * scale / 2.0,
+                    page.notes[i].y * pageSize!.height * scale / 2.0,
+                  );
 
-                      setState(() {
-                        pageSize = Size(
-                          imageSize!.width * scale,
-                          imageSize!.height * scale,
-                        );
-                      });
-                    });
-
-                    return Container();
-                  } else {
-                    final center = Point(
-                      viewerSize!.width / 2.0 + this.offset.dx,
-                      viewerSize!.height / 2.0 + this.offset.dy,
-                    );
-
-                    final offset = Offset(
-                      page.notes[i].x * pageSize!.width * scale / 2.0,
-                      page.notes[i].y * pageSize!.height * scale / 2.0,
-                    );
-
-                    return Positioned(
-                      left: center.x + offset.dx,
-                      top: center.y - offset.dy,
-                      child: cangyan.Mark(
-                        index: i + 1,
-                        onPressed: () {
-                          setState(() {
-                            openPad = true;
-                            index = i;
-                          });
-                        },
-                        onLongPressed: () {
-                          setState(() {
-                            openPad = false;
-                          });
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('删除'),
-                                content: const Text('确认删除这个标记吗？'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('取消'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      if (index == i) {
-                                        setState(() {
-                                          index = 0;
-                                        });
-                                      }
-
-                                      widget.state.removeNote(
-                                        noteIndex: BigInt.from(i),
-                                      );
-
+                  return Positioned(
+                    left: center.x + offset.dx,
+                    top: center.y - offset.dy,
+                    child: cangyan.Mark(
+                      index: i + 1,
+                      onPressed: () {
+                        setState(() {
+                          openPad = true;
+                          index = i;
+                        });
+                      },
+                      onLongPressed: () {
+                        setState(() {
+                          openPad = false;
+                        });
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('删除'),
+                              content: const Text('确认删除这个标记吗？'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('取消'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    if (index == i) {
                                       setState(() {
-                                        page.notes.removeAt(i);
+                                        index = 0;
                                       });
+                                    }
 
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('确认'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  }
+                                    widget.state.removeNote(
+                                      noteIndex: BigInt.from(i),
+                                    );
+
+                                    setState(() {
+                                      page.notes.removeAt(i);
+                                    });
+
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('确认'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  );
                 },
               ),
             if (scale != 1.0)
