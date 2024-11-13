@@ -187,7 +187,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class _Tile extends StatelessWidget {
+class _Tile extends StatefulWidget {
   final cangyan.Summary summary;
 
   final void Function()? onDelete;
@@ -195,16 +195,23 @@ class _Tile extends StatelessWidget {
   const _Tile(this.summary, {required this.onDelete});
 
   @override
+  State<_Tile> createState() => _TileState();
+}
+
+class _TileState extends State<_Tile> {
+  @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return InfoPage(
-            summary: summary,
+            summary: widget.summary,
           );
-        }));
+        })).then((result) {
+          setState(() {});
+        });
       },
-      onLongPress: onDelete,
+      onLongPress: widget.onDelete,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
@@ -216,14 +223,14 @@ class _Tile extends StatelessWidget {
                   AspectRatio(
                     aspectRatio: 3.0 / 4.0,
                     child: cangyan.Image(
-                      image: summary.cover(),
+                      image: widget.summary.cover(),
                     ),
                   ),
                   Positioned(
                     bottom: 2.0,
                     right: 2.0,
                     child: cangyan.Capsule(
-                      child: Text('${summary.pageCount()}页'),
+                      child: Text('${widget.summary.pageCount()}页'),
                     ),
                   ),
                 ],
@@ -235,11 +242,11 @@ class _Tile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        cangyan.Category(summary.category()),
+                        cangyan.Category(widget.summary.category()),
                         Expanded(
                           child: cangyan.Title(
-                            summary.title(),
-                            summary.number(),
+                            widget.summary.title(),
+                            widget.summary.number(),
                           ),
                         ),
                         const cangyan.Progress(0.0),
@@ -248,7 +255,7 @@ class _Tile extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text(summary.comment()),
+                        child: Text(widget.summary.comment()),
                       ),
                     ),
                     Align(
@@ -256,14 +263,14 @@ class _Tile extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '创建于 ${_dateToString(summary.createdDate())}',
+                            '创建于 ${_dateToString(widget.summary.createdDate())}',
                             style: const TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey,
                             ),
                           ),
                           Text(
-                            '更新于 ${_dateToString(summary.updatedDate())}',
+                            '更新于 ${_dateToString(widget.summary.updatedDate())}',
                             style: const TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey,
