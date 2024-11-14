@@ -208,7 +208,7 @@ class _TileState extends State<_Tile> {
             summary: widget.summary,
           );
         })).then((result) {
-          setState(() {});
+          if (mounted) setState(() {});
         });
       },
       onLongPress: widget.onDelete,
