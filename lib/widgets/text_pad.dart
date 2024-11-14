@@ -138,7 +138,7 @@ class _TextPadState extends State<TextPad> {
                               const Text('初译'),
                               Expanded(
                                 child: GestureDetector(
-                                  onLongPress: () {
+                                  onDoubleTap: () {
                                     setState(() {
                                       editing = true;
 
@@ -172,7 +172,7 @@ class _TextPadState extends State<TextPad> {
                               const Text('校对'),
                               Expanded(
                                 child: GestureDetector(
-                                  onLongPress: () {
+                                  onDoubleTap: () {
                                     setState(() {
                                       editing = true;
 
