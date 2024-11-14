@@ -63,6 +63,7 @@ class _TextPadState extends State<TextPad> {
                   children: [
                     Expanded(
                       child: TextField(
+                        expands: true,
                         controller: controller,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
