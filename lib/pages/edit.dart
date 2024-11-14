@@ -214,8 +214,8 @@ class _EditPageState extends State<EditPage> {
                   );
 
                   return Positioned(
-                    left: center.x + offset.dx,
-                    top: center.y - offset.dy,
+                    left: center.x + offset.dx - 16.0,
+                    top: center.y - offset.dy - 16.0,
                     child: cangyan.Mark(
                       index: i + 1,
                       onPressed: () {
