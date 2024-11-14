@@ -35,7 +35,7 @@ class _EditableTextState extends State<EditableText> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onLongPress: () {
+      onDoubleTap: () {
         if (!widget.editable) {
           return;
         }
@@ -54,7 +54,9 @@ class _EditableTextState extends State<EditableText> {
                 border: InputBorder.none,
                 isCollapsed: true,
               ),
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: const TextStyle(
+                fontSize: 16.0,
+              ),
               onSubmitted: (value) {
                 setState(() {
                   _text = value;
@@ -66,7 +68,12 @@ class _EditableTextState extends State<EditableText> {
                 }
               },
             )
-          : Text(_text),
+          : Text(
+              _text,
+              style: const TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
     );
   }
 }
