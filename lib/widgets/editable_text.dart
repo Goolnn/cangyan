@@ -35,17 +35,6 @@ class _EditableTextState extends State<EditableText> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: () {
-        if (!widget.editable) {
-          return;
-        }
-
-        setState(() {
-          _isEditing = true;
-
-          _controller = TextEditingController(text: _text);
-        });
-      },
       onLongPress: () {
         if (!widget.editable) {
           return;
@@ -55,10 +44,6 @@ class _EditableTextState extends State<EditableText> {
           _isEditing = true;
 
           _controller = TextEditingController(text: _text);
-          _controller.selection = TextSelection(
-            baseOffset: 0,
-            extentOffset: _controller.text.length,
-          );
         });
       },
       child: _isEditing
