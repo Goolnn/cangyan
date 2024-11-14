@@ -8,6 +8,9 @@ class Mark extends StatelessWidget {
   final double size;
   final void Function()? onPressed;
   final void Function()? onLongPressed;
+  final void Function(DragStartDetails)? onPanStart;
+  final void Function(DragEndDetails)? onPanEnd;
+  final void Function(DragUpdateDetails)? onPanUpdate;
 
   const Mark({
     super.key,
@@ -16,12 +19,18 @@ class Mark extends StatelessWidget {
     this.isDone = false,
     this.onPressed,
     this.onLongPressed,
+    this.onPanStart,
+    this.onPanEnd,
+    this.onPanUpdate,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: onLongPressed,
+      onPanStart: onPanStart,
+      onPanEnd: onPanEnd,
+      onPanUpdate: onPanUpdate,
       child: SizedBox.fromSize(
         size: Size.fromRadius(size),
         child: TweenAnimationBuilder(
