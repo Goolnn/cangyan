@@ -36,6 +36,11 @@ class _EditPageState extends State<EditPage> {
   Size? imageSize;
   Size? pageSize;
 
+  Offset? draggingStart;
+  Offset? draggingOffset;
+
+  bool dragging = false;
+
   @override
   void initState() {
     super.initState();
@@ -268,6 +273,67 @@ class _EditPageState extends State<EditPage> {
                             );
                           },
                         );
+                      },
+                      onPanStart: (detail) {
+                        draggingStart = Offset(
+                          page.notes[i].x,
+                          page.notes[i].y,
+                        );
+                      },
+                      onPanEnd: (detail) {
+                        draggingStart = null;
+                        draggingOffset = null;
+
+                        dragging = false;
+
+                        widget.state.moveNoteTo(
+                          noteIndex: BigInt.from(i),
+                          x: page.notes[i].x,
+                          y: page.notes[i].y,
+                        );
+                      },
+                      onPanUpdate: (detail) {
+                        final position = Offset(
+                          detail.localPosition.dx - size,
+                          detail.localPosition.dy - size,
+                        );
+
+                        const radius = 60.0;
+
+                        if (!dragging && position.distance >= radius) {
+                          draggingOffset = position;
+
+                          dragging = true;
+                        }
+
+                        if (dragging) {
+                          var coordiante = Offset(
+                            ((position.dx - draggingOffset!.dx) /
+                                pageSize!.width /
+                                scale *
+                                2.0),
+                            -((position.dy - draggingOffset!.dy) /
+                                pageSize!.height /
+                                scale *
+                                2.0),
+                          );
+
+                          setState(() {
+                            var noteX = draggingStart!.dx + coordiante.dx;
+                            var noteY = draggingStart!.dy + coordiante.dy;
+
+                            if (noteX.abs() > 1.0) {
+                              noteX = noteX.sign;
+                            }
+
+                            if (noteY.abs() > 1.0) {
+                              noteY = noteY.sign;
+                            }
+
+                            page.notes[i].x = noteX;
+                            page.notes[i].y = noteY;
+                          });
+                        }
                       },
                     ),
                   );
