@@ -4,6 +4,7 @@ import 'package:cangyan/core/cyfile.dart' as cangyan;
 import 'package:cangyan/core/states.dart' as cangyan;
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EditPage extends StatefulWidget {
   final cangyan.EditState state;
@@ -170,6 +171,8 @@ class _EditPageState extends State<EditPage> {
                             (position.dx / pageSize!.width * 2.0 - 1.0),
                             -(position.dy / pageSize!.height * 2.0 - 1.0),
                           );
+
+                          HapticFeedback.selectionClick();
 
                           widget.state.appendNote(
                             x: coordiante.dx,
