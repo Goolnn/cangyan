@@ -213,11 +213,14 @@ class _EditPageState extends State<EditPage> {
                     page.notes[i].y * pageSize!.height * scale / 2.0,
                   );
 
+                  const size = 16.0;
+
                   return Positioned(
-                    left: center.x + offset.dx - 16.0,
-                    top: center.y - offset.dy - 16.0,
+                    left: center.x + offset.dx - size,
+                    top: center.y - offset.dy - size,
                     child: cangyan.Mark(
                       index: i + 1,
+                      size: size,
                       onPressed: () {
                         setState(() {
                           openPad = true;
