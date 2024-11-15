@@ -236,6 +236,9 @@ class _InfoPageState extends State<InfoPage> {
                                           setState(() {
                                             cover = pages.first;
                                           });
+
+                                          widget.state
+                                              .setCover(cover: cover.bytes);
                                         }
                                       } else if (value case 2) {
                                         final images = (await platform
@@ -273,6 +276,9 @@ class _InfoPageState extends State<InfoPage> {
                                           setState(() {
                                             cover = pages.first;
                                           });
+
+                                          widget.state
+                                              .setCover(cover: cover.bytes);
                                         }
                                       }
                                     });
