@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class Input extends StatelessWidget {
+  final TextEditingController? controller;
+
   final String? placeholder;
 
   final void Function(String text)? onChanged;
 
   const Input({
     super.key,
+    this.controller,
     this.placeholder,
     this.onChanged,
   });
@@ -16,6 +19,7 @@ class Input extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
