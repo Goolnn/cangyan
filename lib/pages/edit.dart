@@ -160,7 +160,7 @@ class _EditPageState extends State<EditPage> {
                   return InteractiveViewer(
                     key: viewerKey,
                     transformationController: viewerController,
-                    minScale: 1.0,
+                    minScale: 0.5,
                     maxScale: 10.0,
                     boundaryMargin: margin,
                     child: Center(
