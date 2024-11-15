@@ -28,7 +28,9 @@ class _CreatePageState extends State<CreatePage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      insetPadding: const EdgeInsets.all(64.0),
+      insetPadding: EdgeInsets.all(
+        Platform.isAndroid ? 32.0 : 64.0,
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(
           maxWidth: 720.0,
