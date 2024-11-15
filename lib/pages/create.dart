@@ -53,7 +53,7 @@ class _CreatePageState extends State<CreatePage> {
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.grey,
+                      color: Colors.blueGrey,
                       width: 1.0,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
