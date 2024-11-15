@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:cangyan/core/cyfile.dart' as cangyan;
 import 'package:cangyan/core/states.dart' as cangyan;
 import 'package:cangyan/pages/info.dart';
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:cangyan/pages.dart' as cangyan;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
@@ -159,7 +163,35 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: GestureDetector(
         onLongPress: () async {
-          await platform.invokeMethod("openIntent");
+          if (Platform.isAndroid) {
+            await platform.invokeMethod("openIntent");
+          } else if (Platform.isWindows) {
+            final result = await FilePicker.platform.pickFiles(
+              type: FileType.custom,
+              allowedExtensions: ['cy'],
+              allowMultiple: true,
+              lockParentWindow: true,
+            );
+
+            if (result == null) {
+              return;
+            }
+
+            for (final path in result.paths) {
+              final file = File(path!);
+
+              final bytes = await file.readAsBytes();
+
+              final filename = path.split('\\').last;
+
+              final newFile = File(
+                  '${(await getApplicationDocumentsDirectory()).path}/cangyan/$filename');
+
+              await newFile.writeAsBytes(bytes);
+            }
+          }
+
+          setState(() {});
         },
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
