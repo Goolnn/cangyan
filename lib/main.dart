@@ -35,6 +35,9 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       title: "苍眼",
+      theme: ThemeData(
+        fontFamily: Platform.isWindows ? "Microsoft YaHei" : null,
+      ),
       home: HomePage(
         workspace: workspace,
       ),
