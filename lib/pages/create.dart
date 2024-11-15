@@ -43,26 +43,9 @@ class _CreatePageState extends State<CreatePage> {
                 ),
               ),
               const Divider(),
-              Row(
-                children: [
-                  const Text('标题：'),
-                  Expanded(
-                    child: TextField(
-                      controller: controller,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        isCollapsed: true,
-                        contentPadding: const EdgeInsets.all(4.0),
-                      ),
-                      onChanged: (text) {
-                        setState(() {});
-                      },
-                      style: const TextStyle(fontSize: 14.0),
-                    ),
-                  ),
-                ],
+              cangyan.Input(
+                placeholder: "标题",
+                onChanged: (text) => setState(() {}),
               ),
               const SizedBox(height: 8.0),
               Expanded(
