@@ -378,20 +378,29 @@ class _EditPageState extends State<EditPage> {
                         : -padWidth,
                     width: padWidth,
                     height: padHeight,
-                    child: cangyan.TextPad(
-                      widget.state,
-                      notes: page.notes,
-                      index: index,
-                      onEditing: () {
-                        setState(() {
-                          editing = true;
-                        });
+                    child: GestureDetector(
+                      onPanEnd: (details) {
+                        if (details.velocity.pixelsPerSecond.dy >= 800.0) {
+                          setState(() {
+                            openPad = false;
+                          });
+                        }
                       },
-                      onSubmitted: () {
-                        setState(() {
-                          editing = false;
-                        });
-                      },
+                      child: cangyan.TextPad(
+                        widget.state,
+                        notes: page.notes,
+                        index: index,
+                        onEditing: () {
+                          setState(() {
+                            editing = true;
+                          });
+                        },
+                        onSubmitted: () {
+                          setState(() {
+                            editing = false;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 );
