@@ -24,6 +24,12 @@ Future<void> main() async {
 
   if (Platform.isWindows) {
     workspace = "${(await getApplicationDocumentsDirectory()).path}/cangyan";
+
+    final directory = Directory(workspace);
+
+    if (!await directory.exists()) {
+      await directory.create();
+    }
   } else if (Platform.isAndroid) {
     workspace = (await getExternalStorageDirectory())?.path;
   }
