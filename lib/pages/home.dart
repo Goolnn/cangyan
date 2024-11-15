@@ -237,7 +237,7 @@ class _TileState extends State<_Tile> {
                   AspectRatio(
                     aspectRatio: 3.0 / 4.0,
                     child: cangyan.Image(
-                      image: widget.summary.cover(),
+                      provider: MemoryImage(widget.summary.cover()),
                     ),
                   ),
                   Positioned(

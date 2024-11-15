@@ -82,7 +82,7 @@ class _CreatePageState extends State<CreatePage> {
                                         AspectRatio(
                                           aspectRatio: 3.0 / 4.0,
                                           child: cangyan.Image(
-                                            image: images[i],
+                                            provider: MemoryImage(images[i]),
                                           ),
                                         ),
                                         const SizedBox(height: 4.0),

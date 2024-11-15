@@ -1,23 +1,21 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as flutter;
 
 class Image extends StatelessWidget {
   final double borderRadius = 8.0;
 
-  final Uint8List? image;
+  final ImageProvider? provider;
 
-  const Image({super.key, this.image});
+  const Image({super.key, this.provider});
 
   @override
   Widget build(BuildContext context) {
-    return image != null
+    return provider != null
         ? Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(borderRadius),
               child: flutter.Image(
-                image: MemoryImage(image!),
+                image: provider!,
               ),
             ),
           )
