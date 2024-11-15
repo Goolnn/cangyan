@@ -13,17 +13,19 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await windowManager.ensureInitialized();
+  if (Platform.isWindows) {
+    await windowManager.ensureInitialized();
 
-  WindowOptions options = const WindowOptions(
-    size: Size(960, 720),
-    minimumSize: Size(640, 480),
-    center: true,
-  );
+    WindowOptions options = const WindowOptions(
+      size: Size(960, 720),
+      minimumSize: Size(640, 480),
+      center: true,
+    );
 
-  windowManager.waitUntilReadyToShow(options, () async {
-    await windowManager.show();
-  });
+    windowManager.waitUntilReadyToShow(options, () async {
+      await windowManager.show();
+    });
+  }
 
   if (Platform.isAndroid) {
     SystemChrome.setSystemUIOverlayStyle(
