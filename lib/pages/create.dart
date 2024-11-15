@@ -131,6 +131,7 @@ class _CreatePageState extends State<CreatePage> {
                                 type: FileType.custom,
                                 allowedExtensions: ['jpg', 'jpeg', 'png'],
                                 allowMultiple: true,
+                                lockParentWindow: true,
                               );
 
                               if (result == null) {
