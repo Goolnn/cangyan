@@ -2,14 +2,41 @@ import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
   final String text;
+  final ButtonType type;
+  final Function()? onPressed;
 
   const Button(
     this.text, {
     super.key,
+    this.type = ButtonType.standard,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor;
+    Color foregroundColor;
+    Color borderColor;
+
+    switch (type) {
+      case ButtonType.primary:
+        backgroundColor = Colors.blue;
+        foregroundColor = Colors.white;
+        borderColor = Colors.blue;
+        break;
+      case ButtonType.standard:
+        backgroundColor = Colors.white;
+        foregroundColor = Colors.black;
+        borderColor = Colors.grey;
+        break;
+    }
+
+    if (onPressed == null) {
+      backgroundColor = Colors.grey.shade400;
+      borderColor = Colors.grey.shade400;
+      foregroundColor = Colors.white;
+    }
+
     return RawMaterialButton(
       elevation: 0.0,
       focusElevation: 0.0,
@@ -22,19 +49,27 @@ class Button extends StatelessWidget {
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
-        side: const BorderSide(
-          color: Colors.grey,
+        side: BorderSide(
+          color: borderColor,
           width: 1.0,
         ),
       ),
-      fillColor: Colors.white,
+      fillColor: backgroundColor,
+      textStyle: TextStyle(
+        color: foregroundColor,
+      ),
       padding: const EdgeInsets.symmetric(
         horizontal: 8.0,
         vertical: 4.0,
       ),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text(text),
     );
   }
+}
+
+enum ButtonType {
+  primary,
+  standard,
 }
