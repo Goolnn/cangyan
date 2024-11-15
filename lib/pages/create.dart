@@ -67,8 +67,8 @@ class _CreatePageState extends State<CreatePage> {
                   ),
                   child: Stack(
                     children: [
-                      Align(
-                        alignment: Alignment.topLeft,
+                      SizedBox(
+                        width: double.infinity,
                         child: SingleChildScrollView(
                           child: Wrap(
                             children: [
