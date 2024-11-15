@@ -28,8 +28,12 @@ class _CreatePageState extends State<CreatePage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: SizedBox(
-        height: 512.0,
+      insetPadding: const EdgeInsets.all(64.0),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 720.0,
+          maxHeight: 540.0,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
