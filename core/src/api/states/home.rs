@@ -33,9 +33,11 @@ impl HomeState {
                 }
 
                 let path = entry.path();
-                let file = File::open(path)?;
+                let file = File::open(path);
 
-                self.files.push(Arc::new(Mutex::from(file)));
+                if let Ok(file) = file {
+                    self.files.push(Arc::new(Mutex::from(file)));
+                }
             }
         }
 
