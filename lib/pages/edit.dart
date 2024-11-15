@@ -42,6 +42,8 @@ class _EditPageState extends State<EditPage> {
 
   bool dragging = false;
 
+  final focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -157,44 +159,57 @@ class _EditPageState extends State<EditPage> {
                     });
                   }
 
-                  return InteractiveViewer(
-                    key: viewerKey,
-                    transformationController: viewerController,
-                    minScale: 0.5,
-                    maxScale: 10.0,
-                    boundaryMargin: margin,
-                    child: Center(
-                      child: GestureDetector(
-                        onLongPressStart: (details) {
-                          final position = details.localPosition;
-                          final coordiante = Offset(
-                            (position.dx / pageSize!.width * 2.0 - 1.0),
-                            -(position.dy / pageSize!.height * 2.0 - 1.0),
-                          );
-
-                          HapticFeedback.selectionClick();
-
-                          widget.state.appendNote(
-                            x: coordiante.dx,
-                            y: coordiante.dy,
-                          );
-
+                  return Listener(
+                    onPointerDown: (event) {
+                      if (event.buttons == 2) {
+                        if (openPad) {
                           setState(() {
-                            page.notes.add(cangyan.Note(
+                            openPad = false;
+                          });
+                        } else {
+                          Navigator.pop(context);
+                        }
+                      }
+                    },
+                    child: InteractiveViewer(
+                      key: viewerKey,
+                      transformationController: viewerController,
+                      minScale: 0.5,
+                      maxScale: 10.0,
+                      boundaryMargin: margin,
+                      child: Center(
+                        child: GestureDetector(
+                          onLongPressStart: (details) {
+                            final position = details.localPosition;
+                            final coordiante = Offset(
+                              (position.dx / pageSize!.width * 2.0 - 1.0),
+                              -(position.dy / pageSize!.height * 2.0 - 1.0),
+                            );
+
+                            HapticFeedback.selectionClick();
+
+                            widget.state.appendNote(
                               x: coordiante.dx,
                               y: coordiante.dy,
-                              choice: 0,
-                              texts: [
-                                cangyan.Text(
-                                  content: '',
-                                  comment: '',
-                                )
-                              ],
-                            ));
-                          });
-                        },
-                        child: Image(
-                          image: image,
+                            );
+
+                            setState(() {
+                              page.notes.add(cangyan.Note(
+                                x: coordiante.dx,
+                                y: coordiante.dy,
+                                choice: 0,
+                                texts: [
+                                  cangyan.Text(
+                                    content: '',
+                                    comment: '',
+                                  )
+                                ],
+                              ));
+                            });
+                          },
+                          child: Image(
+                            image: image,
+                          ),
                         ),
                       ),
                     ),
@@ -371,8 +386,8 @@ class _EditPageState extends State<EditPage> {
                     }
                   },
                   child: AnimatedPositioned(
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOutCubic,
+                    duration: const Duration(milliseconds: 300),
+                    curve: openPad ? Curves.easeOutCubic : Curves.easeInCubic,
                     bottom: openPad
                         ? MediaQuery.of(context).viewInsets.bottom
                         : -padWidth,
