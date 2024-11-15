@@ -176,6 +176,7 @@ class _EditPageState extends State<EditPage> {
                       transformationController: viewerController,
                       minScale: 0.5,
                       maxScale: 10.0,
+                      scaleFactor: 500.0,
                       boundaryMargin: margin,
                       child: Center(
                         child: GestureDetector(
