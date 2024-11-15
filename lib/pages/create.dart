@@ -51,6 +51,7 @@ class _CreatePageState extends State<CreatePage> {
               ),
               const Divider(),
               cangyan.Input(
+                controller: controller,
                 placeholder: "标题",
                 onChanged: (text) => setState(() {}),
               ),
@@ -160,13 +161,15 @@ class _CreatePageState extends State<CreatePage> {
                 child: Wrap(
                   spacing: 8.0,
                   children: [
-                    FilledButton.tonal(
+                    cangyan.Button(
+                      '取消',
                       onPressed: () {
                         Navigator.of(context).pop(false);
                       },
-                      child: const Text('取消'),
                     ),
-                    FilledButton(
+                    cangyan.Button(
+                      '创建',
+                      type: cangyan.ButtonType.primary,
                       onPressed: controller.text.isEmpty || images.isEmpty
                           ? null
                           : () {
@@ -177,7 +180,6 @@ class _CreatePageState extends State<CreatePage> {
 
                               Navigator.of(context).pop(true);
                             },
-                      child: const Text('创建'),
                     ),
                   ],
                 ),
