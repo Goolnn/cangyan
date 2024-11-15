@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class Input extends StatelessWidget {
@@ -20,7 +22,10 @@ class Input extends StatelessWidget {
         ),
         isDense: true,
         isCollapsed: true,
-        contentPadding: const EdgeInsets.all(10.0),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 10.0,
+          vertical: Platform.isAndroid ? 6.0 : 10.0,
+        ),
         hintText: placeholder,
         hintStyle: const TextStyle(
           color: Colors.grey,
