@@ -20,17 +20,36 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
+  late final MemoryImage cover;
+
+  late final List<MemoryImage> pages;
+
   @override
   void initState() {
     super.initState();
+
+    cover = MemoryImage(widget.state.summary().cover());
+
+    pages = widget.state.summary().pages().map((page) {
+      return MemoryImage(page);
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final summary = widget.state.summary();
-    final pages = summary.pages();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+        surfaceTintColor: Colors.transparent,
+        toolbarHeight: 48.0,
+        title: Text(summary.title()),
+        titleTextStyle: const TextStyle(
+          fontSize: 18.0,
+          color: Colors.black,
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -39,7 +58,9 @@ class _InfoPageState extends State<InfoPage> {
               children: [
                 SizedBox(
                   height: 256.0 + 64.0,
-                  child: Image.memory(summary.cover()),
+                  child: Image(
+                    image: cover,
+                  ),
                 ),
                 const Divider(),
                 Padding(
@@ -54,7 +75,9 @@ class _InfoPageState extends State<InfoPage> {
                             child: cangyan.EditableText(
                               summary.title(),
                               onSubmitted: (text) {
-                                widget.state.setTitle(title: text);
+                                setState(() {
+                                  widget.state.setTitle(title: text);
+                                });
                               },
                             ),
                           ),
@@ -202,7 +225,10 @@ class _InfoPageState extends State<InfoPage> {
                                           );
 
                                           setState(() {
-                                            pages.insert(i, image);
+                                            pages.insert(
+                                              i,
+                                              MemoryImage(image),
+                                            );
                                           });
                                         }
                                       } else if (value case 2) {
@@ -222,7 +248,10 @@ class _InfoPageState extends State<InfoPage> {
                                           );
 
                                           setState(() {
-                                            pages.insert(i + 1, image);
+                                            pages.insert(
+                                              i + 1,
+                                              MemoryImage(image),
+                                            );
                                           });
                                         }
                                       } else if (value case 3) {
@@ -239,7 +268,7 @@ class _InfoPageState extends State<InfoPage> {
                                   child: AspectRatio(
                                     aspectRatio: 3.0 / 4.0,
                                     child: cangyan.Image(
-                                      image: pages[i],
+                                      provider: pages[i],
                                     ),
                                   ),
                                 ),
