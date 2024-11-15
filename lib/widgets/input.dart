@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 class Input extends StatelessWidget {
   final String? placeholder;
 
+  final void Function(String text)? onChanged;
+
   const Input({
     super.key,
     this.placeholder,
+    this.onChanged,
   });
 
   @override
@@ -24,6 +27,7 @@ class Input extends StatelessWidget {
         ),
       ),
       style: Theme.of(context).textTheme.bodyMedium,
+      onChanged: onChanged,
     );
   }
 }
