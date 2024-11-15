@@ -33,6 +33,9 @@ class Input extends StatelessWidget {
       ),
       style: Theme.of(context).textTheme.bodyMedium,
       onChanged: onChanged,
+      onTapOutside: (event) {
+        FocusScope.of(context).unfocus();
+      },
     );
   }
 }
