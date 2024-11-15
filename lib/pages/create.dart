@@ -74,7 +74,7 @@ class _CreatePageState extends State<CreatePage> {
                             children: [
                               for (int i = 0; i < images.length; i++)
                                 FractionallySizedBox(
-                                  widthFactor: 1.0 / 3.0,
+                                  widthFactor: 1 / (Platform.isAndroid ? 3 : 5),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
