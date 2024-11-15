@@ -35,11 +35,12 @@ class _CreatePageState extends State<CreatePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Align(
-                alignment: Alignment.centerLeft,
+              const Center(
                 child: Text(
                   '新建项目',
-                  style: TextStyle(fontSize: 20.0),
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
                 ),
               ),
               const Divider(),
