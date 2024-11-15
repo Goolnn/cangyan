@@ -20,7 +20,7 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
-  late final MemoryImage cover;
+  late MemoryImage cover;
 
   late final List<MemoryImage> pages;
 
@@ -231,6 +231,12 @@ class _InfoPageState extends State<InfoPage> {
                                             );
                                           });
                                         }
+
+                                        if (i == 0) {
+                                          setState(() {
+                                            cover = pages.first;
+                                          });
+                                        }
                                       } else if (value case 2) {
                                         final images = (await platform
                                                 .invokeListMethod("openImages"))
@@ -262,6 +268,12 @@ class _InfoPageState extends State<InfoPage> {
                                         setState(() {
                                           pages.removeAt(i);
                                         });
+
+                                        if (i == 0) {
+                                          setState(() {
+                                            cover = pages.first;
+                                          });
+                                        }
                                       }
                                     });
                                   },
