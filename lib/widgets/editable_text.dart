@@ -47,26 +47,45 @@ class _EditableTextState extends State<EditableText> {
         });
       },
       child: _isEditing
-          ? TextField(
-              autofocus: true,
-              controller: _controller,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                isCollapsed: true,
-              ),
-              style: const TextStyle(
-                fontSize: 16.0,
-              ),
-              onSubmitted: (value) {
-                setState(() {
-                  _text = value;
-                  _isEditing = false;
-                });
+          ? PopScope(
+              canPop: false,
+              onPopInvokedWithResult: (didPop, result) {
+                if (didPop) {
+                  return;
+                }
 
-                if (widget.onSubmitted != null) {
-                  widget.onSubmitted!(value);
+                if (_isEditing) {
+                  setState(() {
+                    _text = _controller.text;
+                    _isEditing = false;
+                  });
+
+                  if (widget.onSubmitted != null) {
+                    widget.onSubmitted!(_controller.text);
+                  }
                 }
               },
+              child: TextField(
+                autofocus: true,
+                controller: _controller,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  isCollapsed: true,
+                ),
+                style: const TextStyle(
+                  fontSize: 16.0,
+                ),
+                onSubmitted: (value) {
+                  setState(() {
+                    _text = value;
+                    _isEditing = false;
+                  });
+
+                  if (widget.onSubmitted != null) {
+                    widget.onSubmitted!(value);
+                  }
+                },
+              ),
             )
           : Text(
               _text,
