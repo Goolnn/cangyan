@@ -17,17 +17,20 @@ class Button extends StatelessWidget {
     Color backgroundColor;
     Color foregroundColor;
     Color borderColor;
+    double borderSize;
 
     switch (type) {
       case ButtonType.primary:
         backgroundColor = Colors.blue;
         foregroundColor = Colors.white;
         borderColor = Colors.blue;
+        borderSize = 0.0;
         break;
       case ButtonType.standard:
         backgroundColor = Colors.white;
         foregroundColor = Colors.black;
         borderColor = Colors.grey;
+        borderSize = 1.0;
         break;
     }
 
@@ -51,7 +54,7 @@ class Button extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         side: BorderSide(
           color: borderColor,
-          width: 1.0,
+          width: borderSize,
         ),
       ),
       fillColor: backgroundColor,
