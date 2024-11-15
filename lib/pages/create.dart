@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:cangyan/core.dart' as cangyan;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -107,19 +110,46 @@ class _CreatePageState extends State<CreatePage> {
                         child: FloatingActionButton.small(
                           shape: const CircleBorder(),
                           onPressed: () async {
-                            final images =
-                                (await platform.invokeListMethod("openImages"))
-                                    ?.map((image) => image as Uint8List)
-                                    .toList();
+                            if (Platform.isAndroid) {
+                              final images = (await platform
+                                      .invokeListMethod("openImages"))
+                                  ?.map((image) => image as Uint8List)
+                                  .toList();
 
-                            if (images == null) {
-                              return;
-                            }
+                              if (images == null) {
+                                return;
+                              }
 
-                            for (final image in images) {
-                              setState(() {
-                                this.images.add(image);
-                              });
+                              for (final image in images) {
+                                setState(() {
+                                  this.images.add(image);
+                                });
+                              }
+                            } else if (Platform.isWindows) {
+                              final result =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ['jpg', 'jpeg', 'png'],
+                                allowMultiple: true,
+                              );
+
+                              if (result == null) {
+                                return;
+                              }
+
+                              final images = await Future.wait(
+                                result.paths.map((path) async {
+                                  final file = File(path!);
+
+                                  return await file.readAsBytes();
+                                }),
+                              );
+
+                              for (final image in images) {
+                                setState(() {
+                                  this.images.add(image);
+                                });
+                              }
                             }
                           },
                           child: const Icon(Icons.add),
