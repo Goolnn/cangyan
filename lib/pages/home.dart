@@ -70,6 +70,10 @@ class _HomePageState extends State<HomePage> {
                 return _Tile(summaries[index], onDelete: () {
                   showModalBottomSheet(
                     context: context,
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
                     builder: (context) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
@@ -89,7 +93,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                           ListTile(
                             leading: const Icon(Icons.delete),
-                            title: const Text('删除'),
+                            title: const Text(
+                              '删除',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
                             onTap: () {
                               Navigator.pop(context);
 
@@ -128,33 +137,6 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   );
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (context) {
-                  //     return AlertDialog(
-                  //       title: const Text('删除项目'),
-                  //       content: const Text('是否删除项目？'),
-                  //       actions: [
-                  //         TextButton(
-                  //           onPressed: () {
-                  //             Navigator.pop(context);
-                  //           },
-                  //           child: const Text('取消'),
-                  //         ),
-                  //         TextButton(
-                  //           onPressed: () {
-                  //             setState(() {
-                  //               widget.state.delete(index: BigInt.from(index));
-                  //             });
-
-                  //             Navigator.pop(context);
-                  //           },
-                  //           child: const Text('确定'),
-                  //         ),
-                  //       ],
-                  //     );
-                  //   },
-                  // );
                 });
               },
             );
