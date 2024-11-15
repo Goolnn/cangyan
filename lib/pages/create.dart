@@ -91,7 +91,9 @@ class _CreatePageState extends State<CreatePage> {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(
+                            Platform.isAndroid ? 8.0 : 16.0,
+                          ),
                           child: FloatingActionButton.small(
                             shape: const CircleBorder(),
                             onPressed: () async {
