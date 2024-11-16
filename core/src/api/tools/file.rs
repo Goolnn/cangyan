@@ -12,7 +12,7 @@ pub struct File {
 }
 
 impl File {
-    #[frb(ignore)]
+    #[frb(sync)]
     pub fn rename(&mut self, title: String) -> anyhow::Result<()> {
         let file_name = format!("{}.cy", title);
 
