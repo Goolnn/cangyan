@@ -3,23 +3,28 @@ use crate::api::tools::File;
 use cyfile::ExportArguments;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
+use std::sync::Arc;
+use std::sync::Mutex;
 
 #[frb(opaque)]
 pub struct Workspace {
     path: PathBuf,
+
+    files: Vec<Arc<Mutex<File>>>,
 }
 
 impl Workspace {
     #[frb(sync)]
     pub fn new(path: String) -> Self {
         let path = PathBuf::from(path);
+        let files = Vec::new();
 
-        Workspace { path }
+        Workspace { path, files }
     }
 
     #[frb(ignore)]
-    pub fn load(&self) -> anyhow::Result<Vec<File>> {
-        let mut files = Vec::new();
+    pub fn load(&mut self) -> anyhow::Result<Vec<Arc<Mutex<File>>>> {
+        self.files.clear();
 
         if let Ok(entries) = self.path.read_dir() {
             for entry in entries.flatten() {
@@ -32,15 +37,16 @@ impl Workspace {
 
                 if let Ok(file) = file {
                     let project = Project::from(&file);
+                    let file = Arc::new(Mutex::new(File { project, path }));
 
-                    files.push(File { project, path });
+                    self.files.push(file);
                 } else {
                     std::fs::remove_file(path)?;
                 }
             }
         }
 
-        Ok(files)
+        Ok(self.files.clone())
     }
 
     #[frb(ignore)]
