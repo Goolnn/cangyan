@@ -1,13 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class NotePad extends StatefulWidget {
-  final bool show;
-
   final Widget child;
 
   const NotePad({
     super.key,
-    this.show = false,
     required this.child,
   });
 
@@ -18,7 +17,11 @@ class NotePad extends StatefulWidget {
 class _NotePadState extends State<NotePad> {
   final key = GlobalKey();
 
+  bool show = true;
+
   Size? size;
+
+  double? dragging;
 
   @override
   void initState() {
@@ -42,19 +45,54 @@ class _NotePadState extends State<NotePad> {
             widget.child,
             if (size != null)
               AnimatedPositioned(
-                duration: const Duration(milliseconds: 300),
-                bottom: widget.show ? 0.0 : -size!.height,
+                curve: show ? Curves.easeInQuad : Curves.easeOutQuad,
+                duration: dragging != null
+                    ? const Duration()
+                    : const Duration(milliseconds: 350),
+                bottom: show
+                    ? (dragging != null ? min(0.0, -dragging!) : 0.0)
+                    : -size!.height,
                 child: SizedBox(
                   width: size!.width,
                   height: size!.height,
-                  child: const Card(
+                  child: Card(
                     elevation: 8.0,
                     child: Column(
                       children: [
-                        FractionallySizedBox(
-                          widthFactor: 0.2,
-                          child: Divider(
-                            thickness: 1.5,
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onPanStart: (details) {
+                            setState(() {
+                              dragging = 0.0;
+                            });
+                          },
+                          onPanUpdate: (details) {
+                            setState(() {
+                              dragging = details.localPosition.dy;
+                            });
+                          },
+                          onPanEnd: (details) {
+                            final v = details.velocity.pixelsPerSecond.dy;
+
+                            final line = size!.height / 2.0;
+
+                            if (v >= 1000.0 || dragging! >= line) {
+                              setState(() {
+                                show = false;
+                              });
+                            }
+
+                            setState(() {
+                              dragging = null;
+                            });
+                          },
+                          child: const Center(
+                            child: FractionallySizedBox(
+                              widthFactor: 0.2,
+                              child: Divider(
+                                thickness: 1.5,
+                              ),
+                            ),
                           ),
                         ),
                       ],
