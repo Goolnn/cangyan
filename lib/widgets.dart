@@ -5,7 +5,7 @@ export 'package:cangyan/widgets/editable_text.dart';
 export 'package:cangyan/widgets/image.dart';
 export 'package:cangyan/widgets/input.dart';
 export 'package:cangyan/widgets/mark.dart';
-export 'package:cangyan/widgets/note_pad.dart';
+export 'package:cangyan/widgets/drawer.dart';
 export 'package:cangyan/widgets/progress.dart';
 export 'package:cangyan/widgets/text_pad.dart';
 export 'package:cangyan/widgets/title.dart';

@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class Drawer extends StatefulWidget {
   final Widget child;
+  final Widget? board;
 
   const Drawer({
     super.key,
     required this.child,
+    this.board,
   });
 
   @override
@@ -17,7 +19,7 @@ class Drawer extends StatefulWidget {
 class _DrawerState extends State<Drawer> {
   final key = GlobalKey();
 
-  bool show = true;
+  bool show = false;
 
   Size? size;
 
@@ -104,6 +106,9 @@ class _DrawerState extends State<Drawer> {
                                 ),
                               ),
                             ),
+                          ),
+                          Expanded(
+                            child: widget.board ?? Container(),
                           ),
                         ],
                       ),
