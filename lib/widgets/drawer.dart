@@ -11,8 +11,8 @@ class Drawer extends StatefulWidget {
   const Drawer({
     super.key,
     this.controller,
-    required this.child,
     this.board,
+    required this.child,
   });
 
   @override
