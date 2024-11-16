@@ -94,7 +94,7 @@ class _DrawerState extends State<Drawer> {
                         children: [
                           GestureDetector(
                             behavior: HitTestBehavior.opaque,
-                            onPanStart: (details) {
+                            onPanDown: (details) {
                               setState(() {
                                 dragging = 0.0;
                               });
