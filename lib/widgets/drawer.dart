@@ -22,6 +22,7 @@ class Drawer extends StatefulWidget {
 class _DrawerState extends State<Drawer> {
   final key = GlobalKey();
 
+  Curve curve = Curves.easeOutCubic;
   bool show = false;
 
   Size? size;
@@ -36,6 +37,12 @@ class _DrawerState extends State<Drawer> {
       widget.controller!.addListener(() {
         setState(() {
           show = widget.controller!.open;
+
+          if (show) {
+            curve = Curves.easeOutCubic;
+          } else {
+            curve = Curves.easeInCubic;
+          }
         });
       });
     }
@@ -54,6 +61,8 @@ class _DrawerState extends State<Drawer> {
 
         setState(() {
           show = false;
+
+          curve = Curves.easeInCubic;
         });
       },
       child: NotificationListener<SizeChangedLayoutNotification>(
@@ -69,7 +78,7 @@ class _DrawerState extends State<Drawer> {
               widget.child,
               if (size != null)
                 AnimatedPositioned(
-                  curve: Curves.easeOutCubic,
+                  curve: curve,
                   duration: dragging != null
                       ? const Duration()
                       : const Duration(milliseconds: 300),
@@ -102,6 +111,8 @@ class _DrawerState extends State<Drawer> {
                               if (v >= 1000.0 || dragging! >= l) {
                                 setState(() {
                                   show = false;
+
+                                  curve = Curves.easeOutCubic;
                                 });
                               }
 
