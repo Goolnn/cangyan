@@ -3,11 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Drawer extends StatefulWidget {
+  final DrawerController? controller;
+
   final Widget child;
   final Widget? board;
 
   const Drawer({
     super.key,
+    this.controller,
     required this.child,
     this.board,
   });
@@ -28,6 +31,14 @@ class _DrawerState extends State<Drawer> {
   @override
   void initState() {
     super.initState();
+
+    if (widget.controller != null) {
+      widget.controller!.addListener(() {
+        setState(() {
+          show = widget.controller!.open;
+        });
+      });
+    }
 
     updateSize();
   }
@@ -139,5 +150,25 @@ class _DrawerState extends State<Drawer> {
         this.size = size;
       });
     });
+  }
+}
+
+class DrawerController extends ChangeNotifier {
+  bool open;
+
+  DrawerController({
+    this.open = false,
+  });
+
+  void show() {
+    open = true;
+
+    notifyListeners();
+  }
+
+  void hide() {
+    open = false;
+
+    notifyListeners();
   }
 }
