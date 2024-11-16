@@ -176,6 +176,7 @@ class _InfoPageState extends State<InfoPage> {
                                       context,
                                       MaterialPageRoute(builder: (context) {
                                         return EditPage(
+                                          pages[i],
                                           state: editState,
                                         );
                                       }),
