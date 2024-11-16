@@ -22,6 +22,7 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
+  final drawerController = cangyan.DrawerController();
   final viewerController = TransformationController();
   final viewerKey = GlobalKey();
 
@@ -113,6 +114,7 @@ class _EditPageState extends State<EditPage> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: cangyan.Drawer(
+          controller: drawerController,
           board: null,
           child: Stack(
             children: [
@@ -251,7 +253,8 @@ class _EditPageState extends State<EditPage> {
                         size: size,
                         onPressed: () {
                           setState(() {
-                            openPad = true;
+                            drawerController.show();
+
                             index = i;
                           });
                         },
