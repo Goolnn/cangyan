@@ -42,13 +42,21 @@ impl Workspace {
     }
 
     #[frb(sync)]
-    pub fn create(&self, title: String, images: Vec<Vec<u8>>) -> anyhow::Result<()> {
+    pub fn create(&self, title: String, images: Vec<Vec<u8>>) -> anyhow::Result<File> {
         let path = self.path.join(format!("{}.cy", title));
 
         let pages = images.into_iter().map(cyfile::Page::new).collect();
         let project = cyfile::Project::new().with_pages(pages);
 
-        cyfile::File::export(&project, ExportArguments::new(path).with_version((0, 1)))
+        cyfile::File::export(
+            &project,
+            ExportArguments::new(path.as_path()).with_version((0, 1)),
+        )?;
+
+        let project = Project::from(&project);
+        let file = File { project, path };
+
+        Ok(file)
     }
 
     #[frb(sync)]
