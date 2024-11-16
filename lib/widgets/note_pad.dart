@@ -32,75 +32,86 @@ class _NotePadState extends State<NotePad> {
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<SizeChangedLayoutNotification>(
-      onNotification: (notification) {
-        updateSize();
+    return PopScope(
+      canPop: !show,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          return;
+        }
 
-        return true;
+        setState(() {
+          show = false;
+        });
       },
-      child: SizeChangedLayoutNotifier(
-        child: Stack(
-          key: key,
-          children: [
-            widget.child,
-            if (size != null)
-              AnimatedPositioned(
-                curve: show ? Curves.easeInQuad : Curves.easeOutQuad,
-                duration: dragging != null
-                    ? const Duration()
-                    : const Duration(milliseconds: 350),
-                bottom: show
-                    ? (dragging != null ? min(0.0, -dragging!) : 0.0)
-                    : -size!.height,
-                child: SizedBox(
-                  width: size!.width,
-                  height: size!.height,
-                  child: Card(
-                    elevation: 8.0,
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onPanStart: (details) {
-                            setState(() {
-                              dragging = 0.0;
-                            });
-                          },
-                          onPanUpdate: (details) {
-                            setState(() {
-                              dragging = details.localPosition.dy;
-                            });
-                          },
-                          onPanEnd: (details) {
-                            final v = details.velocity.pixelsPerSecond.dy;
+      child: NotificationListener<SizeChangedLayoutNotification>(
+        onNotification: (notification) {
+          updateSize();
 
-                            final line = size!.height / 2.0;
-
-                            if (v >= 1000.0 || dragging! >= line) {
+          return true;
+        },
+        child: SizeChangedLayoutNotifier(
+          child: Stack(
+            key: key,
+            children: [
+              widget.child,
+              if (size != null)
+                AnimatedPositioned(
+                  curve: show ? Curves.easeInQuad : Curves.easeOutQuad,
+                  duration: dragging != null
+                      ? const Duration()
+                      : const Duration(milliseconds: 350),
+                  bottom: show
+                      ? (dragging != null ? min(0.0, -dragging!) : 0.0)
+                      : -size!.height,
+                  child: SizedBox(
+                    width: size!.width,
+                    height: size!.height,
+                    child: Card(
+                      elevation: 8.0,
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onPanStart: (details) {
                               setState(() {
-                                show = false;
+                                dragging = 0.0;
                               });
-                            }
+                            },
+                            onPanUpdate: (details) {
+                              setState(() {
+                                dragging = details.localPosition.dy;
+                              });
+                            },
+                            onPanEnd: (details) {
+                              final v = details.velocity.pixelsPerSecond.dy;
+                              final l = size!.height / 2.0;
 
-                            setState(() {
-                              dragging = null;
-                            });
-                          },
-                          child: const Center(
-                            child: FractionallySizedBox(
-                              widthFactor: 0.2,
-                              child: Divider(
-                                thickness: 1.5,
+                              if (v >= 1000.0 || dragging! >= l) {
+                                setState(() {
+                                  show = false;
+                                });
+                              }
+
+                              setState(() {
+                                dragging = null;
+                              });
+                            },
+                            child: const Center(
+                              child: FractionallySizedBox(
+                                widthFactor: 0.2,
+                                child: Divider(
+                                  thickness: 1.5,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-          ],
+                )
+            ],
+          ),
         ),
       ),
     );
