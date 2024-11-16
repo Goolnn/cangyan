@@ -17,6 +17,7 @@ impl Workspace {
         Workspace { path }
     }
 
+    #[frb(ignore)]
     pub fn load(&self) -> anyhow::Result<Vec<File>> {
         let mut files = Vec::new();
 
@@ -42,7 +43,7 @@ impl Workspace {
         Ok(files)
     }
 
-    #[frb(sync)]
+    #[frb(ignore)]
     pub fn create(&self, title: String, images: Vec<Vec<u8>>) -> anyhow::Result<File> {
         let path = self.path.join(format!("{}.cy", title));
 
@@ -60,7 +61,7 @@ impl Workspace {
         Ok(file)
     }
 
-    #[frb(sync)]
+    #[frb(ignore)]
     pub fn import(&self, title: String, data: Vec<u8>) -> anyhow::Result<()> {
         let path = self.path.join(format!("{}.cy", title));
 
@@ -69,7 +70,7 @@ impl Workspace {
         Ok(())
     }
 
-    #[frb(sync)]
+    #[frb(ignore)]
     pub fn check(&self, title: String) -> anyhow::Result<bool> {
         let path = self.path.join(format!("{}.cy", title));
 
