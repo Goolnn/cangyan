@@ -2,19 +2,19 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class NotePad extends StatefulWidget {
+class Drawer extends StatefulWidget {
   final Widget child;
 
-  const NotePad({
+  const Drawer({
     super.key,
     required this.child,
   });
 
   @override
-  State<NotePad> createState() => _NotePadState();
+  State<Drawer> createState() => _DrawerState();
 }
 
-class _NotePadState extends State<NotePad> {
+class _DrawerState extends State<Drawer> {
   final key = GlobalKey();
 
   bool show = true;
@@ -59,7 +59,7 @@ class _NotePadState extends State<NotePad> {
                   curve: show ? Curves.easeInQuad : Curves.easeOutQuad,
                   duration: dragging != null
                       ? const Duration()
-                      : const Duration(milliseconds: 350),
+                      : const Duration(milliseconds: 300),
                   bottom: show
                       ? (dragging != null ? min(0.0, -dragging!) : 0.0)
                       : -size!.height,
