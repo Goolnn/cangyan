@@ -1,4 +1,5 @@
 use crate::api::cyfile::Project;
+use cyfile::ExportArguments;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 
@@ -38,6 +39,32 @@ impl Workspace {
         }
 
         Ok(files)
+    }
+
+    #[frb(sync)]
+    pub fn create(&self, title: String, images: Vec<Vec<u8>>) -> anyhow::Result<()> {
+        let path = self.path.join(format!("{}.cy", title));
+
+        let pages = images.into_iter().map(cyfile::Page::new).collect();
+        let project = cyfile::Project::new().with_pages(pages);
+
+        cyfile::File::export(&project, ExportArguments::new(path).with_version((0, 1)))
+    }
+
+    #[frb(sync)]
+    pub fn import(&self, title: String, data: Vec<u8>) -> anyhow::Result<()> {
+        let path = self.path.join(format!("{}.cy", title));
+
+        std::fs::write(path, data)?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn check(&self, title: String) -> anyhow::Result<bool> {
+        let path = self.path.join(format!("{}.cy", title));
+
+        Ok(path.exists())
     }
 }
 
