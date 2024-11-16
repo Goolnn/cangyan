@@ -69,7 +69,7 @@ class _DrawerState extends State<Drawer> {
               widget.child,
               if (size != null)
                 AnimatedPositioned(
-                  curve: show ? Curves.easeInQuad : Curves.easeOutQuad,
+                  curve: Curves.easeOutCubic,
                   duration: dragging != null
                       ? const Duration()
                       : const Duration(milliseconds: 300),
