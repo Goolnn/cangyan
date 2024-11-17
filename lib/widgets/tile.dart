@@ -3,30 +3,28 @@ import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class Tile extends StatefulWidget {
+  final MemoryImage cover;
+
   final cangyan.Summary summary;
 
   final Function()? onPress;
   final Function()? onLongPress;
 
-  const Tile({
+  Tile({
     super.key,
     required this.summary,
     this.onPress,
     this.onLongPress,
-  });
+  }) : cover = MemoryImage(summary.cover());
 
   @override
   State<Tile> createState() => _TileState();
 }
 
 class _TileState extends State<Tile> {
-  late MemoryImage cover;
-
   @override
   void initState() {
     super.initState();
-
-    cover = MemoryImage(widget.summary.cover());
   }
 
   @override
@@ -44,7 +42,7 @@ class _TileState extends State<Tile> {
                     AspectRatio(
                       aspectRatio: 3.0 / 4.0,
                       child: cangyan.Image(
-                        provider: cover,
+                        provider: widget.cover,
                       ),
                     ),
                     Positioned(
