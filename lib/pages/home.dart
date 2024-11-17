@@ -69,110 +69,97 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       return cangyan.Tile(
                         summary: summaries[index],
+                        onPress: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) {
+                          //       return cangyan.ViewPage(
+                          //         widget.state.view(
+                          //           index: BigInt.from(index),
+                          //         ),
+                          //       );
+                          //     },
+                          //   ),
+                          // );
+                        },
+                        onLongPress: () {
+                          showModalBottomSheet(
+                            context: context,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    leading: const Icon(Icons.share),
+                                    title: const Text('分享'),
+                                    onTap: () {
+                                      // final filepath = widget.state.filepath(
+                                      //   index: BigInt.from(index),
+                                      // );
+
+                                      // Share.shareXFiles([XFile(filepath)]);
+
+                                      // Navigator.pop(context);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: const Icon(Icons.delete),
+                                    title: const Text(
+                                      '删除',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.pop(context);
+
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text('删除项目'),
+                                            content: const Text('是否删除项目？'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('取消'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  // setState(() {
+                                                  //   widget.state.delete(
+                                                  //     index: BigInt.from(index),
+                                                  //   );
+                                                  // });
+
+                                                  // Navigator.pop(context);
+                                                },
+                                                child: const Text('确定'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                       );
                     },
                   );
                 },
               ),
             ),
-            // Expanded(
-            //   child: FutureBuilder(
-            //     future: load(),
-            //     builder: (context, snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.waiting) {
-            //         return const Center(
-            //           child: CircularProgressIndicator(),
-            //         );
-            //       }
-
-            //       if (snapshot.hasError) {
-            //         return Center(
-            //           child: Text('错误：${snapshot.error}'),
-            //         );
-            //       }
-
-            //       return ListView.builder(
-            //         itemCount: summaries.length,
-            //         itemBuilder: (context, index) {
-            //           return _Tile(
-            //             summaries[index],
-            //             onDelete: () {
-            //               showModalBottomSheet(
-            //                 context: context,
-            //                 clipBehavior: Clip.antiAlias,
-            //                 shape: RoundedRectangleBorder(
-            //                   borderRadius: BorderRadius.circular(16.0),
-            //                 ),
-            //                 builder: (context) {
-            //                   return Column(
-            //                     mainAxisSize: MainAxisSize.min,
-            //                     children: [
-            //                       ListTile(
-            //                         leading: const Icon(Icons.share),
-            //                         title: const Text('分享'),
-            //                         onTap: () {
-            //                           // final filepath = widget.state.filepath(
-            //                           //   index: BigInt.from(index),
-            //                           // );
-
-            //                           // Share.shareXFiles([XFile(filepath)]);
-
-            //                           // Navigator.pop(context);
-            //                         },
-            //                       ),
-            //                       ListTile(
-            //                         leading: const Icon(Icons.delete),
-            //                         title: const Text(
-            //                           '删除',
-            //                           style: TextStyle(
-            //                             color: Colors.red,
-            //                           ),
-            //                         ),
-            //                         onTap: () {
-            //                           Navigator.pop(context);
-
-            //                           showDialog(
-            //                             context: context,
-            //                             builder: (context) {
-            //                               return AlertDialog(
-            //                                 title: const Text('删除项目'),
-            //                                 content: const Text('是否删除项目？'),
-            //                                 actions: [
-            //                                   TextButton(
-            //                                     onPressed: () {
-            //                                       Navigator.pop(context);
-            //                                     },
-            //                                     child: const Text('取消'),
-            //                                   ),
-            //                                   TextButton(
-            //                                     onPressed: () {
-            //                                       // setState(() {
-            //                                       //   widget.state.delete(
-            //                                       //     index: BigInt.from(index),
-            //                                       //   );
-            //                                       // });
-
-            //                                       // Navigator.pop(context);
-            //                                     },
-            //                                     child: const Text('确定'),
-            //                                   ),
-            //                                 ],
-            //                               );
-            //                             },
-            //                           );
-            //                         },
-            //                       ),
-            //                     ],
-            //                   );
-            //                 },
-            //               );
-            //             },
-            //           );
-            //         },
-            //       );
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),
