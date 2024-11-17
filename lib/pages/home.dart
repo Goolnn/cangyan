@@ -41,101 +41,110 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: FutureBuilder(
-          future: load(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('错误：${snapshot.error}'),
-              );
-            }
-
-            return ListView.builder(
-              itemCount: summaries.length,
-              itemBuilder: (context, index) {
-                return _Tile(
-                  summaries[index],
-                  onDelete: () {
-                    showModalBottomSheet(
-                      context: context,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      builder: (context) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ListTile(
-                              leading: const Icon(Icons.share),
-                              title: const Text('分享'),
-                              onTap: () {
-                                // final filepath = widget.state.filepath(
-                                //   index: BigInt.from(index),
-                                // );
-
-                                // Share.shareXFiles([XFile(filepath)]);
-
-                                // Navigator.pop(context);
-                              },
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.delete),
-                              title: const Text(
-                                '删除',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.pop(context);
-
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('删除项目'),
-                                      content: const Text('是否删除项目？'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('取消'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            // setState(() {
-                                            //   widget.state.delete(
-                                            //     index: BigInt.from(index),
-                                            //   );
-                                            // });
-
-                                            // Navigator.pop(context);
-                                          },
-                                          child: const Text('确定'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        );
-                      },
+        child: Column(
+          children: [
+            const Flexible(
+              child: cangyan.SearchBox(),
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: load(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  },
-                );
-              },
-            );
-          },
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('错误：${snapshot.error}'),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: summaries.length,
+                    itemBuilder: (context, index) {
+                      return _Tile(
+                        summaries[index],
+                        onDelete: () {
+                          showModalBottomSheet(
+                            context: context,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    leading: const Icon(Icons.share),
+                                    title: const Text('分享'),
+                                    onTap: () {
+                                      // final filepath = widget.state.filepath(
+                                      //   index: BigInt.from(index),
+                                      // );
+
+                                      // Share.shareXFiles([XFile(filepath)]);
+
+                                      // Navigator.pop(context);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: const Icon(Icons.delete),
+                                    title: const Text(
+                                      '删除',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.pop(context);
+
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text('删除项目'),
+                                            content: const Text('是否删除项目？'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('取消'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  // setState(() {
+                                                  //   widget.state.delete(
+                                                  //     index: BigInt.from(index),
+                                                  //   );
+                                                  // });
+
+                                                  // Navigator.pop(context);
+                                                },
+                                                child: const Text('确定'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: GestureDetector(
@@ -173,8 +182,8 @@ class _HomePageState extends State<HomePage> {
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add),
+          shape: CircleBorder(),
+          child: Icon(Icons.add),
           onPressed: () async {
             // await showDialog(
             //   context: context,
