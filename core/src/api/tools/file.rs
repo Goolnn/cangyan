@@ -25,6 +25,12 @@ impl File {
         Ok(())
     }
 
+    pub fn delete(&self) -> anyhow::Result<()> {
+        std::fs::remove_file(&self.path)?;
+
+        Ok(())
+    }
+
     pub fn save(&self) -> anyhow::Result<()> {
         cyfile::File::export(
             &self.project,
