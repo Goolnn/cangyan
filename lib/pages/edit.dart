@@ -115,7 +115,66 @@ class _EditPageState extends State<EditPage> {
       body: SafeArea(
         child: cangyan.Drawer(
           controller: drawerController,
-          board: null,
+          board: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size.fromRadius(18.0),
+                        shape: const CircleBorder(),
+                        foregroundColor: Colors.black,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {},
+                      icon: const Icon(Icons.arrow_left),
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size.fromRadius(18.0),
+                        shape: const CircleBorder(),
+                        foregroundColor: Colors.black,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {},
+                      child: const Text('1'),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: const Size.fromRadius(18.0),
+                        shape: const CircleBorder(),
+                        foregroundColor: Colors.black,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {},
+                      icon: const Icon(Icons.arrow_right),
+                    ),
+                  ],
+                ),
+              ),
+              const Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      VerticalDivider(),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
           child: Stack(
             children: [
               GestureDetector(
