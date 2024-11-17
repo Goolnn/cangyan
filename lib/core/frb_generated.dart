@@ -3,9 +3,10 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
+import 'api/cyfile/date.dart';
 import 'api/states/create.dart';
 import 'api/states/home.dart';
-import 'api/tools/file.dart';
+import 'api/tools/summary.dart';
 import 'api/tools/workspace.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -69,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => -1328650595;
+  int get rustContentHash => 1667800498;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -90,7 +91,23 @@ abstract class RustLibApi extends BaseApi {
 
   HomeState crateApiStatesHomeHomeStateNew({required Workspace workspace});
 
-  void crateApiToolsFileFileRename({required File that, required String title});
+  String crateApiToolsSummarySummaryCategory({required Summary that});
+
+  String crateApiToolsSummarySummaryComment({required Summary that});
+
+  Uint8List crateApiToolsSummarySummaryCover({required Summary that});
+
+  Date crateApiToolsSummarySummaryCreatedDate({required Summary that});
+
+  Summary crateApiToolsSummarySummaryNew({required ArcMutexFile file});
+
+  (int, int) crateApiToolsSummarySummaryNumber({required Summary that});
+
+  BigInt crateApiToolsSummarySummaryPageCount({required Summary that});
+
+  String crateApiToolsSummarySummaryTitle({required Summary that});
+
+  Date crateApiToolsSummarySummaryUpdatedDate({required Summary that});
 
   Workspace crateApiToolsWorkspaceWorkspaceNew({required String path});
 
@@ -110,12 +127,6 @@ abstract class RustLibApi extends BaseApi {
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_CreateStatePtr;
 
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_File;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_File;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FilePtr;
-
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_HomeState;
 
@@ -123,6 +134,12 @@ abstract class RustLibApi extends BaseApi {
       get rust_arc_decrement_strong_count_HomeState;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_HomeStatePtr;
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Summary;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Summary;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SummaryPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_Workspace;
@@ -226,30 +243,229 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiToolsFileFileRename(
-      {required File that, required String title}) {
+  String crateApiToolsSummarySummaryCategory({required Summary that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
             that, serializer);
-        sse_encode_String(title, serializer);
         return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_unit,
+        decodeSuccessData: sse_decode_String,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiToolsFileFileRenameConstMeta,
-      argValues: [that, title],
+      constMeta: kCrateApiToolsSummarySummaryCategoryConstMeta,
+      argValues: [that],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiToolsFileFileRenameConstMeta =>
+  TaskConstMeta get kCrateApiToolsSummarySummaryCategoryConstMeta =>
       const TaskConstMeta(
-        debugName: "File_rename",
-        argNames: ["that", "title"],
+        debugName: "Summary_category",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateApiToolsSummarySummaryComment({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryCommentConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryCommentConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_comment",
+        argNames: ["that"],
+      );
+
+  @override
+  Uint8List crateApiToolsSummarySummaryCover({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_prim_u_8_strict,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryCoverConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryCoverConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_cover",
+        argNames: ["that"],
+      );
+
+  @override
+  Date crateApiToolsSummarySummaryCreatedDate({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_date,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryCreatedDateConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryCreatedDateConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_created_date",
+        argNames: ["that"],
+      );
+
+  @override
+  Summary crateApiToolsSummarySummaryNew({required ArcMutexFile file}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
+            file, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryNewConstMeta,
+      argValues: [file],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_new",
+        argNames: ["file"],
+      );
+
+  @override
+  (int, int) crateApiToolsSummarySummaryNumber({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_record_u_32_u_32,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryNumberConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryNumberConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_number",
+        argNames: ["that"],
+      );
+
+  @override
+  BigInt crateApiToolsSummarySummaryPageCount({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_usize,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryPageCountConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryPageCountConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_page_count",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateApiToolsSummarySummaryTitle({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryTitleConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryTitleConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_title",
+        argNames: ["that"],
+      );
+
+  @override
+  Date crateApiToolsSummarySummaryUpdatedDate({required Summary that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_date,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiToolsSummarySummaryUpdatedDateConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiToolsSummarySummaryUpdatedDateConstMeta =>
+      const TaskConstMeta(
+        debugName: "Summary_updated_date",
+        argNames: ["that"],
       );
 
   @override
@@ -258,7 +474,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(path, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -293,12 +509,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       get rust_arc_decrement_strong_count_CreateState => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCreateState;
 
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_File =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_File =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile;
-
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_HomeState => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState;
@@ -306,6 +516,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RustArcDecrementStrongCountFnType
       get rust_arc_decrement_strong_count_HomeState => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Summary => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Summary => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_Workspace => wire
@@ -338,14 +556,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  File
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FileImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   HomeState
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           dynamic raw) {
@@ -354,19 +564,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Summary
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SummaryImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   Workspace
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWorkspace(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return WorkspaceImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  File
-      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FileImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -386,6 +596,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Summary
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SummaryImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   ArcMutexFile
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
           dynamic raw) {
@@ -402,19 +620,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  File
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FileImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
   HomeState
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return HomeStateImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Summary
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SummaryImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -429,6 +647,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
+  }
+
+  @protected
+  Date dco_decode_date(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return Date(
+      year: dco_decode_u_16(arr[0]),
+      month: dco_decode_u_8(arr[1]),
+      day: dco_decode_u_8(arr[2]),
+      hour: dco_decode_u_8(arr[3]),
+      minute: dco_decode_u_8(arr[4]),
+      second: dco_decode_u_8(arr[5]),
+    );
   }
 
   @protected
@@ -452,6 +686,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  (int, int) dco_decode_record_u_32_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_u_32(arr[0]),
+      dco_decode_u_32(arr[1]),
+    );
+  }
+
+  @protected
+  int dco_decode_u_16(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  int dco_decode_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
   }
 
   @protected
@@ -498,15 +757,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  File
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return FileImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   HomeState
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           SseDeserializer deserializer) {
@@ -516,20 +766,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Summary
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SummaryImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   Workspace
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWorkspace(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return WorkspaceImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  File
-      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return FileImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -552,6 +802,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Summary
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SummaryImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   ArcMutexFile
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
           SseDeserializer deserializer) {
@@ -570,20 +829,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  File
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return FileImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   HomeState
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return HomeStateImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Summary
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SummaryImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -601,6 +860,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
     return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  Date sse_decode_date(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_year = sse_decode_u_16(deserializer);
+    var var_month = sse_decode_u_8(deserializer);
+    var var_day = sse_decode_u_8(deserializer);
+    var var_hour = sse_decode_u_8(deserializer);
+    var var_minute = sse_decode_u_8(deserializer);
+    var var_second = sse_decode_u_8(deserializer);
+    return Date(
+        year: var_year,
+        month: var_month,
+        day: var_day,
+        hour: var_hour,
+        minute: var_minute,
+        second: var_second);
   }
 
   @protected
@@ -637,6 +914,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  (int, int) sse_decode_record_u_32_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_u_32(deserializer);
+    var var_field1 = sse_decode_u_32(deserializer);
+    return (var_field0, var_field1);
+  }
+
+  @protected
+  int sse_decode_u_16(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint16();
+  }
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint32();
   }
 
   @protected
@@ -696,15 +993,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          File self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as FileImpl).frbInternalSseEncode(move: true), serializer);
-  }
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           HomeState self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -714,20 +1002,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          Summary self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as SummaryImpl).frbInternalSseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWorkspace(
           Workspace self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as WorkspaceImpl).frbInternalSseEncode(move: true), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          File self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as FileImpl).frbInternalSseEncode(move: false), serializer);
   }
 
   @protected
@@ -751,6 +1039,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          Summary self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as SummaryImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
           ArcMutexFile self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -770,20 +1067,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          File self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as FileImpl).frbInternalSseEncode(move: null), serializer);
-  }
-
-  @protected
-  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerHomeState(
           HomeState self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as HomeStateImpl).frbInternalSseEncode(move: null), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          Summary self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as SummaryImpl).frbInternalSseEncode(move: null), serializer);
   }
 
   @protected
@@ -799,6 +1096,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_date(Date self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_16(self.year, serializer);
+    sse_encode_u_8(self.month, serializer);
+    sse_encode_u_8(self.day, serializer);
+    sse_encode_u_8(self.hour, serializer);
+    sse_encode_u_8(self.minute, serializer);
+    sse_encode_u_8(self.second, serializer);
   }
 
   @protected
@@ -829,6 +1137,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_record_u_32_u_32((int, int) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.$1, serializer);
+    sse_encode_u_32(self.$2, serializer);
+  }
+
+  @protected
+  void sse_encode_u_16(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint16(self);
+  }
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint32(self);
   }
 
   @protected
@@ -906,29 +1233,6 @@ class CreateStateImpl extends RustOpaque implements CreateState {
 }
 
 @sealed
-class FileImpl extends RustOpaque implements File {
-  // Not to be used by end users
-  FileImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  FileImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_File,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_File,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_FilePtr,
-  );
-
-  void rename({required String title}) => RustLib.instance.api
-      .crateApiToolsFileFileRename(that: this, title: title);
-}
-
-@sealed
 class HomeStateImpl extends RustOpaque implements HomeState {
   // Not to be used by end users
   HomeStateImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -949,6 +1253,61 @@ class HomeStateImpl extends RustOpaque implements HomeState {
 
   Future<List<ArcMutexFile>> load() =>
       RustLib.instance.api.crateApiStatesHomeHomeStateLoad(
+        that: this,
+      );
+}
+
+@sealed
+class SummaryImpl extends RustOpaque implements Summary {
+  // Not to be used by end users
+  SummaryImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  SummaryImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_Summary,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_Summary,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_SummaryPtr,
+  );
+
+  String category() => RustLib.instance.api.crateApiToolsSummarySummaryCategory(
+        that: this,
+      );
+
+  String comment() => RustLib.instance.api.crateApiToolsSummarySummaryComment(
+        that: this,
+      );
+
+  Uint8List cover() => RustLib.instance.api.crateApiToolsSummarySummaryCover(
+        that: this,
+      );
+
+  Date createdDate() =>
+      RustLib.instance.api.crateApiToolsSummarySummaryCreatedDate(
+        that: this,
+      );
+
+  (int, int) number() => RustLib.instance.api.crateApiToolsSummarySummaryNumber(
+        that: this,
+      );
+
+  BigInt pageCount() =>
+      RustLib.instance.api.crateApiToolsSummarySummaryPageCount(
+        that: this,
+      );
+
+  String title() => RustLib.instance.api.crateApiToolsSummarySummaryTitle(
+        that: this,
+      );
+
+  Date updatedDate() =>
+      RustLib.instance.api.crateApiToolsSummarySummaryUpdatedDate(
         that: this,
       );
 }
