@@ -1,178 +1,180 @@
-use crate::api::cyfile::File;
-use crate::api::cyfile::Page;
-use crate::api::cyfile::Summary;
-use crate::api::states::EditState;
-use cyfile::Credit;
-use flutter_rust_bridge::frb;
-use std::collections::HashMap;
-use std::collections::HashSet;
-use std::sync::Arc;
-use std::sync::Mutex;
+pub struct InfoState {}
 
-#[frb(opaque)]
-pub struct InfoState {
-    file: Arc<Mutex<File>>,
-}
+// use crate::api::cyfile::File;
+// use crate::api::cyfile::Page;
+// use crate::api::cyfile::Summary;
+// use crate::api::states::EditState;
+// use cyfile::Credit;
+// use flutter_rust_bridge::frb;
+// use std::collections::HashMap;
+// use std::collections::HashSet;
+// use std::sync::Arc;
+// use std::sync::Mutex;
 
-impl InfoState {
-    #[frb(sync)]
-    pub fn new(file: Arc<Mutex<File>>) -> Self {
-        InfoState { file }
-    }
+// #[frb(opaque)]
+// pub struct InfoState {
+//     file: Arc<Mutex<File>>,
+// }
 
-    #[frb(sync)]
-    pub fn summary(&self) -> Summary {
-        Summary::new(self.file.clone())
-    }
+// impl InfoState {
+//     #[frb(sync)]
+//     pub fn new(file: Arc<Mutex<File>>) -> Self {
+//         InfoState { file }
+//     }
 
-    #[frb(sync)]
-    pub fn set_cover(&self, cover: Vec<u8>) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//     #[frb(sync)]
+//     pub fn summary(&self) -> Summary {
+//         Summary::new(self.file.clone())
+//     }
 
-        file.project.cover = cover;
+//     #[frb(sync)]
+//     pub fn set_cover(&self, cover: Vec<u8>) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.save()?;
+//         file.project.cover = cover;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn set_category(&self, category: String) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        file.project.category = category;
+//     #[frb(sync)]
+//     pub fn set_category(&self, category: String) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.save()?;
+//         file.project.category = category;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn set_title(&self, title: String) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        file.rename(&title)?;
+//     #[frb(sync)]
+//     pub fn set_title(&self, title: String) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.project.title = title;
+//         file.rename(&title)?;
 
-        file.save()?;
+//         file.project.title = title;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn set_number(&self, number: (u32, u32)) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        file.project.number = number;
+//     #[frb(sync)]
+//     pub fn set_number(&self, number: (u32, u32)) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.save()?;
+//         file.project.number = number;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn set_comment(&self, comment: String) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        file.project.comment = comment;
+//     #[frb(sync)]
+//     pub fn set_comment(&self, comment: String) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.save()?;
+//         file.project.comment = comment;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn set_credits(&self, credits: HashMap<Credit, HashSet<String>>) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        file.project.credits = credits;
+//     #[frb(sync)]
+//     pub fn set_credits(&self, credits: HashMap<Credit, HashSet<String>>) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.save()?;
+//         file.project.credits = credits;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn append_page(&self, image: Vec<u8>) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        let page = cyfile::Page::new(image);
+//     #[frb(sync)]
+//     pub fn append_page(&self, image: Vec<u8>) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.project.pages.push(Page::from(&page));
+//         let page = cyfile::Page::new(image);
 
-        file.save()?;
+//         file.project.pages.push(Page::from(&page));
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn insert_page_before(&self, index: usize, image: Vec<u8>) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        let page = cyfile::Page::new(image);
+//     #[frb(sync)]
+//     pub fn insert_page_before(&self, index: usize, image: Vec<u8>) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.project.pages.insert(index, Page::from(&page));
+//         let page = cyfile::Page::new(image);
 
-        file.save()?;
+//         file.project.pages.insert(index, Page::from(&page));
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn insert_page_after(&self, index: usize, image: Vec<u8>) -> anyhow::Result<()> {
-        self.insert_page_before(index + 1, image)
-    }
+//         Ok(())
+//     }
 
-    #[frb(sync)]
-    pub fn remove_page(&self, index: usize) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//     #[frb(sync)]
+//     pub fn insert_page_after(&self, index: usize, image: Vec<u8>) -> anyhow::Result<()> {
+//         self.insert_page_before(index + 1, image)
+//     }
 
-        file.project.pages.remove(index);
+//     #[frb(sync)]
+//     pub fn remove_page(&self, index: usize) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.save()?;
+//         file.project.pages.remove(index);
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn open_page(&self, index: usize) -> EditState {
-        EditState::new(self.file.clone(), index)
-    }
-}
+//         Ok(())
+//     }
 
-#[frb(sync)]
-impl From<&Summary> for InfoState {
-    fn from(summary: &Summary) -> Self {
-        Self {
-            file: summary.file.clone(),
-        }
-    }
-}
+//     #[frb(sync)]
+//     pub fn open_page(&self, index: usize) -> EditState {
+//         EditState::new(self.file.clone(), index)
+//     }
+// }
+
+// #[frb(sync)]
+// impl From<&Summary> for InfoState {
+//     fn from(summary: &Summary) -> Self {
+//         Self {
+//             file: summary.file.clone(),
+//         }
+//     }
+// }

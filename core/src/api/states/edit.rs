@@ -1,155 +1,157 @@
-use crate::api::cyfile::File;
-use crate::api::cyfile::Note;
-use crate::api::cyfile::Page;
-use crate::api::cyfile::Text;
-use flutter_rust_bridge::frb;
-use std::sync::Arc;
-use std::sync::Mutex;
+pub struct EditState {}
 
-#[frb(opaque)]
-pub struct EditState {
-    file: Arc<Mutex<File>>,
+// use crate::api::cyfile::File;
+// use crate::api::cyfile::Note;
+// use crate::api::cyfile::Page;
+// use crate::api::cyfile::Text;
+// use flutter_rust_bridge::frb;
+// use std::sync::Arc;
+// use std::sync::Mutex;
 
-    page_index: usize,
-}
+// #[frb(opaque)]
+// pub struct EditState {
+//     file: Arc<Mutex<File>>,
 
-impl EditState {
-    #[frb(sync)]
-    pub fn new(file: Arc<Mutex<File>>, page_index: usize) -> Self {
-        EditState { file, page_index }
-    }
+//     page_index: usize,
+// }
 
-    #[frb(sync)]
-    pub fn move_note_to(&self, note_index: usize, x: f64, y: f64) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+// impl EditState {
+//     #[frb(sync)]
+//     pub fn new(file: Arc<Mutex<File>>, page_index: usize) -> Self {
+//         EditState { file, page_index }
+//     }
 
-        let page = file
-            .project
-            .pages
-            .get_mut(self.page_index)
-            .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
+//     #[frb(sync)]
+//     pub fn move_note_to(&self, note_index: usize, x: f64, y: f64) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        let note = page
-            .notes
-            .get_mut(note_index)
-            .ok_or_else(|| anyhow::anyhow!("note index out of bounds: {}", note_index))?;
+//         let page = file
+//             .project
+//             .pages
+//             .get_mut(self.page_index)
+//             .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
 
-        note.x = x;
-        note.y = y;
+//         let note = page
+//             .notes
+//             .get_mut(note_index)
+//             .ok_or_else(|| anyhow::anyhow!("note index out of bounds: {}", note_index))?;
 
-        file.save()?;
+//         note.x = x;
+//         note.y = y;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn modify_note_content(&self, note_index: usize, content: String) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        let page = file
-            .project
-            .pages
-            .get_mut(self.page_index)
-            .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
+//     #[frb(sync)]
+//     pub fn modify_note_content(&self, note_index: usize, content: String) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        let note = page
-            .notes
-            .get_mut(note_index)
-            .ok_or_else(|| anyhow::anyhow!("note index out of bounds: {}", note_index))?;
+//         let page = file
+//             .project
+//             .pages
+//             .get_mut(self.page_index)
+//             .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
 
-        note.texts[0].content = content;
+//         let note = page
+//             .notes
+//             .get_mut(note_index)
+//             .ok_or_else(|| anyhow::anyhow!("note index out of bounds: {}", note_index))?;
 
-        file.save()?;
+//         note.texts[0].content = content;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn modify_note_comment(&self, note_index: usize, comment: String) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        let page = file
-            .project
-            .pages
-            .get_mut(self.page_index)
-            .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
+//     #[frb(sync)]
+//     pub fn modify_note_comment(&self, note_index: usize, comment: String) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        let note = page
-            .notes
-            .get_mut(note_index)
-            .ok_or_else(|| anyhow::anyhow!("note index out of bounds: {}", note_index))?;
+//         let page = file
+//             .project
+//             .pages
+//             .get_mut(self.page_index)
+//             .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
 
-        note.texts[0].comment = comment;
+//         let note = page
+//             .notes
+//             .get_mut(note_index)
+//             .ok_or_else(|| anyhow::anyhow!("note index out of bounds: {}", note_index))?;
 
-        file.save()?;
+//         note.texts[0].comment = comment;
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn append_note(&self, x: f64, y: f64) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        let page = file
-            .project
-            .pages
-            .get_mut(self.page_index)
-            .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
+//     #[frb(sync)]
+//     pub fn append_note(&self, x: f64, y: f64) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        page.notes.push(Note {
-            x,
-            y,
-            choice: 0,
-            texts: vec![Text {
-                content: String::new(),
-                comment: String::new(),
-            }],
-        });
+//         let page = file
+//             .project
+//             .pages
+//             .get_mut(self.page_index)
+//             .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
 
-        file.save()?;
+//         page.notes.push(Note {
+//             x,
+//             y,
+//             choice: 0,
+//             texts: vec![Text {
+//                 content: String::new(),
+//                 comment: String::new(),
+//             }],
+//         });
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn remove_note(&self, note_index: usize) -> anyhow::Result<()> {
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        let page = file
-            .project
-            .pages
-            .get_mut(self.page_index)
-            .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
+//     #[frb(sync)]
+//     pub fn remove_note(&self, note_index: usize) -> anyhow::Result<()> {
+//         let mut file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        page.notes.remove(note_index);
+//         let page = file
+//             .project
+//             .pages
+//             .get_mut(self.page_index)
+//             .ok_or_else(|| anyhow::anyhow!("page index out of bounds: {}", self.page_index))?;
 
-        file.save()?;
+//         page.notes.remove(note_index);
 
-        Ok(())
-    }
+//         file.save()?;
 
-    #[frb(sync)]
-    pub fn page(&self) -> anyhow::Result<Option<Page>> {
-        let file = self
-            .file
-            .lock()
-            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+//         Ok(())
+//     }
 
-        Ok(file.project.pages.get(self.page_index).cloned())
-    }
-}
+//     #[frb(sync)]
+//     pub fn page(&self) -> anyhow::Result<Option<Page>> {
+//         let file = self
+//             .file
+//             .lock()
+//             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+//         Ok(file.project.pages.get(self.page_index).cloned())
+//     }
+// }
