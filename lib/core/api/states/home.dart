@@ -4,20 +4,16 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
-import '../cyfile/summary.dart';
-import 'create.dart';
+import '../tools/workspace.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < Mutex < File > >>>
+abstract class ArcMutexFile implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<HomeState>>
 abstract class HomeState implements RustOpaqueInterface {
-  CreateState create();
+  Future<List<ArcMutexFile>> load();
 
-  void delete({required BigInt index});
-
-  String filepath({required BigInt index});
-
-  Future<List<Summary>> load();
-
-  factory HomeState({required String workspace}) =>
+  factory HomeState({required Workspace workspace}) =>
       RustLib.instance.api.crateApiStatesHomeHomeStateNew(workspace: workspace);
 }
