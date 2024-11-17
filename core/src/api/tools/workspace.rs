@@ -1,10 +1,11 @@
+pub use std::sync::Mutex;
+
 use crate::api::tools::File;
 use cyfile::ExportArguments;
 use cyfile::Project;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 use std::sync::Arc;
-use std::sync::Mutex;
 
 #[frb(opaque)]
 pub struct Workspace {
