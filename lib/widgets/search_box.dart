@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 class SearchBox extends StatelessWidget {
-  const SearchBox({super.key});
+  final TextEditingController? controller;
+
+  const SearchBox({
+    super.key,
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: TextField(
+        controller: controller,
         decoration: const InputDecoration(
           border: StadiumInputBorder(),
           contentPadding: EdgeInsets.symmetric(
