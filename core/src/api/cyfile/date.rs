@@ -23,3 +23,16 @@ impl From<&cyfile::Date> for Date {
         }
     }
 }
+
+impl From<cyfile::Date> for Date {
+    fn from(value: cyfile::Date) -> Self {
+        Date {
+            year: value.year(),
+            month: value.month(),
+            day: value.day(),
+            hour: value.hour(),
+            minute: value.minute(),
+            second: value.second(),
+        }
+    }
+}
