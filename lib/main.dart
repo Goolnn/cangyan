@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cangyan/core.dart' as cangyan;
 import 'package:cangyan/core/frb_generated.dart';
 import 'package:cangyan/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -36,23 +37,25 @@ Future<void> main() async {
     );
   }
 
-  String? workspace;
+  String? path;
 
   if (Platform.isAndroid) {
-    workspace = (await getExternalStorageDirectory())?.path;
+    path = (await getExternalStorageDirectory())?.path;
   } else {
-    workspace = "${(await getApplicationDocumentsDirectory()).path}/cangyan";
+    path = "${(await getApplicationDocumentsDirectory()).path}/cangyan";
 
-    final directory = Directory(workspace);
+    final directory = Directory(path);
 
     if (!await directory.exists()) {
       await directory.create();
     }
   }
 
-  if (workspace == null) {
+  if (path == null) {
     return;
   }
+
+  final workspace = cangyan.Workspace(path: path);
 
   runApp(
     MaterialApp(

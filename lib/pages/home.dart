@@ -1,22 +1,20 @@
 import 'dart:io';
 
-import 'package:cangyan/core/cyfile.dart' as cangyan;
-import 'package:cangyan/core/states.dart' as cangyan;
-import 'package:cangyan/pages/info.dart';
+import 'package:cangyan/core.dart' as cangyan;
+// import 'package:cangyan/pages.dart' as cangyan;
 import 'package:cangyan/widgets.dart' as cangyan;
-import 'package:cangyan/pages.dart' as cangyan;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
   final cangyan.HomeState state;
 
   HomePage({
     super.key,
-    required String workspace,
+    required cangyan.Workspace workspace,
   }) : state = cangyan.HomeState(workspace: workspace);
 
   @override
@@ -25,6 +23,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
+
+  final summaries = <(cangyan.Summary, MemoryImage)>[];
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: widget.state.load(),
+          future: load(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -56,88 +56,84 @@ class _HomePageState extends State<HomePage> {
               );
             }
 
-            final summaries = snapshot.data;
-
-            if (summaries == null) {
-              return const Center(
-                child: Text('没有项目'),
-              );
-            }
-
             return ListView.builder(
               itemCount: summaries.length,
               itemBuilder: (context, index) {
-                return _Tile(summaries[index], onDelete: () {
-                  showModalBottomSheet(
-                    context: context,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    builder: (context) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            leading: const Icon(Icons.share),
-                            title: const Text('分享'),
-                            onTap: () {
-                              final filepath = widget.state.filepath(
-                                index: BigInt.from(index),
-                              );
+                return _Tile(
+                  summaries[index].$1,
+                  cover: summaries[index].$2,
+                  onDelete: () {
+                    showModalBottomSheet(
+                      context: context,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      builder: (context) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.share),
+                              title: const Text('分享'),
+                              onTap: () {
+                                // final filepath = widget.state.filepath(
+                                //   index: BigInt.from(index),
+                                // );
 
-                              Share.shareXFiles([XFile(filepath)]);
+                                // Share.shareXFiles([XFile(filepath)]);
 
-                              Navigator.pop(context);
-                            },
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.delete),
-                            title: const Text(
-                              '删除',
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
+                                // Navigator.pop(context);
+                              },
                             ),
-                            onTap: () {
-                              Navigator.pop(context);
+                            ListTile(
+                              leading: const Icon(Icons.delete),
+                              title: const Text(
+                                '删除',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
 
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('删除项目'),
-                                    content: const Text('是否删除项目？'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('取消'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            widget.state.delete(
-                                              index: BigInt.from(index),
-                                            );
-                                          });
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('删除项目'),
+                                      content: const Text('是否删除项目？'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('取消'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            // setState(() {
+                                            //   widget.state.delete(
+                                            //     index: BigInt.from(index),
+                                            //   );
+                                            // });
 
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('确定'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                });
+                                            // Navigator.pop(context);
+                                          },
+                                          child: const Text('确定'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                );
               },
             );
           },
@@ -181,32 +177,49 @@ class _HomePageState extends State<HomePage> {
           shape: const CircleBorder(),
           child: const Icon(Icons.add),
           onPressed: () async {
-            await showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) {
-                return cangyan.CreatePage(
-                  widget.state.create(),
-                );
-              },
-            ).then((result) {
-              if (result == true) {
-                setState(() {});
-              }
-            });
+            // await showDialog(
+            //   context: context,
+            //   barrierDismissible: false,
+            //   builder: (context) {
+            //     return cangyan.CreatePage(
+            //       widget.state.create(),
+            //     );
+            //   },
+            // ).then((result) {
+            //   if (result == true) {
+            //     setState(() {});
+            //   }
+            // });
           },
         ),
       ),
     );
+  }
+
+  Future<void> load() async {
+    summaries.clear();
+
+    for (final file in await widget.state.load()) {
+      final summary = cangyan.Summary(file: file);
+      final cover = MemoryImage(summary.cover());
+
+      summaries.add((summary, cover));
+    }
   }
 }
 
 class _Tile extends StatefulWidget {
   final cangyan.Summary summary;
 
+  final MemoryImage cover;
+
   final void Function()? onDelete;
 
-  const _Tile(this.summary, {required this.onDelete});
+  const _Tile(
+    this.summary, {
+    required this.cover,
+    required this.onDelete,
+  });
 
   @override
   State<_Tile> createState() => _TileState();
@@ -217,13 +230,13 @@ class _TileState extends State<_Tile> {
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return InfoPage(
-            summary: widget.summary,
-          );
-        })).then((result) {
-          if (mounted) setState(() {});
-        });
+        // Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //   return InfoPage(
+        //     summary: widget.summary,
+        //   );
+        // })).then((result) {
+        //   if (mounted) setState(() {});
+        // });
       },
       onLongPress: widget.onDelete,
       child: Padding(
@@ -237,7 +250,7 @@ class _TileState extends State<_Tile> {
                   AspectRatio(
                     aspectRatio: 3.0 / 4.0,
                     child: cangyan.Image(
-                      provider: MemoryImage(widget.summary.cover()),
+                      provider: widget.cover,
                     ),
                   ),
                   Positioned(
