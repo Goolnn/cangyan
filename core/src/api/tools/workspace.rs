@@ -1,6 +1,6 @@
-use crate::api::cyfile::Project;
 use crate::api::tools::File;
 use cyfile::ExportArguments;
+use cyfile::Project;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -35,8 +35,7 @@ impl Workspace {
                 let path = entry.path();
                 let file = cyfile::File::open(path.as_path());
 
-                if let Ok(file) = file {
-                    let project = Project::from(&file);
+                if let Ok(project) = file {
                     let file = Arc::new(Mutex::new(File { project, path }));
 
                     self.files.push(file);
@@ -54,14 +53,13 @@ impl Workspace {
         let path = self.path.join(format!("{}.cy", title));
 
         let pages = images.into_iter().map(cyfile::Page::new).collect();
-        let project = cyfile::Project::new().with_pages(pages);
+        let project = Project::new().with_pages(pages);
 
         cyfile::File::export(
             &project,
             ExportArguments::new(path.as_path()).with_version((0, 1)),
         )?;
 
-        let project = Project::from(&project);
         let file = File { project, path };
 
         Ok(file)

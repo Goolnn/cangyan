@@ -1,14 +1,12 @@
-use crate::api::cyfile::Project;
 use cyfile::ExportArguments;
+use cyfile::Project;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 
-#[frb(non_opaque)]
+#[frb(opaque)]
 pub struct File {
-    #[frb(non_final)]
-    pub project: Project,
-    #[frb(ignore)]
-    pub path: PathBuf,
+    pub(crate) project: Project,
+    pub(crate) path: PathBuf,
 }
 
 impl File {
@@ -23,7 +21,7 @@ impl File {
 
         self.path.set_file_name(file_name);
 
-        self.project.title = title;
+        self.project.set_title(title);
 
         Ok(())
     }
@@ -31,7 +29,7 @@ impl File {
     #[frb(ignore)]
     pub fn save(&self) -> anyhow::Result<()> {
         cyfile::File::export(
-            &cyfile::Project::from(&self.project),
+            &self.project,
             ExportArguments::new(&self.path).with_version((0, 1)),
         )?;
 
