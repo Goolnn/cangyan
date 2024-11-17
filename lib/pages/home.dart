@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
-  final searchBoxController = TextEditingController();
+  Map<cangyan.Summary, cangyan.Tile>? tiles;
 
   String search = '';
 
@@ -36,6 +36,27 @@ class _HomePageState extends State<HomePage> {
       if (call.method == 'newIntent') {
         setState(() {});
       }
+    });
+
+    widget.state.load().then((files) {
+      final entries = files.map((file) {
+        final summary = cangyan.Summary(
+          file: file,
+        );
+
+        return MapEntry(
+          summary,
+          cangyan.Tile(
+            summary: summary,
+            onPress: () {},
+            onLongPress: () {},
+          ),
+        );
+      });
+
+      setState(() {
+        tiles = Map.fromEntries(entries);
+      });
     });
   }
 
@@ -55,126 +76,52 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: FutureBuilder(
-                future: widget.state.load(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('错误：${snapshot.error}'),
-                    );
-                  }
-
-                  final summaries = (snapshot.data ?? []).map((file) {
-                    return cangyan.Summary(file: file);
-                  }).toList();
-
-                  if (search.isNotEmpty) {
-                    summaries.retainWhere((summary) {
-                      return summary.title().contains(search);
-                    });
-                  }
-
-                  return ListView.builder(
-                    itemCount: summaries.length,
-                    itemBuilder: (context, index) {
-                      return cangyan.Tile(
-                        summary: summaries[index],
-                        onPress: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) {
-                          //       return cangyan.ViewPage(
-                          //         widget.state.view(
-                          //           index: BigInt.from(index),
-                          //         ),
-                          //       );
-                          //     },
-                          //   ),
-                          // );
-                        },
-                        onLongPress: () {
-                          showModalBottomSheet(
-                            context: context,
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            builder: (context) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    leading: const Icon(Icons.share),
-                                    title: const Text('分享'),
-                                    onTap: () {
-                                      // final filepath = widget.state.filepath(
-                                      //   index: BigInt.from(index),
-                                      // );
-
-                                      // Share.shareXFiles([XFile(filepath)]);
-
-                                      // Navigator.pop(context);
-                                    },
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(Icons.delete),
-                                    title: const Text(
-                                      '删除',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      Navigator.pop(context);
-
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: const Text('删除项目'),
-                                            content: const Text('是否删除项目？'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('取消'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  // setState(() {
-                                                  //   widget.state.delete(
-                                                  //     index: BigInt.from(index),
-                                                  //   );
-                                                  // });
-
-                                                  // Navigator.pop(context);
-                                                },
-                                                child: const Text('确定'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
+              child: Builder(builder: (context) {
+                if (this.tiles == null) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-              ),
+                }
+
+                final tiles = this.tiles!.values.where((tile) {
+                  return tile.summary.title().contains(search);
+                }).toList();
+
+                return ListView.builder(
+                  itemCount: tiles.length,
+                  itemBuilder: (context, index) {
+                    return tiles[index];
+                  },
+                );
+              }),
+              // child: FutureBuilder(
+              //   future: widget.state.load(),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const Center(
+              //         child: CircularProgressIndicator(),
+              //       );
+              //     }
+
+              //     if (snapshot.hasError) {
+              //       return Center(
+              //         child: Text('错误：${snapshot.error}'),
+              //       );
+              //     }
+
+              //     final summaries = (snapshot.data ?? []).map((file) {
+              //       return cangyan.Summary(file: file);
+              //     }).toList();
+
+              //     if (search.isNotEmpty) {
+              //       summaries.where((summary) {
+              //         return summary.title().contains(search);
+              //       }).toList();
+              //     }
+
+              //     return ;
+              //   },
+              // ),
             ),
           ],
         ),
