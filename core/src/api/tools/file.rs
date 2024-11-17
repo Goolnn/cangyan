@@ -3,14 +3,13 @@ use cyfile::Project;
 use flutter_rust_bridge::frb;
 use std::path::PathBuf;
 
-#[frb(opaque)]
+#[frb(ignore)]
 pub struct File {
-    pub(crate) project: Project,
-    pub(crate) path: PathBuf,
+    pub project: Project,
+    pub path: PathBuf,
 }
 
 impl File {
-    #[frb(sync)]
     pub fn rename(&mut self, title: String) -> anyhow::Result<()> {
         let file_name = format!("{}.cy", title);
 
@@ -26,7 +25,6 @@ impl File {
         Ok(())
     }
 
-    #[frb(ignore)]
     pub fn save(&self) -> anyhow::Result<()> {
         cyfile::File::export(
             &self.project,
