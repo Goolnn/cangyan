@@ -26,79 +26,93 @@ class _TileState extends State<Tile> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: 128.0 + 32.0,
-        child: Row(
-          children: [
-            Stack(
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            height: 128.0 + 32.0,
+            child: Row(
               children: [
-                AspectRatio(
-                  aspectRatio: 3.0 / 4.0,
-                  child: cangyan.Image(
-                    provider: cover,
-                  ),
+                Stack(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 3.0 / 4.0,
+                      child: cangyan.Image(
+                        provider: cover,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 2.0,
+                      right: 2.0,
+                      child: cangyan.Capsule(
+                        child: Text('${widget.summary.pageCount()}页'),
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  bottom: 2.0,
-                  right: 2.0,
-                  child: cangyan.Capsule(
-                    child: Text('${widget.summary.pageCount()}页'),
+                const SizedBox(width: 8.0),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          cangyan.Category(widget.summary.category()),
+                          Expanded(
+                            child: cangyan.Title(
+                              widget.summary.title(),
+                              widget.summary.number(),
+                            ),
+                          ),
+                          const cangyan.Progress(0.0),
+                        ],
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(widget.summary.comment()),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Column(
+                          children: [
+                            Text(
+                              '创建于 ${dateToString(widget.summary.createdDate())}',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              '更新于 ${dateToString(widget.summary.updatedDate())}',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(width: 8.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      cangyan.Category(widget.summary.category()),
-                      Expanded(
-                        child: cangyan.Title(
-                          widget.summary.title(),
-                          widget.summary.number(),
-                        ),
-                      ),
-                      const cangyan.Progress(0.0),
-                    ],
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(widget.summary.comment()),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Column(
-                      children: [
-                        Text(
-                          '创建于 ${dateToString(widget.summary.createdDate())}',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text(
-                          '更新于 ${dateToString(widget.summary.updatedDate())}',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              splashColor: Colors.black.withOpacity(0.08),
+              highlightColor: Colors.black.withOpacity(0.08),
+              onTap: () {},
+            ),
+          ),
+        ),
+      ],
     );
   }
 
