@@ -36,7 +36,9 @@ impl Workspace {
                 let path = entry.path();
                 let file = cyfile::File::open(path.as_path());
 
-                if let Ok(project) = file {
+                if let Ok(mut project) = file {
+                    project.set_title(path.file_stem().unwrap().to_string_lossy().to_string());
+
                     let file = Arc::new(Mutex::new(File { project, path }));
 
                     self.files.push(file);
