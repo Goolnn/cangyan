@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     widget.state.load().then((files) {
-      final entries = files.map((file) {
+      final tiles = Map.fromEntries(files.map((file) {
         final summary = cangyan.Summary(
           file: file,
         );
@@ -52,10 +52,10 @@ class _HomePageState extends State<HomePage> {
             onLongPress: () {},
           ),
         );
-      });
+      }));
 
       setState(() {
-        tiles = Map.fromEntries(entries);
+        this.tiles = tiles;
       });
     });
   }
@@ -94,34 +94,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 );
               }),
-              // child: FutureBuilder(
-              //   future: widget.state.load(),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return const Center(
-              //         child: CircularProgressIndicator(),
-              //       );
-              //     }
-
-              //     if (snapshot.hasError) {
-              //       return Center(
-              //         child: Text('错误：${snapshot.error}'),
-              //       );
-              //     }
-
-              //     final summaries = (snapshot.data ?? []).map((file) {
-              //       return cangyan.Summary(file: file);
-              //     }).toList();
-
-              //     if (search.isNotEmpty) {
-              //       summaries.where((summary) {
-              //         return summary.title().contains(search);
-              //       }).toList();
-              //     }
-
-              //     return ;
-              //   },
-              // ),
             ),
           ],
         ),
