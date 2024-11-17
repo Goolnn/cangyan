@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 class Tile extends StatefulWidget {
   final cangyan.Summary summary;
 
+  final Function()? onPress;
+  final Function()? onLongPress;
+
   const Tile({
     super.key,
     required this.summary,
+    this.onPress,
+    this.onLongPress,
   });
 
   @override
@@ -108,7 +113,8 @@ class _TileState extends State<Tile> {
             child: InkWell(
               splashColor: Colors.black.withOpacity(0.08),
               highlightColor: Colors.black.withOpacity(0.08),
-              onTap: () {},
+              onTap: widget.onPress,
+              onLongPress: widget.onLongPress,
             ),
           ),
         ),
