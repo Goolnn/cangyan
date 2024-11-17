@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 class SearchBox extends StatelessWidget {
   final TextEditingController? controller;
 
+  final Function(String text)? onChanged;
+
   const SearchBox({
     super.key,
     this.controller,
+    this.onChanged,
   });
 
   @override
@@ -33,6 +36,7 @@ class SearchBox extends StatelessWidget {
         onTapOutside: (event) {
           FocusScope.of(context).unfocus();
         },
+        onChanged: onChanged,
       ),
     );
   }
