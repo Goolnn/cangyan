@@ -24,8 +24,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
-  final summaries = <cangyan.Summary>[];
-
   @override
   void initState() {
     super.initState();
@@ -43,12 +41,12 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            const Flexible(
+            const Center(
               child: cangyan.SearchBox(),
             ),
             Expanded(
               child: FutureBuilder(
-                future: load(),
+                future: widget.state.load(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -62,88 +60,119 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
 
+                  final summaries = (snapshot.data ?? []).map((file) {
+                    return cangyan.Summary(file: file);
+                  }).toList();
+
                   return ListView.builder(
                     itemCount: summaries.length,
                     itemBuilder: (context, index) {
-                      return _Tile(
-                        summaries[index],
-                        onDelete: () {
-                          showModalBottomSheet(
-                            context: context,
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            builder: (context) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    leading: const Icon(Icons.share),
-                                    title: const Text('分享'),
-                                    onTap: () {
-                                      // final filepath = widget.state.filepath(
-                                      //   index: BigInt.from(index),
-                                      // );
-
-                                      // Share.shareXFiles([XFile(filepath)]);
-
-                                      // Navigator.pop(context);
-                                    },
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(Icons.delete),
-                                    title: const Text(
-                                      '删除',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      Navigator.pop(context);
-
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: const Text('删除项目'),
-                                            content: const Text('是否删除项目？'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('取消'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  // setState(() {
-                                                  //   widget.state.delete(
-                                                  //     index: BigInt.from(index),
-                                                  //   );
-                                                  // });
-
-                                                  // Navigator.pop(context);
-                                                },
-                                                child: const Text('确定'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
+                      return cangyan.Tile(
+                        summary: summaries[index],
                       );
                     },
                   );
                 },
               ),
             ),
+            // Expanded(
+            //   child: FutureBuilder(
+            //     future: load(),
+            //     builder: (context, snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.waiting) {
+            //         return const Center(
+            //           child: CircularProgressIndicator(),
+            //         );
+            //       }
+
+            //       if (snapshot.hasError) {
+            //         return Center(
+            //           child: Text('错误：${snapshot.error}'),
+            //         );
+            //       }
+
+            //       return ListView.builder(
+            //         itemCount: summaries.length,
+            //         itemBuilder: (context, index) {
+            //           return _Tile(
+            //             summaries[index],
+            //             onDelete: () {
+            //               showModalBottomSheet(
+            //                 context: context,
+            //                 clipBehavior: Clip.antiAlias,
+            //                 shape: RoundedRectangleBorder(
+            //                   borderRadius: BorderRadius.circular(16.0),
+            //                 ),
+            //                 builder: (context) {
+            //                   return Column(
+            //                     mainAxisSize: MainAxisSize.min,
+            //                     children: [
+            //                       ListTile(
+            //                         leading: const Icon(Icons.share),
+            //                         title: const Text('分享'),
+            //                         onTap: () {
+            //                           // final filepath = widget.state.filepath(
+            //                           //   index: BigInt.from(index),
+            //                           // );
+
+            //                           // Share.shareXFiles([XFile(filepath)]);
+
+            //                           // Navigator.pop(context);
+            //                         },
+            //                       ),
+            //                       ListTile(
+            //                         leading: const Icon(Icons.delete),
+            //                         title: const Text(
+            //                           '删除',
+            //                           style: TextStyle(
+            //                             color: Colors.red,
+            //                           ),
+            //                         ),
+            //                         onTap: () {
+            //                           Navigator.pop(context);
+
+            //                           showDialog(
+            //                             context: context,
+            //                             builder: (context) {
+            //                               return AlertDialog(
+            //                                 title: const Text('删除项目'),
+            //                                 content: const Text('是否删除项目？'),
+            //                                 actions: [
+            //                                   TextButton(
+            //                                     onPressed: () {
+            //                                       Navigator.pop(context);
+            //                                     },
+            //                                     child: const Text('取消'),
+            //                                   ),
+            //                                   TextButton(
+            //                                     onPressed: () {
+            //                                       // setState(() {
+            //                                       //   widget.state.delete(
+            //                                       //     index: BigInt.from(index),
+            //                                       //   );
+            //                                       // });
+
+            //                                       // Navigator.pop(context);
+            //                                     },
+            //                                     child: const Text('确定'),
+            //                                   ),
+            //                                 ],
+            //                               );
+            //                             },
+            //                           );
+            //                         },
+            //                       ),
+            //                     ],
+            //                   );
+            //                 },
+            //               );
+            //             },
+            //           );
+            //         },
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -182,8 +211,8 @@ class _HomePageState extends State<HomePage> {
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
-          shape: CircleBorder(),
-          child: Icon(Icons.add),
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add),
           onPressed: () async {
             // await showDialog(
             //   context: context,
@@ -202,139 +231,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  Future<void> load() async {
-    summaries.clear();
-
-    for (final file in await widget.state.load()) {
-      summaries.add(cangyan.Summary(file: file));
-    }
-  }
-}
-
-class _Tile extends StatefulWidget {
-  final cangyan.Summary summary;
-
-  final void Function()? onDelete;
-
-  const _Tile(
-    this.summary, {
-    required this.onDelete,
-  });
-
-  @override
-  State<_Tile> createState() => _TileState();
-}
-
-class _TileState extends State<_Tile> {
-  late MemoryImage cover;
-
-  @override
-  void initState() {
-    super.initState();
-
-    cover = MemoryImage(widget.summary.cover());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return InfoPage(
-        //     summary: widget.summary,
-        //   );
-        // })).then((result) {
-        //   if (mounted) setState(() {});
-        // });
-      },
-      onLongPress: widget.onDelete,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: 128.0 + 32.0,
-          child: Row(
-            children: [
-              Stack(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 3.0 / 4.0,
-                    child: cangyan.Image(
-                      provider: cover,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 2.0,
-                    right: 2.0,
-                    child: cangyan.Capsule(
-                      child: Text('${widget.summary.pageCount()}页'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 8.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        cangyan.Category(widget.summary.category()),
-                        Expanded(
-                          child: cangyan.Title(
-                            widget.summary.title(),
-                            widget.summary.number(),
-                          ),
-                        ),
-                        const cangyan.Progress(0.0),
-                      ],
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(widget.summary.comment()),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Column(
-                        children: [
-                          Text(
-                            '创建于 ${_dateToString(widget.summary.createdDate())}',
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            '更新于 ${_dateToString(widget.summary.updatedDate())}',
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  String _dateToString(cangyan.Date date) {
-    final year = '${date.year}年';
-    final month = '${date.month}月';
-    final day = '${date.day}日';
-    final hour = '${date.hour}'.padLeft(2, '0');
-    final minute = '${date.minute}'.padLeft(2, '0');
-    final second = '${date.second}'.padLeft(2, '0');
-
-    return '$year$month$day $hour:$minute:$second';
   }
 }
