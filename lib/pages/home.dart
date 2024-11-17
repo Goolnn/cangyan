@@ -24,6 +24,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
+  final searchBoxController = TextEditingController();
+
+  String search = '';
+
   @override
   void initState() {
     super.initState();
@@ -41,8 +45,14 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            const Center(
-              child: cangyan.SearchBox(),
+            Center(
+              child: cangyan.SearchBox(
+                onChanged: (text) {
+                  setState(() {
+                    search = text;
+                  });
+                },
+              ),
             ),
             Expanded(
               child: FutureBuilder(
@@ -63,6 +73,12 @@ class _HomePageState extends State<HomePage> {
                   final summaries = (snapshot.data ?? []).map((file) {
                     return cangyan.Summary(file: file);
                   }).toList();
+
+                  if (search.isNotEmpty) {
+                    summaries.retainWhere((summary) {
+                      return summary.title().contains(search);
+                    });
+                  }
 
                   return ListView.builder(
                     itemCount: summaries.length,
