@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
-  final summaries = <(cangyan.Summary, MemoryImage)>[];
+  final summaries = <cangyan.Summary>[];
 
   @override
   void initState() {
@@ -60,8 +60,7 @@ class _HomePageState extends State<HomePage> {
               itemCount: summaries.length,
               itemBuilder: (context, index) {
                 return _Tile(
-                  summaries[index].$1,
-                  cover: summaries[index].$2,
+                  summaries[index],
                   onDelete: () {
                     showModalBottomSheet(
                       context: context,
@@ -200,10 +199,7 @@ class _HomePageState extends State<HomePage> {
     summaries.clear();
 
     for (final file in await widget.state.load()) {
-      final summary = cangyan.Summary(file: file);
-      final cover = MemoryImage(summary.cover());
-
-      summaries.add((summary, cover));
+      summaries.add(cangyan.Summary(file: file));
     }
   }
 }
@@ -211,13 +207,10 @@ class _HomePageState extends State<HomePage> {
 class _Tile extends StatefulWidget {
   final cangyan.Summary summary;
 
-  final MemoryImage cover;
-
   final void Function()? onDelete;
 
   const _Tile(
     this.summary, {
-    required this.cover,
     required this.onDelete,
   });
 
@@ -226,6 +219,15 @@ class _Tile extends StatefulWidget {
 }
 
 class _TileState extends State<_Tile> {
+  late MemoryImage cover;
+
+  @override
+  void initState() {
+    super.initState();
+
+    cover = MemoryImage(widget.summary.cover());
+  }
+
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
@@ -250,7 +252,7 @@ class _TileState extends State<_Tile> {
                   AspectRatio(
                     aspectRatio: 3.0 / 4.0,
                     child: cangyan.Image(
-                      provider: widget.cover,
+                      provider: cover,
                     ),
                   ),
                   Positioned(
