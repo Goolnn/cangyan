@@ -791,13 +791,13 @@ impl SseDecode for crate::api::cyfile::date::Date {
     }
 }
 
-impl SseDecode for Vec<Arc<Mutex<File>>> {
+impl SseDecode for Vec<Summary> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut len_ = <i32>::sse_decode(deserializer);
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
-            ans_.push(<Arc<Mutex<File>>>::sse_decode(deserializer));
+            ans_.push(<Summary>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -1144,12 +1144,12 @@ impl SseEncode for crate::api::cyfile::date::Date {
     }
 }
 
-impl SseEncode for Vec<Arc<Mutex<File>>> {
+impl SseEncode for Vec<Summary> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
-            <Arc<Mutex<File>>>::sse_encode(item, serializer);
+            <Summary>::sse_encode(item, serializer);
         }
     }
 }

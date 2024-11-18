@@ -116,8 +116,8 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Date dco_decode_date(dynamic raw);
 
   @protected
-  List<ArcMutexFile>
-      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
+  List<Summary>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           dynamic raw);
 
   @protected
@@ -219,8 +219,8 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Date sse_decode_date(SseDeserializer deserializer);
 
   @protected
-  List<ArcMutexFile>
-      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
+  List<Summary>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           SseDeserializer deserializer);
 
   @protected
@@ -331,8 +331,8 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
-      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
-          List<ArcMutexFile> self, SseSerializer serializer);
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          List<Summary> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_list_prim_u_8_strict(

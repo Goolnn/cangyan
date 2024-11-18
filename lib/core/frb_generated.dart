@@ -86,7 +86,7 @@ abstract class RustLibApi extends BaseApi {
       required String title,
       required List<Uint8List> images});
 
-  Future<List<ArcMutexFile>> crateApiStatesHomeHomeStateLoad(
+  Future<List<Summary>> crateApiStatesHomeHomeStateLoad(
       {required HomeState that});
 
   HomeState crateApiStatesHomeHomeStateNew({required Workspace workspace});
@@ -189,7 +189,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<List<ArcMutexFile>> crateApiStatesHomeHomeStateLoad(
+  Future<List<Summary>> crateApiStatesHomeHomeStateLoad(
       {required HomeState that}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
@@ -201,7 +201,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       },
       codec: SseCodec(
         decodeSuccessData:
-            sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile,
+            sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary,
         decodeErrorData: sse_decode_AnyhowException,
       ),
       constMeta: kCrateApiStatesHomeHomeStateLoadConstMeta,
@@ -666,13 +666,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<ArcMutexFile>
-      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
+  List<Summary>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>)
         .map(
-            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile)
+            dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary)
         .toList();
   }
 
@@ -881,16 +881,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<ArcMutexFile>
-      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
+  List<Summary>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
     var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <ArcMutexFile>[];
+    var ans_ = <Summary>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(
-          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
+          sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
               deserializer));
     }
     return ans_;
@@ -1111,12 +1111,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
-          List<ArcMutexFile> self, SseSerializer serializer) {
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
+          List<Summary> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile(
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary(
           item, serializer);
     }
   }
@@ -1251,7 +1251,7 @@ class HomeStateImpl extends RustOpaque implements HomeState {
         RustLib.instance.api.rust_arc_decrement_strong_count_HomeStatePtr,
   );
 
-  Future<List<ArcMutexFile>> load() =>
+  Future<List<Summary>> load() =>
       RustLib.instance.api.crateApiStatesHomeHomeStateLoad(
         that: this,
       );

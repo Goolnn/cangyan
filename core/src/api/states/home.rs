@@ -1,8 +1,6 @@
-use crate::api::tools::File;
+use crate::api::tools::Summary;
 use crate::api::tools::Workspace;
 use flutter_rust_bridge::frb;
-use std::sync::Arc;
-use std::sync::Mutex;
 
 #[frb]
 pub struct HomeState {
@@ -15,7 +13,12 @@ impl HomeState {
         HomeState { workspace }
     }
 
-    pub fn load(&mut self) -> anyhow::Result<Vec<Arc<Mutex<File>>>> {
-        self.workspace.load()
+    pub fn load(&mut self) -> anyhow::Result<Vec<Summary>> {
+        Ok(self
+            .workspace
+            .load()?
+            .into_iter()
+            .map(|file| Summary::new(file))
+            .collect())
     }
 }
