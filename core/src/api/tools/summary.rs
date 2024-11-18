@@ -105,7 +105,7 @@ impl Summary {
             .lock()
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        let updated_date = Date::from(file.project.updated_data());
+        let updated_date = Date::from(file.project.updated_date());
 
         Ok(updated_date)
     }

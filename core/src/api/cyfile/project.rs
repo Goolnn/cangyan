@@ -1,9 +1,6 @@
 use crate::api::cyfile::Date;
 use crate::api::cyfile::Page;
-use cyfile::Credit;
 use flutter_rust_bridge::frb;
-use std::collections::HashMap;
-use std::collections::HashSet;
 
 #[frb]
 pub struct Project {
@@ -27,9 +24,6 @@ pub struct Project {
     pub updated_date: Date,
 
     #[frb(non_final)]
-    pub credits: HashMap<Credit, HashSet<String>>,
-
-    #[frb(non_final)]
     pub pages: Vec<Page>,
 }
 
@@ -46,9 +40,7 @@ impl From<&cyfile::Project> for Project {
             comment: value.comment().to_string(),
 
             created_date: Date::from(&value.created_date()),
-            updated_date: Date::from(&value.updated_data()),
-
-            credits: value.credits().to_owned(),
+            updated_date: Date::from(&value.updated_date()),
 
             pages: value.pages().iter().map(Page::from).collect(),
         }
@@ -63,7 +55,6 @@ impl From<&Project> for cyfile::Project {
             .with_title(value.title.to_string())
             .with_number(value.number)
             .with_comment(value.comment.to_string())
-            .with_credits(value.credits.to_owned())
             .with_pages(value.pages.iter().map(cyfile::Page::from).collect())
     }
 }
