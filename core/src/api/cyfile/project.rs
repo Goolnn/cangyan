@@ -39,8 +39,8 @@ impl From<&cyfile::Project> for Project {
 
             comment: value.comment().to_string(),
 
-            created_date: Date::from(&value.created_date()),
-            updated_date: Date::from(&value.updated_date()),
+            created_date: Date::from(value.created_date()),
+            updated_date: Date::from(value.updated_date()),
 
             pages: value.pages().iter().map(Page::from).collect(),
         }
