@@ -7,7 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-// import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
   final cangyan.HomeState state;
@@ -172,7 +172,9 @@ class _HomePageState extends State<HomePage> {
                         leading: const Icon(Icons.share),
                         title: const Text('分享'),
                         onTap: () {
-                          // Share.share(summary.title());
+                          Navigator.pop(context);
+
+                          Share.shareXFiles([XFile(summary.filepath())]);
                         },
                       ),
                       ListTile(
@@ -184,7 +186,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         onTap: () async {
-                          // summary.delete();
+                          Navigator.pop(context);
+
+                          summary.delete();
 
                           setState(() {
                             refresh();
