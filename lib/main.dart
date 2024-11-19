@@ -1,8 +1,7 @@
 import 'dart:io';
 
-import 'package:cangyan/core.dart' as cangyan;
+import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/core/frb_generated.dart';
-import 'package:cangyan/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -73,7 +72,7 @@ Future<void> main() async {
       theme: ThemeData(
         fontFamily: Platform.isAndroid ? null : "Microsoft YaHei",
       ),
-      home: HomePage(
+      home: cangyan.HomePage(
         workspace: workspace,
       ),
     ),
