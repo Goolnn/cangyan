@@ -156,7 +156,48 @@ class _HomePageState extends State<HomePage> {
       final summaries = await widget.state.load();
 
       return summaries.map((summary) {
-        return (summary, cangyan.Tile(summary: summary));
+        return (
+          summary,
+          cangyan.Tile(
+            summary: summary,
+            onLongPress: () {
+              showModalBottomSheet(
+                context: context,
+                clipBehavior: Clip.hardEdge,
+                builder: (context) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.share),
+                        title: const Text('分享'),
+                        onTap: () {
+                          // Share.share(summary.title());
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.delete),
+                        title: const Text(
+                          '删除',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                        onTap: () async {
+                          // summary.delete();
+
+                          setState(() {
+                            refresh();
+                          });
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        );
       }).toList();
     });
   }
