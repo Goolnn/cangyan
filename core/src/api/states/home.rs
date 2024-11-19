@@ -18,7 +18,7 @@ impl HomeState {
             .workspace
             .load()?
             .into_iter()
-            .map(|file| Summary::new(file))
+            .map(Summary::new)
             .collect())
     }
 }
