@@ -18,6 +18,10 @@ abstract class Summary implements RustOpaqueInterface {
 
   Date createdDate();
 
+  void delete();
+
+  String filepath();
+
   factory Summary({required ArcMutexFile file}) =>
       RustLib.instance.api.crateApiToolsSummarySummaryNew(file: file);
 

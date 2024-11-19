@@ -109,4 +109,26 @@ impl Summary {
 
         Ok(updated_date)
     }
+
+    #[frb(sync)]
+    pub fn filepath(&self) -> anyhow::Result<String> {
+        let file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let filepath = file.path.to_string_lossy().to_string();
+
+        Ok(filepath)
+    }
+
+    #[frb(sync)]
+    pub fn delete(&self) -> anyhow::Result<()> {
+        let file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.delete()
+    }
 }
