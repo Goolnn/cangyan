@@ -38,13 +38,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    load = Future.microtask(() async {
-      final summaries = await widget.state.load();
-
-      return summaries.map((summary) {
-        return (summary, cangyan.Tile(summary: summary));
-      }).toList();
-    });
+    refresh();
   }
 
   @override
@@ -78,11 +72,19 @@ class _HomePageState extends State<HomePage> {
                     return element.$2;
                   }).toList();
 
-                  return ListView.builder(
-                    itemCount: tiles.length,
-                    itemBuilder: (context, index) {
-                      return tiles[index];
+                  return RefreshIndicator(
+                    displacement: 12.0,
+                    onRefresh: () async {
+                      setState(() {
+                        refresh();
+                      });
                     },
+                    child: ListView.builder(
+                      itemCount: tiles.length,
+                      itemBuilder: (context, index) {
+                        return tiles[index];
+                      },
+                    ),
                   );
                 },
               ),
@@ -145,5 +147,15 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void refresh() {
+    load = Future.microtask(() async {
+      final summaries = await widget.state.load();
+
+      return summaries.map((summary) {
+        return (summary, cangyan.Tile(summary: summary));
+      }).toList();
+    });
   }
 }
