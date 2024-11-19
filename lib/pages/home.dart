@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   late Future<List<(cangyan.Summary, cangyan.Tile)>> load;
 
-  String search = '';
+  String keyword = '';
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               child: cangyan.SearchBox(
                 onChanged: (text) {
                   setState(() {
-                    search = text;
+                    keyword = text;
                   });
                 },
               ),
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                   }
 
                   final tiles = (snapshot.data ?? []).where((element) {
-                    return element.$1.title().contains(search);
+                    return element.$1.title().contains(keyword);
                   }).map((element) {
                     return element.$2;
                   }).toList();
