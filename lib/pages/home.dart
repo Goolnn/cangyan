@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const platform = MethodChannel('goolnn.cangyan/intent');
 
-  Map<cangyan.Summary, cangyan.Tile>? tiles;
+  late Future<List<(cangyan.Summary, cangyan.Tile)>> load;
 
   String search = '';
 
@@ -38,25 +38,12 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    widget.state.load().then((files) {
-      final tiles = Map.fromEntries(files.map((file) {
-        final summary = cangyan.Summary(
-          file: file,
-        );
+    load = Future.microtask(() async {
+      final summaries = await widget.state.load();
 
-        return MapEntry(
-          summary,
-          cangyan.Tile(
-            summary: summary,
-            onPress: () {},
-            onLongPress: () {},
-          ),
-        );
-      }));
-
-      setState(() {
-        this.tiles = tiles;
-      });
+      return summaries.map((summary) {
+        return (summary, cangyan.Tile(summary: summary));
+      }).toList();
     });
   }
 
@@ -76,24 +63,29 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: Builder(builder: (context) {
-                if (this.tiles == null) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+              child: FutureBuilder(
+                future: load,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  final tiles = (snapshot.data ?? []).where((element) {
+                    return element.$1.title().contains(search);
+                  }).map((element) {
+                    return element.$2;
+                  }).toList();
+
+                  return ListView.builder(
+                    itemCount: tiles.length,
+                    itemBuilder: (context, index) {
+                      return tiles[index];
+                    },
                   );
-                }
-
-                final tiles = this.tiles!.values.where((tile) {
-                  return tile.summary.title().contains(search);
-                }).toList();
-
-                return ListView.builder(
-                  itemCount: tiles.length,
-                  itemBuilder: (context, index) {
-                    return tiles[index];
-                  },
-                );
-              }),
+                },
+              ),
             ),
           ],
         ),
