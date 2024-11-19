@@ -122,7 +122,9 @@ class _HomePageState extends State<HomePage> {
             }
           }
 
-          setState(() {});
+          setState(() {
+            refresh();
+          });
         },
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
