@@ -75,6 +75,33 @@ impl Summary {
     }
 
     #[frb(sync)]
+    pub fn progress(&self) -> anyhow::Result<f64> {
+        let file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let project = &file.project;
+
+        let mut total = 0.0;
+        let mut done = 0.0;
+
+        for page in project.pages() {
+            for note in page.notes() {
+                if note.choice() != 0 {
+                    done += 1.0;
+                }
+
+                total += 1.0;
+            }
+        }
+
+        let progress = if total == 0.0 { 0.0 } else { done / total };
+
+        Ok(progress)
+    }
+
+    #[frb(sync)]
     pub fn comment(&self) -> anyhow::Result<String> {
         let file = self
             .file
