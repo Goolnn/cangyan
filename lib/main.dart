@@ -17,13 +17,11 @@ Future<void> main() async {
     ),
   );
 
-  final directory = (await getExternalStorageDirectory())?.path;
+  final path = (await getExternalStorageDirectory())?.path;
 
-  if (directory == null) {
+  if (path == null) {
     return;
   }
-
-  final workspace = cangyan.Workspace(path: directory);
 
   runApp(
     MaterialApp(
@@ -38,9 +36,7 @@ Future<void> main() async {
         Locale('zh'),
       ],
       locale: const Locale('zh'),
-      home: cangyan.HomePage(
-        workspace: workspace,
-      ),
+      home: cangyan.HomePage(path: path),
     ),
   );
 }

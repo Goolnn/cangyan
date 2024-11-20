@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:cangyan/core.dart' as cangyan;
-// import 'package:cangyan/pages.dart' as cangyan;
-import 'package:cangyan/widgets.dart' as cangyan;
+import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,12 +8,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
-  final cangyan.HomeState state;
+  final cangyan.Workspace workspace;
 
   HomePage({
     super.key,
-    required cangyan.Workspace workspace,
-  }) : state = cangyan.HomeState(workspace: workspace);
+    required String path,
+  }) : workspace = cangyan.Workspace(path: path);
 
   @override
   State<HomePage> createState() => _HomePageState();
