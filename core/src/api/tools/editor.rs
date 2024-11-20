@@ -1,5 +1,6 @@
 use crate::api::cyfile::Note;
 use crate::api::tools::File;
+use cyfile::Text;
 use flutter_rust_bridge::frb;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -14,6 +15,42 @@ impl Editor {
     #[frb(sync)]
     pub fn new(file: Arc<Mutex<File>>, index: usize) -> Self {
         Editor { file, index }
+    }
+
+    #[frb(sync)]
+    pub fn append_note(&self, x: f64, y: f64) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let page = &mut file.project.pages_mut()[self.index];
+
+        page.notes_mut().push(
+            cyfile::Note::new()
+                .with_coordinate(x, y)
+                .with_text(Text::new()),
+        );
+
+        file.save()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn remove_note(&self, index: usize) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let page = &mut file.project.pages_mut()[self.index];
+
+        page.notes_mut().remove(index);
+
+        file.save()?;
+
+        Ok(())
     }
 
     #[frb(sync)]
@@ -75,7 +112,7 @@ impl Editor {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         let page = &mut file.project.pages_mut()[self.index];
-        let note = &mut page.notes_mut().remove(index);
+        let note = page.notes_mut().remove(index);
 
         page.notes_mut().insert(number, note);
 
