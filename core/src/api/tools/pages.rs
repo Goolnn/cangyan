@@ -48,6 +48,22 @@ impl Pages {
     }
 
     #[frb(sync)]
+    pub fn move_page_to(&self, from: usize, to: usize) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let page = file.project.pages_mut().remove(from);
+
+        file.project.pages_mut().insert(to, page);
+
+        file.save()?;
+
+        Ok(())
+    }
+
+    #[frb(sync)]
     pub fn images(&self) -> anyhow::Result<Vec<Vec<u8>>> {
         let file = self
             .file
