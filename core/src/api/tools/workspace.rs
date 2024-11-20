@@ -69,18 +69,21 @@ impl Workspace {
     }
 
     #[frb(ignore)]
-    pub fn import(&self, title: String, data: Vec<u8>) -> anyhow::Result<()> {
+    pub fn import(&self, title: String, data: Vec<u8>) -> anyhow::Result<Arc<Mutex<File>>> {
         let path = self.path.join(format!("{}.cy", title));
 
-        std::fs::write(path, data)?;
+        std::fs::write(path.as_path(), data)?;
 
-        Ok(())
+        let project = cyfile::File::open(path.as_path())?;
+        let file = Arc::new(Mutex::new(File { project, path }));
+
+        Ok(file)
     }
 
     #[frb(ignore)]
-    pub fn check(&self, title: String) -> anyhow::Result<bool> {
+    pub fn check(&self, title: String) -> bool {
         let path = self.path.join(format!("{}.cy", title));
 
-        Ok(path.exists())
+        path.exists()
     }
 }
