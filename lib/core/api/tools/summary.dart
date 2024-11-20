@@ -5,8 +5,9 @@
 
 import '../../frb_generated.dart';
 import '../cyfile/date.dart';
-import '../states/home.dart';
+import 'editor.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'pages.dart';
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Summary>>
 abstract class Summary implements RustOpaqueInterface {
@@ -28,6 +29,20 @@ abstract class Summary implements RustOpaqueInterface {
   (int, int) number();
 
   BigInt pageCount();
+
+  Pages pages();
+
+  double progress();
+
+  void setCategory({required String category});
+
+  void setComment({required String comment});
+
+  void setCover({required List<int> cover});
+
+  void setNumber({required (int, int) number});
+
+  void setTitle({required String title});
 
   String title();
 
