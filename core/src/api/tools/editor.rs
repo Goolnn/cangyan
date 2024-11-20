@@ -68,6 +68,22 @@ impl Editor {
         Ok(())
     }
 
+    pub fn set_note_number(&self, index: usize, number: usize) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        let page = &mut file.project.pages_mut()[self.index];
+        let note = &mut page.notes_mut().remove(index);
+
+        page.notes_mut().insert(number, note);
+
+        file.save()?;
+
+        Ok(())
+    }
+
     pub fn notes(&self) -> anyhow::Result<Vec<Note>> {
         let file = self
             .file
