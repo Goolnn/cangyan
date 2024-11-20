@@ -21,4 +21,13 @@ impl HomeState {
             .map(Summary::new)
             .collect())
     }
+
+    pub fn import(&mut self, title: String, data: Vec<u8>) -> anyhow::Result<Summary> {
+        Ok(Summary::new(self.workspace.import(title, data)?))
+    }
+
+    #[frb(sync)]
+    pub fn check(&self, title: String) -> bool {
+        self.workspace.check(title)
+    }
 }
