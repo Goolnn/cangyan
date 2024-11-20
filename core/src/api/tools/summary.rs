@@ -1,5 +1,6 @@
 use crate::api::cyfile::Date;
 use crate::api::tools::File;
+use crate::api::tools::Pages;
 use flutter_rust_bridge::frb;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -206,6 +207,11 @@ impl Summary {
         let updated_date = Date::from(file.project.updated_date());
 
         Ok(updated_date)
+    }
+
+    #[frb(sync)]
+    pub fn pages(&self) -> Pages {
+        Pages::new(Arc::clone(&self.file))
     }
 
     #[frb(sync)]
