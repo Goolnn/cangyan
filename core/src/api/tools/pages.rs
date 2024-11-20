@@ -1,3 +1,4 @@
+use crate::api::tools::Editor;
 use crate::api::tools::File;
 use cyfile::Page;
 use flutter_rust_bridge::frb;
@@ -76,5 +77,10 @@ impl Pages {
             .iter()
             .map(|page| page.data().to_vec())
             .collect())
+    }
+
+    #[frb(sync)]
+    pub fn edit(&self, index: usize) -> Editor {
+        Editor::new(Arc::clone(&self.file), index)
     }
 }
