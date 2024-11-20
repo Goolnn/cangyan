@@ -45,6 +45,8 @@ impl Summary {
             .lock()
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
+        file.rename(title.clone())?;
+
         file.project.set_title(title);
 
         Ok(())
