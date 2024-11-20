@@ -1,6 +1,7 @@
 pub use crate::api::tools::File;
 pub use std::sync::Mutex;
 
+use crate::api::tools::Summary;
 use cyfile::ExportArguments;
 use cyfile::Project;
 use flutter_rust_bridge::frb;
@@ -23,8 +24,9 @@ impl Workspace {
         Workspace { path, files }
     }
 
-    #[frb(ignore)]
-    pub fn load(&mut self) -> anyhow::Result<Vec<Arc<Mutex<File>>>> {
+    pub fn load(&mut self) -> anyhow::Result<Vec<Summary>> {
+        let mut summaries = Vec::new();
+
         self.files.clear();
 
         if let Ok(entries) = self.path.read_dir() {
@@ -40,18 +42,20 @@ impl Workspace {
                     project.set_title(path.file_stem().unwrap().to_string_lossy().to_string());
 
                     let file = Arc::new(Mutex::new(File { project, path }));
+                    let summary = Summary::new(Arc::clone(&file));
 
                     self.files.push(file);
+
+                    summaries.push(summary);
                 } else {
                     std::fs::remove_file(path)?;
                 }
             }
         }
 
-        Ok(self.files.clone())
+        Ok(summaries)
     }
 
-    #[frb(ignore)]
     pub fn create(&self, title: String, images: Vec<Vec<u8>>) -> anyhow::Result<File> {
         let path = self.path.join(format!("{}.cy", title));
 
@@ -68,7 +72,6 @@ impl Workspace {
         Ok(file)
     }
 
-    #[frb(ignore)]
     pub fn import(&self, title: String, data: Vec<u8>) -> anyhow::Result<Arc<Mutex<File>>> {
         let path = self.path.join(format!("{}.cy", title));
 
@@ -80,7 +83,7 @@ impl Workspace {
         Ok(file)
     }
 
-    #[frb(ignore)]
+    #[frb(sync)]
     pub fn check(&self, title: String) -> bool {
         let path = self.path.join(format!("{}.cy", title));
 
