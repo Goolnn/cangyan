@@ -23,6 +23,8 @@ impl Summary {
 
         file.project.set_cover(cover);
 
+        file.save()?;
+
         Ok(())
     }
 
@@ -35,6 +37,8 @@ impl Summary {
 
         file.project.set_category(category);
 
+        file.save()?;
+
         Ok(())
     }
 
@@ -45,9 +49,10 @@ impl Summary {
             .lock()
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
-        file.rename(title.clone())?;
+        file.project.set_title(title.clone());
 
-        file.project.set_title(title);
+        file.rename(title)?;
+        file.save()?;
 
         Ok(())
     }
@@ -61,6 +66,8 @@ impl Summary {
 
         file.project.set_number(number);
 
+        file.save()?;
+
         Ok(())
     }
 
@@ -72,6 +79,8 @@ impl Summary {
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         file.project.set_comment(comment);
+
+        file.save()?;
 
         Ok(())
     }
