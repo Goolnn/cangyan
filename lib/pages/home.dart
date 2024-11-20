@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const platform = MethodChannel('goolnn.cangyan/intent');
+  static const platform = MethodChannel('com.goolnn.cangyan/intent');
 
   late Future<List<(cangyan.Summary, cangyan.Tile)>> load;
 

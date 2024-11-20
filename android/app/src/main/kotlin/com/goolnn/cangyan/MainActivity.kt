@@ -1,4 +1,4 @@
-package goolnn.cangyan
+package com.goolnn.cangyan
 
 import android.content.Intent
 import android.net.Uri
@@ -12,7 +12,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 class MainActivity : FlutterActivity() {
-    private val channel = "goolnn.cangyan/intent"
+    private val channel = "com.goolnn.cangyan/intent"
 
     private var resultCallback: MethodChannel.Result? = null
 

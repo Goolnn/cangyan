@@ -16,7 +16,7 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
-  static const platform = MethodChannel('goolnn.cangyan/intent');
+  static const platform = MethodChannel('com.goolnn.cangyan/intent');
 
   final controller = TextEditingController();
 

@@ -8,7 +8,7 @@
 PRODUCT_NAME = cangyan
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = goolnn.cangyan
+PRODUCT_BUNDLE_IDENTIFIER = com.goolnn.cangyan
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 goolnn. All rights reserved.

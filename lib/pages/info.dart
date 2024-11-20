@@ -18,7 +18,7 @@
 // }
 
 // class _InfoPageState extends State<InfoPage> {
-//   static const platform = MethodChannel('goolnn.cangyan/intent');
+//   static const platform = MethodChannel('com.goolnn.cangyan/intent');
 
 //   late MemoryImage cover;
 
