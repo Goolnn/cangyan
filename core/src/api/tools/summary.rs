@@ -15,6 +15,66 @@ impl Summary {
     }
 
     #[frb(sync)]
+    pub fn set_cover(&self, cover: Vec<u8>) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project.set_cover(cover);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_category(&self, category: String) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project.set_category(category);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_title(&self, title: String) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project.set_title(title);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_number(&self, number: (u32, u32)) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project.set_number(number);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
+    pub fn set_comment(&self, comment: String) -> anyhow::Result<()> {
+        let mut file = self
+            .file
+            .lock()
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
+        file.project.set_comment(comment);
+
+        Ok(())
+    }
+
+    #[frb(sync)]
     pub fn cover(&self) -> anyhow::Result<Vec<u8>> {
         let file = self
             .file
