@@ -1,33 +1,21 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
+import 'package:cangyan/tools/handle.dart';
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatefulWidget {
-  final cangyan.Summary summary;
+  final Handle handle;
   final cangyan.Pages pages;
 
   InfoPage({
     super.key,
-    required this.summary,
-  }) : pages = summary.pages();
+    required this.handle,
+  }) : pages = handle.summary.pages();
 
   @override
   State<InfoPage> createState() => _InfoPageState();
 }
 
 class _InfoPageState extends State<InfoPage> {
-  late MemoryImage cover;
-  late int pageCount;
-
-  late String category;
-  late String title;
-  late (int, int) number;
-  late double progress;
-
-  late String comment;
-
-  late cangyan.Date createdDate;
-  late cangyan.Date updatedDate;
-
   late List<MemoryImage> images;
 
   @override
@@ -37,19 +25,6 @@ class _InfoPageState extends State<InfoPage> {
     images = widget.pages.images().map((image) {
       return MemoryImage(image);
     }).toList();
-
-    cover = images[0];
-    pageCount = images.length;
-
-    category = widget.summary.category();
-    title = widget.summary.title();
-    number = widget.summary.number();
-    progress = widget.summary.progress();
-
-    comment = widget.summary.comment();
-
-    createdDate = widget.summary.createdDate();
-    updatedDate = widget.summary.updatedDate();
   }
 
   @override
@@ -59,7 +34,7 @@ class _InfoPageState extends State<InfoPage> {
         backgroundColor: Colors.white10,
         surfaceTintColor: Colors.transparent,
         toolbarHeight: 48.0,
-        title: Text(title),
+        title: Text(widget.handle.title),
         titleTextStyle: const TextStyle(
           fontSize: 18.0,
           color: Colors.black,
@@ -74,7 +49,7 @@ class _InfoPageState extends State<InfoPage> {
                 SizedBox(
                   height: 256.0 + 64.0,
                   child: Image(
-                    image: cover,
+                    image: widget.handle.cover,
                   ),
                 ),
                 const Divider(),
@@ -85,13 +60,13 @@ class _InfoPageState extends State<InfoPage> {
                     children: [
                       Row(
                         children: [
-                          cangyan.Category(category),
+                          cangyan.Category(widget.handle.category),
                           Expanded(
                             child: cangyan.EditableText(
-                              title,
+                              widget.handle.title,
                               onSubmitted: (text) {
                                 setState(() {
-                                  widget.summary.setTitle(title: text);
+                                  widget.handle.title = text;
                                 });
                               },
                             ),
@@ -101,21 +76,21 @@ class _InfoPageState extends State<InfoPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(comment),
+                        child: Text(widget.handle.comment),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Column(
                           children: [
                             Text(
-                              '创建于 ${dateToString(createdDate)}',
+                              '创建于 ${widget.handle.createdDate}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
                               ),
                             ),
                             Text(
-                              '更新于 ${dateToString(updatedDate)}',
+                              '更新于 ${widget.handle.updatedDate}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,

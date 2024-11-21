@@ -1,4 +1,5 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
+import 'package:cangyan/tools/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   late Future<List<cangyan.Summary>> load;
 
-  Map<cangyan.Summary, cangyan.Tile>? summaries;
+  Map<Handle, cangyan.Tile>? handles;
 
   String keyword = '';
 
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       widget.workspace.include(title: title, data: data).then(
         (summary) {
           setState(() {
-            summaries?.addEntries([include(summary)]);
+            handles?.addEntries([include(Handle(summary))]);
           });
         },
       );
@@ -73,16 +74,16 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
 
-                  summaries ??= Map.fromEntries(
+                  handles ??= Map.fromEntries(
                     (snapshot.data ?? []).map(
                       (summary) {
-                        return include(summary);
+                        return include(Handle(summary));
                       },
                     ),
                   );
 
-                  final tiles = summaries!.values.where((tile) {
-                    return tile.summary.title().contains(keyword);
+                  final tiles = handles!.values.where((tile) {
+                    return tile.handle.title.contains(keyword);
                   }).toList();
 
                   return ListView.builder(
@@ -117,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               widget.workspace.include(title: title, data: data).then(
                 (summary) {
                   setState(() {
-                    summaries?.addEntries([include(summary)]);
+                    handles?.addEntries([include(Handle(summary))]);
                   });
                 },
               );
@@ -149,18 +150,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  MapEntry<cangyan.Summary, cangyan.Tile> include(cangyan.Summary summary) {
+  MapEntry<Handle, cangyan.Tile> include(Handle handle) {
     return MapEntry(
-      summary,
+      handle,
       cangyan.Tile(
-        summary: summary,
+        handle: handle,
         onPress: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) {
                 return cangyan.InfoPage(
-                  summary: summary,
+                  handle: handle,
                 );
               },
             ),
@@ -190,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.pop(context);
 
                       Share.shareXFiles(
-                        [XFile(summary.filepath())],
+                        [XFile(handle.summary.filepath())],
                       );
                     },
                   ),
@@ -207,10 +208,10 @@ class _HomePageState extends State<HomePage> {
                     onTap: () async {
                       Navigator.pop(context);
 
-                      summary.delete();
+                      handle.summary.delete();
 
                       setState(() {
-                        summaries!.remove(summary);
+                        handles!.remove(handle);
                       });
                     },
                   ),

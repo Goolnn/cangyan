@@ -1,26 +1,34 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
+import 'package:cangyan/tools/handle.dart';
 import 'package:flutter/material.dart';
 
 class Tile extends StatefulWidget {
-  final TileController controller;
-
-  final cangyan.Summary summary;
+  final Handle handle;
 
   final Function()? onPress;
   final Function()? onLongPress;
 
-  Tile({
+  const Tile({
     super.key,
-    required this.summary,
+    required this.handle,
     this.onPress,
     this.onLongPress,
-  }) : controller = TileController(summary);
+  });
 
   @override
   State<Tile> createState() => _TileState();
 }
 
 class _TileState extends State<Tile> {
+  @override
+  void initState() {
+    super.initState();
+
+    widget.handle.addListener(() {
+      if (mounted) setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -36,14 +44,14 @@ class _TileState extends State<Tile> {
                     AspectRatio(
                       aspectRatio: 3.0 / 4.0,
                       child: cangyan.Image(
-                        provider: widget.controller.cover,
+                        provider: widget.handle.cover,
                       ),
                     ),
                     Positioned(
                       bottom: 2.0,
                       right: 2.0,
                       child: cangyan.Capsule(
-                        child: Text('${widget.controller.pageCount}页'),
+                        child: Text('${widget.handle.pageCount}页'),
                       ),
                     ),
                   ],
@@ -55,20 +63,20 @@ class _TileState extends State<Tile> {
                     children: [
                       Row(
                         children: [
-                          cangyan.Category(widget.controller.category),
+                          cangyan.Category(widget.handle.category),
                           Expanded(
                             child: cangyan.Title(
-                              widget.controller.title,
-                              widget.controller.number,
+                              widget.handle.title,
+                              widget.handle.number,
                             ),
                           ),
-                          cangyan.Progress(widget.controller.progress),
+                          cangyan.Progress(widget.handle.progress),
                         ],
                       ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: Text(widget.controller.comment),
+                          child: Text(widget.handle.comment),
                         ),
                       ),
                       Align(
@@ -76,14 +84,14 @@ class _TileState extends State<Tile> {
                         child: Column(
                           children: [
                             Text(
-                              '创建于 ${dateToString(widget.controller.createdDate)}',
+                              '创建于 ${widget.handle.createdDate}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
                               ),
                             ),
                             Text(
-                              '更新于 ${dateToString(widget.controller.updatedDate)}',
+                              '更新于 ${widget.handle.updatedDate}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
@@ -112,48 +120,5 @@ class _TileState extends State<Tile> {
         ),
       ],
     );
-  }
-
-  String dateToString(cangyan.Date date) {
-    final year = '${date.year}年';
-    final month = '${date.month}月';
-    final day = '${date.day}日';
-    final hour = '${date.hour}'.padLeft(2, '0');
-    final minute = '${date.minute}'.padLeft(2, '0');
-    final second = '${date.second}'.padLeft(2, '0');
-
-    return '$year$month$day $hour:$minute:$second';
-  }
-}
-
-class TileController extends ChangeNotifier {
-  final cangyan.Summary summary;
-
-  late MemoryImage cover;
-  late int pageCount;
-
-  late String category;
-  late String title;
-  late (int, int) number;
-  late double progress;
-
-  late String comment;
-
-  late cangyan.Date createdDate;
-  late cangyan.Date updatedDate;
-
-  TileController(this.summary) {
-    cover = MemoryImage(summary.cover());
-    pageCount = summary.pageCount().toInt();
-
-    category = summary.category();
-    title = summary.title();
-    number = summary.number();
-    progress = summary.progress();
-
-    comment = summary.comment();
-
-    createdDate = summary.createdDate();
-    updatedDate = summary.updatedDate();
   }
 }
