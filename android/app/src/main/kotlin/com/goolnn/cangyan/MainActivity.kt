@@ -12,7 +12,7 @@ import java.io.InputStream
 
 class MainActivity : FlutterActivity() {
     private val methodChannel = "com.goolnn.cangyan/files"
-    private val eventChannel = "com.goolnn.cangyan/import"
+    private val eventChannel = "com.goolnn.cangyan/include"
 
     private val projectsCode = 1001
     private val imagesCode = 1002
