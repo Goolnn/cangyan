@@ -44,7 +44,7 @@ class _TileState extends State<Tile> {
                       bottom: 2.0,
                       right: 2.0,
                       child: cangyan.Capsule(
-                        child: Text('${widget.summary.pageCount()}页'),
+                        child: Text('${widget.controller.pageCount}页'),
                       ),
                     ),
                   ],
@@ -56,20 +56,20 @@ class _TileState extends State<Tile> {
                     children: [
                       Row(
                         children: [
-                          cangyan.Category(widget.summary.category()),
+                          cangyan.Category(widget.controller.category),
                           Expanded(
                             child: cangyan.Title(
-                              widget.summary.title(),
-                              widget.summary.number(),
+                              widget.controller.title,
+                              widget.controller.number,
                             ),
                           ),
-                          const cangyan.Progress(0.0),
+                          cangyan.Progress(widget.controller.progress),
                         ],
                       ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: Text(widget.summary.comment()),
+                          child: Text(widget.controller.comment),
                         ),
                       ),
                       Align(
@@ -77,14 +77,14 @@ class _TileState extends State<Tile> {
                         child: Column(
                           children: [
                             Text(
-                              '创建于 ${dateToString(widget.summary.createdDate())}',
+                              '创建于 ${dateToString(widget.controller.createdDate)}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
                               ),
                             ),
                             Text(
-                              '更新于 ${dateToString(widget.summary.updatedDate())}',
+                              '更新于 ${dateToString(widget.controller.updatedDate)}',
                               style: const TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.grey,
@@ -128,9 +128,33 @@ class _TileState extends State<Tile> {
 }
 
 class TileController extends ChangeNotifier {
-  late MemoryImage cover;
+  final cangyan.Summary summary;
 
-  TileController(cangyan.Summary summary) {
+  late MemoryImage cover;
+  late int pageCount;
+
+  late String category;
+  late String title;
+  late (int, int) number;
+  late double progress;
+
+  late String comment;
+
+  late cangyan.Date createdDate;
+  late cangyan.Date updatedDate;
+
+  TileController(this.summary) {
     cover = MemoryImage(summary.cover());
+    pageCount = summary.pageCount().toInt();
+
+    category = summary.category();
+    title = summary.title();
+    number = summary.number();
+    progress = summary.progress();
+
+    comment = summary.comment();
+
+    createdDate = summary.createdDate();
+    updatedDate = summary.updatedDate();
   }
 }
