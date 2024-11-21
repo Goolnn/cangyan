@@ -19,6 +19,15 @@ class SearchBox extends StatefulWidget {
 class _SearchBoxState extends State<SearchBox> {
   final FocusNode focusNode = FocusNode();
 
+  late final TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = widget.controller ?? TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,16 +39,31 @@ class _SearchBoxState extends State<SearchBox> {
           }
 
           return TextField(
-            controller: widget.controller,
+            controller: controller,
             focusNode: focusNode,
-            decoration: const InputDecoration(
-              border: StadiumInputBorder(),
-              contentPadding: EdgeInsets.symmetric(
+            decoration: InputDecoration(
+              border: const StadiumInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12.0,
                 vertical: 4.0,
               ),
-              prefixIcon: Icon(Icons.search),
-              prefixIconConstraints: BoxConstraints(
+              prefixIcon: const Icon(Icons.search),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 32.0,
+              ),
+              suffixIcon: controller.text.isNotEmpty
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          controller.clear();
+                        });
+
+                        widget.onChanged?.call('');
+                      },
+                      child: const Icon(Icons.clear),
+                    )
+                  : null,
+              suffixIconConstraints: const BoxConstraints(
                 minWidth: 32.0,
               ),
               isCollapsed: true,
