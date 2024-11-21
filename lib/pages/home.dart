@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const platform = MethodChannel('com.goolnn.cangyan/intent');
+  static const platform = MethodChannel('com.goolnn.cangyan/files');
 
   late Future<List<cangyan.Summary>> load;
 
@@ -31,12 +31,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
-    platform.setMethodCallHandler((call) async {
-      if (call.method == 'newIntent') {
-        setState(() {});
-      }
-    });
 
     load = widget.workspace.load();
   }
@@ -69,66 +63,7 @@ class _HomePageState extends State<HomePage> {
                   summaries ??= Map.fromEntries(
                     (snapshot.data ?? []).map(
                       (summary) {
-                        return MapEntry(
-                          summary,
-                          cangyan.Tile(
-                            summary: summary,
-                            onPress: () {},
-                            onLongPress: () {
-                              showModalBottomSheet(
-                                clipBehavior: Clip.hardEdge,
-                                context: context,
-                                builder: (context) {
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ListTile(
-                                        leading: const Icon(
-                                          Icons.remove_red_eye,
-                                        ),
-                                        title: const Text('查看'),
-                                        onTap: () {},
-                                      ),
-                                      ListTile(
-                                        leading: const Icon(
-                                          Icons.share,
-                                        ),
-                                        title: const Text('分享'),
-                                        onTap: () {
-                                          Navigator.pop(context);
-
-                                          Share.shareXFiles(
-                                            [XFile(summary.filepath())],
-                                          );
-                                        },
-                                      ),
-                                      ListTile(
-                                        leading: const Icon(
-                                          Icons.delete,
-                                        ),
-                                        title: const Text(
-                                          '删除',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                        onTap: () async {
-                                          Navigator.pop(context);
-
-                                          summary.delete();
-
-                                          setState(() {
-                                            summaries!.remove(summary);
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        );
+                        return this.summary(summary);
                       },
                     ),
                   );
@@ -150,34 +85,31 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: GestureDetector(
-        onLongPress: () async {
-          if (Platform.isAndroid) {
-            await platform.invokeMethod("openIntent");
-          } else if (Platform.isWindows) {
-            final result = await FilePicker.platform.pickFiles(
-              type: FileType.custom,
-              allowedExtensions: ['cy'],
-              allowMultiple: true,
-              lockParentWindow: true,
-            );
+        onLongPress: () {
+          platform.invokeListMethod("projects").then((value) {
+            final projects = value?.map(
+              (project) {
+                return Map<String, dynamic>.from(project as Map);
+              },
+            ).toList();
 
-            if (result == null) {
+            if (projects == null) {
               return;
             }
 
-            for (final path in result.paths) {
-              final file = File(path!);
+            for (final project in projects) {
+              final title = project['title'] as String;
+              final data = project['data'] as Uint8List;
 
-              final bytes = await file.readAsBytes();
-
-              final filename = path.split('\\').last;
-
-              final newFile = File(
-                  '${(await getApplicationDocumentsDirectory()).path}/cangyan/$filename');
-
-              await newFile.writeAsBytes(bytes);
+              widget.workspace.import_(title: title, data: data).then(
+                (summary) {
+                  setState(() {
+                    summaries?.addEntries([this.summary(summary)]);
+                  });
+                },
+              );
             }
-          }
+          });
         },
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
@@ -204,58 +136,66 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // void refresh() {
-  //   load = Future.microtask(() async {
-  //     final summaries = await widget.state.load();
+  MapEntry<cangyan.Summary, cangyan.Tile> summary(cangyan.Summary summary) {
+    return MapEntry(
+      summary,
+      cangyan.Tile(
+        summary: summary,
+        onPress: () {},
+        onLongPress: () {
+          showModalBottomSheet(
+            clipBehavior: Clip.hardEdge,
+            context: context,
+            builder: (context) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    leading: const Icon(
+                      Icons.remove_red_eye,
+                    ),
+                    title: const Text('查看'),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.share,
+                    ),
+                    title: const Text('分享'),
+                    onTap: () {
+                      Navigator.pop(context);
 
-  //     return summaries.map((summary) {
-  //       return (
-  //         summary,
-  //         cangyan.Tile(
-  //           summary: summary,
-  //           onLongPress: () {
-  //             showModalBottomSheet(
-  //               context: context,
-  //               clipBehavior: Clip.hardEdge,
-  //               builder: (context) {
-  //                 return Column(
-  //                   mainAxisSize: MainAxisSize.min,
-  //                   children: [
-  //                     ListTile(
-  //                       leading: const Icon(Icons.share),
-  //                       title: const Text('分享'),
-  //                       onTap: () {
-  //                         Navigator.pop(context);
+                      Share.shareXFiles(
+                        [XFile(summary.filepath())],
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.delete,
+                    ),
+                    title: const Text(
+                      '删除',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                    onTap: () async {
+                      Navigator.pop(context);
 
-  //                         Share.shareXFiles([XFile(summary.filepath())]);
-  //                       },
-  //                     ),
-  //                     ListTile(
-  //                       leading: const Icon(Icons.delete),
-  //                       title: const Text(
-  //                         '删除',
-  //                         style: TextStyle(
-  //                           color: Colors.red,
-  //                         ),
-  //                       ),
-  //                       onTap: () async {
-  //                         Navigator.pop(context);
+                      summary.delete();
 
-  //                         summary.delete();
-
-  //                         setState(() {
-  //                           refresh();
-  //                         });
-  //                       },
-  //                     ),
-  //                   ],
-  //                 );
-  //               },
-  //             );
-  //           },
-  //         ),
-  //       );
-  //     }).toList();
-  //   });
-  // }
+                      setState(() {
+                        summaries!.remove(summary);
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
 }
