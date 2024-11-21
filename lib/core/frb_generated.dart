@@ -72,7 +72,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => -1237656859;
+  int get rustContentHash => -485417879;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -177,7 +177,7 @@ abstract class RustLibApi extends BaseApi {
       required String title,
       required List<Uint8List> images});
 
-  Future<Summary> crateApiToolsWorkspaceWorkspaceImport(
+  Future<Summary> crateApiToolsWorkspaceWorkspaceInclude(
       {required Workspace that,
       required String title,
       required List<int> data});
@@ -1167,7 +1167,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<Summary> crateApiToolsWorkspaceWorkspaceImport(
+  Future<Summary> crateApiToolsWorkspaceWorkspaceInclude(
       {required Workspace that,
       required String title,
       required List<int> data}) {
@@ -1186,15 +1186,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary,
         decodeErrorData: sse_decode_AnyhowException,
       ),
-      constMeta: kCrateApiToolsWorkspaceWorkspaceImportConstMeta,
+      constMeta: kCrateApiToolsWorkspaceWorkspaceIncludeConstMeta,
       argValues: [that, title, data],
       apiImpl: this,
     ));
   }
 
-  TaskConstMeta get kCrateApiToolsWorkspaceWorkspaceImportConstMeta =>
+  TaskConstMeta get kCrateApiToolsWorkspaceWorkspaceIncludeConstMeta =>
       const TaskConstMeta(
-        debugName: "Workspace_import",
+        debugName: "Workspace_include",
         argNames: ["that", "title", "data"],
       );
 
@@ -2400,8 +2400,8 @@ class WorkspaceImpl extends RustOpaque implements Workspace {
       RustLib.instance.api.crateApiToolsWorkspaceWorkspaceCreate(
           that: this, title: title, images: images);
 
-  Future<Summary> import_({required String title, required List<int> data}) =>
-      RustLib.instance.api.crateApiToolsWorkspaceWorkspaceImport(
+  Future<Summary> include({required String title, required List<int> data}) =>
+      RustLib.instance.api.crateApiToolsWorkspaceWorkspaceInclude(
           that: this, title: title, data: data);
 
   Future<List<Summary>> load() =>

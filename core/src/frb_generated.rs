@@ -41,7 +41,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.5.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1237656859;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -485417879;
 
 // Section: executor
 
@@ -1780,7 +1780,7 @@ fn wire__crate__api__tools__workspace__Workspace_create_impl(
         },
     )
 }
-fn wire__crate__api__tools__workspace__Workspace_import_impl(
+fn wire__crate__api__tools__workspace__Workspace_include_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1788,7 +1788,7 @@ fn wire__crate__api__tools__workspace__Workspace_import_impl(
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "Workspace_import",
+            debug_name: "Workspace_include",
             port: Some(port_),
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
@@ -1825,7 +1825,7 @@ fn wire__crate__api__tools__workspace__Workspace_import_impl(
                             }
                         }
                         let api_that_guard = api_that_guard.unwrap();
-                        let output_ok = crate::api::tools::workspace::Workspace::import(
+                        let output_ok = crate::api::tools::workspace::Workspace::include(
                             &*api_that_guard,
                             api_title,
                             api_data,
@@ -2244,7 +2244,7 @@ fn pde_ffi_dispatcher_primary_impl(
             rust_vec_len,
             data_len,
         ),
-        36 => wire__crate__api__tools__workspace__Workspace_import_impl(
+        36 => wire__crate__api__tools__workspace__Workspace_include_impl(
             port,
             ptr,
             rust_vec_len,

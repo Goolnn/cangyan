@@ -73,7 +73,7 @@ impl Workspace {
         Ok(summary)
     }
 
-    pub fn import(&self, title: String, data: Vec<u8>) -> anyhow::Result<Summary> {
+    pub fn include(&self, title: String, data: Vec<u8>) -> anyhow::Result<Summary> {
         let path = self.path.join(format!("{}.cy", title));
 
         std::fs::write(path.as_path(), data)?;
