@@ -73,6 +73,60 @@ class _HomePageState extends State<HomePage> {
                           summary,
                           cangyan.Tile(
                             summary: summary,
+                            onPress: () {},
+                            onLongPress: () {
+                              showModalBottomSheet(
+                                clipBehavior: Clip.hardEdge,
+                                context: context,
+                                builder: (context) {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        leading: const Icon(
+                                          Icons.remove_red_eye,
+                                        ),
+                                        title: const Text('查看'),
+                                        onTap: () {},
+                                      ),
+                                      ListTile(
+                                        leading: const Icon(
+                                          Icons.share,
+                                        ),
+                                        title: const Text('分享'),
+                                        onTap: () {
+                                          Navigator.pop(context);
+
+                                          Share.shareXFiles(
+                                            [XFile(summary.filepath())],
+                                          );
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: const Icon(
+                                          Icons.delete,
+                                        ),
+                                        title: const Text(
+                                          '删除',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                        onTap: () async {
+                                          Navigator.pop(context);
+
+                                          summary.delete();
+
+                                          setState(() {
+                                            summaries!.remove(summary);
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                           ),
                         );
                       },
