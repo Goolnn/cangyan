@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:cangyan/cangyan.dart' as cangyan;
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
@@ -101,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               final title = project['title'] as String;
               final data = project['data'] as Uint8List;
 
-              widget.workspace.import_(title: title, data: data).then(
+              widget.workspace.include(title: title, data: data).then(
                 (summary) {
                   setState(() {
                     summaries?.addEntries([this.summary(summary)]);
