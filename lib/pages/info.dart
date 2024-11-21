@@ -1,9 +1,14 @@
+import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatelessWidget {
-  const InfoPage({
+  final cangyan.Summary summary;
+  final cangyan.Pages pages;
+
+  InfoPage({
     super.key,
-  });
+    required this.summary,
+  }) : pages = summary.pages();
 
   @override
   Widget build(BuildContext context) {

@@ -159,7 +159,9 @@ class _HomePageState extends State<HomePage> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return const cangyan.InfoPage();
+                return cangyan.InfoPage(
+                  summary: summary,
+                );
               },
             ),
           );
