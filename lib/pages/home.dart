@@ -16,7 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const platform = MethodChannel('com.goolnn.cangyan/files');
+  static const platformMethod = MethodChannel('com.goolnn.cangyan/files');
+  static const platformEvent = EventChannel("com.goolnn.cangyan/include");
 
   late Future<List<cangyan.Summary>> load;
 
@@ -29,6 +30,22 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     load = widget.workspace.load();
+
+    platformEvent
+        .receiveBroadcastStream()
+        .map((event) => Map<String, dynamic>.from(event as Map))
+        .listen((event) {
+      final title = event['title'] as String;
+      final data = event['data'] as Uint8List;
+
+      widget.workspace.include(title: title, data: data).then(
+        (summary) {
+          setState(() {
+            summaries?.addEntries([this.summary(summary)]);
+          });
+        },
+      );
+    });
   }
 
   @override
@@ -82,7 +99,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: GestureDetector(
         onLongPress: () {
-          platform.invokeListMethod("projects").then((value) {
+          platformMethod.invokeListMethod("projects").then((value) {
             final projects = value?.map(
               (project) {
                 return Map<String, dynamic>.from(project as Map);
