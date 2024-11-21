@@ -15,13 +15,156 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
+  late MemoryImage cover;
+  late int pageCount;
+
+  late String category;
+  late String title;
+  late (int, int) number;
+  late double progress;
+
+  late String comment;
+
+  late cangyan.Date createdDate;
+  late cangyan.Date updatedDate;
+
+  late List<MemoryImage> images;
+
+  @override
+  void initState() {
+    super.initState();
+
+    images = widget.pages.images().map((image) {
+      return MemoryImage(image);
+    }).toList();
+
+    cover = images[0];
+    pageCount = images.length;
+
+    category = widget.summary.category();
+    title = widget.summary.title();
+    number = widget.summary.number();
+    progress = widget.summary.progress();
+
+    comment = widget.summary.comment();
+
+    createdDate = widget.summary.createdDate();
+    updatedDate = widget.summary.updatedDate();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: Placeholder(),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 256.0 + 64.0,
+                  child: Image(
+                    image: cover,
+                  ),
+                ),
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          cangyan.Category(category),
+                          Expanded(
+                            child: cangyan.EditableText(
+                              title,
+                              onSubmitted: (text) {
+                                setState(() {
+                                  widget.summary.setTitle(title: text);
+                                });
+                              },
+                            ),
+                          ),
+                          const cangyan.Progress(0.0),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(comment),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Column(
+                          children: [
+                            Text(
+                              '创建于 ${dateToString(createdDate)}',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              '更新于 ${dateToString(updatedDate)}',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const Divider(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    children: [
+                      for (int i = 0; i < images.length; i++)
+                        FractionallySizedBox(
+                          widthFactor: 1.0 / 3.0,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {},
+                                  onLongPressStart: (details) {},
+                                  child: AspectRatio(
+                                    aspectRatio: 3.0 / 4.0,
+                                    child: cangyan.Image(
+                                      provider: images[i],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text('第${i + 1}页'),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
+  }
+
+  String dateToString(cangyan.Date date) {
+    final year = '${date.year}年';
+    final month = '${date.month}月';
+    final day = '${date.day}日';
+    final hour = '${date.hour}'.padLeft(2, '0');
+    final minute = '${date.minute}'.padLeft(2, '0');
+    final second = '${date.second}'.padLeft(2, '0');
+
+    return '$year$month$day $hour:$minute:$second';
   }
 }
 
