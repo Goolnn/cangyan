@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
-class SearchBox extends StatelessWidget {
+class SearchBox extends StatefulWidget {
   final TextEditingController? controller;
 
   final Function(String text)? onChanged;
@@ -12,31 +13,44 @@ class SearchBox extends StatelessWidget {
   });
 
   @override
+  State<SearchBox> createState() => _SearchBoxState();
+}
+
+class _SearchBoxState extends State<SearchBox> {
+  final FocusNode focusNode = FocusNode();
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: TextField(
-        controller: controller,
-        decoration: const InputDecoration(
-          border: StadiumInputBorder(),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 4.0,
-          ),
-          prefixIcon: Icon(Icons.search),
-          prefixIconConstraints: BoxConstraints(
-            minWidth: 32.0,
-          ),
-          isCollapsed: true,
-          isDense: true,
-        ),
-        style: const TextStyle(
-          fontSize: 14.0,
-        ),
-        onTapOutside: (event) {
-          FocusScope.of(context).unfocus();
+      child: KeyboardVisibilityBuilder(
+        builder: (context, isKeyboardVisible) {
+          if (!isKeyboardVisible) {
+            focusNode.unfocus();
+          }
+
+          return TextField(
+            controller: widget.controller,
+            focusNode: focusNode,
+            decoration: const InputDecoration(
+              border: StadiumInputBorder(),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 4.0,
+              ),
+              prefixIcon: Icon(Icons.search),
+              prefixIconConstraints: BoxConstraints(
+                minWidth: 32.0,
+              ),
+              isCollapsed: true,
+              isDense: true,
+            ),
+            style: const TextStyle(
+              fontSize: 14.0,
+            ),
+            onChanged: widget.onChanged,
+          );
         },
-        onChanged: onChanged,
       ),
     );
   }
