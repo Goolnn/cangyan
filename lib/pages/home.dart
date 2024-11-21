@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       widget.workspace.include(title: title, data: data).then(
         (summary) {
           setState(() {
-            summaries?.addEntries([this.summary(summary)]);
+            summaries?.addEntries([include(summary)]);
           });
         },
       );
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                   summaries ??= Map.fromEntries(
                     (snapshot.data ?? []).map(
                       (summary) {
-                        return this.summary(summary);
+                        return include(summary);
                       },
                     ),
                   );
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
               widget.workspace.include(title: title, data: data).then(
                 (summary) {
                   setState(() {
-                    summaries?.addEntries([this.summary(summary)]);
+                    summaries?.addEntries([include(summary)]);
                   });
                 },
               );
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  MapEntry<cangyan.Summary, cangyan.Tile> summary(cangyan.Summary summary) {
+  MapEntry<cangyan.Summary, cangyan.Tile> include(cangyan.Summary summary) {
     return MapEntry(
       summary,
       cangyan.Tile(
