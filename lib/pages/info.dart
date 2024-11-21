@@ -1,3 +1,20 @@
+import 'package:flutter/material.dart';
+
+class InfoPage extends StatelessWidget {
+  const InfoPage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: SafeArea(
+        child: Placeholder(),
+      ),
+    );
+  }
+}
+
 // import 'package:cangyan/core/cyfile.dart' as cangyan;
 // import 'package:cangyan/core/states.dart' as cangyan;
 // import 'package:cangyan/pages/edit.dart';

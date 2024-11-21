@@ -154,7 +154,16 @@ class _HomePageState extends State<HomePage> {
       summary,
       cangyan.Tile(
         summary: summary,
-        onPress: () {},
+        onPress: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const cangyan.InfoPage();
+              },
+            ),
+          );
+        },
         onLongPress: () {
           showModalBottomSheet(
             clipBehavior: Clip.hardEdge,
