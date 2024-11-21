@@ -55,6 +55,16 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+        surfaceTintColor: Colors.transparent,
+        toolbarHeight: 48.0,
+        title: Text(title),
+        titleTextStyle: const TextStyle(
+          fontSize: 18.0,
+          color: Colors.black,
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
