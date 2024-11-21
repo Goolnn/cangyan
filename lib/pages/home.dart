@@ -24,6 +24,8 @@ class _HomePageState extends State<HomePage> {
 
   late Future<List<cangyan.Summary>> load;
 
+  Map<cangyan.Summary, cangyan.Tile>? summaries;
+
   String keyword = '';
 
   @override
@@ -64,14 +66,27 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
 
-                  final summaries = snapshot.data ?? [];
+                  summaries ??= Map.fromEntries(
+                    (snapshot.data ?? []).map(
+                      (summary) {
+                        return MapEntry(
+                          summary,
+                          cangyan.Tile(
+                            summary: summary,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+
+                  final tiles = summaries!.values.where((tile) {
+                    return tile.summary.title().contains(keyword);
+                  }).toList();
 
                   return ListView.builder(
-                    itemCount: summaries.length,
+                    itemCount: tiles.length,
                     itemBuilder: (context, index) {
-                      return cangyan.Tile(
-                        summary: summaries[index],
-                      );
+                      return tiles[index];
                     },
                   );
                 },
