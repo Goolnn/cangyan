@@ -1,5 +1,4 @@
-import 'package:cangyan/core.dart' as cangyan;
-import 'package:cangyan/widgets.dart' as cangyan;
+import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class Tile extends StatefulWidget {
