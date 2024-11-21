@@ -1,7 +1,7 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:flutter/material.dart';
 
-class InfoPage extends StatelessWidget {
+class InfoPage extends StatefulWidget {
   final cangyan.Summary summary;
   final cangyan.Pages pages;
 
@@ -10,6 +10,11 @@ class InfoPage extends StatelessWidget {
     required this.summary,
   }) : pages = summary.pages();
 
+  @override
+  State<InfoPage> createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
