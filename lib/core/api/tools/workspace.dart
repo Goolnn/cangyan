@@ -4,8 +4,6 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
-import 'editor.dart';
-import 'file.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'summary.dart';
 
@@ -13,10 +11,10 @@ import 'summary.dart';
 abstract class Workspace implements RustOpaqueInterface {
   bool check({required String title});
 
-  Future<File> create({required String title, required List<Uint8List> images});
+  Future<Summary> create(
+      {required String title, required List<Uint8List> images});
 
-  Future<ArcMutexFile> import_(
-      {required String title, required List<int> data});
+  Future<Summary> import_({required String title, required List<int> data});
 
   Future<List<Summary>> load();
 

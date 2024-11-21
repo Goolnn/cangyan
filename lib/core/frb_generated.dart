@@ -7,7 +7,6 @@ import 'api/cyfile/date.dart';
 import 'api/cyfile/note.dart';
 import 'api/cyfile/text.dart';
 import 'api/tools/editor.dart';
-import 'api/tools/file.dart';
 import 'api/tools/pages.dart';
 import 'api/tools/summary.dart';
 import 'api/tools/workspace.dart';
@@ -173,12 +172,12 @@ abstract class RustLibApi extends BaseApi {
   bool crateApiToolsWorkspaceWorkspaceCheck(
       {required Workspace that, required String title});
 
-  Future<File> crateApiToolsWorkspaceWorkspaceCreate(
+  Future<Summary> crateApiToolsWorkspaceWorkspaceCreate(
       {required Workspace that,
       required String title,
       required List<Uint8List> images});
 
-  Future<ArcMutexFile> crateApiToolsWorkspaceWorkspaceImport(
+  Future<Summary> crateApiToolsWorkspaceWorkspaceImport(
       {required Workspace that,
       required String title,
       required List<int> data});
@@ -201,12 +200,6 @@ abstract class RustLibApi extends BaseApi {
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Editor;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_EditorPtr;
-
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_File;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_File;
-
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_FilePtr;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Pages;
 
@@ -1142,7 +1135,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<File> crateApiToolsWorkspaceWorkspaceCreate(
+  Future<Summary> crateApiToolsWorkspaceWorkspaceCreate(
       {required Workspace that,
       required String title,
       required List<Uint8List> images}) {
@@ -1158,7 +1151,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       },
       codec: SseCodec(
         decodeSuccessData:
-            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile,
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary,
         decodeErrorData: sse_decode_AnyhowException,
       ),
       constMeta: kCrateApiToolsWorkspaceWorkspaceCreateConstMeta,
@@ -1174,7 +1167,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<ArcMutexFile> crateApiToolsWorkspaceWorkspaceImport(
+  Future<Summary> crateApiToolsWorkspaceWorkspaceImport(
       {required Workspace that,
       required String title,
       required List<int> data}) {
@@ -1190,7 +1183,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       },
       codec: SseCodec(
         decodeSuccessData:
-            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile,
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSummary,
         decodeErrorData: sse_decode_AnyhowException,
       ),
       constMeta: kCrateApiToolsWorkspaceWorkspaceImportConstMeta,
@@ -1274,12 +1267,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       get rust_arc_decrement_strong_count_Editor => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditor;
 
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_File =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile;
-
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_File =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile;
-
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Pages =>
       wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPages;
 
@@ -1322,14 +1309,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return EditorImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  File
-      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FileImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -1410,14 +1389,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return EditorImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  File
-      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return FileImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -1620,15 +1591,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  File
-      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return FileImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
   Pages
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPages(
           SseDeserializer deserializer) {
@@ -1715,15 +1677,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return EditorImpl.frbInternalSseDecode(
-        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
-  }
-
-  @protected
-  File
-      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return FileImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -1954,15 +1907,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          File self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as FileImpl).frbInternalSseEncode(move: true), serializer);
-  }
-
-  @protected
-  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerPages(
           Pages self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -2050,15 +1994,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as EditorImpl).frbInternalSseEncode(move: null), serializer);
-  }
-
-  @protected
-  void
-      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerFile(
-          File self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-        (self as FileImpl).frbInternalSseEncode(move: null), serializer);
   }
 
   @protected
@@ -2310,26 +2245,6 @@ class EditorImpl extends RustOpaque implements Editor {
 }
 
 @sealed
-class FileImpl extends RustOpaque implements File {
-  // Not to be used by end users
-  FileImpl.frbInternalDcoDecode(List<dynamic> wire)
-      : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  FileImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_File,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_File,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_FilePtr,
-  );
-}
-
-@sealed
 class PagesImpl extends RustOpaque implements Pages {
   // Not to be used by end users
   PagesImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -2480,13 +2395,12 @@ class WorkspaceImpl extends RustOpaque implements Workspace {
   bool check({required String title}) => RustLib.instance.api
       .crateApiToolsWorkspaceWorkspaceCheck(that: this, title: title);
 
-  Future<File> create(
+  Future<Summary> create(
           {required String title, required List<Uint8List> images}) =>
       RustLib.instance.api.crateApiToolsWorkspaceWorkspaceCreate(
           that: this, title: title, images: images);
 
-  Future<ArcMutexFile> import_(
-          {required String title, required List<int> data}) =>
+  Future<Summary> import_({required String title, required List<int> data}) =>
       RustLib.instance.api.crateApiToolsWorkspaceWorkspaceImport(
           that: this, title: title, data: data);
 
