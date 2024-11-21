@@ -3,7 +3,7 @@ import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class Tile extends StatefulWidget {
-  final MemoryImage cover;
+  final TileController controller;
 
   final cangyan.Summary summary;
 
@@ -15,7 +15,7 @@ class Tile extends StatefulWidget {
     required this.summary,
     this.onPress,
     this.onLongPress,
-  }) : cover = MemoryImage(summary.cover());
+  }) : controller = TileController(summary);
 
   @override
   State<Tile> createState() => _TileState();
@@ -37,7 +37,7 @@ class _TileState extends State<Tile> {
                     AspectRatio(
                       aspectRatio: 3.0 / 4.0,
                       child: cangyan.Image(
-                        provider: widget.cover,
+                        provider: widget.controller.cover,
                       ),
                     ),
                     Positioned(
@@ -124,5 +124,13 @@ class _TileState extends State<Tile> {
     final second = '${date.second}'.padLeft(2, '0');
 
     return '$year$month$day $hour:$minute:$second';
+  }
+}
+
+class TileController extends ChangeNotifier {
+  late MemoryImage cover;
+
+  TileController(cangyan.Summary summary) {
+    cover = MemoryImage(summary.cover());
   }
 }
