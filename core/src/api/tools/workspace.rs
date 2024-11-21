@@ -78,7 +78,7 @@ impl Workspace {
 
         std::fs::write(path.as_path(), data)?;
 
-        let project = cyfile::File::open(path.as_path())?;
+        let project = cyfile::File::open(path.as_path())?.with_title(title);
         let file = Arc::new(Mutex::new(File { project, path }));
         let summary = Summary::new(file);
 
