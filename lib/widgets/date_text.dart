@@ -19,7 +19,7 @@ class DateText extends StatelessWidget {
     return Text(
       '${prefix ?? ''}${separator ?? ''}${_dateToString(date)}',
       style: const TextStyle(
-        fontSize: 12.0,
+        fontSize: 10.0,
         color: Colors.grey,
       ),
     );
