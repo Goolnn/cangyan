@@ -175,6 +175,7 @@ class _HomePageState extends State<HomePage> {
             MaterialPageRoute(
               builder: (context) {
                 return cangyan.InfoPage(
+                  workspace: widget.workspace,
                   handle: handle,
                 );
               },

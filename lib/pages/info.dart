@@ -4,11 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatefulWidget {
+  final cangyan.Workspace workspace;
   final Handle handle;
   final cangyan.Pages pages;
 
   InfoPage({
     super.key,
+    required this.workspace,
     required this.handle,
   }) : pages = handle.summary.pages();
 
@@ -66,9 +68,29 @@ class _InfoPageState extends State<InfoPage> {
                             child: cangyan.EditableText(
                               widget.handle.title,
                               onSubmitted: (text) {
-                                setState(() {
-                                  widget.handle.title = text;
-                                });
+                                if (widget.workspace.check(title: text)) {
+                                  setState(() {
+                                    widget.handle.title = text;
+                                  });
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('工程重名'),
+                                        content: const Text('工程名称无法使用重复的内容'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('确定'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               },
                             ),
                           ),
