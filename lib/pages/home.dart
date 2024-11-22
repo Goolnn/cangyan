@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
     return MapEntry(
       handle,
       cangyan.Wave(
-        onPress: () {
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -184,6 +184,8 @@ class _HomePageState extends State<HomePage> {
           );
         },
         onLongPress: () {
+          HapticFeedback.selectionClick();
+
           showModalBottomSheet(
             clipBehavior: Clip.hardEdge,
             context: context,
