@@ -85,7 +85,7 @@ class _SearchBoxState extends State<SearchBox>
                 controller: controller,
                 focusNode: focusNode,
                 decoration: InputDecoration(
-                  border: StadiumInputBorder(
+                  border: _StadiumInputBorder(
                     color: colorAnimation.value,
                     width: widthAnimation.value,
                   ),
@@ -130,11 +130,11 @@ class _SearchBoxState extends State<SearchBox>
   }
 }
 
-class StadiumInputBorder extends InputBorder {
+class _StadiumInputBorder extends InputBorder {
   final Color? color;
   final double? width;
 
-  const StadiumInputBorder({
+  const _StadiumInputBorder({
     this.color,
     this.width,
   });
