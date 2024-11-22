@@ -69,7 +69,12 @@ class _TileState extends State<Tile> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Text(widget.handle.comment),
+                      child: Text(
+                        widget.handle.comment,
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                        ),
+                      ),
                     ),
                   ),
                   Align(
