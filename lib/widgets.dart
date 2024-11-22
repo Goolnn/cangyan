@@ -1,6 +1,7 @@
 export 'package:cangyan/widgets/button.dart';
 export 'package:cangyan/widgets/capsule.dart';
 export 'package:cangyan/widgets/category.dart';
+export 'package:cangyan/widgets/date_text.dart';
 export 'package:cangyan/widgets/drawer.dart';
 export 'package:cangyan/widgets/editable_text.dart';
 export 'package:cangyan/widgets/image.dart';
