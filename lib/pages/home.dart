@@ -48,35 +48,7 @@ class _HomePageState extends State<HomePage> {
           },
         );
       } else {
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return cangyan.DuplicatedPage(
-                workspace: widget.workspace,
-                title: title,
-              );
-            },
-          ).then((result) {
-            final title = result as String?;
-
-            if (title != null) {
-              widget.workspace.include(title: title, data: data).then(
-                (summary) {
-                  if (!widget.workspace.check(title: title)) {
-                    handles?.removeWhere((key, value) {
-                      return key.title == title;
-                    });
-                  }
-
-                  setState(() {
-                    handles?.addEntries([include(Handle(summary))]);
-                  });
-                },
-              );
-            }
-          });
-        }
+        duplicated([(title, data)]);
       }
     });
   }
@@ -143,17 +115,27 @@ class _HomePageState extends State<HomePage> {
               return;
             }
 
+            final List<(String, Uint8List)> pairs = [];
+
             for (final project in projects) {
               final title = project['title'] as String;
               final data = project['data'] as Uint8List;
 
-              widget.workspace.include(title: title, data: data).then(
-                (summary) {
-                  setState(() {
-                    handles?.addEntries([include(Handle(summary))]);
-                  });
-                },
-              );
+              if (widget.workspace.check(title: title)) {
+                widget.workspace.include(title: title, data: data).then(
+                  (summary) {
+                    setState(() {
+                      handles?.addEntries([include(Handle(summary))]);
+                    });
+                  },
+                );
+              } else {
+                pairs.add((title, data));
+              }
+            }
+
+            if (pairs.isNotEmpty) {
+              duplicated(pairs);
             }
           });
         },
@@ -254,5 +236,38 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+  void duplicated(List<(String, Uint8List)> pairs) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return cangyan.DuplicatedPage(
+          workspace: widget.workspace,
+          pairs: pairs,
+        );
+      },
+    ).then((result) {
+      final pairs = result as List<(String, Uint8List)>?;
+
+      if (pairs != null) {
+        for (final pair in pairs) {
+          widget.workspace.include(title: pair.$1, data: pair.$2).then(
+            (summary) {
+              if (!widget.workspace.check(title: pair.$1)) {
+                handles?.removeWhere((key, value) {
+                  return key.title == pair.$1;
+                });
+              }
+
+              setState(() {
+                handles?.addEntries([include(Handle(summary))]);
+              });
+            },
+          );
+        }
+      }
+    });
   }
 }

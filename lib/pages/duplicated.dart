@@ -1,15 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:cangyan/cangyan.dart' as cangyan;
 
 class DuplicatedPage extends StatefulWidget {
   final cangyan.Workspace workspace;
 
-  final String title;
+  final List<(String, Uint8List)> pairs;
 
   const DuplicatedPage({
     super.key,
     required this.workspace,
-    required this.title,
+    required this.pairs,
   });
 
   @override
@@ -17,38 +19,81 @@ class DuplicatedPage extends StatefulWidget {
 }
 
 class _DuplicatedPageState extends State<DuplicatedPage> {
-  late String title;
+  late List<(String, Uint8List)> pairs;
 
   @override
   void initState() {
     super.initState();
 
-    title = widget.title;
+    pairs = widget.pairs;
   }
 
   @override
   Widget build(BuildContext context) {
-    final duplicated = !widget.workspace.check(title: title);
+    final duplicateds = pairs.map(
+      (title) {
+        return !widget.workspace.check(title: title.$1);
+      },
+    ).toList();
 
     return AlertDialog(
-      title: const Text('工程已存在'),
-      content: Row(
-        children: [
-          Expanded(
-            child: cangyan.EditableText(
-              title,
-              onSubmitted: (text) {
-                setState(() {
-                  title = text;
-                });
-              },
-            ),
+      title: const Text('工程重名'),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 24.0,
+        vertical: 8.0,
+      ),
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 128.0,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = 0; i < pairs.length; i++)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (pairs.length == 1) {
+                            Navigator.of(context).pop(null);
+                          } else {
+                            setState(() {
+                              pairs.removeAt(i);
+                            });
+                          }
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          size: 20.0,
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        child: cangyan.EditableText(
+                          pairs[i].$1,
+                          onSubmitted: (text) {
+                            setState(() {
+                              pairs[i] = (text, pairs[i].$2);
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Icon(
+                        duplicateds[i]
+                            ? Icons.error_outline
+                            : Icons.check_circle_outline,
+                        color: duplicateds[i] ? Colors.red : Colors.green,
+                      ),
+                    ],
+                  ),
+                )
+            ],
           ),
-          Icon(
-            duplicated ? Icons.error_outline : Icons.check_circle_outline,
-            color: duplicated ? Colors.red : Colors.green,
-          ),
-        ],
+        ),
       ),
       actions: [
         TextButton(
@@ -59,9 +104,9 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(title);
+            Navigator.of(context).pop(pairs);
           },
-          child: Text(duplicated ? '覆盖' : '导入'),
+          child: const Text('导入'),
         ),
       ],
     );
