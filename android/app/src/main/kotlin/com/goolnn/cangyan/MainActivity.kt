@@ -20,6 +20,8 @@ class MainActivity : FlutterActivity() {
     private var result: MethodChannel.Result? = null
     private var sink: EventChannel.EventSink? = null
 
+    private var intents = mutableListOf<Intent?>()
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
@@ -51,6 +53,10 @@ class MainActivity : FlutterActivity() {
             object : EventChannel.StreamHandler {
                 override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
                     sink = events
+
+                    intents.forEach { intent ->
+                        returnIntent(intent)
+                    }
                 }
 
                 override fun onCancel(arguments: Any?) {
@@ -116,18 +122,20 @@ class MainActivity : FlutterActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        setIntent(intent)
-
         returnIntent(intent)
     }
 
     private fun returnIntent(intent: Intent?) {
-        intent?.data.let { uri ->
-            uri?.let {
-                val project = readProject(it)
+        if (sink != null) {
+            intent?.data.let { uri ->
+                uri?.let {
+                    val project = readProject(it)
 
-                sink?.success(project)
+                    sink!!.success(project)
+                }
             }
+        } else {
+            intents.add(intent)
         }
     }
 
