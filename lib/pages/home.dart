@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   late Future<List<cangyan.Summary>> load;
 
-  Map<Handle, cangyan.Tile>? handles;
+  Map<Handle, Widget>? handles;
 
   String keyword = '';
 
@@ -86,8 +86,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
 
-                  final tiles = handles!.values.where((tile) {
-                    return tile.handle.title.contains(keyword);
+                  final tiles = handles!.entries.where((entry) {
+                    return entry.key.title.contains(keyword);
+                  }).map((entry) {
+                    return entry.value;
                   }).toList();
 
                   return ListView.builder(
@@ -164,11 +166,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  MapEntry<Handle, cangyan.Tile> include(Handle handle) {
+  MapEntry<Handle, Widget> include(Handle handle) {
     return MapEntry(
       handle,
-      cangyan.Tile(
-        handle: handle,
+      cangyan.Wave(
         onPress: () {
           Navigator.push(
             context,
@@ -235,6 +236,9 @@ class _HomePageState extends State<HomePage> {
             },
           );
         },
+        child: cangyan.Tile(
+          handle: handle,
+        ),
       ),
     );
   }
