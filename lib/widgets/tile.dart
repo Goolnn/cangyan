@@ -76,19 +76,15 @@ class _TileState extends State<Tile> {
                     alignment: Alignment.centerRight,
                     child: Column(
                       children: [
-                        Text(
-                          '创建于 ${widget.handle.createdDate}',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                          ),
+                        cangyan.DateText(
+                          widget.handle.createdDate,
+                          prefix: '创建于',
+                          separator: ' ',
                         ),
-                        Text(
-                          '更新于 ${widget.handle.updatedDate}',
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                          ),
+                        cangyan.DateText(
+                          widget.handle.updatedDate,
+                          prefix: '更新于',
+                          separator: ' ',
                         ),
                       ],
                     ),

@@ -82,17 +82,6 @@ class Handle extends ChangeNotifier {
 
   String get comment => _comment;
 
-  String get createdDate => _dateToString(_createdDate);
-  String get updatedDate => _dateToString(_updatedDate);
-
-  String _dateToString(cangyan.Date date) {
-    final year = '${date.year}年';
-    final month = '${date.month}月';
-    final day = '${date.day}日';
-    final hour = '${date.hour}'.padLeft(2, '0');
-    final minute = '${date.minute}'.padLeft(2, '0');
-    final second = '${date.second}'.padLeft(2, '0');
-
-    return '$year$month$day $hour:$minute:$second';
-  }
+  cangyan.Date get createdDate => _createdDate;
+  cangyan.Date get updatedDate => _updatedDate;
 }
