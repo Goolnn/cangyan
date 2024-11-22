@@ -89,12 +89,12 @@ abstract class RustLibApi extends BaseApi {
   Editor crateApiToolsEditorEditorNew(
       {required ArcMutexFile file, required BigInt index});
 
-  Future<List<Note>> crateApiToolsEditorEditorNotes({required Editor that});
+  List<Note> crateApiToolsEditorEditorNotes({required Editor that});
 
   void crateApiToolsEditorEditorRemoveNote(
       {required Editor that, required BigInt index});
 
-  Future<void> crateApiToolsEditorEditorSetNoteNumber(
+  void crateApiToolsEditorEditorSetNoteNumber(
       {required Editor that, required BigInt index, required BigInt number});
 
   void crateApiToolsEditorEditorUpdateNoteComment(
@@ -287,14 +287,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<List<Note>> crateApiToolsEditorEditorNotes({required Editor that}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+  List<Note> crateApiToolsEditorEditorNotes({required Editor that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditor(
             that, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 3, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_list_note,
@@ -340,17 +339,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<void> crateApiToolsEditorEditorSetNoteNumber(
+  void crateApiToolsEditorEditorSetNoteNumber(
       {required Editor that, required BigInt index, required BigInt number}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEditor(
             that, serializer);
         sse_encode_usize(index, serializer);
         sse_encode_usize(number, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 5, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -2218,15 +2216,14 @@ class EditorImpl extends RustOpaque implements Editor {
       RustLib.instance.api
           .crateApiToolsEditorEditorAppendNote(that: this, x: x, y: y);
 
-  Future<List<Note>> notes() =>
-      RustLib.instance.api.crateApiToolsEditorEditorNotes(
+  List<Note> notes() => RustLib.instance.api.crateApiToolsEditorEditorNotes(
         that: this,
       );
 
   void removeNote({required BigInt index}) => RustLib.instance.api
       .crateApiToolsEditorEditorRemoveNote(that: this, index: index);
 
-  Future<void> setNoteNumber({required BigInt index, required BigInt number}) =>
+  void setNoteNumber({required BigInt index, required BigInt number}) =>
       RustLib.instance.api.crateApiToolsEditorEditorSetNoteNumber(
           that: this, index: index, number: number);
 

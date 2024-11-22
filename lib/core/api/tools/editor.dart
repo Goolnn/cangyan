@@ -19,11 +19,11 @@ abstract class Editor implements RustOpaqueInterface {
       RustLib.instance.api
           .crateApiToolsEditorEditorNew(file: file, index: index);
 
-  Future<List<Note>> notes();
+  List<Note> notes();
 
   void removeNote({required BigInt index});
 
-  Future<void> setNoteNumber({required BigInt index, required BigInt number});
+  void setNoteNumber({required BigInt index, required BigInt number});
 
   void updateNoteComment({required BigInt index, required String comment});
 

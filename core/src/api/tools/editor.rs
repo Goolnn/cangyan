@@ -105,6 +105,7 @@ impl Editor {
         Ok(())
     }
 
+    #[frb(sync)]
     pub fn set_note_number(&self, index: usize, number: usize) -> anyhow::Result<()> {
         let mut file = self
             .file
@@ -121,6 +122,7 @@ impl Editor {
         Ok(())
     }
 
+    #[frb(sync)]
     pub fn notes(&self) -> anyhow::Result<Vec<Note>> {
         let file = self
             .file
