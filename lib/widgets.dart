@@ -11,3 +11,4 @@ export 'package:cangyan/widgets/search_box.dart';
 export 'package:cangyan/widgets/text_pad.dart';
 export 'package:cangyan/widgets/tile.dart';
 export 'package:cangyan/widgets/title.dart';
+export 'package:cangyan/widgets/wave.dart';
