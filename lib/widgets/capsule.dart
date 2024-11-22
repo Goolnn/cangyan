@@ -14,16 +14,16 @@ class Capsule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: const StadiumBorder(),
-      color: color ?? Colors.black.withOpacity(0.25),
+      color: color ?? Colors.black.withOpacity(0.35),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
-          vertical: 6.0,
+          vertical: 4.0,
         ),
         child: DefaultTextStyle(
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 13.0,
+            fontSize: 10.0,
           ),
           child: child,
         ),
