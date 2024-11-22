@@ -7,9 +7,12 @@ import 'package:flutter/services.dart';
 class EditPage extends StatefulWidget {
   final MemoryImage image;
 
+  final cangyan.Editor editor;
+
   const EditPage(
     this.image, {
     super.key,
+    required this.editor,
   });
 
   @override
@@ -21,7 +24,7 @@ class _EditPageState extends State<EditPage> {
   final viewerController = TransformationController();
   final viewerKey = GlobalKey();
 
-  // late cangyan.Page page;
+  late List<cangyan.Note> notes;
 
   double scale = 1.0;
 
@@ -93,7 +96,7 @@ class _EditPageState extends State<EditPage> {
       ),
     );
 
-    // page = widget.state.page()!;
+    notes = widget.editor.notes();
   }
 
   @override
@@ -241,32 +244,32 @@ class _EditPageState extends State<EditPage> {
                         child: Center(
                           child: GestureDetector(
                             onLongPressStart: (details) {
-                              // final position = details.localPosition;
-                              // final coordiante = Offset(
-                              //   (position.dx / pageSize!.width * 2.0 - 1.0),
-                              //   -(position.dy / pageSize!.height * 2.0 - 1.0),
-                              // );
+                              final position = details.localPosition;
+                              final coordiante = Offset(
+                                (position.dx / pageSize!.width * 2.0 - 1.0),
+                                -(position.dy / pageSize!.height * 2.0 - 1.0),
+                              );
 
-                              // HapticFeedback.selectionClick();
+                              HapticFeedback.selectionClick();
 
-                              // widget.state.appendNote(
-                              //   x: coordiante.dx,
-                              //   y: coordiante.dy,
-                              // );
+                              widget.editor.appendNote(
+                                x: coordiante.dx,
+                                y: coordiante.dy,
+                              );
 
-                              // setState(() {
-                              //   page.notes.add(cangyan.Note(
-                              //     x: coordiante.dx,
-                              //     y: coordiante.dy,
-                              //     choice: 0,
-                              //     texts: [
-                              //       cangyan.Text(
-                              //         content: '',
-                              //         comment: '',
-                              //       )
-                              //     ],
-                              //   ));
-                              // });
+                              setState(() {
+                                notes.add(cangyan.Note(
+                                  x: coordiante.dx,
+                                  y: coordiante.dy,
+                                  choice: 0,
+                                  texts: [
+                                    cangyan.Text(
+                                      content: '',
+                                      comment: '',
+                                    )
+                                  ],
+                                ));
+                              });
                             },
                             child: Image(
                               image: widget.image,
@@ -278,147 +281,147 @@ class _EditPageState extends State<EditPage> {
                   },
                 ),
               ),
-              // for (int i = 0; i < page.notes.length; i++)
-              //   Builder(
-              //     builder: (context) {
-              //       if (viewerSize == null ||
-              //           imageSize == null ||
-              //           pageSize == null) {
-              //         return Container();
-              //       }
+              for (int i = 0; i < notes.length; i++)
+                Builder(
+                  builder: (context) {
+                    if (viewerSize == null ||
+                        imageSize == null ||
+                        pageSize == null) {
+                      return Container();
+                    }
 
-              //       final center = Point(
-              //         viewerSize!.width / 2.0 + this.offset.dx,
-              //         viewerSize!.height / 2.0 + this.offset.dy,
-              //       );
+                    final center = Point(
+                      viewerSize!.width / 2.0 + this.offset.dx,
+                      viewerSize!.height / 2.0 + this.offset.dy,
+                    );
 
-              //       final offset = Offset(
-              //         page.notes[i].x * pageSize!.width * scale / 2.0,
-              //         page.notes[i].y * pageSize!.height * scale / 2.0,
-              //       );
+                    final offset = Offset(
+                      notes[i].x * pageSize!.width * scale / 2.0,
+                      notes[i].y * pageSize!.height * scale / 2.0,
+                    );
 
-              //       const size = 16.0;
+                    const size = 16.0;
 
-              //       return Positioned(
-              //         left: center.x + offset.dx - size,
-              //         top: center.y - offset.dy - size,
-              //         child: cangyan.Mark(
-              //           index: i + 1,
-              //           size: size,
-              //           onPressed: () {
-              //             setState(() {
-              //               drawerController.show();
+                    return Positioned(
+                      left: center.x + offset.dx - size,
+                      top: center.y - offset.dy - size,
+                      child: cangyan.Mark(
+                        index: i + 1,
+                        size: size,
+                        onPressed: () {
+                          setState(() {
+                            drawerController.show();
 
-              //               index = i;
-              //             });
-              //           },
-              //           onLongPressed: () {
-              //             setState(() {
-              //               openPad = false;
-              //             });
-              //             showDialog(
-              //               context: context,
-              //               builder: (context) {
-              //                 return AlertDialog(
-              //                   title: const Text('删除'),
-              //                   content: const Text('确认删除这个标记吗？'),
-              //                   actions: [
-              //                     TextButton(
-              //                       onPressed: () {
-              //                         Navigator.pop(context);
-              //                       },
-              //                       child: const Text('取消'),
-              //                     ),
-              //                     TextButton(
-              //                       onPressed: () {
-              //                         if (index == i) {
-              //                           setState(() {
-              //                             index = 0;
-              //                           });
-              //                         }
+                            index = i;
+                          });
+                        },
+                        onLongPressed: () {
+                          setState(() {
+                            openPad = false;
+                          });
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('删除'),
+                                content: const Text('确认删除这个标记吗？'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('取消'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      if (index == i) {
+                                        setState(() {
+                                          index = 0;
+                                        });
+                                      }
 
-              //                         widget.state.removeNote(
-              //                           noteIndex: BigInt.from(i),
-              //                         );
+                                      widget.editor.removeNote(
+                                        index: BigInt.from(i),
+                                      );
 
-              //                         setState(() {
-              //                           page.notes.removeAt(i);
-              //                         });
+                                      setState(() {
+                                        notes.removeAt(i);
+                                      });
 
-              //                         Navigator.pop(context);
-              //                       },
-              //                       child: const Text('确认'),
-              //                     ),
-              //                   ],
-              //                 );
-              //               },
-              //             );
-              //           },
-              //           onPanStart: (detail) {
-              //             draggingStart = Offset(
-              //               page.notes[i].x,
-              //               page.notes[i].y,
-              //             );
-              //           },
-              //           onPanEnd: (detail) {
-              //             draggingStart = null;
-              //             draggingOffset = null;
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('确认'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        onPanStart: (detail) {
+                          draggingStart = Offset(
+                            notes[i].x,
+                            notes[i].y,
+                          );
+                        },
+                        onPanEnd: (detail) {
+                          draggingStart = null;
+                          draggingOffset = null;
 
-              //             dragging = false;
+                          dragging = false;
 
-              //             widget.state.moveNoteTo(
-              //               noteIndex: BigInt.from(i),
-              //               x: page.notes[i].x,
-              //               y: page.notes[i].y,
-              //             );
-              //           },
-              //           onPanUpdate: (detail) {
-              //             final position = Offset(
-              //               detail.localPosition.dx - size,
-              //               detail.localPosition.dy - size,
-              //             );
+                          widget.editor.updateNotePosition(
+                            index: BigInt.from(i),
+                            x: notes[i].x,
+                            y: notes[i].y,
+                          );
+                        },
+                        onPanUpdate: (detail) {
+                          final position = Offset(
+                            detail.localPosition.dx - size,
+                            detail.localPosition.dy - size,
+                          );
 
-              //             const radius = 60.0;
+                          const radius = 60.0;
 
-              //             if (!dragging && position.distance >= radius) {
-              //               draggingOffset = position;
+                          if (!dragging && position.distance >= radius) {
+                            draggingOffset = position;
 
-              //               dragging = true;
-              //             }
+                            dragging = true;
+                          }
 
-              //             if (dragging) {
-              //               var coordiante = Offset(
-              //                 ((position.dx - draggingOffset!.dx) /
-              //                     pageSize!.width /
-              //                     scale *
-              //                     2.0),
-              //                 -((position.dy - draggingOffset!.dy) /
-              //                     pageSize!.height /
-              //                     scale *
-              //                     2.0),
-              //               );
+                          if (dragging) {
+                            var coordiante = Offset(
+                              ((position.dx - draggingOffset!.dx) /
+                                  pageSize!.width /
+                                  scale *
+                                  2.0),
+                              -((position.dy - draggingOffset!.dy) /
+                                  pageSize!.height /
+                                  scale *
+                                  2.0),
+                            );
 
-              //               setState(() {
-              //                 var noteX = draggingStart!.dx + coordiante.dx;
-              //                 var noteY = draggingStart!.dy + coordiante.dy;
+                            setState(() {
+                              var noteX = draggingStart!.dx + coordiante.dx;
+                              var noteY = draggingStart!.dy + coordiante.dy;
 
-              //                 if (noteX.abs() > 1.0) {
-              //                   noteX = noteX.sign;
-              //                 }
+                              if (noteX.abs() > 1.0) {
+                                noteX = noteX.sign;
+                              }
 
-              //                 if (noteY.abs() > 1.0) {
-              //                   noteY = noteY.sign;
-              //                 }
+                              if (noteY.abs() > 1.0) {
+                                noteY = noteY.sign;
+                              }
 
-              //                 page.notes[i].x = noteX;
-              //                 page.notes[i].y = noteY;
-              //               });
-              //             }
-              //           },
-              //         ),
-              //       );
-              //     },
-              //   ),
+                              notes[i].x = noteX;
+                              notes[i].y = noteY;
+                            });
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
               if (scale != 1.0)
                 Positioned(
                   top: 16.0,
