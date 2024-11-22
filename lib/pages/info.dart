@@ -152,10 +152,10 @@ class _InfoPageState extends State<InfoPage> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {},
-                                      onLongPressStart: (details) {},
+                                    child: cangyan.Wave(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      onPress: () {},
+                                      onLongPress: () {},
                                       child: AspectRatio(
                                         aspectRatio: 3.0 / 4.0,
                                         child: cangyan.Image(
