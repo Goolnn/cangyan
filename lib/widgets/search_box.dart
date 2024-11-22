@@ -16,16 +16,56 @@ class SearchBox extends StatefulWidget {
   State<SearchBox> createState() => _SearchBoxState();
 }
 
-class _SearchBoxState extends State<SearchBox> {
+class _SearchBoxState extends State<SearchBox>
+    with SingleTickerProviderStateMixin {
   final FocusNode focusNode = FocusNode();
 
   late final TextEditingController controller;
+
+  late AnimationController animationController;
+
+  late Animation<Color?> colorAnimation;
+  late Animation<double> widthAnimation;
 
   @override
   void initState() {
     super.initState();
 
     controller = widget.controller ?? TextEditingController();
+
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    colorAnimation = ColorTween(
+      begin: Colors.blueGrey,
+      end: Colors.blue,
+    ).animate(animationController);
+
+    widthAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.5,
+    ).animate(animationController);
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        animationController.forward();
+      } else {
+        animationController.reverse();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+
+    focusNode.dispose();
+
+    animationController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -38,41 +78,51 @@ class _SearchBoxState extends State<SearchBox> {
             focusNode.unfocus();
           }
 
-          return TextField(
-            controller: controller,
-            focusNode: focusNode,
-            decoration: InputDecoration(
-              border: const StadiumInputBorder(),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 4.0,
-              ),
-              prefixIcon: const Icon(Icons.search),
-              prefixIconConstraints: const BoxConstraints(
-                minWidth: 32.0,
-              ),
-              suffixIcon: controller.text.isNotEmpty
-                  ? GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          controller.clear();
-                        });
+          return AnimatedBuilder(
+            animation: colorAnimation,
+            builder: (context, child) {
+              return TextField(
+                controller: controller,
+                focusNode: focusNode,
+                decoration: InputDecoration(
+                  border: StadiumInputBorder(
+                    color: colorAnimation.value,
+                    width: widthAnimation.value,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 4.0,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                  ),
+                  prefixIconConstraints: const BoxConstraints(
+                    minWidth: 32.0,
+                  ),
+                  suffixIcon: controller.text.isNotEmpty
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              controller.clear();
+                            });
 
-                        widget.onChanged?.call('');
-                      },
-                      child: const Icon(Icons.clear),
-                    )
-                  : null,
-              suffixIconConstraints: const BoxConstraints(
-                minWidth: 32.0,
-              ),
-              isCollapsed: true,
-              isDense: true,
-            ),
-            style: const TextStyle(
-              fontSize: 14.0,
-            ),
-            onChanged: widget.onChanged,
+                            widget.onChanged?.call('');
+                          },
+                          child: const Icon(Icons.clear),
+                        )
+                      : null,
+                  suffixIconConstraints: const BoxConstraints(
+                    minWidth: 32.0,
+                  ),
+                  isCollapsed: true,
+                  isDense: true,
+                ),
+                style: const TextStyle(
+                  fontSize: 14.0,
+                ),
+                onChanged: widget.onChanged,
+              );
+            },
           );
         },
       ),
@@ -81,8 +131,12 @@ class _SearchBoxState extends State<SearchBox> {
 }
 
 class StadiumInputBorder extends InputBorder {
+  final Color? color;
+  final double? width;
+
   const StadiumInputBorder({
-    super.borderSide = const BorderSide(),
+    this.color,
+    this.width,
   });
 
   @override
@@ -121,9 +175,9 @@ class StadiumInputBorder extends InputBorder {
     TextDirection? textDirection,
   }) {
     final Paint paint = Paint()
-      ..color = Colors.blueGrey
+      ..color = color ?? Colors.blueGrey
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
+      ..strokeWidth = width ?? 1.0;
 
     final Path path = getOuterPath(rect);
 
@@ -132,15 +186,11 @@ class StadiumInputBorder extends InputBorder {
 
   @override
   InputBorder copyWith({BorderSide? borderSide}) {
-    return StadiumInputBorder(
-      borderSide: borderSide ?? this.borderSide,
-    );
+    return this;
   }
 
   @override
   ShapeBorder scale(double t) {
-    return StadiumInputBorder(
-      borderSide: borderSide.scale(t),
-    );
+    return this;
   }
 }
