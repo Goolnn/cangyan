@@ -68,7 +68,8 @@ class _InfoPageState extends State<InfoPage> {
                             child: cangyan.EditableText(
                               widget.handle.title,
                               onSubmitted: (text) {
-                                if (widget.workspace.check(title: text)) {
+                                if (widget.workspace.check(title: text) ||
+                                    text == widget.handle.title) {
                                   setState(() {
                                     widget.handle.title = text;
                                   });
