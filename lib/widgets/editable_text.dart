@@ -91,6 +91,7 @@ class _EditableTextState extends State<EditableText> {
               _text,
               style: const TextStyle(
                 fontSize: 16.0,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
     );
