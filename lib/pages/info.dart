@@ -1,5 +1,6 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/tools/handle.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatefulWidget {
@@ -18,13 +19,13 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   late List<MemoryImage> images;
 
+  late Future<List<MemoryImage>> load;
+
   @override
   void initState() {
     super.initState();
 
-    images = widget.pages.images().map((image) {
-      return MemoryImage(image);
-    }).toList();
+    load = compute(loadImages, widget.pages.images());
   }
 
   @override
@@ -103,35 +104,51 @@ class _InfoPageState extends State<InfoPage> {
                   ),
                 ),
                 const Divider(),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Wrap(
-                    children: [
-                      for (int i = 0; i < images.length; i++)
-                        FractionallySizedBox(
-                          widthFactor: 1.0 / 3.0,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () {},
-                                  onLongPressStart: (details) {},
-                                  child: AspectRatio(
-                                    aspectRatio: 3.0 / 4.0,
-                                    child: cangyan.Image(
-                                      provider: images[i],
+                FutureBuilder(
+                  future: load,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 128.0),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
+                    images = snapshot.data ?? [];
+
+                    return Align(
+                      alignment: Alignment.centerLeft,
+                      child: Wrap(
+                        children: [
+                          for (int i = 0; i < widget.handle.pageCount; i++)
+                            FractionallySizedBox(
+                              widthFactor: 1.0 / 3.0,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () {},
+                                      onLongPressStart: (details) {},
+                                      child: AspectRatio(
+                                        aspectRatio: 3.0 / 4.0,
+                                        child: cangyan.Image(
+                                          provider: images[i],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Text('第${i + 1}页'),
+                                ],
                               ),
-                              Text('第${i + 1}页'),
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -151,6 +168,12 @@ class _InfoPageState extends State<InfoPage> {
 
     return '$year$month$day $hour:$minute:$second';
   }
+}
+
+List<MemoryImage> loadImages(List<Uint8List> images) {
+  return images.map((image) {
+    return MemoryImage(image);
+  }).toList();
 }
 
 // import 'package:cangyan/core/cyfile.dart' as cangyan;
