@@ -33,7 +33,7 @@ class Title extends StatelessWidget {
     return Text(
       title,
       style: const TextStyle(
-        fontSize: 16.0,
+        fontSize: 14.0,
       ),
       overflow: overflow ?? TextOverflow.ellipsis,
       textAlign: textAlign ?? TextAlign.start,
