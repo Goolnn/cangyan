@@ -89,6 +89,6 @@ impl Workspace {
     pub fn check(&self, title: String) -> bool {
         let path = self.path.join(format!("{}.cy", title));
 
-        path.exists()
+        !path.exists()
     }
 }
