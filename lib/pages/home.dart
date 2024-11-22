@@ -47,6 +47,36 @@ class _HomePageState extends State<HomePage> {
             });
           },
         );
+      } else {
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return cangyan.DuplicatedPage(
+                workspace: widget.workspace,
+                title: title,
+              );
+            },
+          ).then((result) {
+            final title = result as String?;
+
+            if (title != null) {
+              widget.workspace.include(title: title, data: data).then(
+                (summary) {
+                  if (!widget.workspace.check(title: title)) {
+                    handles?.removeWhere((key, value) {
+                      return key.title == title;
+                    });
+                  }
+
+                  setState(() {
+                    handles?.addEntries([include(Handle(summary))]);
+                  });
+                },
+              );
+            }
+          });
+        }
       }
     });
   }
