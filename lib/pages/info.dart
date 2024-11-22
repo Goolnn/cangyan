@@ -2,6 +2,7 @@ import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/tools/handle.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InfoPage extends StatefulWidget {
   final cangyan.Workspace workspace;
@@ -150,8 +151,15 @@ class _InfoPageState extends State<InfoPage> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: cangyan.Wave(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      onPress: () {},
-                                      onLongPress: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) {
+                                            return const cangyan.EditPage();
+                                          }),
+                                        );
+                                      },
+                                      onLongPressStart: (details) {},
                                       child: AspectRatio(
                                         aspectRatio: 3.0 / 4.0,
                                         child: cangyan.Image(
