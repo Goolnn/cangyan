@@ -92,12 +92,16 @@ class _HomePageState extends State<HomePage> {
                     return entry.value;
                   }).toList();
 
-                  return ListView.builder(
-                    itemCount: tiles.length,
-                    itemBuilder: (context, index) {
-                      return tiles[index];
-                    },
-                  );
+                  return tiles.isEmpty && keyword.isNotEmpty
+                      ? const Center(
+                          child: Text('无匹配结果'),
+                        )
+                      : ListView.builder(
+                          itemCount: tiles.length,
+                          itemBuilder: (context, index) {
+                            return tiles[index];
+                          },
+                        );
                 },
               ),
             ),
