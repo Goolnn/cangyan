@@ -5,14 +5,9 @@ import 'package:flutter/material.dart';
 class Tile extends StatefulWidget {
   final Handle handle;
 
-  final Function()? onPress;
-  final Function()? onLongPress;
-
   const Tile({
     super.key,
     required this.handle,
-    this.onPress,
-    this.onLongPress,
   });
 
   @override
@@ -31,94 +26,79 @@ class _TileState extends State<Tile> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 128.0 + 32.0,
-            child: Row(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: 128.0 + 32.0,
+        child: Row(
+          children: [
+            Stack(
               children: [
-                Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 3.0 / 4.0,
-                      child: cangyan.Image(
-                        provider: widget.handle.cover,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 2.0,
-                      right: 2.0,
-                      child: cangyan.Capsule(
-                        child: Text('${widget.handle.pageCount}页'),
-                      ),
-                    ),
-                  ],
+                AspectRatio(
+                  aspectRatio: 3.0 / 4.0,
+                  child: cangyan.Image(
+                    provider: widget.handle.cover,
+                  ),
                 ),
-                const SizedBox(width: 8.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          cangyan.Category(widget.handle.category),
-                          Expanded(
-                            child: cangyan.Title(
-                              widget.handle.title,
-                              widget.handle.number,
-                            ),
-                          ),
-                          cangyan.Progress(widget.handle.progress),
-                        ],
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(widget.handle.comment),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Column(
-                          children: [
-                            Text(
-                              '创建于 ${widget.handle.createdDate}',
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              '更新于 ${widget.handle.updatedDate}',
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                Positioned(
+                  bottom: 2.0,
+                  right: 2.0,
+                  child: cangyan.Capsule(
+                    child: Text('${widget.handle.pageCount}页'),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        Positioned.fill(
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              splashColor: Colors.black.withOpacity(0.08),
-              highlightColor: Colors.black.withOpacity(0.08),
-              onTap: widget.onPress,
-              onLongPress: widget.onLongPress,
+            const SizedBox(width: 8.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      cangyan.Category(widget.handle.category),
+                      Expanded(
+                        child: cangyan.Title(
+                          widget.handle.title,
+                          widget.handle.number,
+                        ),
+                      ),
+                      cangyan.Progress(widget.handle.progress),
+                    ],
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(widget.handle.comment),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Column(
+                      children: [
+                        Text(
+                          '创建于 ${widget.handle.createdDate}',
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          '更新于 ${widget.handle.updatedDate}',
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
