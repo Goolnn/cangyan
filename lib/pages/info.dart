@@ -177,7 +177,7 @@ class _InfoPageState extends State<InfoPage> {
                                     const PopupMenuItem(
                                       value: 0,
                                       height: 36.0,
-                                      child: Text('编辑页面'),
+                                      child: Text('编辑选择页'),
                                     ),
                                     const PopupMenuDivider(),
                                     const PopupMenuItem(
@@ -195,7 +195,7 @@ class _InfoPageState extends State<InfoPage> {
                                       value: 3,
                                       height: 36.0,
                                       enabled: images.length > 1,
-                                      child: const Text('删除页面'),
+                                      child: const Text('删除选择页'),
                                     ),
                                   ],
                                 ).then((value) async {
