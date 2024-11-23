@@ -20,6 +20,8 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
+  static const platform = MethodChannel('com.goolnn.cangyan/files');
+
   late List<MemoryImage> images;
 
   late Future<List<MemoryImage>> load;
@@ -28,7 +30,7 @@ class _InfoPageState extends State<InfoPage> {
   void initState() {
     super.initState();
 
-    load = compute(loadImages, widget.pages.images());
+    load = compute(_loadImages, widget.pages.images());
   }
 
   @override
@@ -155,18 +157,108 @@ class _InfoPageState extends State<InfoPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: cangyan.Wave(
                               borderRadius: BorderRadius.circular(8.0),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return cangyan.EditPage(
-                                      images[i],
-                                      editor: widget.pages.edit(
-                                        index: BigInt.from(i),
-                                      ),
+                              onTap: () => editPage(i),
+                              onLongPressStart: (details) {
+                                HapticFeedback.vibrate();
+
+                                showMenu<int>(
+                                  context: context,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  menuPadding: const EdgeInsets.all(4.0),
+                                  position: RelativeRect.fromLTRB(
+                                    details.globalPosition.dx,
+                                    details.globalPosition.dy,
+                                    details.globalPosition.dx,
+                                    details.globalPosition.dy,
+                                  ),
+                                  items: [
+                                    const PopupMenuItem(
+                                      value: 0,
+                                      height: 36.0,
+                                      child: Text('编辑页面'),
+                                    ),
+                                    const PopupMenuDivider(),
+                                    const PopupMenuItem(
+                                      value: 1,
+                                      height: 36.0,
+                                      child: Text('向前插入新页'),
+                                    ),
+                                    const PopupMenuItem(
+                                      value: 2,
+                                      height: 36.0,
+                                      child: Text('向后插入新页'),
+                                    ),
+                                    const PopupMenuDivider(),
+                                    const PopupMenuItem(
+                                      value: 3,
+                                      height: 36.0,
+                                      child: Text('删除页面'),
+                                    ),
+                                  ],
+                                ).then((value) async {
+                                  if (value case 0) {
+                                    editPage(i);
+                                  }
+
+                                  if (value case 1) {
+                                    final images = platform.invokeListMethod(
+                                      "images",
                                     );
-                                  }),
-                                );
+
+                                    images.then((images) {
+                                      images?.reversed.forEach((value) {
+                                        if (value is Uint8List) {
+                                          widget.pages.insertPageBefore(
+                                            index: BigInt.from(i),
+                                            image: value,
+                                          );
+
+                                          setState(() => this
+                                              .images
+                                              .insert(i, MemoryImage(value)));
+                                        }
+                                      });
+
+                                      if (i == 0) {
+                                        widget.handle.cover = this.images.first;
+                                      }
+                                    });
+                                  }
+
+                                  if (value case 2) {
+                                    final images = platform.invokeListMethod(
+                                      "images",
+                                    );
+
+                                    images.then((images) {
+                                      images?.reversed.forEach((value) {
+                                        if (value is Uint8List) {
+                                          widget.pages.insertPageAfter(
+                                            index: BigInt.from(i),
+                                            image: value,
+                                          );
+
+                                          setState(() => this.images.insert(
+                                              i + 1, MemoryImage(value)));
+                                        }
+                                      });
+                                    });
+                                  }
+
+                                  if (value case 3) {
+                                    widget.pages.removePage(
+                                      index: BigInt.from(i),
+                                    );
+
+                                    setState(() => images.removeAt(i));
+
+                                    if (i == 0) {
+                                      widget.handle.cover = images.first;
+                                    }
+                                  }
+                                });
                               },
                               child: AspectRatio(
                                 aspectRatio: 3.0 / 4.0,
@@ -178,94 +270,6 @@ class _InfoPageState extends State<InfoPage> {
                           ),
                       ],
                     );
-
-                    // return LayoutBuilder(
-                    //   builder: (
-                    //     BuildContext context,
-                    //     BoxConstraints constraints,
-                    //   ) {
-                    //     return Align(
-                    //       alignment: Alignment.centerLeft,
-                    //       child: Wrap(
-                    //         children: [
-                    //           for (int i = 0; i < widget.handle.pageCount; i++)
-                    //             Builder(builder: (context) {
-                    //               final image = Padding(
-                    //                 padding: const EdgeInsets.all(8.0),
-                    //                 child: AspectRatio(
-                    //                   aspectRatio: 3.0 / 4.0,
-                    //                   child: cangyan.Image(
-                    //                     provider: images[i],
-                    //                   ),
-                    //                 ),
-                    //               );
-
-                    //               return DragTarget(
-                    //                 onAcceptWithDetails: (details) {
-                    //                   final from = details.data as int;
-                    //                   final to = i;
-
-                    //                   if (from == to) {
-                    //                     return;
-                    //                   }
-
-                    //                   setState(() {
-                    //                     widget.pages.movePageTo(
-                    //                       from: BigInt.from(from),
-                    //                       to: BigInt.from(to),
-                    //                     );
-
-                    //                     final image = images.removeAt(from);
-
-                    //                     images.insert(i, image);
-                    //                   });
-                    //                 },
-                    //                 builder: (
-                    //                   BuildContext context,
-                    //                   List<Object?> candidateData,
-                    //                   List<dynamic> rejectedData,
-                    //                 ) {
-                    //                   return Draggable<int>(
-                    //                     hitTestBehavior:
-                    //                         HitTestBehavior.translucent,
-                    //                     data: i,
-                    //                     feedback: Transform.scale(
-                    //                       scale: 1.15,
-                    //                       child: SizedBox(
-                    //                         width: constraints.maxWidth / 3.0,
-                    //                         child: image,
-                    //                       ),
-                    //                     ),
-                    //                     childWhenDragging: SizedBox(
-                    //                       width: constraints.maxWidth / 3.0,
-                    //                       child: Column(
-                    //                         children: [
-                    //                           Opacity(
-                    //                             opacity: 0.25,
-                    //                             child: image,
-                    //                           ),
-                    //                           Text('第${i + 1}页'),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     child: SizedBox(
-                    //                       width: constraints.maxWidth / 3.0,
-                    //                       child: Column(
-                    //                         children: [
-                    //                           image,
-                    //                           Text('第${i + 1}页'),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                   );
-                    //                 },
-                    //               );
-                    //             }),
-                    //         ],
-                    //       ),
-                    //     );
-                    //   },
-                    // );
                   },
                 ),
               ],
@@ -275,9 +279,23 @@ class _InfoPageState extends State<InfoPage> {
       ),
     );
   }
+
+  void editPage(int index) {
+    final editor = widget.pages.edit(index: BigInt.from(index));
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return cangyan.EditPage(
+          images[index],
+          editor: editor,
+        );
+      }),
+    );
+  }
 }
 
-List<MemoryImage> loadImages(List<Uint8List> images) {
+List<MemoryImage> _loadImages(List<Uint8List> images) {
   return images.map((image) {
     return MemoryImage(image);
   }).toList();
@@ -477,7 +495,7 @@ List<MemoryImage> loadImages(List<Uint8List> images) {
 //                                         details.globalPosition.dy,
 //                                       ),
 //                                       items: [
-//                                         const PopupMenuItem(
+//                                         const menuitPopupMenuItemupMenuItem(
 //                                           value: 1,
 //                                           child: Text("向前插入新页"),
 //                                         ),
