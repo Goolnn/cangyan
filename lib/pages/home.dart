@@ -110,6 +110,8 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: GestureDetector(
         onLongPress: () {
+          HapticFeedback.vibrate();
+
           platformMethod.invokeListMethod("projects").then((value) {
             final projects = value?.map(
               (project) {
