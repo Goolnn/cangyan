@@ -76,7 +76,7 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
                       GestureDetector(
                         onTap: () {
                           if (pairs.length == 1) {
-                            Navigator.of(context).pop(null);
+                            Navigator.of(context).maybePop(null);
                           } else {
                             setState(() {
                               pairs.removeAt(i);
@@ -98,13 +98,13 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(null);
+            Navigator.of(context).maybePop(null);
           },
           child: const Text('取消'),
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(pairs);
+            Navigator.of(context).maybePop(pairs);
           },
           child: const Text('导入'),
         ),
