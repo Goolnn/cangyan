@@ -56,12 +56,15 @@ impl Workspace {
         Ok(summaries)
     }
 
-    #[frb(sync)]
     pub fn create(&self, title: String, images: Vec<Vec<u8>>) -> anyhow::Result<Summary> {
         let path = self.path.join(format!("{}.cy", title));
 
+        let cover = images.first().unwrap().to_owned();
         let pages = images.into_iter().map(cyfile::Page::new).collect();
-        let project = Project::new().with_pages(pages);
+        let project = Project::new()
+            .with_cover(cover)
+            .with_title(title)
+            .with_pages(pages);
 
         cyfile::File::export(
             &project,

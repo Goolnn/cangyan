@@ -1718,15 +1718,16 @@ fn wire__crate__api__tools__workspace__Workspace_check_impl(
     )
 }
 fn wire__crate__api__tools__workspace__Workspace_create_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "Workspace_create",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let message = unsafe {
@@ -1744,30 +1745,32 @@ fn wire__crate__api__tools__workspace__Workspace_create_impl(
             let api_title = <String>::sse_decode(&mut deserializer);
             let api_images = <Vec<Vec<u8>>>::sse_decode(&mut deserializer);
             deserializer.end();
-            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                (move || {
-                    let mut api_that_guard = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                &api_that, 0, false,
-                            ),
-                        ]);
-                    for i in decode_indices_ {
-                        match i {
-                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
-                            _ => unreachable!(),
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let mut api_that_guard = None;
+                        let decode_indices_ =
+                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_that, 0, false,
+                                )],
+                            );
+                        for i in decode_indices_ {
+                            match i {
+                                0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                                _ => unreachable!(),
+                            }
                         }
-                    }
-                    let api_that_guard = api_that_guard.unwrap();
-                    let output_ok = crate::api::tools::workspace::Workspace::create(
-                        &*api_that_guard,
-                        api_title,
-                        api_images,
-                    )?;
-                    Ok(output_ok)
-                })(),
-            )
+                        let api_that_guard = api_that_guard.unwrap();
+                        let output_ok = crate::api::tools::workspace::Workspace::create(
+                            &*api_that_guard,
+                            api_title,
+                            api_images,
+                        )?;
+                        Ok(output_ok)
+                    })(),
+                )
+            }
         },
     )
 }
@@ -2222,6 +2225,12 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
+        35 => wire__crate__api__tools__workspace__Workspace_create_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
         36 => wire__crate__api__tools__workspace__Workspace_include_impl(
             port,
             ptr,
@@ -2316,9 +2325,6 @@ fn pde_ffi_dispatcher_sync_impl(
             wire__crate__api__tools__summary__Summary_updated_date_impl(ptr, rust_vec_len, data_len)
         }
         34 => wire__crate__api__tools__workspace__Workspace_check_impl(ptr, rust_vec_len, data_len),
-        35 => {
-            wire__crate__api__tools__workspace__Workspace_create_impl(ptr, rust_vec_len, data_len)
-        }
         38 => wire__crate__api__tools__workspace__Workspace_new_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
