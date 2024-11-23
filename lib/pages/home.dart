@@ -153,19 +153,21 @@ class _HomePageState extends State<HomePage> {
           shape: const CircleBorder(),
           child: const Icon(Icons.add),
           onPressed: () async {
-            // await showDialog(
-            //   context: context,
-            //   barrierDismissible: false,
-            //   builder: (context) {
-            //     return cangyan.CreatePage(
-            //       widget.state.create(),
-            //     );
-            //   },
-            // ).then((result) {
-            //   if (result == true) {
-            //     setState(() {});
-            //   }
-            // });
+            showDialog<Future<cangyan.Summary>?>(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return cangyan.CreatePage(
+                  widget.workspace,
+                );
+              },
+            ).then((future) {
+              future?.then((summary) {
+                setState(() {
+                  handles?.addEntries([include(Handle(summary))]);
+                });
+              });
+            });
           },
         ),
       ),
