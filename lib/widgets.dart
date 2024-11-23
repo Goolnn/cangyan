@@ -5,6 +5,7 @@ export 'package:cangyan/widgets/date_text.dart';
 export 'package:cangyan/widgets/drawer.dart';
 export 'package:cangyan/widgets/editable_text.dart';
 export 'package:cangyan/widgets/image.dart';
+export 'package:cangyan/widgets/image_viewer.dart';
 export 'package:cangyan/widgets/input.dart';
 export 'package:cangyan/widgets/mark.dart';
 export 'package:cangyan/widgets/progress.dart';
