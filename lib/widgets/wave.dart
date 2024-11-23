@@ -4,6 +4,8 @@ class Wave extends StatelessWidget {
   final BorderRadius? borderRadius;
 
   final Function()? onTap;
+  final Function(TapDownDetails details)? onTapDown;
+  final Function(TapUpDetails details)? onTapUp;
   final Function()? onLongPress;
   final Function(LongPressStartDetails details)? onLongPressStart;
   final Function(LongPressEndDetails details)? onLongPressEnd;
@@ -14,6 +16,8 @@ class Wave extends StatelessWidget {
     super.key,
     this.borderRadius,
     this.onTap,
+    this.onTapDown,
+    this.onTapUp,
     this.onLongPress,
     this.onLongPressStart,
     this.onLongPressEnd,
@@ -34,6 +38,8 @@ class Wave extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: onTap,
+                onTapDown: onTapDown,
+                onTapUp: onTapUp,
                 borderRadius: borderRadius,
                 splashColor: Colors.black.withOpacity(0.08),
                 highlightColor: Colors.black.withOpacity(0.08),
