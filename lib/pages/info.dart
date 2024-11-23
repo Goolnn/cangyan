@@ -149,21 +149,34 @@ class _InfoPageState extends State<InfoPage> {
 
                         images.insert(to, image);
                       },
-                      children: images.map((image) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: cangyan.Wave(
-                            borderRadius: BorderRadius.circular(8.0),
-                            onTap: () {},
-                            child: AspectRatio(
-                              aspectRatio: 3.0 / 4.0,
-                              child: cangyan.Image(
-                                provider: image,
+                      children: [
+                        for (int i = 0; i < images.length; i++)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: cangyan.Wave(
+                              borderRadius: BorderRadius.circular(8.0),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return cangyan.EditPage(
+                                      images[i],
+                                      editor: widget.pages.edit(
+                                        index: BigInt.from(i),
+                                      ),
+                                    );
+                                  }),
+                                );
+                              },
+                              child: AspectRatio(
+                                aspectRatio: 3.0 / 4.0,
+                                child: cangyan.Image(
+                                  provider: images[i],
+                                ),
                               ),
                             ),
                           ),
-                        );
-                      }).toList(),
+                      ],
                     );
 
                     // return LayoutBuilder(
