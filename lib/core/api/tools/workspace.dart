@@ -11,8 +11,7 @@ import 'summary.dart';
 abstract class Workspace implements RustOpaqueInterface {
   bool check({required String title});
 
-  Future<Summary> create(
-      {required String title, required List<Uint8List> images});
+  Summary create({required String title, required List<Uint8List> images});
 
   Future<Summary> include({required String title, required List<int> data});
 

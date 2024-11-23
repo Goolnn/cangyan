@@ -172,7 +172,7 @@ abstract class RustLibApi extends BaseApi {
   bool crateApiToolsWorkspaceWorkspaceCheck(
       {required Workspace that, required String title});
 
-  Future<Summary> crateApiToolsWorkspaceWorkspaceCreate(
+  Summary crateApiToolsWorkspaceWorkspaceCreate(
       {required Workspace that,
       required String title,
       required List<Uint8List> images});
@@ -1133,19 +1133,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<Summary> crateApiToolsWorkspaceWorkspaceCreate(
+  Summary crateApiToolsWorkspaceWorkspaceCreate(
       {required Workspace that,
       required String title,
       required List<Uint8List> images}) {
-    return handler.executeNormal(NormalTask(
-      callFfi: (port_) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerWorkspace(
             that, serializer);
         sse_encode_String(title, serializer);
         sse_encode_list_list_prim_u_8_strict(images, serializer);
-        pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 35, port: port_);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2392,8 +2391,7 @@ class WorkspaceImpl extends RustOpaque implements Workspace {
   bool check({required String title}) => RustLib.instance.api
       .crateApiToolsWorkspaceWorkspaceCheck(that: this, title: title);
 
-  Future<Summary> create(
-          {required String title, required List<Uint8List> images}) =>
+  Summary create({required String title, required List<Uint8List> images}) =>
       RustLib.instance.api.crateApiToolsWorkspaceWorkspaceCreate(
           that: this, title: title, images: images);
 

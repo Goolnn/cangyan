@@ -56,6 +56,7 @@ impl Workspace {
         Ok(summaries)
     }
 
+    #[frb(sync)]
     pub fn create(&self, title: String, images: Vec<Vec<u8>>) -> anyhow::Result<Summary> {
         let path = self.path.join(format!("{}.cy", title));
 
