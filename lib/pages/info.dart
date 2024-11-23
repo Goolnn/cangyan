@@ -150,6 +150,12 @@ class _InfoPageState extends State<InfoPage> {
                         final image = images.removeAt(from);
 
                         images.insert(to, image);
+
+                        if (from == 0 || to == 0) {
+                          setState(() {
+                            widget.handle.cover = images.first;
+                          });
+                        }
                       },
                       children: [
                         for (int i = 0; i < images.length; i++)
