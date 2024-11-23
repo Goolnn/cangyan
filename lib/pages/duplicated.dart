@@ -119,7 +119,7 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
                     minimumSize: WidgetStatePropertyAll(Size.zero),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     padding: WidgetStatePropertyAll(EdgeInsets.symmetric(
-                      horizontal: 16.0,
+                      horizontal: 20.0,
                       vertical: 8.0,
                     )),
                   ),
@@ -133,7 +133,7 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
                     minimumSize: WidgetStatePropertyAll(Size.zero),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     padding: WidgetStatePropertyAll(EdgeInsets.symmetric(
-                      horizontal: 16.0,
+                      horizontal: 20.0,
                       vertical: 8.0,
                     )),
                   ),
