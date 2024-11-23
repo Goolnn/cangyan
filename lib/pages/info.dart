@@ -191,10 +191,11 @@ class _InfoPageState extends State<InfoPage> {
                                       child: Text('向后插入新页'),
                                     ),
                                     const PopupMenuDivider(),
-                                    const PopupMenuItem(
+                                    PopupMenuItem(
                                       value: 3,
                                       height: 36.0,
-                                      child: Text('删除页面'),
+                                      enabled: images.length > 1,
+                                      child: const Text('删除页面'),
                                     ),
                                   ],
                                 ).then((value) async {
