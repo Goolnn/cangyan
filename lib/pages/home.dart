@@ -177,17 +177,7 @@ class _HomePageState extends State<HomePage> {
       handle,
       cangyan.Wave(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return cangyan.InfoPage(
-                  workspace: widget.workspace,
-                  handle: handle,
-                );
-              },
-            ),
-          );
+          open(handle);
         },
         onLongPress: () {
           HapticFeedback.selectionClick();
@@ -204,7 +194,11 @@ class _HomePageState extends State<HomePage> {
                       Icons.remove_red_eye,
                     ),
                     title: const Text('查看'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pop();
+
+                      open(handle);
+                    },
                   ),
                   ListTile(
                     leading: const Icon(
@@ -232,11 +226,33 @@ class _HomePageState extends State<HomePage> {
                     onTap: () async {
                       Navigator.pop(context);
 
-                      handle.summary.delete();
+                      showAdaptiveDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('删除'),
+                            content: const Text('确定要删除吗？'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('取消'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  handle.summary.delete();
 
-                      setState(() {
-                        handles!.remove(handle);
-                      });
+                                  setState(() {
+                                    handles!.remove(handle);
+                                  });
+                                },
+                                child: const Text('确定'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
@@ -282,5 +298,19 @@ class _HomePageState extends State<HomePage> {
         }
       }
     });
+  }
+
+  void open(Handle handle) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return cangyan.InfoPage(
+            workspace: widget.workspace,
+            handle: handle,
+          );
+        },
+      ),
+    );
   }
 }
