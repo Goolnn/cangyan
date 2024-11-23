@@ -55,6 +55,24 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Row(
                     children: [
+                      Icon(
+                        duplicateds[i]
+                            ? Icons.error_outline
+                            : Icons.check_circle_outline,
+                        color: duplicateds[i] ? Colors.red : Colors.green,
+                      ),
+                      const SizedBox(width: 8.0),
+                      Expanded(
+                        child: cangyan.EditableText(
+                          pairs[i].$1,
+                          onSubmitted: (text) {
+                            setState(() {
+                              pairs[i] = (text, pairs[i].$2);
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
                       GestureDetector(
                         onTap: () {
                           if (pairs.length == 1) {
@@ -69,24 +87,6 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
                           Icons.close,
                           size: 20.0,
                         ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Expanded(
-                        child: cangyan.EditableText(
-                          pairs[i].$1,
-                          onSubmitted: (text) {
-                            setState(() {
-                              pairs[i] = (text, pairs[i].$2);
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Icon(
-                        duplicateds[i]
-                            ? Icons.error_outline
-                            : Icons.check_circle_outline,
-                        color: duplicateds[i] ? Colors.red : Colors.green,
                       ),
                     ],
                   ),
