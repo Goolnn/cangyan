@@ -248,6 +248,8 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     handles!.remove(handle);
                                   });
+
+                                  Navigator.of(context).pop();
                                 },
                                 child: const Text('确定'),
                               ),
