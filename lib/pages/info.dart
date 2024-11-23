@@ -138,47 +138,92 @@ class _InfoPageState extends State<InfoPage> {
 
                     images = snapshot.data ?? [];
 
-                    return Align(
-                      alignment: Alignment.centerLeft,
-                      child: Wrap(
-                        children: [
-                          for (int i = 0; i < widget.handle.pageCount; i++)
-                            FractionallySizedBox(
-                              widthFactor: 1.0 / 3.0,
-                              child: Column(
-                                children: [
-                                  Padding(
+                    return LayoutBuilder(
+                      builder: (
+                        BuildContext context,
+                        BoxConstraints constraints,
+                      ) {
+                        return Align(
+                          alignment: Alignment.centerLeft,
+                          child: Wrap(
+                            children: [
+                              for (int i = 0; i < widget.handle.pageCount; i++)
+                                Builder(builder: (context) {
+                                  final image = Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: cangyan.Wave(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) {
-                                            return cangyan.EditPage(
-                                              images[i],
-                                              editor: widget.pages.edit(
-                                                index: BigInt.from(i),
-                                              ),
-                                            );
-                                          }),
-                                        );
-                                      },
-                                      onLongPressStart: (details) {},
-                                      child: AspectRatio(
-                                        aspectRatio: 3.0 / 4.0,
-                                        child: cangyan.Image(
-                                          provider: images[i],
-                                        ),
+                                    child: AspectRatio(
+                                      aspectRatio: 3.0 / 4.0,
+                                      child: cangyan.Image(
+                                        provider: images[i],
                                       ),
                                     ),
-                                  ),
-                                  Text('第${i + 1}页'),
-                                ],
-                              ),
-                            ),
-                        ],
-                      ),
+                                  );
+
+                                  return DragTarget(
+                                    onAcceptWithDetails: (details) {
+                                      final from = details.data as int;
+                                      final to = i;
+
+                                      if (from == to) {
+                                        return;
+                                      }
+
+                                      setState(() {
+                                        widget.pages.movePageTo(
+                                          from: BigInt.from(from),
+                                          to: BigInt.from(to),
+                                        );
+
+                                        final image = images.removeAt(from);
+
+                                        images.insert(i, image);
+                                      });
+                                    },
+                                    builder: (
+                                      BuildContext context,
+                                      List<Object?> candidateData,
+                                      List<dynamic> rejectedData,
+                                    ) {
+                                      return Draggable<int>(
+                                        hitTestBehavior:
+                                            HitTestBehavior.translucent,
+                                        data: i,
+                                        feedback: Transform.scale(
+                                          scale: 1.15,
+                                          child: SizedBox(
+                                            width: constraints.maxWidth / 3.0,
+                                            child: image,
+                                          ),
+                                        ),
+                                        childWhenDragging: SizedBox(
+                                          width: constraints.maxWidth / 3.0,
+                                          child: Column(
+                                            children: [
+                                              Opacity(
+                                                opacity: 0.25,
+                                                child: image,
+                                              ),
+                                              Text('第${i + 1}页'),
+                                            ],
+                                          ),
+                                        ),
+                                        child: SizedBox(
+                                          width: constraints.maxWidth / 3.0,
+                                          child: Column(
+                                            children: [
+                                              image,
+                                              Text('第${i + 1}页'),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }),
+                            ],
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
