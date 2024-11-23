@@ -26,7 +26,7 @@ class _ImageViewerState extends State<ImageViewer> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Align(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.topLeft,
         child: Wrap(children: [
           for (var i = 0; i < widget.children.length; i++)
             Builder(builder: (context) {
