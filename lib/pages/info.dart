@@ -139,6 +139,16 @@ class _InfoPageState extends State<InfoPage> {
                     images = snapshot.data ?? [];
 
                     return cangyan.ImageViewer(
+                      onReorder: (from, to) {
+                        widget.pages.movePageTo(
+                          from: BigInt.from(from),
+                          to: BigInt.from(to),
+                        );
+
+                        final image = images.removeAt(from);
+
+                        images.insert(to, image);
+                      },
                       children: images.map((image) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
