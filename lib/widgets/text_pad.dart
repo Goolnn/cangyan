@@ -1,7 +1,9 @@
+import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:flutter/material.dart';
 
 class TextPad extends StatelessWidget {
   final int? index;
+  final cangyan.Note? note;
 
   final void Function()? onIndexTap;
   final void Function()? onPrevTap;
@@ -10,6 +12,7 @@ class TextPad extends StatelessWidget {
   const TextPad({
     super.key,
     this.index,
+    this.note,
     this.onIndexTap,
     this.onPrevTap,
     this.onNextTap,
@@ -17,7 +20,7 @@ class TextPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return index == null
+    return index == null || note == null
         ? Container()
         : Column(
             children: [
@@ -42,7 +45,57 @@ class TextPad extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Column(
+                          children: [
+                            const Center(
+                              child: Text('初译'),
+                            ),
+                            const SizedBox(
+                              height: 4.0,
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(note!.texts[0].content),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const VerticalDivider(),
+                      Flexible(
+                        child: Column(
+                          children: [
+                            const Center(
+                              child: Text('校对'),
+                            ),
+                            const SizedBox(
+                              height: 4.0,
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(note!.texts[0].comment),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           );
   }
