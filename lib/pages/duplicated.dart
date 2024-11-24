@@ -45,8 +45,7 @@ class _DuplicatedPageState extends State<DuplicatedPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Align(
-              alignment: Alignment.centerLeft,
+            const Center(
               child: Text(
                 '工程重名',
                 style: TextStyle(fontSize: 20.0),
