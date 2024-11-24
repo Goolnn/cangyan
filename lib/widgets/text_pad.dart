@@ -1,3 +1,36 @@
+import 'package:flutter/material.dart';
+
+class TextPad extends StatelessWidget {
+  final int? index;
+
+  final void Function()? onIndexTap;
+
+  const TextPad({
+    super.key,
+    this.index,
+    this.onIndexTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return index == null
+        ? Container()
+        : Column(
+            children: [
+              Center(
+                child: TextButton(
+                  style: const ButtonStyle(
+                      shape: WidgetStatePropertyAll(CircleBorder()),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                  onPressed: onIndexTap,
+                  child: Text('$index'),
+                ),
+              )
+            ],
+          );
+  }
+}
+
 // import 'package:cangyan/core.dart' as cangyan;
 // import 'package:flutter/material.dart';
 
