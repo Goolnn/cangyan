@@ -9,14 +9,21 @@ class PageViewer extends StatefulWidget {
   final MemoryImage image;
   final List<cangyan.Note> notes;
 
+  final void Function()? onDoubleTap;
+
   final void Function(int index, cangyan.Note note)? onNoteTap;
+  final void Function(int index, cangyan.Note note)? onNoteLongPress;
+  final void Function(int index, double x, double y)? onNoteMove;
 
   const PageViewer({
     super.key,
     this.controller,
     required this.image,
     required this.notes,
+    this.onDoubleTap,
     this.onNoteTap,
+    this.onNoteLongPress,
+    this.onNoteMove,
   });
 
   @override
@@ -32,6 +39,11 @@ class _PageViewerState extends State<PageViewer> {
 
   late Size viewerSize;
   late Size pageSize;
+
+  Offset? draggingStart;
+  Offset? draggingOffset;
+
+  bool dragging = false;
 
   @override
   void initState() {
@@ -153,14 +165,17 @@ class _PageViewerState extends State<PageViewer> {
         return Stack(
           fit: StackFit.expand,
           children: [
-            InteractiveViewer(
-              transformationController: viewerController,
-              maxScale: 10.0,
-              minScale: 0.5,
-              boundaryMargin: margin,
-              child: Center(
-                child: Image(
-                  image: widget.image,
+            GestureDetector(
+              onDoubleTap: widget.onDoubleTap,
+              child: InteractiveViewer(
+                transformationController: viewerController,
+                maxScale: 10.0,
+                minScale: 0.5,
+                boundaryMargin: margin,
+                child: Center(
+                  child: Image(
+                    image: widget.image,
+                  ),
                 ),
               ),
             ),
@@ -193,6 +208,74 @@ class _PageViewerState extends State<PageViewer> {
                     onPressed: () {
                       if (widget.onNoteTap != null) {
                         widget.onNoteTap!(i, widget.notes[i]);
+                      }
+                    },
+                    onLongPressed: () {
+                      if (widget.onNoteLongPress != null) {
+                        widget.onNoteLongPress!(i, widget.notes[i]);
+                      }
+                    },
+                    onPanStart: (detail) {
+                      draggingStart = Offset(
+                        widget.notes[i].x,
+                        widget.notes[i].y,
+                      );
+                    },
+                    onPanEnd: (detail) {
+                      draggingStart = null;
+                      draggingOffset = null;
+
+                      dragging = false;
+
+                      if (widget.onNoteMove != null) {
+                        widget.onNoteMove!(
+                          i,
+                          widget.notes[i].x,
+                          widget.notes[i].y,
+                        );
+                      }
+                    },
+                    onPanUpdate: (detail) {
+                      final position = Offset(
+                        detail.localPosition.dx - size,
+                        detail.localPosition.dy - size,
+                      );
+
+                      const radius = 60.0;
+
+                      if (!dragging && position.distance >= radius) {
+                        draggingOffset = position;
+
+                        dragging = true;
+                      }
+
+                      if (dragging) {
+                        var coordiante = Offset(
+                          ((position.dx - draggingOffset!.dx) /
+                              pageSize.width /
+                              controller.scale *
+                              2.0),
+                          -((position.dy - draggingOffset!.dy) /
+                              pageSize.height /
+                              controller.scale *
+                              2.0),
+                        );
+
+                        setState(() {
+                          var noteX = draggingStart!.dx + coordiante.dx;
+                          var noteY = draggingStart!.dy + coordiante.dy;
+
+                          if (noteX.abs() > 1.0) {
+                            noteX = noteX.sign;
+                          }
+
+                          if (noteY.abs() > 1.0) {
+                            noteY = noteY.sign;
+                          }
+
+                          widget.notes[i].x = noteX;
+                          widget.notes[i].y = noteY;
+                        });
                       }
                     },
                   ),
