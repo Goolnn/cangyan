@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Drawer extends StatefulWidget {
@@ -20,12 +22,35 @@ class Drawer extends StatefulWidget {
 class _DrawerState extends State<Drawer> {
   late final DrawerController controller;
 
+  late Size drawerSize;
+
+  double? dragging;
+  bool dragged = false;
+
   Curve get curve {
-    switch (controller.open) {
+    switch (controller.open || dragged) {
       case true:
+        dragged = false;
+
         return Curves.easeOutCubic;
       case false:
         return Curves.easeInCubic;
+    }
+  }
+
+  Duration get duration {
+    if (dragging == null) {
+      return const Duration(milliseconds: 300);
+    } else {
+      return const Duration();
+    }
+  }
+
+  double get bottom {
+    if (dragging != null) {
+      return min(0.0, -dragging!);
+    } else {
+      return controller.open ? 0.0 : -drawerSize.height;
     }
   }
 
@@ -41,7 +66,7 @@ class _DrawerState extends State<Drawer> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final drawerSize = Size(
+        drawerSize = Size(
           constraints.maxWidth,
           constraints.maxHeight / controller.factor,
         );
@@ -51,8 +76,8 @@ class _DrawerState extends State<Drawer> {
           children: [
             widget.child,
             AnimatedPositioned(
-              bottom: controller.open ? 0.0 : -drawerSize.height,
-              duration: const Duration(milliseconds: 300),
+              bottom: bottom,
+              duration: duration,
               curve: curve,
               child: SizedBox(
                 width: drawerSize.width,
@@ -62,10 +87,36 @@ class _DrawerState extends State<Drawer> {
                     children: [
                       if (controller.draggable)
                         GestureDetector(
-                          child: const SizedBox(
-                            width: 96.0,
-                            child: Divider(
-                              thickness: 1.5,
+                          behavior: HitTestBehavior.opaque,
+                          onPanDown: (details) {
+                            setState(() {
+                              dragging = 0.0;
+                            });
+                          },
+                          onPanUpdate: (details) {
+                            setState(() {
+                              dragging = details.localPosition.dy;
+                            });
+                          },
+                          onPanEnd: (details) {
+                            final v = details.velocity.pixelsPerSecond.dy;
+                            final l = drawerSize.height / 2.0;
+
+                            if (v >= 1000.0 || dragging! >= l) {
+                              controller.open = false;
+                            }
+
+                            setState(() {
+                              dragging = null;
+                              dragged = true;
+                            });
+                          },
+                          child: const Center(
+                            child: FractionallySizedBox(
+                              widthFactor: 0.2,
+                              child: Divider(
+                                thickness: 1.5,
+                              ),
                             ),
                           ),
                         ),
