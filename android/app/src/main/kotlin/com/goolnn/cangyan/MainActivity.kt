@@ -105,6 +105,13 @@ class MainActivity : FlutterActivity() {
 
                             list.add(fileData)
                         }
+                    } ?: run {
+                        data?.data?.let { uri ->
+                            val inputStream: InputStream? = contentResolver.openInputStream(uri)
+                            val fileData = inputStream?.readBytes() ?: ByteArray(0)
+
+                            list.add(fileData)
+                        }
                     }
                 }
 
