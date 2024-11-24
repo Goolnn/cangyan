@@ -53,7 +53,10 @@ class _PageViewerState extends State<PageViewer> {
         );
 
         final matrix = Matrix4.identity()
-          ..translate(offset.dx, offset.dy)
+          ..translate(
+            offset.dx,
+            offset.dy,
+          )
           ..scale(scale);
 
         viewerController.value = matrix;
@@ -225,13 +228,13 @@ class PageViewerController extends ChangeNotifier {
   double get scale => _scale;
 
   set x(double x) {
-    _x = x;
+    _x = x.clamp(-1.0, 1.0);
 
     notifyListeners();
   }
 
   set y(double y) {
-    _y = y;
+    _y = y.clamp(-1.0, 1.0);
 
     notifyListeners();
   }
