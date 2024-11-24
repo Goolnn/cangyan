@@ -26,6 +26,8 @@ class _EditPageState extends State<EditPage> {
   void initState() {
     super.initState();
 
+    drawerController.addListener(() => setState(() {}));
+
     notes = widget.editor.notes();
   }
 
@@ -34,7 +36,7 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       body: SafeArea(
         child: PopScope(
-          canPop: drawerController.open,
+          canPop: !drawerController.open,
           onPopInvokedWithResult: (didPop, result) {
             if (didPop) {
               return;
@@ -44,9 +46,7 @@ class _EditPageState extends State<EditPage> {
           },
           child: cangyan.Drawer(
             controller: drawerController,
-            drawer: const Center(
-              child: CircularProgressIndicator(),
-            ),
+            drawer: const cangyan.TextPad(),
             child: cangyan.PageViewer(
               controller: viewerController,
               image: widget.image,
