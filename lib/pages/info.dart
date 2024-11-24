@@ -294,7 +294,7 @@ class _InfoPageState extends State<InfoPage> {
       context,
       MaterialPageRoute(builder: (context) {
         return cangyan.EditPage(
-          images[index],
+          image: images[index],
           editor: editor,
         );
       }),
