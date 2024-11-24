@@ -9,7 +9,7 @@ class PageViewer extends StatefulWidget {
   final MemoryImage image;
   final List<cangyan.Note> notes;
 
-  final void Function(cangyan.Note note)? onNoteTap;
+  final void Function(int index, cangyan.Note note)? onNoteTap;
 
   const PageViewer({
     super.key,
@@ -169,7 +169,7 @@ class _PageViewerState extends State<PageViewer> {
                     size: size,
                     onPressed: () {
                       if (widget.onNoteTap != null) {
-                        widget.onNoteTap!(widget.notes[i]);
+                        widget.onNoteTap!(i, widget.notes[i]);
                       }
                     },
                   ),
