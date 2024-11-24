@@ -198,6 +198,14 @@ class _PageViewerState extends State<PageViewer> {
                   ),
                 );
               }),
+            if (controller.scale != 1.0)
+              Positioned(
+                top: 16.0,
+                left: 16.0,
+                child: cangyan.Capsule(
+                  child: Text('×${controller.scale.toStringAsFixed(2)}'),
+                ),
+              ),
           ],
         );
       },
