@@ -9,6 +9,8 @@ class PageViewer extends StatefulWidget {
   final MemoryImage image;
   final List<cangyan.Note> notes;
 
+  final void Function(double x, double y)? onAppendNote;
+
   final void Function()? onDoubleTap;
 
   final void Function(int index, cangyan.Note note)? onNoteTap;
@@ -20,6 +22,7 @@ class PageViewer extends StatefulWidget {
     this.controller,
     required this.image,
     required this.notes,
+    this.onAppendNote,
     this.onDoubleTap,
     this.onNoteTap,
     this.onNoteLongPress,
@@ -173,8 +176,25 @@ class _PageViewerState extends State<PageViewer> {
                 minScale: 0.5,
                 boundaryMargin: margin,
                 child: Center(
-                  child: Image(
-                    image: widget.image,
+                  child: GestureDetector(
+                    onLongPressStart: (details) {
+                      if (widget.onAppendNote != null) {
+                        final position = details.localPosition;
+
+                        final coordiante = Offset(
+                          (position.dx / pageSize.width * 2.0 - 1.0),
+                          -(position.dy / pageSize.height * 2.0 - 1.0),
+                        );
+
+                        widget.onAppendNote!(
+                          coordiante.dx,
+                          coordiante.dy,
+                        );
+                      }
+                    },
+                    child: Image(
+                      image: widget.image,
+                    ),
                   ),
                 ),
               ),
