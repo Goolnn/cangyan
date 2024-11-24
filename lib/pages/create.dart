@@ -94,9 +94,11 @@ class _CreatePageState extends State<CreatePage> {
                       )
                     : cangyan.ImageViewer(
                         onReorder: (from, to) {
-                          final image = images.removeAt(from);
+                          setState(() {
+                            final image = images.removeAt(from);
 
-                          images.insert(to, image);
+                            images.insert(to, image);
+                          });
                         },
                         children: [
                           for (int i = 0; i < images.length; i++)
