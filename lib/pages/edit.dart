@@ -18,6 +18,7 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
   final drawerController = cangyan.DrawerController();
+  final viewerController = cangyan.PageViewerController();
 
   late final List<cangyan.Note> notes;
 
@@ -47,6 +48,7 @@ class _EditPageState extends State<EditPage> {
               child: CircularProgressIndicator(),
             ),
             child: cangyan.PageViewer(
+              controller: viewerController,
               image: widget.image,
               notes: notes,
               onNoteTap: (index, note) {
