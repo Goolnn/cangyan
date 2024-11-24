@@ -115,28 +115,76 @@ class _EditPageState extends State<EditPage> {
                 }
               },
             ),
-            child: GestureDetector(
+            child: cangyan.PageViewer(
+              controller: viewerController,
+              image: widget.image,
+              notes: notes,
               onDoubleTap: () {
-                setState(() {
-                  viewerController.scale = 1.0;
+                viewerController.scale = 1.0;
 
-                  viewerController.x = 0.0;
-                  viewerController.y = 0.0;
+                viewerController.x = 0.0;
+                viewerController.y = 0.0;
+              },
+              onNoteTap: (index, note) {
+                setState(() {
+                  drawerController.open = true;
+
+                  this.index = index + 1;
+                  this.note = note;
                 });
               },
-              child: cangyan.PageViewer(
-                controller: viewerController,
-                image: widget.image,
-                notes: notes,
-                onNoteTap: (index, note) {
-                  setState(() {
-                    drawerController.open = true;
+              onNoteLongPress: (index, note) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('删除'),
+                      content: const Text('确认删除这个标记吗？'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('取消'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            if (this.index == index + 1) {
+                              setState(() {
+                                this.index = 1;
+                                this.note = notes[0];
+                              });
+                            }
 
-                    this.index = index + 1;
-                    this.note = note;
-                  });
-                },
-              ),
+                            widget.editor.removeNote(
+                              index: BigInt.from(index),
+                            );
+
+                            setState(() {
+                              notes.removeAt(index);
+                            });
+
+                            Navigator.pop(context);
+                          },
+                          child: const Text('确认'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              onNoteMove: (index, x, y) {
+                widget.editor.updateNotePosition(
+                  index: BigInt.from(index),
+                  x: x,
+                  y: y,
+                );
+
+                setState(() {
+                  notes[index].x = x;
+                  notes[index].y = y;
+                });
+              },
             ),
           ),
         ),
