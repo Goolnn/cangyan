@@ -69,6 +69,9 @@ class _DrawerState extends State<Drawer> {
                             ),
                           ),
                         ),
+                      Expanded(
+                        child: widget.drawer,
+                      ),
                     ],
                   ),
                 ),
