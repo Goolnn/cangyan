@@ -38,7 +38,27 @@ class _PageViewerState extends State<PageViewer> {
     super.initState();
 
     controller = widget.controller ?? PageViewerController();
-    controller.addListener(() => setState(() {}));
+    controller.addListener(
+      () => setState(() {
+        final scale = controller.scale;
+
+        final center = Offset(
+          viewerSize.width * (scale - 1.0) / 2.0,
+          viewerSize.height * (scale - 1.0) / 2.0,
+        );
+
+        final offset = Offset(
+          -controller.x * pageSize.width * scale / 2.0 - center.dx,
+          controller.y * pageSize.height * scale / 2.0 - center.dy,
+        );
+
+        final matrix = Matrix4.identity()
+          ..translate(offset.dx, offset.dy)
+          ..scale(scale);
+
+        viewerController.value = matrix;
+      }),
+    );
 
     widget.image.resolve(const ImageConfiguration()).addListener(
       ImageStreamListener((info, synchronousCall) {
