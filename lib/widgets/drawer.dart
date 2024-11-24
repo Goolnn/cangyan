@@ -47,10 +47,12 @@ class _DrawerState extends State<Drawer> {
   }
 
   double get bottom {
+    final insets = MediaQuery.of(context).viewInsets.bottom;
+
     if (dragging != null) {
-      return min(0.0, -dragging!);
+      return min(0.0, -dragging!) + insets;
     } else {
-      return controller.open ? 0.0 : -drawerSize.height;
+      return (controller.open ? 0.0 : -drawerSize.height) + insets;
     }
   }
 
