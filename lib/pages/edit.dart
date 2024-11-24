@@ -22,11 +22,12 @@ class _EditPageState extends State<EditPage> {
 
   late final List<cangyan.Note> notes;
 
+  cangyan.Note? note;
+  int? index;
+
   @override
   void initState() {
     super.initState();
-
-    drawerController.addListener(() => setState(() {}));
 
     notes = widget.editor.notes();
   }
@@ -42,17 +43,30 @@ class _EditPageState extends State<EditPage> {
               return;
             }
 
-            drawerController.open = false;
+            setState(() {
+              drawerController.open = false;
+            });
           },
           child: cangyan.Drawer(
             controller: drawerController,
-            drawer: const cangyan.TextPad(),
+            drawer: cangyan.TextPad(
+              index: index,
+              onIndexTap: () {
+                viewerController.x = note!.x;
+                viewerController.y = note!.y;
+              },
+            ),
             child: cangyan.PageViewer(
               controller: viewerController,
               image: widget.image,
               notes: notes,
               onNoteTap: (index, note) {
-                drawerController.open = true;
+                setState(() {
+                  drawerController.open = true;
+
+                  this.note = note;
+                  this.index = index + 1;
+                });
               },
             ),
           ),
