@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:flutter/material.dart';
 
@@ -52,8 +54,32 @@ class _EditPageState extends State<EditPage> {
             drawer: cangyan.TextPad(
               index: index,
               onIndexTap: () {
+                final scale = viewerController.scale;
+
                 viewerController.x = note!.x;
-                viewerController.y = note!.y;
+                viewerController.y = note!.y - (1.0 / 3.0) / scale;
+              },
+              onPrevTap: () {
+                setState(() {
+                  index = max(index! - 1, 1);
+                  note = notes[index! - 1];
+                });
+
+                final scale = viewerController.scale;
+
+                viewerController.x = note!.x;
+                viewerController.y = note!.y - (1.0 / 3.0) / scale;
+              },
+              onNextTap: () {
+                setState(() {
+                  index = min(index! + 1, notes.length);
+                  note = notes[index! - 1];
+                });
+
+                final scale = viewerController.scale;
+
+                viewerController.x = note!.x;
+                viewerController.y = note!.y - (1.0 / 3.0) / scale;
               },
             ),
             child: cangyan.PageViewer(
