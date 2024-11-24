@@ -4,11 +4,15 @@ class TextPad extends StatelessWidget {
   final int? index;
 
   final void Function()? onIndexTap;
+  final void Function()? onPrevTap;
+  final void Function()? onNextTap;
 
   const TextPad({
     super.key,
     this.index,
     this.onIndexTap,
+    this.onPrevTap,
+    this.onNextTap,
   });
 
   @override
@@ -17,14 +21,34 @@ class TextPad extends StatelessWidget {
         ? Container()
         : Column(
             children: [
-              Center(
-                child: TextButton(
-                  style: const ButtonStyle(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    style: const ButtonStyle(
                       shape: WidgetStatePropertyAll(CircleBorder()),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-                  onPressed: onIndexTap,
-                  child: Text('$index'),
-                ),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: onPrevTap,
+                    child: const Icon(Icons.arrow_left),
+                  ),
+                  TextButton(
+                    style: const ButtonStyle(
+                      shape: WidgetStatePropertyAll(CircleBorder()),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: onIndexTap,
+                    child: Text('$index'),
+                  ),
+                  TextButton(
+                    style: const ButtonStyle(
+                      shape: WidgetStatePropertyAll(CircleBorder()),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: onNextTap,
+                    child: const Icon(Icons.arrow_right),
+                  ),
+                ],
               )
             ],
           );
