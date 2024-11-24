@@ -115,18 +115,28 @@ class _EditPageState extends State<EditPage> {
                 }
               },
             ),
-            child: cangyan.PageViewer(
-              controller: viewerController,
-              image: widget.image,
-              notes: notes,
-              onNoteTap: (index, note) {
+            child: GestureDetector(
+              onDoubleTap: () {
                 setState(() {
-                  drawerController.open = true;
+                  viewerController.scale = 1.0;
 
-                  this.index = index + 1;
-                  this.note = note;
+                  viewerController.x = 0.0;
+                  viewerController.y = 0.0;
                 });
               },
+              child: cangyan.PageViewer(
+                controller: viewerController,
+                image: widget.image,
+                notes: notes,
+                onNoteTap: (index, note) {
+                  setState(() {
+                    drawerController.open = true;
+
+                    this.index = index + 1;
+                    this.note = note;
+                  });
+                },
+              ),
             ),
           ),
         ),
