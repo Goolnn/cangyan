@@ -147,9 +147,11 @@ class _InfoPageState extends State<InfoPage> {
                           to: BigInt.from(to),
                         );
 
-                        final image = images.removeAt(from);
+                        setState(() {
+                          final image = images.removeAt(from);
 
-                        images.insert(to, image);
+                          images.insert(to, image);
+                        });
 
                         if (from == 0 || to == 0) {
                           setState(() {
