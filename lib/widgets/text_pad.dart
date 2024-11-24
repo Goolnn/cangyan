@@ -28,6 +28,15 @@ class TextPad extends StatelessWidget {
                     style: const ButtonStyle(
                       shape: WidgetStatePropertyAll(CircleBorder()),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      minimumSize: WidgetStatePropertyAll(
+                        Size.square(36.0),
+                      ),
+                      padding: WidgetStatePropertyAll(
+                        EdgeInsets.zero,
+                      ),
+                      foregroundColor: WidgetStatePropertyAll(
+                        Colors.black,
+                      ),
                     ),
                     onPressed: onPrevTap,
                     child: const Icon(Icons.arrow_left),
@@ -36,6 +45,15 @@ class TextPad extends StatelessWidget {
                     style: const ButtonStyle(
                       shape: WidgetStatePropertyAll(CircleBorder()),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      minimumSize: WidgetStatePropertyAll(
+                        Size.square(36.0),
+                      ),
+                      padding: WidgetStatePropertyAll(
+                        EdgeInsets.zero,
+                      ),
+                      foregroundColor: WidgetStatePropertyAll(
+                        Colors.black,
+                      ),
                     ),
                     onPressed: onIndexTap,
                     child: Text('$index'),
@@ -44,6 +62,15 @@ class TextPad extends StatelessWidget {
                     style: const ButtonStyle(
                       shape: WidgetStatePropertyAll(CircleBorder()),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      minimumSize: WidgetStatePropertyAll(
+                        Size.square(36.0),
+                      ),
+                      padding: WidgetStatePropertyAll(
+                        EdgeInsets.zero,
+                      ),
+                      foregroundColor: WidgetStatePropertyAll(
+                        Colors.black,
+                      ),
                     ),
                     onPressed: onNextTap,
                     child: const Icon(Icons.arrow_right),
