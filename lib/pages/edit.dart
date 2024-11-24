@@ -32,17 +32,27 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: cangyan.Drawer(
-          controller: drawerController,
-          drawer: const Center(
-            child: CircularProgressIndicator(),
-          ),
-          child: cangyan.PageViewer(
-            image: widget.image,
-            notes: notes,
-            onNoteTap: (index, note) {
-              drawerController.open = true;
-            },
+        child: PopScope(
+          canPop: drawerController.open,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) {
+              return;
+            }
+
+            drawerController.open = false;
+          },
+          child: cangyan.Drawer(
+            controller: drawerController,
+            drawer: const Center(
+              child: CircularProgressIndicator(),
+            ),
+            child: cangyan.PageViewer(
+              image: widget.image,
+              notes: notes,
+              onNoteTap: (index, note) {
+                drawerController.open = true;
+              },
+            ),
           ),
         ),
       ),
