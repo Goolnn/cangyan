@@ -31,6 +31,10 @@ class _EditPageState extends State<EditPage> {
   void initState() {
     super.initState();
 
+    drawerController.addListener(() {
+      setState(() {});
+    });
+
     notes = widget.editor.notes();
   }
 
