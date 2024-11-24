@@ -21,61 +21,66 @@ class TextPad extends StatelessWidget {
         ? Container()
         : Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    style: const ButtonStyle(
-                      shape: WidgetStatePropertyAll(CircleBorder()),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      minimumSize: WidgetStatePropertyAll(
-                        Size.square(36.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      style: const ButtonStyle(
+                        shape: WidgetStatePropertyAll(CircleBorder()),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        minimumSize: WidgetStatePropertyAll(
+                          Size.square(36.0),
+                        ),
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.zero,
+                        ),
+                        foregroundColor: WidgetStatePropertyAll(
+                          Colors.black,
+                        ),
                       ),
-                      padding: WidgetStatePropertyAll(
-                        EdgeInsets.zero,
-                      ),
-                      foregroundColor: WidgetStatePropertyAll(
-                        Colors.black,
-                      ),
+                      onPressed: onPrevTap,
+                      child: const Icon(Icons.arrow_left),
                     ),
-                    onPressed: onPrevTap,
-                    child: const Icon(Icons.arrow_left),
-                  ),
-                  TextButton(
-                    style: const ButtonStyle(
-                      shape: WidgetStatePropertyAll(CircleBorder()),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      minimumSize: WidgetStatePropertyAll(
-                        Size.square(36.0),
+                    TextButton(
+                      style: const ButtonStyle(
+                        shape: WidgetStatePropertyAll(CircleBorder()),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        minimumSize: WidgetStatePropertyAll(
+                          Size.square(36.0),
+                        ),
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.zero,
+                        ),
+                        foregroundColor: WidgetStatePropertyAll(
+                          Colors.black,
+                        ),
                       ),
-                      padding: WidgetStatePropertyAll(
-                        EdgeInsets.zero,
-                      ),
-                      foregroundColor: WidgetStatePropertyAll(
-                        Colors.black,
-                      ),
+                      onPressed: onIndexTap,
+                      child: Text('$index'),
                     ),
-                    onPressed: onIndexTap,
-                    child: Text('$index'),
-                  ),
-                  TextButton(
-                    style: const ButtonStyle(
-                      shape: WidgetStatePropertyAll(CircleBorder()),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      minimumSize: WidgetStatePropertyAll(
-                        Size.square(36.0),
+                    TextButton(
+                      style: const ButtonStyle(
+                        shape: WidgetStatePropertyAll(CircleBorder()),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        minimumSize: WidgetStatePropertyAll(
+                          Size.square(36.0),
+                        ),
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.zero,
+                        ),
+                        foregroundColor: WidgetStatePropertyAll(
+                          Colors.black,
+                        ),
                       ),
-                      padding: WidgetStatePropertyAll(
-                        EdgeInsets.zero,
-                      ),
-                      foregroundColor: WidgetStatePropertyAll(
-                        Colors.black,
-                      ),
+                      onPressed: onNextTap,
+                      child: const Icon(Icons.arrow_right),
                     ),
-                    onPressed: onNextTap,
-                    child: const Icon(Icons.arrow_right),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           );
