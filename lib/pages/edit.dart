@@ -34,11 +34,13 @@ class _EditPageState extends State<EditPage> {
       body: SafeArea(
         child: cangyan.Drawer(
           controller: drawerController,
-          drawer: const CircularProgressIndicator(),
+          drawer: const Center(
+            child: CircularProgressIndicator(),
+          ),
           child: cangyan.PageViewer(
             image: widget.image,
             notes: notes,
-            onNoteTap: (note) {
+            onNoteTap: (index, note) {
               drawerController.open = true;
             },
           ),
