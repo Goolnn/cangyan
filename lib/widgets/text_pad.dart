@@ -1,13 +1,16 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:flutter/material.dart';
 
-class TextPad extends StatelessWidget {
+class TextPad extends StatefulWidget {
   final int? index;
   final cangyan.Note? note;
 
   final void Function()? onIndexTap;
   final void Function()? onPrevTap;
   final void Function()? onNextTap;
+
+  final void Function()? onEditing;
+  final void Function(EditingField field, String text)? onSubmitted;
 
   const TextPad({
     super.key,
@@ -16,88 +19,174 @@ class TextPad extends StatelessWidget {
     this.onIndexTap,
     this.onPrevTap,
     this.onNextTap,
+    this.onEditing,
+    this.onSubmitted,
   });
 
   @override
+  State<TextPad> createState() => _TextPadState();
+}
+
+class _TextPadState extends State<TextPad> {
+  final controller = TextEditingController();
+
+  EditingField? field;
+
+  @override
   Widget build(BuildContext context) {
-    return index == null || note == null
+    return widget.index == null || widget.note == null
         ? Container()
-        : Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                ),
+        : (field == null
+            ? Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _Button(
+                          onPressed: widget.onPrevTap,
+                          child: const Icon(Icons.arrow_left),
+                        ),
+                        _Button(
+                          onPressed: widget.onIndexTap,
+                          child: Text('${widget.index}'),
+                        ),
+                        _Button(
+                          onPressed: widget.onNextTap,
+                          child: const Icon(Icons.arrow_right),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Column(
+                              children: [
+                                const Center(
+                                  child: Text('初译'),
+                                ),
+                                const SizedBox(
+                                  height: 4.0,
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onDoubleTap: () {
+                                      final note = widget.note!;
+                                      final text = note.texts[0].content;
+
+                                      setState(() {
+                                        field = EditingField.content;
+
+                                        controller.text = text;
+
+                                        if (widget.onEditing != null) {
+                                          widget.onEditing!();
+                                        }
+                                      });
+                                    },
+                                    child: SingleChildScrollView(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: Text(
+                                          widget.note!.texts[0].content,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const VerticalDivider(),
+                          Flexible(
+                            child: Column(
+                              children: [
+                                const Center(
+                                  child: Text('校对'),
+                                ),
+                                const SizedBox(
+                                  height: 4.0,
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onDoubleTap: () {
+                                      final note = widget.note!;
+                                      final text = note.texts[0].comment;
+
+                                      setState(() {
+                                        field = EditingField.comment;
+
+                                        controller.text = text;
+
+                                        if (widget.onEditing != null) {
+                                          widget.onEditing!();
+                                        }
+                                      });
+                                    },
+                                    child: SingleChildScrollView(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: Text(
+                                          widget.note!.texts[0].comment,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _Button(
-                      onPressed: onPrevTap,
-                      child: const Icon(Icons.arrow_left),
-                    ),
-                    _Button(
-                      onPressed: onIndexTap,
-                      child: Text('$index'),
-                    ),
-                    _Button(
-                      onPressed: onNextTap,
-                      child: const Icon(Icons.arrow_right),
-                    ),
+                    Expanded(
+                        child: TextField(
+                      expands: true,
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        isCollapsed: true,
+                      ),
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                      ),
+                      autofocus: true,
+                      maxLines: null,
+                    )),
+                    Center(
+                        child: IconButton(
+                      onPressed: () {
+                        if (widget.onSubmitted != null) {
+                          widget.onSubmitted!(
+                            field!,
+                            controller.text,
+                          );
+                        }
+
+                        setState(() {
+                          field = null;
+                        });
+                      },
+                      icon: const Icon(Icons.check),
+                    )),
                   ],
                 ),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: Column(
-                          children: [
-                            const Center(
-                              child: Text('初译'),
-                            ),
-                            const SizedBox(
-                              height: 4.0,
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Text(note!.texts[0].content),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const VerticalDivider(),
-                      Flexible(
-                        child: Column(
-                          children: [
-                            const Center(
-                              child: Text('校对'),
-                            ),
-                            const SizedBox(
-                              height: 4.0,
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Text(note!.texts[0].comment),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
+              ));
   }
 }
 
@@ -345,7 +434,7 @@ class _Button extends StatelessWidget {
 //   }
 // }
 
-// enum EditingField {
-//   content,
-//   comment,
-// }
+enum EditingField {
+  content,
+  comment,
+}
