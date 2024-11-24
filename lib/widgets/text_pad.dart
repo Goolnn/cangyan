@@ -155,35 +155,37 @@ class _TextPadState extends State<TextPad> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                        child: TextField(
-                      expands: true,
-                      controller: controller,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        isCollapsed: true,
+                      child: TextField(
+                        expands: true,
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          isCollapsed: true,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                        ),
+                        autofocus: true,
+                        maxLines: null,
                       ),
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      autofocus: true,
-                      maxLines: null,
-                    )),
+                    ),
                     Center(
-                        child: IconButton(
-                      onPressed: () {
-                        if (widget.onSubmitted != null) {
-                          widget.onSubmitted!(
-                            field!,
-                            controller.text,
-                          );
-                        }
+                      child: IconButton(
+                        onPressed: () {
+                          if (widget.onSubmitted != null) {
+                            widget.onSubmitted!(
+                              field!,
+                              controller.text,
+                            );
+                          }
 
-                        setState(() {
-                          field = null;
-                        });
-                      },
-                      icon: const Icon(Icons.check),
-                    )),
+                          setState(() {
+                            field = null;
+                          });
+                        },
+                        icon: const Icon(Icons.check),
+                      ),
+                    ),
                   ],
                 ),
               ));
