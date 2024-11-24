@@ -24,8 +24,8 @@ class _EditPageState extends State<EditPage> {
 
   late final List<cangyan.Note> notes;
 
-  cangyan.Note? note;
   int? index;
+  cangyan.Note? note;
 
   @override
   void initState() {
@@ -37,6 +37,7 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: PopScope(
           canPop: !drawerController.open,
@@ -53,6 +54,7 @@ class _EditPageState extends State<EditPage> {
             controller: drawerController,
             drawer: cangyan.TextPad(
               index: index,
+              note: note,
               onIndexTap: () {
                 final scale = viewerController.scale;
 
@@ -81,6 +83,37 @@ class _EditPageState extends State<EditPage> {
                 viewerController.x = note!.x;
                 viewerController.y = note!.y - (1.0 / 3.0) / scale;
               },
+              onEditing: () {
+                drawerController.draggable = false;
+                drawerController.factor = 7.0;
+              },
+              onSubmitted: (field, text) {
+                drawerController.draggable = true;
+                drawerController.factor = 3.0;
+
+                switch (field) {
+                  case cangyan.EditingField.content:
+                    widget.editor.updateNoteContent(
+                      index: BigInt.from(index! - 1),
+                      content: text,
+                    );
+
+                    setState(() {
+                      note!.texts[0].content = text;
+                    });
+
+                    break;
+                  case cangyan.EditingField.comment:
+                    widget.editor.updateNoteComment(
+                      index: BigInt.from(index! - 1),
+                      comment: text,
+                    );
+
+                    note!.texts[0].comment = text;
+
+                    break;
+                }
+              },
             ),
             child: cangyan.PageViewer(
               controller: viewerController,
@@ -90,8 +123,8 @@ class _EditPageState extends State<EditPage> {
                 setState(() {
                   drawerController.open = true;
 
-                  this.note = note;
                   this.index = index + 1;
+                  this.note = note;
                 });
               },
             ),
