@@ -4,9 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib", "staticlib"]
+crate-type = ["rlib", "cdylib", "staticlib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.5.0"
 cyfile = { git = "https://github.com/Goolnn/cyfile", tag = "v0.4.3" }
 anyhow = "1.0.92"
+reqwest = { version = "0.12.9", features = ["json"] }
+tokio = { version = "1.41.1", features = ["macros"] }
+serde_yaml = "0.9.34"
