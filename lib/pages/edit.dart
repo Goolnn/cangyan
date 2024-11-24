@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EditPage extends StatefulWidget {
   final MemoryImage image;
@@ -123,6 +124,28 @@ class _EditPageState extends State<EditPage> {
               controller: viewerController,
               image: widget.image,
               notes: notes,
+              onAppendNote: (x, y) {
+                HapticFeedback.vibrate();
+
+                widget.editor.appendNote(
+                  x: x,
+                  y: y,
+                );
+
+                setState(() {
+                  notes.add(cangyan.Note(
+                    x: x,
+                    y: y,
+                    choice: 0,
+                    texts: [
+                      cangyan.Text(
+                        content: '',
+                        comment: '',
+                      ),
+                    ],
+                  ));
+                });
+              },
               onDoubleTap: () {
                 viewerController.scale = 1.0;
 
@@ -138,6 +161,10 @@ class _EditPageState extends State<EditPage> {
                 });
               },
               onNoteLongPress: (index, note) {
+                HapticFeedback.vibrate();
+
+                drawerController.open = false;
+
                 showDialog(
                   context: context,
                   builder: (context) {
