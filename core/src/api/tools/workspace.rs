@@ -36,7 +36,8 @@ impl Workspace {
                 }
 
                 let path = entry.path();
-                let file = cyfile::File::open(path.as_path());
+                let stream = std::fs::File::open(path.as_path())?;
+                let file = cyfile::File::open(stream);
 
                 if let Ok(mut project) = file {
                     project.set_title(path.file_stem().unwrap().to_string_lossy().to_string());
@@ -82,7 +83,8 @@ impl Workspace {
 
         std::fs::write(path.as_path(), data)?;
 
-        let project = cyfile::File::open(path.as_path())?.with_title(title);
+        let stream = std::fs::File::open(path.as_path())?;
+        let project = cyfile::File::open(stream)?.with_title(title);
         let file = Arc::new(Mutex::new(File { project, path }));
         let summary = Summary::new(file);
 

@@ -12,19 +12,19 @@ import 'text.dart';
 class Note {
   double x;
   double y;
-  int choice;
+  Text? comfirm;
   List<Text> texts;
 
   Note({
     required this.x,
     required this.y,
-    required this.choice,
+    this.comfirm,
     required this.texts,
   });
 
   @override
   int get hashCode =>
-      x.hashCode ^ y.hashCode ^ choice.hashCode ^ texts.hashCode;
+      x.hashCode ^ y.hashCode ^ comfirm.hashCode ^ texts.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -33,6 +33,6 @@ class Note {
           runtimeType == other.runtimeType &&
           x == other.x &&
           y == other.y &&
-          choice == other.choice &&
+          comfirm == other.comfirm &&
           texts == other.texts;
 }

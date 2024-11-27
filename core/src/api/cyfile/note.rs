@@ -10,7 +10,7 @@ pub struct Note {
     pub y: f64,
 
     #[frb(non_final)]
-    pub choice: u32,
+    pub comfirm: Option<Text>,
 
     #[frb(non_final)]
     pub texts: Vec<Text>,
@@ -22,7 +22,7 @@ impl From<&cyfile::Note> for Note {
             x: value.x(),
             y: value.y(),
 
-            choice: value.choice(),
+            comfirm: value.comfirm().map(|comfirm| comfirm.into()),
 
             texts: value.texts().iter().map(|text| text.into()).collect(),
         }
@@ -32,10 +32,13 @@ impl From<&cyfile::Note> for Note {
 impl From<&Note> for cyfile::Note {
     fn from(value: &Note) -> Self {
         let texts = value.texts.iter().map(|text| text.into()).collect();
+        let comfirm = &value.comfirm;
 
-        let mut note = cyfile::Note::new()
-            .with_coordinate(value.x, value.y)
-            .with_choice(value.choice);
+        let mut note = cyfile::Note::new().with_coordinate(value.x, value.y);
+
+        if let Some(comfirm) = comfirm {
+            note = note.with_comfirm(comfirm.into());
+        }
 
         *note.texts_mut() = texts;
 

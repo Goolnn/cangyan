@@ -2249,12 +2249,12 @@ impl SseDecode for crate::api::cyfile::note::Note {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_x = <f64>::sse_decode(deserializer);
         let mut var_y = <f64>::sse_decode(deserializer);
-        let mut var_choice = <u32>::sse_decode(deserializer);
+        let mut var_comfirm = <Option<crate::api::cyfile::text::Text>>::sse_decode(deserializer);
         let mut var_texts = <Vec<crate::api::cyfile::text::Text>>::sse_decode(deserializer);
         return crate::api::cyfile::note::Note {
             x: var_x,
             y: var_y,
-            choice: var_choice,
+            comfirm: var_comfirm,
             texts: var_texts,
         };
     }
@@ -2265,6 +2265,17 @@ impl SseDecode for Option<String> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<String>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::cyfile::text::Text> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::cyfile::text::Text>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -2573,7 +2584,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::cyfile::note::Note {
         [
             self.x.into_into_dart().into_dart(),
             self.y.into_into_dart().into_dart(),
-            self.choice.into_into_dart().into_dart(),
+            self.comfirm.into_into_dart().into_dart(),
             self.texts.into_into_dart().into_dart(),
         ]
         .into_dart()
@@ -2802,7 +2813,7 @@ impl SseEncode for crate::api::cyfile::note::Note {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <f64>::sse_encode(self.x, serializer);
         <f64>::sse_encode(self.y, serializer);
-        <u32>::sse_encode(self.choice, serializer);
+        <Option<crate::api::cyfile::text::Text>>::sse_encode(self.comfirm, serializer);
         <Vec<crate::api::cyfile::text::Text>>::sse_encode(self.texts, serializer);
     }
 }
@@ -2813,6 +2824,16 @@ impl SseEncode for Option<String> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <String>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::cyfile::text::Text> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::cyfile::text::Text>::sse_encode(value, serializer);
         }
     }
 }

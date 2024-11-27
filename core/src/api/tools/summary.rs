@@ -160,7 +160,7 @@ impl Summary {
 
         for page in project.pages() {
             for note in page.notes() {
-                if note.choice() != 0 {
+                if note.comfirm() != None {
                     done += 1.0;
                 }
 

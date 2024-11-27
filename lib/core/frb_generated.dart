@@ -1514,6 +1514,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Text dco_decode_box_autoadd_text(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_text(raw);
+  }
+
+  @protected
   Config dco_decode_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -1597,7 +1603,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return Note(
       x: dco_decode_f_64(arr[0]),
       y: dco_decode_f_64(arr[1]),
-      choice: dco_decode_u_32(arr[2]),
+      comfirm: dco_decode_opt_box_autoadd_text(arr[2]),
       texts: dco_decode_list_text(arr[3]),
     );
   }
@@ -1606,6 +1612,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String? dco_decode_opt_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_String(raw);
+  }
+
+  @protected
+  Text? dco_decode_opt_box_autoadd_text(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_text(raw);
   }
 
   @protected
@@ -1832,6 +1844,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Text sse_decode_box_autoadd_text(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_text(deserializer));
+  }
+
+  @protected
   Config sse_decode_config(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_workspace = sse_decode_opt_String(deserializer);
@@ -1936,9 +1954,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_x = sse_decode_f_64(deserializer);
     var var_y = sse_decode_f_64(deserializer);
-    var var_choice = sse_decode_u_32(deserializer);
+    var var_comfirm = sse_decode_opt_box_autoadd_text(deserializer);
     var var_texts = sse_decode_list_text(deserializer);
-    return Note(x: var_x, y: var_y, choice: var_choice, texts: var_texts);
+    return Note(x: var_x, y: var_y, comfirm: var_comfirm, texts: var_texts);
   }
 
   @protected
@@ -1947,6 +1965,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  Text? sse_decode_opt_box_autoadd_text(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_text(deserializer));
     } else {
       return null;
     }
@@ -2173,6 +2202,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_text(Text self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_text(self, serializer);
+  }
+
+  @protected
   void sse_encode_config(Config self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_opt_String(self.workspace, serializer);
@@ -2258,7 +2293,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_f_64(self.x, serializer);
     sse_encode_f_64(self.y, serializer);
-    sse_encode_u_32(self.choice, serializer);
+    sse_encode_opt_box_autoadd_text(self.comfirm, serializer);
     sse_encode_list_text(self.texts, serializer);
   }
 
@@ -2269,6 +2304,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_String(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_text(Text? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_text(self, serializer);
     }
   }
 
