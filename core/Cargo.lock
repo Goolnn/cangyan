@@ -263,6 +263,7 @@ dependencies = [
  "cyfile",
  "flutter_rust_bridge",
  "reqwest",
+ "serde",
  "serde_yaml",
  "tokio",
 ]
