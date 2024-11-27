@@ -6,6 +6,7 @@
 // Static analysis wrongly picks the IO variant, thus ignore this
 // ignore_for_file: argument_type_not_assignable
 
+import 'api/config.dart';
 import 'api/cyfile/date.dart';
 import 'api/cyfile/note.dart';
 import 'api/cyfile/text.dart';
@@ -127,7 +128,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool dco_decode_bool(dynamic raw);
 
   @protected
+  Config dco_decode_box_autoadd_config(dynamic raw);
+
+  @protected
   (int, int) dco_decode_box_autoadd_record_u_32_u_32(dynamic raw);
+
+  @protected
+  Config dco_decode_config(dynamic raw);
 
   @protected
   Date dco_decode_date(dynamic raw);
@@ -157,6 +164,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Note dco_decode_note(dynamic raw);
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw);
 
   @protected
   (int, int) dco_decode_record_u_32_u_32(dynamic raw);
@@ -264,8 +274,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  Config sse_decode_box_autoadd_config(SseDeserializer deserializer);
+
+  @protected
   (int, int) sse_decode_box_autoadd_record_u_32_u_32(
       SseDeserializer deserializer);
+
+  @protected
+  Config sse_decode_config(SseDeserializer deserializer);
 
   @protected
   Date sse_decode_date(SseDeserializer deserializer);
@@ -296,6 +312,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Note sse_decode_note(SseDeserializer deserializer);
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
   (int, int) sse_decode_record_u_32_u_32(SseDeserializer deserializer);
@@ -407,8 +426,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_config(Config self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_record_u_32_u_32(
       (int, int) self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_config(Config self, SseSerializer serializer);
 
   @protected
   void sse_encode_date(Date self, SseSerializer serializer);
@@ -440,6 +465,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_note(Note self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
   void sse_encode_record_u_32_u_32((int, int) self, SseSerializer serializer);
