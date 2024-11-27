@@ -16,3 +16,4 @@ serde_yaml = "0.9.34"
 serde = { version = "1.0.215", features = ["derive"] }
 semver = "1.0.23"
 futures-util = "0.3.31"
+chrono = "0.4.38"
