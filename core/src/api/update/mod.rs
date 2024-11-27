@@ -1,4 +1,6 @@
+use crate::frb_generated::StreamSink;
 use flutter_rust_bridge::frb;
+use futures_util::StreamExt;
 use reqwest::Client;
 use serde::Deserialize;
 
@@ -81,5 +83,27 @@ impl Release {
             .iter()
             .find(|asset| asset.name.contains(platform))
             .cloned()
+    }
+}
+
+impl Asset {
+    pub async fn download(&self, stream: StreamSink<Vec<u8>>) -> anyhow::Result<()> {
+        let client = Client::new();
+        let response = client.get(self.url.to_owned()).send().await?;
+        let status = response.status();
+
+        if status.is_success() {
+            let mut body = response.bytes_stream();
+
+            while let Some(chunk) = body.next().await {
+                stream
+                    .add(chunk?.to_vec())
+                    .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+            }
+
+            Ok(())
+        } else {
+            anyhow::bail!("Failed to download the asset");
+        }
     }
 }

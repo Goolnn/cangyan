@@ -25,6 +25,11 @@ class Asset {
     required this.url,
   });
 
+  Stream<Uint8List> download() =>
+      RustLib.instance.api.crateApiUpdateAssetDownload(
+        that: this,
+      );
+
   @override
   int get hashCode => name.hashCode ^ size.hashCode ^ url.hashCode;
 
