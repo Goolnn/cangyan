@@ -1523,11 +1523,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Config dco_decode_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 2)
-      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return Config.raw(
       workspace: dco_decode_opt_String(arr[0]),
-      previewFeatures: dco_decode_bool(arr[1]),
+      checkUpdate: dco_decode_bool(arr[1]),
+      previewFeatures: dco_decode_bool(arr[2]),
     );
   }
 
@@ -1853,9 +1854,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Config sse_decode_config(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_workspace = sse_decode_opt_String(deserializer);
+    var var_checkUpdate = sse_decode_bool(deserializer);
     var var_previewFeatures = sse_decode_bool(deserializer);
     return Config.raw(
-        workspace: var_workspace, previewFeatures: var_previewFeatures);
+        workspace: var_workspace,
+        checkUpdate: var_checkUpdate,
+        previewFeatures: var_previewFeatures);
   }
 
   @protected
@@ -2211,6 +2215,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_config(Config self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_opt_String(self.workspace, serializer);
+    sse_encode_bool(self.checkUpdate, serializer);
     sse_encode_bool(self.previewFeatures, serializer);
   }
 

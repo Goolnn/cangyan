@@ -10,10 +10,12 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 class Config {
   String? workspace;
+  bool checkUpdate;
   bool previewFeatures;
 
   Config.raw({
     this.workspace,
+    required this.checkUpdate,
     required this.previewFeatures,
   });
 
@@ -28,7 +30,8 @@ class Config {
       );
 
   @override
-  int get hashCode => workspace.hashCode ^ previewFeatures.hashCode;
+  int get hashCode =>
+      workspace.hashCode ^ checkUpdate.hashCode ^ previewFeatures.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -36,5 +39,6 @@ class Config {
       other is Config &&
           runtimeType == other.runtimeType &&
           workspace == other.workspace &&
+          checkUpdate == other.checkUpdate &&
           previewFeatures == other.previewFeatures;
 }

@@ -2149,9 +2149,11 @@ impl SseDecode for crate::api::config::Config {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_workspace = <Option<String>>::sse_decode(deserializer);
+        let mut var_checkUpdate = <bool>::sse_decode(deserializer);
         let mut var_previewFeatures = <bool>::sse_decode(deserializer);
         return crate::api::config::Config {
             workspace: var_workspace,
+            check_update: var_checkUpdate,
             preview_features: var_previewFeatures,
         };
     }
@@ -2542,6 +2544,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::config::Config {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.workspace.into_into_dart().into_dart(),
+            self.check_update.into_into_dart().into_dart(),
             self.preview_features.into_into_dart().into_dart(),
         ]
         .into_dart()
@@ -2735,6 +2738,7 @@ impl SseEncode for crate::api::config::Config {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Option<String>>::sse_encode(self.workspace, serializer);
+        <bool>::sse_encode(self.check_update, serializer);
         <bool>::sse_encode(self.preview_features, serializer);
     }
 }

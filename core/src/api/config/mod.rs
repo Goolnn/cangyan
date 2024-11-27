@@ -9,6 +9,9 @@ pub struct Config {
     pub workspace: Option<String>,
 
     #[frb(non_final)]
+    pub check_update: bool,
+
+    #[frb(non_final)]
     pub preview_features: bool,
 }
 
@@ -17,6 +20,8 @@ impl Config {
     pub fn empty() -> Self {
         Config {
             workspace: None,
+
+            check_update: true,
 
             preview_features: false,
         }
