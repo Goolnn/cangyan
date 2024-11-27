@@ -3,9 +3,12 @@ use serde::Deserialize;
 use serde::Serialize;
 
 #[derive(Debug, Default, Serialize, Deserialize)]
+#[frb(non_opaque)]
 pub struct Config {
+    #[frb[non_final]]
     pub workspace: Option<String>,
 
+    #[frb[non_final]]
     pub preview_features: bool,
 }
 
