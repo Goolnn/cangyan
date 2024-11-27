@@ -74,7 +74,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.5.0';
 
   @override
-  int get rustContentHash => -1712915323;
+  int get rustContentHash => 684396563;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -196,6 +196,12 @@ abstract class RustLibApi extends BaseApi {
   Workspace crateApiToolsWorkspaceWorkspaceNew({required String path});
 
   Future<Release> crateApiUpdateUpdateFetch();
+
+  Asset? crateApiUpdateReleaseAssetOf(
+      {required Release that, required Platform platform});
+
+  bool crateApiUpdateReleaseCheckUpdate(
+      {required Release that, required String version});
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_ArcMutexFile;
@@ -1357,6 +1363,58 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: [],
       );
 
+  @override
+  Asset? crateApiUpdateReleaseAssetOf(
+      {required Release that, required Platform platform}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_release(that, serializer);
+        sse_encode_platform(platform, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 43)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_box_autoadd_asset,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiUpdateReleaseAssetOfConstMeta,
+      argValues: [that, platform],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiUpdateReleaseAssetOfConstMeta =>
+      const TaskConstMeta(
+        debugName: "release_asset_of",
+        argNames: ["that", "platform"],
+      );
+
+  @override
+  bool crateApiUpdateReleaseCheckUpdate(
+      {required Release that, required String version}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_release(that, serializer);
+        sse_encode_String(version, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 44)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: sse_decode_AnyhowException,
+      ),
+      constMeta: kCrateApiUpdateReleaseCheckUpdateConstMeta,
+      argValues: [that, version],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiUpdateReleaseCheckUpdateConstMeta =>
+      const TaskConstMeta(
+        debugName: "release_check_update",
+        argNames: ["that", "version"],
+      );
+
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_ArcMutexFile => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexFile;
@@ -1571,6 +1629,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Asset dco_decode_box_autoadd_asset(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_asset(raw);
+  }
+
+  @protected
   Config dco_decode_box_autoadd_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_config(raw);
@@ -1580,6 +1644,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   (int, int) dco_decode_box_autoadd_record_u_32_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as (int, int);
+  }
+
+  @protected
+  Release dco_decode_box_autoadd_release(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_release(raw);
   }
 
   @protected
@@ -1621,6 +1691,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   double dco_decode_f_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as double;
+  }
+
+  @protected
+  int dco_decode_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
   }
 
   @protected
@@ -1691,9 +1767,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Asset? dco_decode_opt_box_autoadd_asset(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_asset(raw);
+  }
+
+  @protected
   Text? dco_decode_opt_box_autoadd_text(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_text(raw);
+  }
+
+  @protected
+  Platform dco_decode_platform(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Platform.values[raw as int];
   }
 
   @protected
@@ -1948,6 +2036,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Asset sse_decode_box_autoadd_asset(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_asset(deserializer));
+  }
+
+  @protected
   Config sse_decode_box_autoadd_config(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_config(deserializer));
@@ -1958,6 +2052,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_record_u_32_u_32(deserializer));
+  }
+
+  @protected
+  Release sse_decode_box_autoadd_release(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_release(deserializer));
   }
 
   @protected
@@ -2000,6 +2100,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   double sse_decode_f_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getFloat64();
+  }
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
   }
 
   @protected
@@ -2103,6 +2209,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Asset? sse_decode_opt_box_autoadd_asset(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_asset(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   Text? sse_decode_opt_box_autoadd_text(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -2111,6 +2228,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     } else {
       return null;
     }
+  }
+
+  @protected
+  Platform sse_decode_platform(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return Platform.values[inner];
   }
 
   @protected
@@ -2170,12 +2294,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   BigInt sse_decode_usize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getBigUint64();
-  }
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getInt32();
   }
 
   @protected
@@ -2361,6 +2479,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_asset(Asset self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_asset(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_config(Config self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_config(self, serializer);
@@ -2371,6 +2495,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       (int, int) self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_record_u_32_u_32(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_release(Release self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_release(self, serializer);
   }
 
   @protected
@@ -2402,6 +2532,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_f_64(double self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putFloat64(self);
+  }
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
   }
 
   @protected
@@ -2490,6 +2626,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_asset(Asset? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_asset(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_text(Text? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -2497,6 +2643,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     if (self != null) {
       sse_encode_box_autoadd_text(self, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_platform(Platform self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
   }
 
   @protected
@@ -2549,12 +2701,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
-  }
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putInt32(self);
   }
 }
 

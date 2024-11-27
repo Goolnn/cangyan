@@ -11,7 +11,6 @@ const USER_AGENT: &str = "Cangyan";
 pub struct Update {}
 
 #[derive(Deserialize, Debug)]
-#[frb(non_opaque)]
 pub struct Release {
     #[serde(rename = "tag_name")]
     pub version: String,
@@ -24,14 +23,18 @@ pub struct Release {
     pub assets: Vec<Asset>,
 }
 
-#[derive(Deserialize, Debug)]
-#[frb(non_opaque)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Asset {
     pub name: String,
     #[serde(rename = "size")]
     pub size: u32,
     #[serde(rename = "browser_download_url")]
     pub url: String,
+}
+
+pub enum Platform {
+    Windows,
+    Android,
 }
 
 impl Update {
@@ -55,5 +58,28 @@ impl Update {
         } else {
             anyhow::bail!("Failed to fetch the latest release");
         }
+    }
+}
+
+impl Release {
+    #[frb(sync)]
+    pub fn check_update(&self, version: &str) -> anyhow::Result<bool> {
+        let local_version = semver::Version::parse(&version[1..])?;
+        let latest_version = semver::Version::parse(&self.version[1..])?;
+
+        Ok(latest_version > local_version)
+    }
+
+    #[frb(sync)]
+    pub fn asset_of(&self, platform: Platform) -> Option<Asset> {
+        let platform = match platform {
+            Platform::Windows => "windows",
+            Platform::Android => "android",
+        };
+
+        self.assets
+            .iter()
+            .find(|asset| asset.name.contains(platform))
+            .cloned()
     }
 }

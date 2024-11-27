@@ -6,7 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `fmt`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`, `fmt`
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Update>>
 abstract class Update implements RustOpaqueInterface {
@@ -38,6 +38,12 @@ class Asset {
           url == other.url;
 }
 
+enum Platform {
+  windows,
+  android,
+  ;
+}
+
 class Release {
   final String version;
   final String published;
@@ -50,6 +56,12 @@ class Release {
     required this.prerelease,
     required this.assets,
   });
+
+  Asset? assetOf({required Platform platform}) => RustLib.instance.api
+      .crateApiUpdateReleaseAssetOf(that: this, platform: platform);
+
+  bool checkUpdate({required String version}) => RustLib.instance.api
+      .crateApiUpdateReleaseCheckUpdate(that: this, version: version);
 
   @override
   int get hashCode =>
