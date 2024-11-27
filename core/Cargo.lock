@@ -416,8 +416,8 @@ dependencies = [
 
 [[package]]
 name = "cyfile"
-version = "0.4.3"
-source = "git+https://github.com/Goolnn/cyfile?tag=v0.4.3#bfdb532a5afd0c62a572bfbaad31407ec2ef0574"
+version = "0.4.4"
+source = "git+https://github.com/Goolnn/cyfile?tag=v0.4.4#cf1e6fd4203e4c05f36db975b34bdc042ba8e014"
 dependencies = [
  "anyhow",
  "chrono",
