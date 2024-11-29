@@ -121,6 +121,9 @@ class _SearchBoxState extends State<SearchBox>
                   fontSize: 14.0,
                 ),
                 onChanged: widget.onChanged,
+                onTapOutside: (event) {
+                  focusNode.unfocus();
+                },
               );
             },
           );
