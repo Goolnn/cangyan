@@ -223,95 +223,99 @@ class _HomePageState extends State<HomePage> {
   MapEntry<Handle, Widget> include(Handle handle) {
     return MapEntry(
       handle,
-      cangyan.Wave(
-        onTap: () {
-          open(handle);
-        },
-        onLongPress: () {
-          HapticFeedback.selectionClick();
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: cangyan.Wave(
+          borderRadius: BorderRadius.circular(12.0),
+          onTap: () {
+            open(handle);
+          },
+          onLongPress: () {
+            HapticFeedback.selectionClick();
 
-          showModalBottomSheet(
-            clipBehavior: Clip.hardEdge,
-            context: context,
-            builder: (context) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    leading: const Icon(
-                      Icons.remove_red_eye,
-                    ),
-                    title: const Text('查看'),
-                    onTap: () {
-                      Navigator.of(context).pop();
-
-                      open(handle);
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.share,
-                    ),
-                    title: const Text('分享'),
-                    onTap: () {
-                      Navigator.pop(context);
-
-                      Share.shareXFiles(
-                        [XFile(handle.summary.filepath())],
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.delete,
-                    ),
-                    title: const Text(
-                      '删除',
-                      style: TextStyle(
-                        color: Colors.red,
+            showModalBottomSheet(
+              clipBehavior: Clip.hardEdge,
+              context: context,
+              builder: (context) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(
+                        Icons.remove_red_eye,
                       ),
+                      title: const Text('查看'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+
+                        open(handle);
+                      },
                     ),
-                    onTap: () async {
-                      Navigator.pop(context);
+                    ListTile(
+                      leading: const Icon(
+                        Icons.share,
+                      ),
+                      title: const Text('分享'),
+                      onTap: () {
+                        Navigator.pop(context);
 
-                      showAdaptiveDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('删除'),
-                            content: const Text('确定要删除吗？'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('取消'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  handle.summary.delete();
+                        Share.shareXFiles(
+                          [XFile(handle.summary.filepath())],
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.delete,
+                      ),
+                      title: const Text(
+                        '删除',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      onTap: () async {
+                        Navigator.pop(context);
 
-                                  setState(() {
-                                    handles!.remove(handle);
-                                  });
+                        showAdaptiveDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('删除'),
+                              content: const Text('确定要删除吗？'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('取消'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    handle.summary.delete();
 
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('确定'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: cangyan.Tile(
-          handle: handle,
+                                    setState(() {
+                                      handles!.remove(handle);
+                                    });
+
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('确定'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: cangyan.Tile(
+            handle: handle,
+          ),
         ),
       ),
     );
