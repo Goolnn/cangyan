@@ -48,7 +48,7 @@ Future<void> main() async {
           brightness: Brightness.light,
         ),
         dividerTheme: DividerThemeData(
-          color: Colors.grey.shade400,
+          color: Colors.grey.shade300,
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
@@ -65,6 +65,10 @@ Future<void> main() async {
         ),
         popupMenuTheme: PopupMenuThemeData(
           shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 0.5,
+              color: Colors.grey.shade300,
+            ),
             borderRadius: BorderRadius.circular(12.0),
           ),
           menuPadding: const EdgeInsets.all(6.0),
