@@ -57,12 +57,53 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        toolbarHeight: 48.0,
         title: const Text('苍眼'),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.settings),
-          )
+          PopupMenuTheme(
+            data: PopupMenuThemeData(
+              menuPadding: const EdgeInsets.all(4.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              color: Colors.white,
+            ),
+            child: PopupMenuButton(
+              offset: const Offset(0.0, 48.0),
+              constraints: const BoxConstraints(
+                minWidth: 128.0 + 48.0,
+              ),
+              itemBuilder: (context) {
+                return [
+                  const MyPopupMenuItem(
+                    value: 0,
+                    child: Text('设置'),
+                  ),
+                ];
+              },
+              onSelected: (value) {
+                switch (value) {
+                  case 0:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const cangyan.SettingsPage();
+                        },
+                      ),
+                    );
+                    break;
+                }
+              },
+            ),
+          ),
         ],
       ),
       body: SafeArea(
@@ -323,6 +364,105 @@ class _HomePageState extends State<HomePage> {
             handle: handle,
           );
         },
+      ),
+    );
+  }
+}
+
+class TooltipShape extends ShapeBorder {
+  const TooltipShape();
+
+  final BorderSide _side = BorderSide.none;
+  final BorderRadiusGeometry _borderRadius = BorderRadius.zero;
+
+  @override
+  EdgeInsetsGeometry get dimensions => EdgeInsets.all(_side.width);
+
+  @override
+  Path getInnerPath(
+    Rect rect, {
+    TextDirection? textDirection,
+  }) {
+    final Path path = Path();
+
+    path.addRRect(
+      _borderRadius.resolve(textDirection).toRRect(rect).deflate(_side.width),
+    );
+
+    return path;
+  }
+
+  @override
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
+    final Path path = Path();
+    final RRect rrect = _borderRadius.resolve(textDirection).toRRect(rect);
+
+    path.moveTo(0, 10);
+    path.quadraticBezierTo(0, 0, 10, 0);
+    path.lineTo(rrect.width - 30, 0);
+    path.lineTo(rrect.width - 20, -10);
+    path.lineTo(rrect.width - 10, 0);
+    path.quadraticBezierTo(rrect.width, 0, rrect.width, 10);
+    path.lineTo(rrect.width, rrect.height - 10);
+    path.quadraticBezierTo(
+        rrect.width, rrect.height, rrect.width - 10, rrect.height);
+    path.lineTo(10, rrect.height);
+    path.quadraticBezierTo(0, rrect.height, 0, rrect.height - 10);
+
+    return path;
+  }
+
+  @override
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {}
+
+  @override
+  ShapeBorder scale(double t) => RoundedRectangleBorder(
+        side: _side.scale(t),
+        borderRadius: _borderRadius * t,
+      );
+}
+
+class MyPopupMenuItem<T> extends PopupMenuEntry<T> {
+  final T value;
+
+  final void Function()? onTap;
+
+  final Widget child;
+
+  const MyPopupMenuItem({
+    super.key,
+    this.onTap,
+    required this.value,
+    required this.child,
+  });
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MyPopupMenuItemState();
+  }
+
+  @override
+  double get height => 32.0;
+
+  @override
+  bool represents(T? value) {
+    return value == this.value;
+  }
+}
+
+class _MyPopupMenuItemState<T> extends State<MyPopupMenuItem<T>> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.pop<T>(context, widget.value);
+
+        widget.onTap?.call();
+      },
+      borderRadius: BorderRadius.circular(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: widget.child,
       ),
     );
   }
