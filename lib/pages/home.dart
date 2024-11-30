@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
               ),
               color: Colors.white,
             ),
-            child: PopupMenuButton(
+            child: PopupMenuButton<int>(
               offset: const Offset(0.0, 48.0),
               constraints: const BoxConstraints(
                 minWidth: 128.0 + 48.0,
@@ -85,6 +85,10 @@ class _HomePageState extends State<HomePage> {
                   const MyPopupMenuItem(
                     value: 0,
                     child: Text('设置'),
+                  ),
+                  const MyPopupMenuItem(
+                    value: 1,
+                    child: Text('关于'),
                   ),
                 ];
               },
