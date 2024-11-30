@@ -1,5 +1,6 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/dialogs/create_project.dart';
+import 'package:cangyan/dialogs/duplicated_name.dart';
 import 'package:cangyan/tools/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -326,7 +327,7 @@ class _HomePageState extends State<HomePage> {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return cangyan.DuplicatedPage(
+        return DuplicatedNameDialog(
           workspace: widget.workspace,
           pairs: pairs,
         );
