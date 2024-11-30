@@ -89,10 +89,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                     itemBuilder: (context) {
                       return [
-                        const cangyan.PopupMenuItem(
-                          value: 0,
-                          child: Text('设置'),
-                        ),
+                        // const cangyan.PopupMenuItem(
+                        //   value: 0,
+                        //   child: Text('设置'),
+                        // ),
                         const cangyan.PopupMenuItem(
                           value: 1,
                           child: Text('关于'),
@@ -107,6 +107,16 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(
                               builder: (context) {
                                 return const cangyan.SettingsPage();
+                              },
+                            ),
+                          );
+                          break;
+                        case 1:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const cangyan.AboutPage();
                               },
                             ),
                           );
