@@ -245,17 +245,6 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ListTile(
                       leading: const Icon(
-                        Icons.remove_red_eye,
-                      ),
-                      title: const Text('查看'),
-                      onTap: () {
-                        Navigator.of(context).pop();
-
-                        open(handle);
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(
                         Icons.share,
                       ),
                       title: const Text('分享'),
