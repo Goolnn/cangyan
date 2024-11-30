@@ -17,39 +17,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                setState(() {
-                  checkUpdate = !checkUpdate;
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text('自动检查最新版本'),
-                  ),
-                  Checkbox(
-                    value: checkUpdate,
-                    onChanged: (value) {
-                      setState(() {
-                        checkUpdate = value!;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const Center(
-              child: CheckUpdateButton(),
-            )
-          ],
+        child: Center(
+          child: CheckUpdateButton(),
         ),
       ),
     );
