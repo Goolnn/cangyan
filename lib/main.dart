@@ -44,7 +44,7 @@ Future<void> main() async {
           error: Colors.red,
           onError: Colors.yellow,
           surface: Colors.white,
-          onSurface: Colors.black,
+          onSurface: Colors.black87,
           brightness: Brightness.light,
         ),
         dividerTheme: DividerThemeData(
@@ -62,6 +62,13 @@ Future<void> main() async {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
+        ),
+        popupMenuTheme: PopupMenuThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          menuPadding: const EdgeInsets.all(6.0),
+          elevation: 4.0,
         ),
       ),
       locale: const Locale('zh'),
