@@ -1,4 +1,5 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
+import 'package:cangyan/dialogs/create_project.dart';
 import 'package:cangyan/tools/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -202,7 +203,7 @@ class _HomePageState extends State<HomePage> {
               context: context,
               barrierDismissible: false,
               builder: (context) {
-                return cangyan.CreatePage(
+                return CreateProjectPage(
                   widget.workspace,
                 );
               },
