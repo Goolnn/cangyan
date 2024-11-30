@@ -48,40 +48,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Center(
               child: CheckUpdateButton(),
-              // child: FilledButton(
-              //   onPressed: () {
-              //     if (fetching) {
-              //       return;
-              //     }
-
-              //     setState(() {
-              //       fetching = true;
-              //     });
-
-              //     Update.fetch().then((release) async {
-              //       final info = await PackageInfo.fromPlatform();
-              //       final version = 'v${info.version}';
-
-              //       if (release.checkUpdate(version: version)) {
-              //         print('New version available');
-              //       } else {
-              //         print('No new version available');
-              //       }
-
-              //       setState(() {
-              //         fetching = false;
-              //       });
-              //     });
-              //   },
-              //   child: fetching
-              //       ? const SizedBox.square(
-              //           dimension: 20.0,
-              //           child: CircularProgressIndicator(
-              //             color: Colors.white,
-              //           ),
-              //         )
-              //       : const Text('检查更新'),
-              // ),
             )
           ],
         ),
@@ -128,11 +94,6 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
   @override
   Widget build(BuildContext context) {
     return FilledButton.tonal(
-      style: FilledButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-      ),
       onPressed: fetching || latested
           ? null
           : () {
