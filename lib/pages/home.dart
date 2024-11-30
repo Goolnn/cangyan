@@ -58,61 +58,63 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-        ),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        toolbarHeight: 48.0,
-        title: const Text('苍眼'),
-        actions: [
-          PopupMenuButton<int>(
-            offset: const Offset(0.0, 48.0),
-            constraints: const BoxConstraints(
-              minWidth: 128.0 + 48.0,
-            ),
-            itemBuilder: (context) {
-              return [
-                const cangyan.PopupMenuItem(
-                  value: 0,
-                  child: Text('设置'),
-                ),
-                const cangyan.PopupMenuItem(
-                  value: 1,
-                  child: Text('关于'),
-                ),
-              ];
-            },
-            onSelected: (value) {
-              switch (value) {
-                case 0:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const cangyan.SettingsPage();
-                      },
-                    ),
-                  );
-                  break;
-              }
-            },
-          ),
-        ],
-      ),
       body: SafeArea(
         child: Column(
           children: [
-            Center(
-              child: cangyan.SearchBox(
-                onChanged: (keyword) {
-                  setState(() {
-                    this.keyword = keyword;
-                  });
-                },
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 4.0,
+              ),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: cangyan.SearchBox(
+                      onChanged: (keyword) {
+                        setState(() {
+                          this.keyword = keyword;
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox.square(dimension: 2.0),
+                  PopupMenuButton<int>(
+                    style: const ButtonStyle(
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      padding: WidgetStatePropertyAll(EdgeInsets.all(4.0)),
+                      minimumSize: WidgetStatePropertyAll(Size.zero),
+                    ),
+                    offset: const Offset(0.0, 34.0),
+                    constraints: const BoxConstraints(
+                      minWidth: 128.0 + 48.0,
+                    ),
+                    itemBuilder: (context) {
+                      return [
+                        const cangyan.PopupMenuItem(
+                          value: 0,
+                          child: Text('设置'),
+                        ),
+                        const cangyan.PopupMenuItem(
+                          value: 1,
+                          child: Text('关于'),
+                        ),
+                      ];
+                    },
+                    onSelected: (value) {
+                      switch (value) {
+                        case 0:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const cangyan.SettingsPage();
+                              },
+                            ),
+                          );
+                          break;
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
             Expanded(
