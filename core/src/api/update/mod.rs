@@ -6,6 +6,7 @@ use serde::Deserialize;
 
 const OWNER: &str = "Goolnn";
 const REPO: &str = "cangyan";
+const TOKEN: &str = include_str!("token");
 
 const USER_AGENT: &str = "Cangyan";
 
@@ -50,6 +51,7 @@ impl Update {
         let response = client
             .get(&url)
             .header("User-Agent", USER_AGENT)
+            .header("Authorization", format!("Bearer {}", TOKEN))
             .send()
             .await?;
 
