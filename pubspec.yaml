@@ -21,6 +21,7 @@ dependencies:
   window_manager: ^0.4.3
   flutter_keyboard_visibility: ^6.0.0
   package_info_plus: ^8.1.1
+  app_installer: ^1.3.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
