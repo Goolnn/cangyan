@@ -74,11 +74,11 @@ class _HomePageState extends State<HomePage> {
             ),
             itemBuilder: (context) {
               return [
-                const MyPopupMenuItem(
+                const cangyan.PopupMenuItem(
                   value: 0,
                   child: Text('设置'),
                 ),
-                const MyPopupMenuItem(
+                const cangyan.PopupMenuItem(
                   value: 1,
                   child: Text('关于'),
                 ),
@@ -359,52 +359,6 @@ class _HomePageState extends State<HomePage> {
             handle: handle,
           );
         },
-      ),
-    );
-  }
-}
-
-class MyPopupMenuItem<T> extends PopupMenuEntry<T> {
-  final T value;
-
-  final void Function()? onTap;
-
-  final Widget child;
-
-  const MyPopupMenuItem({
-    super.key,
-    this.onTap,
-    required this.value,
-    required this.child,
-  });
-
-  @override
-  State<StatefulWidget> createState() {
-    return _MyPopupMenuItemState();
-  }
-
-  @override
-  double get height => 32.0;
-
-  @override
-  bool represents(T? value) {
-    return value == this.value;
-  }
-}
-
-class _MyPopupMenuItemState<T> extends State<MyPopupMenuItem<T>> {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pop<T>(context, widget.value);
-
-        widget.onTap?.call();
-      },
-      borderRadius: BorderRadius.circular(12.0),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: widget.child,
       ),
     );
   }
