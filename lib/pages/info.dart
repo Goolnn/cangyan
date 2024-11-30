@@ -171,10 +171,6 @@ class _InfoPageState extends State<InfoPage> {
 
                                 showMenu<int>(
                                   context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  menuPadding: const EdgeInsets.all(4.0),
                                   position: RelativeRect.fromLTRB(
                                     details.globalPosition.dx,
                                     details.globalPosition.dy,
@@ -182,36 +178,28 @@ class _InfoPageState extends State<InfoPage> {
                                     details.globalPosition.dy,
                                   ),
                                   items: [
-                                    const PopupMenuItem(
+                                    const cangyan.PopupMenuItem(
                                       value: 0,
-                                      height: 36.0,
-                                      child: Text('编辑选择页'),
-                                    ),
-                                    const PopupMenuDivider(),
-                                    const PopupMenuItem(
-                                      value: 1,
-                                      height: 36.0,
                                       child: Text('向前插入新页'),
                                     ),
-                                    const PopupMenuItem(
-                                      value: 2,
-                                      height: 36.0,
+                                    const cangyan.PopupMenuItem(
+                                      value: 1,
                                       child: Text('向后插入新页'),
                                     ),
-                                    const PopupMenuDivider(),
-                                    PopupMenuItem(
-                                      value: 3,
-                                      height: 36.0,
+                                    const cangyan.PopupMenuDivider(),
+                                    cangyan.PopupMenuItem(
+                                      value: 2,
                                       enabled: images.length > 1,
-                                      child: const Text('删除选择页'),
+                                      child: const Text(
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                        ),
+                                        '删除选择页',
+                                      ),
                                     ),
                                   ],
                                 ).then((value) async {
                                   if (value case 0) {
-                                    editPage(i);
-                                  }
-
-                                  if (value case 1) {
                                     final images = platform.invokeListMethod(
                                       "images",
                                     );
@@ -236,7 +224,7 @@ class _InfoPageState extends State<InfoPage> {
                                     });
                                   }
 
-                                  if (value case 2) {
+                                  if (value case 1) {
                                     final images = platform.invokeListMethod(
                                       "images",
                                     );
@@ -256,7 +244,7 @@ class _InfoPageState extends State<InfoPage> {
                                     });
                                   }
 
-                                  if (value case 3) {
+                                  if (value case 2) {
                                     widget.pages.removePage(
                                       index: BigInt.from(i),
                                     );
