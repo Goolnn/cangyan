@@ -146,7 +146,7 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
 
               Update.fetch().then((release) async {
                 final info = await PackageInfo.fromPlatform();
-                const version = 'v0.1.0'; //'v${info.version}';
+                final version = 'v${info.version}';
 
                 if (release.checkUpdate(version: version)) {
                   Asset? asset;
@@ -165,7 +165,7 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
                       latested = true;
                     });
                   } else {
-                    const currentVersion = version;
+                    final currentVersion = version;
                     final latestVersion = release.version;
 
                     final dateTime = release.published;
@@ -183,6 +183,11 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
                       });
                     });
                   }
+                } else {
+                  setState(() {
+                    fetching = false;
+                    latested = true;
+                  });
                 }
               });
             },
