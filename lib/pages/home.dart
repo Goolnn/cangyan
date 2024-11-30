@@ -67,46 +67,37 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 48.0,
         title: const Text('苍眼'),
         actions: [
-          PopupMenuTheme(
-            data: PopupMenuThemeData(
-              menuPadding: const EdgeInsets.all(4.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              color: Colors.white,
+          PopupMenuButton<int>(
+            offset: const Offset(0.0, 48.0),
+            constraints: const BoxConstraints(
+              minWidth: 128.0 + 48.0,
             ),
-            child: PopupMenuButton<int>(
-              offset: const Offset(0.0, 48.0),
-              constraints: const BoxConstraints(
-                minWidth: 128.0 + 48.0,
-              ),
-              itemBuilder: (context) {
-                return [
-                  const MyPopupMenuItem(
-                    value: 0,
-                    child: Text('设置'),
-                  ),
-                  const MyPopupMenuItem(
-                    value: 1,
-                    child: Text('关于'),
-                  ),
-                ];
-              },
-              onSelected: (value) {
-                switch (value) {
-                  case 0:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const cangyan.SettingsPage();
-                        },
-                      ),
-                    );
-                    break;
-                }
-              },
-            ),
+            itemBuilder: (context) {
+              return [
+                const MyPopupMenuItem(
+                  value: 0,
+                  child: Text('设置'),
+                ),
+                const MyPopupMenuItem(
+                  value: 1,
+                  child: Text('关于'),
+                ),
+              ];
+            },
+            onSelected: (value) {
+              switch (value) {
+                case 0:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const cangyan.SettingsPage();
+                      },
+                    ),
+                  );
+                  break;
+              }
+            },
           ),
         ],
       ),
@@ -463,9 +454,9 @@ class _MyPopupMenuItemState<T> extends State<MyPopupMenuItem<T>> {
 
         widget.onTap?.call();
       },
-      borderRadius: BorderRadius.circular(8.0),
+      borderRadius: BorderRadius.circular(12.0),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: widget.child,
       ),
     );
