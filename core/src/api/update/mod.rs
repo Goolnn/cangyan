@@ -6,9 +6,9 @@ use serde::Deserialize;
 
 const OWNER: &str = "Goolnn";
 const REPO: &str = "cangyan";
-const TOKEN: &str = include_str!("token");
 
-const USER_AGENT: &str = "Cangyan";
+const AGENT: &str = "Cangyan";
+const TOKEN: &str = include_str!("token");
 
 #[frb(opaque)]
 pub struct Update {}
@@ -50,7 +50,7 @@ impl Update {
         let client = Client::new();
         let response = client
             .get(&url)
-            .header("User-Agent", USER_AGENT)
+            .header("User-Agent", AGENT)
             .header("Authorization", format!("Bearer {}", TOKEN))
             .send()
             .await?;
