@@ -36,6 +36,7 @@ pub struct Asset {
     pub url: String,
 }
 
+#[derive(Debug)]
 pub enum Platform {
     Windows,
     Android,
