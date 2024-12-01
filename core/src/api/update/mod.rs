@@ -2,6 +2,7 @@ use crate::frb_generated::StreamSink;
 use flutter_rust_bridge::frb;
 use futures_util::StreamExt;
 use reqwest::Client;
+use semver::Version;
 use serde::Deserialize;
 
 const OWNER: &str = "Goolnn";
@@ -68,10 +69,22 @@ impl Update {
 impl Release {
     #[frb(sync)]
     pub fn check_update(&self, version: &str) -> anyhow::Result<bool> {
-        let local_version = semver::Version::parse(&version[1..])?;
-        let latest_version = semver::Version::parse(&self.version[1..])?;
+        fn extract(version: &str) -> anyhow::Result<Version> {
+            let prefix = version.chars().collect::<Vec<char>>()[0];
 
-        Ok(latest_version > local_version)
+            let version = if prefix == 'v' {
+                Version::parse(&version[1..])?
+            } else {
+                Version::parse(version)?
+            };
+
+            Ok(version)
+        }
+
+        let current_version = extract(version)?;
+        let latest_version = extract(&self.version)?;
+
+        Ok(latest_version > current_version)
     }
 
     #[frb(sync)]
