@@ -1,5 +1,6 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/core/frb_generated.dart';
+import 'package:cangyan/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,46 +36,7 @@ Future<void> main() async {
         Locale('en'),
         Locale('zh'),
       ],
-      theme: ThemeData(
-        colorScheme: ColorScheme(
-          primary: Colors.blue,
-          onPrimary: Colors.white,
-          secondary: Colors.blue.shade50,
-          onSecondary: Colors.black87,
-          error: Colors.red,
-          onError: Colors.yellow,
-          surface: Colors.white,
-          onSurface: Colors.black87,
-          brightness: Brightness.light,
-        ),
-        dividerTheme: DividerThemeData(
-          color: Colors.grey.shade300,
-        ),
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
-        ),
-        dialogTheme: DialogTheme(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-        ),
-        popupMenuTheme: PopupMenuThemeData(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 0.5,
-              color: Colors.grey.shade300,
-            ),
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          menuPadding: const EdgeInsets.all(6.0),
-          elevation: 4.0,
-        ),
-      ),
+      theme: theme,
       locale: const Locale('zh'),
       home: cangyan.HomePage(path: path),
     ),
