@@ -81,15 +81,7 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
                 final version = 'v${info.version}';
 
                 if (release.checkUpdate(version: version)) {
-                  Asset? asset;
-
-                  try {
-                    asset = release.assets.firstWhere((asset) {
-                      return asset.name.contains('android');
-                    });
-                  } catch (e) {
-                    asset = null;
-                  }
+                  Asset? asset = release.assetOf(platform: Platform.android);
 
                   if (asset == null) {
                     setState(() {
