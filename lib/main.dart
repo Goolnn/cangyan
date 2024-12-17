@@ -1,10 +1,10 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
+import 'package:cangyan/tools/themes.dart' as themes;
 import 'package:cangyan/core/frb_generated.dart';
-import 'package:cangyan/theme.dart';
+import 'package:cangyan/tools/dirs.dart' as dirs;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   await RustLib.init();
@@ -18,11 +18,7 @@ Future<void> main() async {
     ),
   );
 
-  final path = (await getExternalStorageDirectory())?.path;
-
-  if (path == null) {
-    return;
-  }
+  final path = await dirs.workspace();
 
   runApp(
     MaterialApp(
@@ -36,7 +32,7 @@ Future<void> main() async {
         Locale('en'),
         Locale('zh'),
       ],
-      theme: theme,
+      theme: themes.theme(),
       locale: const Locale('zh'),
       home: cangyan.HomePage(path: path),
     ),
