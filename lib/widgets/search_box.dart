@@ -91,7 +91,7 @@ class _SearchBoxState extends State<SearchBox>
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 12.0,
-                    vertical: 4.0,
+                    vertical: 6.0,
                   ),
                   prefixIcon: const Icon(
                     Icons.search,
