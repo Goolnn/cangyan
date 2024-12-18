@@ -117,6 +117,7 @@ class _SearchBoxState extends State<SearchBox>
                   isCollapsed: true,
                   isDense: true,
                 ),
+                cursorHeight: 18.0,
                 style: const TextStyle(
                   fontSize: 14.0,
                 ),
