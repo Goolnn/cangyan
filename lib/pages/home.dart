@@ -1,7 +1,7 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/dialogs/create_project.dart';
 import 'package:cangyan/dialogs/duplicated_name.dart';
-import 'package:cangyan/tools/handle.dart';
+import 'package:cangyan/utils/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
