@@ -1,6 +1,7 @@
-import 'package:cangyan/dialogs/standard_dialog.dart';
-import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:cangyan/core.dart' as cangyan;
+import 'package:cangyan/dialogs/standard_dialog.dart';
+import 'package:cangyan/utils/picker.dart';
+import 'package:cangyan/widgets.dart' as cangyan;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -82,18 +83,10 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
                       ? GestureDetector(
                           behavior: HitTestBehavior.translucent,
                           onTap: () {
-                            final images = platform.invokeListMethod("images");
-
-                            images.then((images) {
-                              if (images == null) {
-                                return;
-                              }
-
-                              for (final image in images) {
-                                setState(() {
-                                  this.images.add(MemoryImage(image));
-                                });
-                              }
+                            pickImages().then((images) {
+                              setState(() {
+                                this.images.addAll(images);
+                              });
                             });
                           },
                           child: const Center(
