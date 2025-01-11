@@ -43,9 +43,12 @@ class _PopupMenuItemState<T> extends State<PopupMenuItem<T>> {
               widget.onTap?.call();
             }
           : null,
-      borderRadius: BorderRadius.circular(12.0),
+      borderRadius: BorderRadius.circular(8.0),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+          vertical: 8.0,
+        ),
         child: widget.child,
       ),
     );
