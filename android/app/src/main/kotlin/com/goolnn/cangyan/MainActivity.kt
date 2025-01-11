@@ -11,7 +11,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.InputStream
 
 class MainActivity : FlutterActivity() {
-    private val methodChannel = "com.goolnn.cangyan/files"
+    private val methodChannel = "com.goolnn.cangyan/picker"
     private val eventChannel = "com.goolnn.cangyan/include"
 
     private val projectsCode = 1001
