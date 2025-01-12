@@ -20,7 +20,7 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
-  static const platform = MethodChannel('com.goolnn.cangyan/files');
+  static const platform = MethodChannel('com.goolnn.cangyan/picker');
 
   late List<MemoryImage> images;
 

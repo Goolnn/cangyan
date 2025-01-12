@@ -18,7 +18,7 @@ class CreateProjectPage extends StatefulWidget {
 }
 
 class _CreateProjectPageState extends State<CreateProjectPage> {
-  static const platform = MethodChannel('com.goolnn.cangyan/files');
+  static const platform = MethodChannel('com.goolnn.cangyan/picker');
 
   final controller = TextEditingController();
 

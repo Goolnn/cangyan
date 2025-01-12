@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const platformMethod = MethodChannel('com.goolnn.cangyan/files');
+  static const platformMethod = MethodChannel('com.goolnn.cangyan/picker');
   static const platformEvent = EventChannel("com.goolnn.cangyan/include");
 
   late Future<List<cangyan.Summary>> load;
