@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/core/frb_generated.dart';
 import 'package:cangyan/utils/dirs.dart' as dirs;
@@ -48,4 +49,18 @@ Future<void> main() async {
       home: cangyan.HomePage(path: path),
     ),
   );
+
+  // Initialize the window
+  switch (Platform.operatingSystem) {
+    case "windows":
+      doWhenWindowReady(() {
+        appWindow.title = "苍眼";
+        appWindow.minSize = const Size(640, 480);
+        appWindow.size = const Size(720, 540);
+        appWindow.alignment = Alignment.center;
+        appWindow.show();
+      });
+
+      break;
+  }
 }
