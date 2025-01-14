@@ -23,6 +23,7 @@ dependencies:
   package_info_plus: ^8.1.1
   app_installer: ^1.3.0
   bitsdojo_window: ^0.1.6
+  flutter_font_icons: ^2.2.7
 
 dev_dependencies:
   flutter_lints: ^4.0.0
