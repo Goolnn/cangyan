@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/core/frb_generated.dart';
 import 'package:cangyan/utils/dirs.dart' as dirs;
@@ -8,22 +7,43 @@ import 'package:cangyan/utils/themes.dart' as themes;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
   // Initialize the Rust backend library
   await RustLib.init();
 
   // Set the system UI overlay style
+  WidgetsFlutterBinding.ensureInitialized();
+
   switch (Platform.operatingSystem) {
     case "android":
-      WidgetsFlutterBinding.ensureInitialized();
-
       SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark,
         ),
       );
+
+      break;
+
+    case "windows":
+      await windowManager.ensureInitialized();
+
+      WindowOptions windowOptions = const WindowOptions(
+        title: "苍眼",
+        size: Size(720, 540),
+        minimumSize: Size(640, 480),
+        center: true,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+      );
+
+      windowManager.waitUntilReadyToShow(windowOptions, () async {
+        await windowManager.show();
+        await windowManager.focus();
+      });
 
       break;
   }
@@ -49,18 +69,4 @@ Future<void> main() async {
       home: cangyan.HomePage(path: path),
     ),
   );
-
-  // Initialize the window
-  switch (Platform.operatingSystem) {
-    case "windows":
-      doWhenWindowReady(() {
-        appWindow.title = "苍眼";
-        appWindow.minSize = const Size(640, 480);
-        appWindow.size = const Size(720, 540);
-        appWindow.alignment = Alignment.center;
-        appWindow.show();
-      });
-
-      break;
-  }
 }
