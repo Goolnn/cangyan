@@ -4,7 +4,9 @@ import 'package:cangyan/dialogs/duplicated_name.dart';
 import 'package:cangyan/utils/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:window_manager/window_manager.dart';
 
 class HomePage extends StatefulWidget {
   final cangyan.Workspace workspace;
@@ -18,7 +20,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WindowListener {
   static const platformMethod = MethodChannel('com.goolnn.cangyan/picker');
   static const platformEvent = EventChannel("com.goolnn.cangyan/include");
 
@@ -31,6 +33,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    windowManager.addListener(this);
 
     load = widget.workspace.load();
 
@@ -56,11 +60,127 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    windowManager.removeListener(this);
+
+    super.dispose();
+  }
+
+  @override
+  void onWindowMaximize() {
+    super.onWindowMaximize();
+
+    setState(() {});
+  }
+
+  @override
+  void onWindowUnmaximize() {
+    super.onWindowUnmaximize();
+
+    setState(() {});
+  }
+
+  @override
+  void onWindowFocus() {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const DragToMoveArea(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 40.0,
+                  ),
+                ),
+                Row(
+                  children: [
+                    RawMaterialButton(
+                      constraints: const BoxConstraints.tightFor(
+                        width: 40.0,
+                        height: 40.0,
+                      ),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () {},
+                      child: const Icon(
+                        Icons.menu,
+                        size: 20.0,
+                      ),
+                    ),
+                    const Spacer(),
+                    RawMaterialButton(
+                      constraints: const BoxConstraints.tightFor(
+                        width: 40.0,
+                        height: 40.0,
+                      ),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () {
+                        windowManager.minimize();
+                      },
+                      child: const Icon(
+                        MaterialCommunityIcons.window_minimize,
+                        size: 16.0,
+                      ),
+                    ),
+                    FutureBuilder(
+                      future: windowManager.isMaximized(),
+                      builder: (context, snapshot) {
+                        final isMaximized = snapshot.data;
+
+                        return RawMaterialButton(
+                          constraints: const BoxConstraints.tightFor(
+                            width: 40.0,
+                            height: 40.0,
+                          ),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            setState(() {
+                              if (isMaximized == true) {
+                                windowManager.unmaximize();
+                              } else {
+                                windowManager.maximize();
+                              }
+                            });
+                          },
+                          child: Icon(
+                            isMaximized == true
+                                ? MaterialCommunityIcons.window_restore
+                                : MaterialCommunityIcons.window_maximize,
+                            size: 16.0,
+                          ),
+                        );
+                      },
+                    ),
+                    RawMaterialButton(
+                      constraints: const BoxConstraints.tightFor(
+                        width: 40.0,
+                        height: 40.0,
+                      ),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () {
+                        windowManager.close();
+                      },
+                      child: const Icon(
+                        MaterialCommunityIcons.window_close,
+                        size: 16.0,
+                      ),
+                    ),
+                  ],
+                ),
+                const FractionallySizedBox(
+                  widthFactor: 0.5,
+                  child: cangyan.SearchBox(),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
