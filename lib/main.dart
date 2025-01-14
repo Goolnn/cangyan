@@ -13,7 +13,7 @@ Future<void> main() async {
   // Initialize the Rust backend library
   await RustLib.init();
 
-  // Set the system UI overlay style
+  // Initialize the Flutter app
   WidgetsFlutterBinding.ensureInitialized();
 
   switch (Platform.operatingSystem) {
@@ -32,8 +32,8 @@ Future<void> main() async {
 
       WindowOptions windowOptions = const WindowOptions(
         title: "苍眼",
-        size: Size(720, 540),
-        minimumSize: Size(640, 480),
+        size: Size(960, 640),
+        minimumSize: Size(720, 540),
         center: true,
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
@@ -42,7 +42,6 @@ Future<void> main() async {
 
       windowManager.waitUntilReadyToShow(windowOptions, () async {
         await windowManager.show();
-        await windowManager.focus();
       });
 
       break;
