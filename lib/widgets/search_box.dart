@@ -91,7 +91,7 @@ class _SearchBoxState extends State<SearchBox>
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 12.0,
-                    vertical: 6.0,
+                    vertical: 8.0,
                   ),
                   prefixIcon: const Icon(
                     Icons.search,
@@ -99,21 +99,21 @@ class _SearchBoxState extends State<SearchBox>
                   prefixIconConstraints: const BoxConstraints(
                     minWidth: 32.0,
                   ),
-                  suffixIcon: controller.text.isNotEmpty
-                      ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              controller.clear();
-                            });
+                  // suffixIcon: controller.text.isNotEmpty
+                  //     ? GestureDetector(
+                  //         onTap: () {
+                  //           setState(() {
+                  //             controller.clear();
+                  //           });
 
-                            widget.onChanged?.call('');
-                          },
-                          child: const Icon(Icons.clear),
-                        )
-                      : null,
-                  suffixIconConstraints: const BoxConstraints(
-                    minWidth: 32.0,
-                  ),
+                  //           widget.onChanged?.call('');
+                  //         },
+                  //         child: const Icon(Icons.clear),
+                  //       )
+                  //     : null,
+                  // suffixIconConstraints: const BoxConstraints(
+                  //   minWidth: 32.0,
+                  // ),
                   isCollapsed: true,
                   isDense: true,
                 ),
