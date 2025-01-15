@@ -143,7 +143,23 @@ class _HomePageState extends State<HomePage> with WindowListener {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const cangyan.AboutPage();
+                                return cangyan.Page(
+                                  buttons: [
+                                    cangyan.HeaderButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Icon(
+                                        Icons.arrow_back,
+                                        size: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                  header: const Center(
+                                    child: Text('关于'),
+                                  ),
+                                  child: const cangyan.AboutPage(),
+                                );
                               },
                             ),
                           );
@@ -388,9 +404,25 @@ class _HomePageState extends State<HomePage> with WindowListener {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return cangyan.InfoPage(
-            workspace: widget.workspace,
-            handle: handle,
+          return cangyan.Page(
+            buttons: [
+              cangyan.HeaderButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back,
+                  size: 16.0,
+                ),
+              ),
+            ],
+            header: Center(
+              child: Text(handle.title),
+            ),
+            child: cangyan.InfoPage(
+              workspace: widget.workspace,
+              handle: handle,
+            ),
           );
         },
       ),

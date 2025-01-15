@@ -66,14 +66,25 @@ Future<void> main() async {
       ],
       theme: themes.theme(),
       locale: const Locale('zh'),
-      home: cangyan.Page(
-        header: const Center(
-          child: FractionallySizedBox(
-            widthFactor: 0.5,
-            child: cangyan.SearchBox(),
+      home: cangyan.Frame(
+        child: cangyan.Page(
+          buttons: [
+            cangyan.HeaderButton(
+              onPressed: () {},
+              child: const Icon(
+                Icons.menu,
+                size: 16.0,
+              ),
+            ),
+          ],
+          header: const Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.6,
+              child: cangyan.SearchBox(),
+            ),
           ),
+          child: cangyan.HomePage(path: path),
         ),
-        child: cangyan.HomePage(path: path),
       ),
     ),
   );
