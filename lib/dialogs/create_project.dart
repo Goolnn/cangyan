@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cangyan/core.dart' as cangyan;
 import 'package:cangyan/dialogs/standard_dialog.dart';
 import 'package:cangyan/utils/picker.dart';
@@ -97,80 +99,98 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
                       : Align(
                           alignment: Alignment.topLeft,
                           child: SingleChildScrollView(
-                            child: cangyan.ImageViewer(
-                              onReorder: (from, to) {
-                                setState(() {
-                                  final image = images.removeAt(from);
+                            child: Builder(builder: (context) {
+                              final int count;
 
-                                  images.insert(to, image);
-                                });
-                              },
-                              children: [
-                                for (int i = 0; i < images.length; i++)
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: cangyan.Wave(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      onTapUp: (details) {
-                                        HapticFeedback.vibrate();
+                              switch (Platform.operatingSystem) {
+                                case 'windows':
+                                  count = 4;
+                                  break;
+                                default:
+                                  count = 3;
+                                  break;
+                              }
 
-                                        showMenu<int>(
-                                          context: context,
-                                          position: RelativeRect.fromLTRB(
-                                            details.globalPosition.dx,
-                                            details.globalPosition.dy,
-                                            details.globalPosition.dx,
-                                            details.globalPosition.dy,
-                                          ),
-                                          items: [
-                                            const cangyan.PopupMenuItem(
-                                              value: 0,
-                                              child: Text('向前插入新页'),
+                              return cangyan.ImageViewer(
+                                count: count,
+                                onReorder: (from, to) {
+                                  setState(() {
+                                    final image = images.removeAt(from);
+
+                                    images.insert(to, image);
+                                  });
+                                },
+                                children: [
+                                  for (int i = 0; i < images.length; i++)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: cangyan.Wave(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        onTapUp: (details) {
+                                          HapticFeedback.vibrate();
+
+                                          showMenu<int>(
+                                            context: context,
+                                            position: RelativeRect.fromLTRB(
+                                              details.globalPosition.dx,
+                                              details.globalPosition.dy,
+                                              details.globalPosition.dx,
+                                              details.globalPosition.dy,
                                             ),
-                                            const cangyan.PopupMenuItem(
-                                              value: 1,
-                                              child: Text('向后插入新页'),
-                                            ),
-                                            const cangyan.PopupMenuDivider(),
-                                            const cangyan.PopupMenuItem(
-                                              value: 2,
-                                              child: Text(
-                                                '删除选择页',
-                                                style: TextStyle(
-                                                  color: Colors.red,
+                                            items: [
+                                              const cangyan.PopupMenuItem(
+                                                value: 0,
+                                                child: Text('向前插入新页'),
+                                              ),
+                                              const cangyan.PopupMenuItem(
+                                                value: 1,
+                                                child: Text('向后插入新页'),
+                                              ),
+                                              const cangyan.PopupMenuDivider(),
+                                              const cangyan.PopupMenuItem(
+                                                value: 2,
+                                                child: Text(
+                                                  '删除选择页',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ).then((value) async {
-                                          if (value == 0 || value == 1) {
-                                            pickImages().then((images) {
-                                              for (var image in images) {
-                                                setState(() {
-                                                  this.images.insert(
-                                                        value == 0 ? i : i + 1,
-                                                        image,
-                                                      );
-                                                });
-                                              }
-                                            });
-                                          }
+                                            ],
+                                          ).then((value) async {
+                                            if (value == 0 || value == 1) {
+                                              pickImages().then((images) {
+                                                for (var image in images) {
+                                                  setState(() {
+                                                    this.images.insert(
+                                                          value == 0
+                                                              ? i
+                                                              : i + 1,
+                                                          image,
+                                                        );
+                                                  });
+                                                }
+                                              });
+                                            }
 
-                                          if (value case 2) {
-                                            setState(() => images.removeAt(i));
-                                          }
-                                        });
-                                      },
-                                      child: AspectRatio(
-                                        aspectRatio: 3.0 / 4.0,
-                                        child: cangyan.Image(
-                                          provider: images[i],
+                                            if (value case 2) {
+                                              setState(
+                                                  () => images.removeAt(i));
+                                            }
+                                          });
+                                        },
+                                        child: AspectRatio(
+                                          aspectRatio: 3.0 / 4.0,
+                                          child: cangyan.Image(
+                                            provider: images[i],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                              ],
-                            ),
+                                ],
+                              );
+                            }),
                           ),
                         ),
                 ),
