@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cangyan/cangyan.dart' as cangyan;
@@ -262,7 +263,16 @@ class _PageViewerState extends State<PageViewer> {
                         detail.localPosition.dy - size,
                       );
 
-                      const radius = 60.0;
+                      final double radius;
+
+                      switch (Platform.operatingSystem) {
+                        case 'android':
+                          radius = 60.0;
+
+                          break;
+                        default:
+                          radius = 0.0;
+                      }
 
                       if (!dragging && position.distance >= radius) {
                         draggingOffset = position;
