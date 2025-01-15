@@ -4,7 +4,6 @@ import 'package:cangyan/dialogs/duplicated_name.dart';
 import 'package:cangyan/utils/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:window_manager/window_manager.dart';
 
