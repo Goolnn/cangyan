@@ -8,6 +8,7 @@ export 'package:cangyan/widgets/image.dart';
 export 'package:cangyan/widgets/image_viewer.dart';
 export 'package:cangyan/widgets/input.dart';
 export 'package:cangyan/widgets/mark.dart';
+export 'package:cangyan/widgets/page.dart';
 export 'package:cangyan/widgets/page_viewer.dart';
 export 'package:cangyan/widgets/popup.dart';
 export 'package:cangyan/widgets/progress.dart';
