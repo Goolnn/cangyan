@@ -174,6 +174,7 @@ class _PageViewerState extends State<PageViewer> {
                 transformationController: viewerController,
                 maxScale: 10.0,
                 minScale: 0.5,
+                scaleFactor: 650,
                 boundaryMargin: margin,
                 child: Center(
                   child: GestureDetector(
