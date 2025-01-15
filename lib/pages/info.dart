@@ -1,5 +1,6 @@
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/utils/handle.dart';
+import 'package:cangyan/utils/picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +21,6 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
-  static const platform = MethodChannel('com.goolnn.cangyan/picker');
-
   late List<MemoryImage> images;
 
   late Future<List<MemoryImage>> load;
@@ -226,48 +225,44 @@ class _InfoPageState extends State<InfoPage> {
                                 ],
                               ).then((value) async {
                                 if (value case 0) {
-                                  final images = platform.invokeListMethod(
-                                    "images",
-                                  );
+                                  pickImages().then((images) {
+                                    for (var image in images) {
+                                      widget.pages.insertPageBefore(
+                                        index: BigInt.from(i),
+                                        image: image.bytes,
+                                      );
 
-                                  images.then((images) {
-                                    images?.reversed.forEach((value) {
-                                      if (value is Uint8List) {
-                                        widget.pages.insertPageBefore(
-                                          index: BigInt.from(i),
-                                          image: value,
-                                        );
-
-                                        setState(() => this
-                                            .images
-                                            .insert(i, MemoryImage(value)));
-                                      }
-                                    });
+                                      setState(() {
+                                        this.images.insert(
+                                              i,
+                                              image,
+                                            );
+                                      });
+                                    }
 
                                     if (i == 0) {
-                                      widget.handle.cover = this.images.first;
+                                      setState(() {
+                                        widget.handle.cover = images.first;
+                                      });
                                     }
                                   });
                                 }
 
                                 if (value case 1) {
-                                  final images = platform.invokeListMethod(
-                                    "images",
-                                  );
+                                  pickImages().then((images) {
+                                    for (var image in images) {
+                                      widget.pages.insertPageAfter(
+                                        index: BigInt.from(i),
+                                        image: image.bytes,
+                                      );
 
-                                  images.then((images) {
-                                    images?.reversed.forEach((value) {
-                                      if (value is Uint8List) {
-                                        widget.pages.insertPageAfter(
-                                          index: BigInt.from(i),
-                                          image: value,
-                                        );
-
-                                        setState(() => this
-                                            .images
-                                            .insert(i + 1, MemoryImage(value)));
-                                      }
-                                    });
+                                      setState(() {
+                                        this.images.insert(
+                                              i + 1,
+                                              image,
+                                            );
+                                      });
+                                    }
                                   });
                                 }
                               });
