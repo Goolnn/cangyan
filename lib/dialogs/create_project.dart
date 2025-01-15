@@ -18,8 +18,6 @@ class CreateProjectPage extends StatefulWidget {
 }
 
 class _CreateProjectPageState extends State<CreateProjectPage> {
-  static const platform = MethodChannel('com.goolnn.cangyan/picker');
-
   final controller = TextEditingController();
 
   final images = <MemoryImage>[];
@@ -146,24 +144,15 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
                                           ],
                                         ).then((value) async {
                                           if (value == 0 || value == 1) {
-                                            final images =
-                                                platform.invokeListMethod(
-                                              "images",
-                                            );
-
-                                            images.then((images) {
-                                              images?.reversed.forEach((image) {
-                                                if (image is Uint8List) {
-                                                  setState(() {
-                                                    this.images.insert(
-                                                          value == 0
-                                                              ? i
-                                                              : i + 1,
-                                                          MemoryImage(image),
-                                                        );
-                                                  });
-                                                }
-                                              });
+                                            pickImages().then((images) {
+                                              for (var image in images) {
+                                                setState(() {
+                                                  this.images.insert(
+                                                        value == 0 ? i : i + 1,
+                                                        image,
+                                                      );
+                                                });
+                                              }
                                             });
                                           }
 
