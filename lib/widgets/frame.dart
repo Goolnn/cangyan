@@ -146,7 +146,7 @@ class _FrameState extends State<Frame> with WindowListener {
                 canPop: !(navigator.currentState?.canPop() ?? false),
                 onPopInvokedWithResult: (didPop, result) {
                   if (navigator.currentState?.canPop() ?? false) {
-                    navigator.currentState?.pop(result);
+                    navigator.currentState?.maybePop(result);
                   }
                 },
                 child: Navigator(
