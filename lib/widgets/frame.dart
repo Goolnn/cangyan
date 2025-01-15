@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_font_icons/flutter_font_icons.dart';
@@ -93,43 +94,45 @@ class _FrameState extends State<Frame> with WindowListener {
                       if (buttons != null)
                         for (final button in buttons!) button,
                       const Spacer(),
-                      HeaderButton(
-                        onPressed: windowManager.minimize,
-                        child: Icon(
-                          MaterialCommunityIcons.window_minimize,
-                          size: headerSize * 0.4,
+                      if (Platform.isWindows) ...[
+                        HeaderButton(
+                          onPressed: windowManager.minimize,
+                          child: Icon(
+                            MaterialCommunityIcons.window_minimize,
+                            size: headerSize * 0.4,
+                          ),
                         ),
-                      ),
-                      FutureBuilder(
-                        future: windowManager.isMaximized(),
-                        builder: (context, snapshot) {
-                          final isMaximized = snapshot.data;
+                        FutureBuilder(
+                          future: windowManager.isMaximized(),
+                          builder: (context, snapshot) {
+                            final isMaximized = snapshot.data;
 
-                          return HeaderButton(
-                            onPressed: () {
-                              if (isMaximized == true) {
-                                windowManager.unmaximize();
-                              } else {
-                                windowManager.maximize();
-                              }
-                            },
-                            child: Icon(
-                              isMaximized == true
-                                  ? MaterialCommunityIcons.window_restore
-                                  : MaterialCommunityIcons.window_maximize,
-                              size: headerSize * 0.4,
-                            ),
-                          );
-                        },
-                      ),
-                      HeaderButton(
-                        isDangerous: true,
-                        onPressed: windowManager.close,
-                        child: Icon(
-                          MaterialCommunityIcons.window_close,
-                          size: headerSize * 0.4,
+                            return HeaderButton(
+                              onPressed: () {
+                                if (isMaximized == true) {
+                                  windowManager.unmaximize();
+                                } else {
+                                  windowManager.maximize();
+                                }
+                              },
+                              child: Icon(
+                                isMaximized == true
+                                    ? MaterialCommunityIcons.window_restore
+                                    : MaterialCommunityIcons.window_maximize,
+                                size: headerSize * 0.4,
+                              ),
+                            );
+                          },
                         ),
-                      ),
+                        HeaderButton(
+                          isDangerous: true,
+                          onPressed: windowManager.close,
+                          child: Icon(
+                            MaterialCommunityIcons.window_close,
+                            size: headerSize * 0.4,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                   if (header != null) header!,
