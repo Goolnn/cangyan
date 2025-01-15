@@ -14,12 +14,6 @@ class AboutPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Center(
-                  child: Text(
-                    '关于',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox.square(
