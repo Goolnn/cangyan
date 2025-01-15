@@ -244,7 +244,7 @@ class _HomePageState extends State<HomePage> {
     return MapEntry(
       handle,
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(4.0),
         child: cangyan.Wave(
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
