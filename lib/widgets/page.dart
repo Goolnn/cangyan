@@ -3,13 +3,15 @@ import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:window_manager/window_manager.dart';
 
 class Page extends StatefulWidget {
-  final Widget? headerButtons;
+  final List<HeaderButton>? buttons;
 
+  final Widget? header;
   final Widget child;
 
   const Page({
     super.key,
-    this.headerButtons,
+    this.buttons,
+    this.header,
     required this.child,
   });
 
@@ -118,12 +120,20 @@ class _PageState extends State<Page> with WindowListener {
                       ),
                     ),
                   ],
-                )
+                ),
+                if (widget.header != null) widget.header!,
               ],
             ),
           ),
           Flexible(
-            child: widget.child,
+            child: Navigator(
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) => widget.child,
+                  settings: settings,
+                );
+              },
+            ),
           ),
         ],
       ),

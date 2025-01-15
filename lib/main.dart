@@ -38,6 +38,7 @@ Future<void> main() async {
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
         titleBarStyle: TitleBarStyle.hidden,
+        alwaysOnTop: true,
       );
 
       windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -66,6 +67,12 @@ Future<void> main() async {
       theme: themes.theme(),
       locale: const Locale('zh'),
       home: cangyan.Page(
+        header: const Center(
+          child: FractionallySizedBox(
+            widthFactor: 0.5,
+            child: cangyan.SearchBox(),
+          ),
+        ),
         child: cangyan.HomePage(path: path),
       ),
     ),
