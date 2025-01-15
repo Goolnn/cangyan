@@ -1,30 +1,47 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:cangyan/widgets.dart' as cangyan;
 
-class Page extends StatefulWidget {
-  final List<HeaderButton>? buttons;
+final routeObserver = RouteObserver<PageRoute>();
+final frameController =
+    StreamController<(List<HeaderButton>?, Widget?)>.broadcast();
 
-  final Widget? header;
-  final Widget child;
+class Frame extends StatefulWidget {
+  final cangyan.Page child;
 
-  const Page({
+  const Frame({
     super.key,
-    this.buttons,
-    this.header,
     required this.child,
   });
 
   @override
-  State<Page> createState() => _PageState();
+  State<Frame> createState() => _FrameState();
 }
 
-class _PageState extends State<Page> with WindowListener {
+class _FrameState extends State<Frame> with WindowListener {
+  late final StreamSubscription<(List<HeaderButton>?, Widget?)> subscription;
+
   final double headerSize = 36.0;
+
+  List<HeaderButton>? buttons;
+  Widget? header;
 
   @override
   void initState() {
     super.initState();
+
+    subscription = frameController.stream.listen((widgets) {
+      final buttons = widgets.$1;
+      final header = widgets.$2;
+
+      setState(() {
+        this.buttons = buttons;
+        this.header = header;
+      });
+    });
 
     windowManager.addListener(this);
   }
@@ -74,13 +91,8 @@ class _PageState extends State<Page> with WindowListener {
                 ),
                 Row(
                   children: [
-                    HeaderButton(
-                      onPressed: () {},
-                      child: Icon(
-                        Icons.menu,
-                        size: headerSize * 0.5,
-                      ),
-                    ),
+                    if (buttons != null)
+                      for (final button in buttons!) button,
                     const Spacer(),
                     HeaderButton(
                       onPressed: windowManager.minimize,
@@ -121,7 +133,7 @@ class _PageState extends State<Page> with WindowListener {
                     ),
                   ],
                 ),
-                if (widget.header != null) widget.header!,
+                if (header != null) header!,
               ],
             ),
           ),
@@ -133,6 +145,9 @@ class _PageState extends State<Page> with WindowListener {
                   settings: settings,
                 );
               },
+              observers: [
+                routeObserver,
+              ],
             ),
           ),
         ],
@@ -171,5 +186,56 @@ class HeaderButton extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class Page extends StatefulWidget {
+  final List<HeaderButton>? buttons;
+  final Widget? header;
+  final Widget child;
+
+  const Page({
+    super.key,
+    this.buttons,
+    this.header,
+    required this.child,
+  });
+
+  @override
+  State<Page> createState() => _PageState();
+}
+
+class _PageState extends State<Page> with RouteAware {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    routeObserver.subscribe(this, ModalRoute.of(context)! as PageRoute);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didPush() {
+    super.didPush();
+
+    frameController.sink.add((widget.buttons, widget.header));
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+
+    frameController.sink.add((widget.buttons, widget.header));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }
