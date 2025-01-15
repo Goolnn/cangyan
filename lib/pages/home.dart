@@ -99,18 +99,31 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
-      header: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.6,
-          child: cangyan.SearchBox(
-            onChanged: (keyword) {
-              setState(() {
-                this.keyword = keyword;
-              });
-            },
+      header: Builder(builder: (context) {
+        final double factor;
+
+        switch (Platform.operatingSystem) {
+          case "android":
+            factor = 0.75;
+            break;
+          default:
+            factor = 0.6;
+            break;
+        }
+
+        return Center(
+          child: FractionallySizedBox(
+            widthFactor: factor,
+            child: cangyan.SearchBox(
+              onChanged: (keyword) {
+                setState(() {
+                  this.keyword = keyword;
+                });
+              },
+            ),
           ),
-        ),
-      ),
+        );
+      }),
       child: Scaffold(
         body: SafeArea(
           child: Column(
