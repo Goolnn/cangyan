@@ -369,25 +369,9 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return cangyan.Page(
-            buttons: [
-              cangyan.HeaderButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  size: 16.0,
-                ),
-              ),
-            ],
-            header: Center(
-              child: Text(handle.title),
-            ),
-            child: cangyan.InfoPage(
-              workspace: widget.workspace,
-              handle: handle,
-            ),
+          return cangyan.InfoPage(
+            workspace: widget.workspace,
+            handle: handle,
           );
         },
       ),
