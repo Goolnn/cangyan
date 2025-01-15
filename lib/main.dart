@@ -65,7 +65,9 @@ Future<void> main() async {
       ],
       theme: themes.theme(),
       locale: const Locale('zh'),
-      home: cangyan.HomePage(path: path),
+      home: cangyan.Page(
+        child: cangyan.HomePage(path: path),
+      ),
     ),
   );
 }
