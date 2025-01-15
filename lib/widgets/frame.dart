@@ -21,6 +21,8 @@ class Frame extends StatefulWidget {
 }
 
 class _FrameState extends State<Frame> with WindowListener {
+  final GlobalKey<NavigatorState> navigator = GlobalKey();
+
   late final StreamSubscription<(List<HeaderButton>?, Widget?)> subscription;
 
   final double headerSize = 36.0;
@@ -140,16 +142,25 @@ class _FrameState extends State<Frame> with WindowListener {
               ),
             ),
             Flexible(
-              child: Navigator(
-                onGenerateRoute: (settings) {
-                  return MaterialPageRoute(
-                    builder: (context) => widget.child,
-                    settings: settings,
-                  );
+              child: PopScope(
+                canPop: !(navigator.currentState?.canPop() ?? false),
+                onPopInvokedWithResult: (didPop, result) {
+                  if (navigator.currentState?.canPop() ?? false) {
+                    navigator.currentState?.pop(result);
+                  }
                 },
-                observers: [
-                  observer,
-                ],
+                child: Navigator(
+                  key: navigator,
+                  onGenerateRoute: (settings) {
+                    return MaterialPageRoute(
+                      builder: (context) => widget.child,
+                      settings: settings,
+                    );
+                  },
+                  observers: [
+                    observer,
+                  ],
+                ),
               ),
             ),
           ],
