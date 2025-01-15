@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/utils/handle.dart';
 import 'package:cangyan/utils/picker.dart';
@@ -127,7 +129,19 @@ class _InfoPageState extends State<InfoPage> {
 
                   images = snapshot.data ?? [];
 
+                  final int count;
+
+                  switch (Platform.operatingSystem) {
+                    case 'windows':
+                      count = 5;
+                      break;
+                    default:
+                      count = 3;
+                      break;
+                  }
+
                   return cangyan.ImageViewer(
+                    count: count,
                     onReorder: (from, to) {
                       widget.pages.movePageTo(
                         from: BigInt.from(from),
