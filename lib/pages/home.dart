@@ -212,7 +212,8 @@ class _HomePageState extends State<HomePage> {
                 break;
             }
           },
-          child: FloatingActionButton.small(
+          child: FloatingActionButton(
+            mini: Platform.isWindows,
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,
             shape: const CircleBorder(),
