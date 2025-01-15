@@ -318,6 +318,9 @@ class _InfoPageState extends State<InfoPage> {
               ),
             ),
           ],
+          header: Center(
+            child: Text('第${index + 1}页'),
+          ),
           child: cangyan.EditPage(
             image: images[index],
             editor: editor,
