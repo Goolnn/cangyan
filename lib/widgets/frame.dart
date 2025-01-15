@@ -75,80 +75,82 @@ class _FrameState extends State<Frame> with WindowListener {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: headerSize,
-            child: Stack(
-              children: [
-                DragToMoveArea(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: headerSize,
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(
+              height: headerSize,
+              child: Stack(
+                children: [
+                  DragToMoveArea(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: headerSize,
+                    ),
                   ),
-                ),
-                Row(
-                  children: [
-                    if (buttons != null)
-                      for (final button in buttons!) button,
-                    const Spacer(),
-                    HeaderButton(
-                      onPressed: windowManager.minimize,
-                      child: Icon(
-                        MaterialCommunityIcons.window_minimize,
-                        size: headerSize * 0.4,
+                  Row(
+                    children: [
+                      if (buttons != null)
+                        for (final button in buttons!) button,
+                      const Spacer(),
+                      HeaderButton(
+                        onPressed: windowManager.minimize,
+                        child: Icon(
+                          MaterialCommunityIcons.window_minimize,
+                          size: headerSize * 0.4,
+                        ),
                       ),
-                    ),
-                    FutureBuilder(
-                      future: windowManager.isMaximized(),
-                      builder: (context, snapshot) {
-                        final isMaximized = snapshot.data;
+                      FutureBuilder(
+                        future: windowManager.isMaximized(),
+                        builder: (context, snapshot) {
+                          final isMaximized = snapshot.data;
 
-                        return HeaderButton(
-                          onPressed: () {
-                            if (isMaximized == true) {
-                              windowManager.unmaximize();
-                            } else {
-                              windowManager.maximize();
-                            }
-                          },
-                          child: Icon(
-                            isMaximized == true
-                                ? MaterialCommunityIcons.window_restore
-                                : MaterialCommunityIcons.window_maximize,
-                            size: headerSize * 0.4,
-                          ),
-                        );
-                      },
-                    ),
-                    HeaderButton(
-                      isDangerous: true,
-                      onPressed: windowManager.close,
-                      child: Icon(
-                        MaterialCommunityIcons.window_close,
-                        size: headerSize * 0.4,
+                          return HeaderButton(
+                            onPressed: () {
+                              if (isMaximized == true) {
+                                windowManager.unmaximize();
+                              } else {
+                                windowManager.maximize();
+                              }
+                            },
+                            child: Icon(
+                              isMaximized == true
+                                  ? MaterialCommunityIcons.window_restore
+                                  : MaterialCommunityIcons.window_maximize,
+                              size: headerSize * 0.4,
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                  ],
-                ),
-                if (header != null) header!,
-              ],
+                      HeaderButton(
+                        isDangerous: true,
+                        onPressed: windowManager.close,
+                        child: Icon(
+                          MaterialCommunityIcons.window_close,
+                          size: headerSize * 0.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (header != null) header!,
+                ],
+              ),
             ),
-          ),
-          Flexible(
-            child: Navigator(
-              onGenerateRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) => widget.child,
-                  settings: settings,
-                );
-              },
-              observers: [
-                observer,
-              ],
+            Flexible(
+              child: Navigator(
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute(
+                    builder: (context) => widget.child,
+                    settings: settings,
+                  );
+                },
+                observers: [
+                  observer,
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
