@@ -3,14 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:cangyan/widgets.dart' as cangyan;
 
-final routeObserver = RouteObserver<PageRoute>();
-final frameController =
-    StreamController<(List<HeaderButton>?, Widget?)>.broadcast();
+final observer = RouteObserver<PageRoute>();
+final broadcast = StreamController<(List<HeaderButton>?, Widget?)>.broadcast();
 
 class Frame extends StatefulWidget {
-  final cangyan.Page child;
+  final Widget child;
 
   const Frame({
     super.key,
@@ -33,7 +31,7 @@ class _FrameState extends State<Frame> with WindowListener {
   void initState() {
     super.initState();
 
-    subscription = frameController.stream.listen((widgets) {
+    subscription = broadcast.stream.listen((widgets) {
       final buttons = widgets.$1;
       final header = widgets.$2;
 
@@ -146,7 +144,7 @@ class _FrameState extends State<Frame> with WindowListener {
                 );
               },
               observers: [
-                routeObserver,
+                observer,
               ],
             ),
           ),
@@ -210,12 +208,12 @@ class _PageState extends State<Page> with RouteAware {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    routeObserver.subscribe(this, ModalRoute.of(context)! as PageRoute);
+    observer.subscribe(this, ModalRoute.of(context)! as PageRoute);
   }
 
   @override
   void dispose() {
-    routeObserver.unsubscribe(this);
+    observer.unsubscribe(this);
 
     super.dispose();
   }
@@ -224,14 +222,14 @@ class _PageState extends State<Page> with RouteAware {
   void didPush() {
     super.didPush();
 
-    frameController.sink.add((widget.buttons, widget.header));
+    broadcast.sink.add((widget.buttons, widget.header));
   }
 
   @override
   void didPopNext() {
     super.didPopNext();
 
-    frameController.sink.add((widget.buttons, widget.header));
+    broadcast.sink.add((widget.buttons, widget.header));
   }
 
   @override
