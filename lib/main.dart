@@ -38,7 +38,6 @@ Future<void> main() async {
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
         titleBarStyle: TitleBarStyle.hidden,
-        alwaysOnTop: true,
       );
 
       windowManager.waitUntilReadyToShow(windowOptions, () async {
