@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:window_manager/window_manager.dart';
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
   // Initialize the Rust backend library
   await RustLib.init();
 
@@ -66,7 +66,10 @@ Future<void> main() async {
       theme: themes.theme(),
       locale: const Locale('zh'),
       home: cangyan.Frame(
-        child: cangyan.HomePage(path: path),
+        child: cangyan.HomePage(
+          path: path,
+          args: args,
+        ),
       ),
     ),
   );
