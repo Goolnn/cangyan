@@ -255,6 +255,7 @@ class _HomePageState extends State<HomePage> {
             HapticFeedback.selectionClick();
 
             showModalBottomSheet(
+              useRootNavigator: true,
               clipBehavior: Clip.hardEdge,
               context: context,
               builder: (context) {
