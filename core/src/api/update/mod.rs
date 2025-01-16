@@ -9,7 +9,6 @@ const OWNER: &str = "Goolnn";
 const REPO: &str = "cangyan";
 
 const AGENT: &str = "Cangyan";
-const TOKEN: &str = include_str!("token");
 
 #[frb(opaque)]
 pub struct Update {}
@@ -53,7 +52,6 @@ impl Update {
         let response = client
             .get(&url)
             .header("User-Agent", AGENT)
-            .header("Authorization", format!("Bearer {}", TOKEN))
             .send()
             .await?;
 
