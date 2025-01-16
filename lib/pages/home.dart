@@ -6,14 +6,18 @@ import 'package:cangyan/dialogs/duplicated_name.dart';
 import 'package:cangyan/utils/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
 
 class HomePage extends StatefulWidget {
   final cangyan.Workspace workspace;
 
+  final List<String> args;
+
   HomePage({
     super.key,
     required String path,
+    this.args = const [],
   }) : workspace = cangyan.Workspace(path: path);
 
   @override
@@ -60,6 +64,35 @@ class _HomePageState extends State<HomePage> {
 
         break;
     }
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final List<(String, Uint8List)> pairs = [];
+
+      for (final arg in widget.args) {
+        final file = File(arg);
+
+        if (file.existsSync()) {
+          final title = path.basenameWithoutExtension(file.path);
+          final data = file.readAsBytesSync();
+
+          if (widget.workspace.check(title: title)) {
+            widget.workspace.include(title: title, data: data).then(
+              (summary) {
+                setState(() {
+                  handles?.addEntries([include(Handle(summary))]);
+                });
+              },
+            );
+          } else {
+            pairs.add((title, data));
+          }
+        }
+      }
+
+      if (pairs.isNotEmpty) {
+        duplicated(pairs);
+      }
+    });
   }
 
   @override
