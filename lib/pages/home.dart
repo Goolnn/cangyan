@@ -5,6 +5,7 @@ import 'package:cangyan/dialogs/create_project.dart';
 import 'package:cangyan/dialogs/duplicated_name.dart';
 import 'package:cangyan/main.dart';
 import 'package:cangyan/utils/handle.dart';
+import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as path;
@@ -189,46 +190,74 @@ class _HomePageState extends State<HomePage> {
       }),
       child: Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: FutureBuilder(
-                  future: load,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+          child: DropTarget(
+            onDragDone: (details) {
+              final List<(String, Uint8List)> pairs = [];
 
-                    handles ??= Map.fromEntries(
-                      (snapshot.data ?? []).map(
-                        (summary) {
-                          return include(Handle(summary));
-                        },
-                      ),
+              details.files.map((item) => File(item.path)).forEach((file) {
+                if (file.existsSync()) {
+                  final title = path.basenameWithoutExtension(file.path);
+                  final data = file.readAsBytesSync();
+
+                  if (widget.workspace.check(title: title)) {
+                    widget.workspace.include(title: title, data: data).then(
+                      (summary) {
+                        setState(() {
+                          handles?.addEntries([include(Handle(summary))]);
+                        });
+                      },
                     );
+                  } else {
+                    pairs.add((title, data));
+                  }
+                }
+              });
 
-                    final tiles = handles!.entries.where((entry) {
-                      return entry.key.title.contains(keyword);
-                    }).map((entry) {
-                      return entry.value;
-                    }).toList();
+              if (pairs.isNotEmpty) {
+                duplicated(pairs);
+              }
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: FutureBuilder(
+                    future: load,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
 
-                    return tiles.isEmpty && keyword.isNotEmpty
-                        ? const Center(
-                            child: Text('无匹配结果'),
-                          )
-                        : ListView.builder(
-                            itemCount: tiles.length,
-                            itemBuilder: (context, index) {
-                              return tiles[index];
-                            },
-                          );
-                  },
+                      handles ??= Map.fromEntries(
+                        (snapshot.data ?? []).map(
+                          (summary) {
+                            return include(Handle(summary));
+                          },
+                        ),
+                      );
+
+                      final tiles = handles!.entries.where((entry) {
+                        return entry.key.title.contains(keyword);
+                      }).map((entry) {
+                        return entry.value;
+                      }).toList();
+
+                      return tiles.isEmpty && keyword.isNotEmpty
+                          ? const Center(
+                              child: Text('无匹配结果'),
+                            )
+                          : ListView.builder(
+                              itemCount: tiles.length,
+                              itemBuilder: (context, index) {
+                                return tiles[index];
+                              },
+                            );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         floatingActionButton: GestureDetector(
