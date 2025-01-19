@@ -25,6 +25,7 @@ dependencies:
   flutter_font_icons: ^2.2.7
   path: ^1.9.0
   windows_single_instance: ^1.0.1
+  desktop_drop: ^0.5.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
