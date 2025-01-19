@@ -136,23 +136,7 @@ class _HomePageState extends State<HomePage> {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return cangyan.Page(
-                    buttons: [
-                      cangyan.HeaderButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back,
-                          size: 16.0,
-                        ),
-                      ),
-                    ],
-                    header: const Center(
-                      child: Text('关于'),
-                    ),
-                    child: const cangyan.AboutPage(),
-                  );
+                  return const cangyan.AboutPage();
                 },
               ),
             );
@@ -189,75 +173,73 @@ class _HomePageState extends State<HomePage> {
         );
       }),
       child: Scaffold(
-        body: SafeArea(
-          child: DropTarget(
-            onDragDone: (details) {
-              final List<(String, Uint8List)> pairs = [];
+        body: DropTarget(
+          onDragDone: (details) {
+            final List<(String, Uint8List)> pairs = [];
 
-              details.files.map((item) => File(item.path)).forEach((file) {
-                if (file.existsSync()) {
-                  final title = path.basenameWithoutExtension(file.path);
-                  final data = file.readAsBytesSync();
+            details.files.map((item) => File(item.path)).forEach((file) {
+              if (file.existsSync()) {
+                final title = path.basenameWithoutExtension(file.path);
+                final data = file.readAsBytesSync();
 
-                  if (widget.workspace.check(title: title)) {
-                    widget.workspace.include(title: title, data: data).then(
-                      (summary) {
-                        setState(() {
-                          handles?.addEntries([include(Handle(summary))]);
-                        });
-                      },
-                    );
-                  } else {
-                    pairs.add((title, data));
-                  }
-                }
-              });
-
-              if (pairs.isNotEmpty) {
-                duplicated(pairs);
-              }
-            },
-            child: Column(
-              children: [
-                Expanded(
-                  child: FutureBuilder(
-                    future: load,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState != ConnectionState.done) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-
-                      handles ??= Map.fromEntries(
-                        (snapshot.data ?? []).map(
-                          (summary) {
-                            return include(Handle(summary));
-                          },
-                        ),
-                      );
-
-                      final tiles = handles!.entries.where((entry) {
-                        return entry.key.title.contains(keyword);
-                      }).map((entry) {
-                        return entry.value;
-                      }).toList();
-
-                      return tiles.isEmpty && keyword.isNotEmpty
-                          ? const Center(
-                              child: Text('无匹配结果'),
-                            )
-                          : ListView.builder(
-                              itemCount: tiles.length,
-                              itemBuilder: (context, index) {
-                                return tiles[index];
-                              },
-                            );
+                if (widget.workspace.check(title: title)) {
+                  widget.workspace.include(title: title, data: data).then(
+                    (summary) {
+                      setState(() {
+                        handles?.addEntries([include(Handle(summary))]);
+                      });
                     },
-                  ),
+                  );
+                } else {
+                  pairs.add((title, data));
+                }
+              }
+            });
+
+            if (pairs.isNotEmpty) {
+              duplicated(pairs);
+            }
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: FutureBuilder(
+                  future: load,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    handles ??= Map.fromEntries(
+                      (snapshot.data ?? []).map(
+                        (summary) {
+                          return include(Handle(summary));
+                        },
+                      ),
+                    );
+
+                    final tiles = handles!.entries.where((entry) {
+                      return entry.key.title.contains(keyword);
+                    }).map((entry) {
+                      return entry.value;
+                    }).toList();
+
+                    return tiles.isEmpty && keyword.isNotEmpty
+                        ? const Center(
+                            child: Text('无匹配结果'),
+                          )
+                        : ListView.builder(
+                            itemCount: tiles.length,
+                            itemBuilder: (context, index) {
+                              return tiles[index];
+                            },
+                          );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         floatingActionButton: GestureDetector(

@@ -1,14 +1,30 @@
 import 'package:cangyan/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:cangyan/widgets.dart' as cangyan;
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return cangyan.Page(
+      buttons: [
+        cangyan.HeaderButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            size: 16.0,
+          ),
+        ),
+      ],
+      header: const Center(
+        child: Text('关于'),
+      ),
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),

@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditPage extends StatefulWidget {
+  final int index;
   final MemoryImage image;
 
   final cangyan.Editor editor;
 
   const EditPage({
     super.key,
+    required this.index,
     required this.image,
     required this.editor,
   });
@@ -41,8 +43,23 @@ class _EditPageState extends State<EditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return cangyan.Page(
+      buttons: [
+        cangyan.HeaderButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            size: 16.0,
+          ),
+        ),
+      ],
+      header: Center(
+        child: Text('第${widget.index + 1}页'),
+      ),
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: PopScope(
           canPop: !drawerController.open,
           onPopInvokedWithResult: (didPop, result) {
