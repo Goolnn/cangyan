@@ -9,10 +9,13 @@ final observer = RouteObserver<PageRoute>();
 final broadcast = StreamController<(List<HeaderButton>?, Widget?)>.broadcast();
 
 class Frame extends StatefulWidget {
+  final bool resizeToAvoidBottomInset;
+
   final Widget child;
 
   const Frame({
     super.key,
+    this.resizeToAvoidBottomInset = true,
     required this.child,
   });
 
@@ -78,6 +81,7 @@ class _FrameState extends State<Frame> with WindowListener {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       body: SafeArea(
         child: Column(
           children: [
