@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cangyan/cangyan.dart' as cangyan;
@@ -8,14 +9,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:windows_single_instance/windows_single_instance.dart';
+
+final arguments = StreamController<List<String>>.broadcast();
 
 Future<void> main(List<String> args) async {
   // Initialize the Rust backend library
   await RustLib.init();
 
-  // Initialize the Flutter app
   WidgetsFlutterBinding.ensureInitialized();
 
+  await WindowsSingleInstance.ensureSingleInstance(
+    args,
+    "com.goolnn.cangyan",
+    onSecondWindow: (args) {
+      arguments.add(args);
+    },
+  );
+
+  // Initialize the Flutter app
   switch (Platform.operatingSystem) {
     case "android":
       SystemChrome.setSystemUIOverlayStyle(

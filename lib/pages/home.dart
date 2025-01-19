@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cangyan/cangyan.dart' as cangyan;
 import 'package:cangyan/dialogs/create_project.dart';
 import 'package:cangyan/dialogs/duplicated_name.dart';
+import 'package:cangyan/main.dart';
 import 'package:cangyan/utils/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,6 +70,35 @@ class _HomePageState extends State<HomePage> {
       final List<(String, Uint8List)> pairs = [];
 
       for (final arg in widget.args) {
+        final file = File(arg);
+
+        if (file.existsSync()) {
+          final title = path.basenameWithoutExtension(file.path);
+          final data = file.readAsBytesSync();
+
+          if (widget.workspace.check(title: title)) {
+            widget.workspace.include(title: title, data: data).then(
+              (summary) {
+                setState(() {
+                  handles?.addEntries([include(Handle(summary))]);
+                });
+              },
+            );
+          } else {
+            pairs.add((title, data));
+          }
+        }
+      }
+
+      if (pairs.isNotEmpty) {
+        duplicated(pairs);
+      }
+    });
+
+    arguments.stream.listen((args) {
+      final List<(String, Uint8List)> pairs = [];
+
+      for (final arg in args) {
         final file = File(arg);
 
         if (file.existsSync()) {
