@@ -38,20 +38,6 @@ class _FrameState extends State<Frame> with WindowListener {
   }
 
   @override
-  void onWindowMaximize() {
-    super.onWindowMaximize();
-
-    setState(() {});
-  }
-
-  @override
-  void onWindowUnmaximize() {
-    super.onWindowUnmaximize();
-
-    setState(() {});
-  }
-
-  @override
   void onWindowFocus() {
     super.onWindowFocus();
 
@@ -102,13 +88,27 @@ class Header extends StatefulWidget {
   State<Header> createState() => _HeaderState();
 }
 
-class _HeaderState extends State<Header> {
+class _HeaderState extends State<Header> with WindowListener {
   static const double headerSize = 36.0;
 
   late final StreamSubscription<(List<HeaderButton>?, Widget?)> subscription;
 
   List<HeaderButton>? buttons;
   Widget? header;
+
+  @override
+  void onWindowMaximize() {
+    super.onWindowMaximize();
+
+    setState(() {});
+  }
+
+  @override
+  void onWindowUnmaximize() {
+    super.onWindowUnmaximize();
+
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -123,6 +123,8 @@ class _HeaderState extends State<Header> {
         this.header = header;
       });
     });
+
+    windowManager.addListener(this);
   }
 
   @override
