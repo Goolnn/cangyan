@@ -212,7 +212,7 @@ class HeaderButton extends StatelessWidget {
       builder: (context, constraints) {
         return RawMaterialButton(
           constraints: BoxConstraints.tightFor(
-            width: constraints.maxHeight,
+            width: constraints.maxHeight * 1.15,
             height: constraints.maxHeight,
           ),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
