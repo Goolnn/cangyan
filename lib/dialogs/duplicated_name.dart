@@ -57,16 +57,13 @@ class _DuplicatedNameDialogState extends State<DuplicatedNameDialog> {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 128.0,
-              ),
-              child: SingleChildScrollView(
+      child: Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -114,8 +111,8 @@ class _DuplicatedNameDialogState extends State<DuplicatedNameDialog> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
