@@ -15,24 +15,33 @@ class StandardDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Center(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 20.0,
+      child: Container(
+        constraints: const BoxConstraints(
+          maxWidth: 800.0,
+          maxHeight: 600.0,
+        ),
+        child: AspectRatio(
+          aspectRatio: 4.0 / 3.0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
                 ),
-              ),
+                const Divider(),
+                child,
+                const Divider(),
+                action,
+              ],
             ),
-            const Divider(),
-            child,
-            const Divider(),
-            action,
-          ],
+          ),
         ),
       ),
     );
