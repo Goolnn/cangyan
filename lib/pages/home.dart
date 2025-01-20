@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   Map<Handle, Widget>? handles;
 
-  String keyword = '';
+  final keyword = ValueNotifier<String>('');
 
   @override
   void initState() {
@@ -164,9 +164,7 @@ class _HomePageState extends State<HomePage> {
             widthFactor: factor,
             child: cangyan.SearchBox(
               onChanged: (keyword) {
-                setState(() {
-                  this.keyword = keyword;
-                });
+                this.keyword.value = keyword;
               },
             ),
           ),
@@ -203,39 +201,44 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Expanded(
-                child: FutureBuilder(
-                  future: load,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    handles ??= Map.fromEntries(
-                      (snapshot.data ?? []).map(
-                        (summary) {
-                          return include(Handle(summary));
-                        },
-                      ),
-                    );
-
-                    final tiles = handles!.entries.where((entry) {
-                      return entry.key.title.contains(keyword);
-                    }).map((entry) {
-                      return entry.value;
-                    }).toList();
-
-                    return tiles.isEmpty && keyword.isNotEmpty
-                        ? const Center(
-                            child: Text('无匹配结果'),
-                          )
-                        : ListView.builder(
-                            itemCount: tiles.length,
-                            itemBuilder: (context, index) {
-                              return tiles[index];
-                            },
+                child: ValueListenableBuilder(
+                  valueListenable: keyword,
+                  builder: (context, value, child) {
+                    return FutureBuilder(
+                      future: load,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
+                        }
+
+                        handles ??= Map.fromEntries(
+                          (snapshot.data ?? []).map(
+                            (summary) {
+                              return include(Handle(summary));
+                            },
+                          ),
+                        );
+
+                        final tiles = handles!.entries.where((entry) {
+                          return entry.key.title.contains(value);
+                        }).map((entry) {
+                          return entry.value;
+                        }).toList();
+
+                        return tiles.isEmpty && value.isNotEmpty
+                            ? const Center(
+                                child: Text('无匹配结果'),
+                              )
+                            : ListView.builder(
+                                itemCount: tiles.length,
+                                itemBuilder: (context, index) {
+                                  return tiles[index];
+                                },
+                              );
+                      },
+                    );
                   },
                 ),
               ),
