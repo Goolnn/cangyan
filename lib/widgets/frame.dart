@@ -23,26 +23,9 @@ class Frame extends StatefulWidget {
 class _FrameState extends State<Frame> with WindowListener {
   final GlobalKey<NavigatorState> navigator = GlobalKey();
 
-  late final StreamSubscription<(List<HeaderButton>?, Widget?)> subscription;
-
-  final double headerSize = 36.0;
-
-  List<HeaderButton>? buttons;
-  Widget? header;
-
   @override
   void initState() {
     super.initState();
-
-    subscription = broadcast.stream.listen((widgets) {
-      final buttons = widgets.$1;
-      final header = widgets.$2;
-
-      setState(() {
-        this.buttons = buttons;
-        this.header = header;
-      });
-    });
 
     windowManager.addListener(this);
   }
@@ -82,66 +65,7 @@ class _FrameState extends State<Frame> with WindowListener {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: headerSize,
-              child: Stack(
-                children: [
-                  DragToMoveArea(
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: headerSize,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      if (buttons != null)
-                        for (final button in buttons!) button,
-                      const Spacer(),
-                      if (Platform.isWindows) ...[
-                        HeaderButton(
-                          onPressed: windowManager.minimize,
-                          child: Icon(
-                            MaterialCommunityIcons.window_minimize,
-                            size: headerSize * 0.4,
-                          ),
-                        ),
-                        FutureBuilder(
-                          future: windowManager.isMaximized(),
-                          builder: (context, snapshot) {
-                            final isMaximized = snapshot.data;
-
-                            return HeaderButton(
-                              onPressed: () {
-                                if (isMaximized == true) {
-                                  windowManager.unmaximize();
-                                } else {
-                                  windowManager.maximize();
-                                }
-                              },
-                              child: Icon(
-                                isMaximized == true
-                                    ? MaterialCommunityIcons.window_restore
-                                    : MaterialCommunityIcons.window_maximize,
-                                size: headerSize * 0.4,
-                              ),
-                            );
-                          },
-                        ),
-                        HeaderButton(
-                          isDangerous: true,
-                          onPressed: windowManager.close,
-                          child: Icon(
-                            MaterialCommunityIcons.window_close,
-                            size: headerSize * 0.4,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                  if (header != null) header!,
-                ],
-              ),
-            ),
+            const Header(),
             Flexible(
               child: PopScope(
                 canPop: !(navigator.currentState?.canPop() ?? false),
@@ -166,6 +90,101 @@ class _FrameState extends State<Frame> with WindowListener {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Header extends StatefulWidget {
+  const Header({super.key});
+
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  static const double headerSize = 36.0;
+
+  late final StreamSubscription<(List<HeaderButton>?, Widget?)> subscription;
+
+  List<HeaderButton>? buttons;
+  Widget? header;
+
+  @override
+  void initState() {
+    super.initState();
+
+    subscription = broadcast.stream.listen((widgets) {
+      final buttons = widgets.$1;
+      final header = widgets.$2;
+
+      setState(() {
+        this.buttons = buttons;
+        this.header = header;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: headerSize,
+      child: Stack(
+        children: [
+          const DragToMoveArea(
+            child: SizedBox(
+              width: double.infinity,
+              height: headerSize,
+            ),
+          ),
+          Row(
+            children: [
+              if (buttons != null)
+                for (final button in buttons!) button,
+              const Spacer(),
+              if (Platform.isWindows) ...[
+                HeaderButton(
+                  onPressed: windowManager.minimize,
+                  child: const Icon(
+                    MaterialCommunityIcons.window_minimize,
+                    size: headerSize * 0.4,
+                  ),
+                ),
+                FutureBuilder(
+                  future: windowManager.isMaximized(),
+                  builder: (context, snapshot) {
+                    final isMaximized = snapshot.data;
+
+                    return HeaderButton(
+                      onPressed: () {
+                        if (isMaximized == true) {
+                          windowManager.unmaximize();
+                        } else {
+                          windowManager.maximize();
+                        }
+                      },
+                      child: Icon(
+                        isMaximized == true
+                            ? MaterialCommunityIcons.window_restore
+                            : MaterialCommunityIcons.window_maximize,
+                        size: headerSize * 0.4,
+                      ),
+                    );
+                  },
+                ),
+                HeaderButton(
+                  isDangerous: true,
+                  onPressed: windowManager.close,
+                  child: const Icon(
+                    MaterialCommunityIcons.window_close,
+                    size: headerSize * 0.4,
+                  ),
+                ),
+              ],
+            ],
+          ),
+          if (header != null) header!,
+        ],
       ),
     );
   }
@@ -229,10 +248,10 @@ class _PageState extends State<Page> with RouteAware {
   }
 
   @override
-  void dispose() {
-    observer.unsubscribe(this);
+  void didUpdateWidget(covariant Page oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-    super.dispose();
+    broadcast.sink.add((widget.buttons, widget.header));
   }
 
   @override
@@ -247,6 +266,13 @@ class _PageState extends State<Page> with RouteAware {
     super.didPopNext();
 
     broadcast.sink.add((widget.buttons, widget.header));
+  }
+
+  @override
+  void dispose() {
+    observer.unsubscribe(this);
+
+    super.dispose();
   }
 
   @override
