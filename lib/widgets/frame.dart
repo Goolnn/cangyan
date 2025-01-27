@@ -21,8 +21,6 @@ class Frame extends StatefulWidget {
 }
 
 class _FrameState extends State<Frame> with WindowListener {
-  final GlobalKey<NavigatorState> navigator = GlobalKey();
-
   @override
   void initState() {
     super.initState();
@@ -52,27 +50,8 @@ class _FrameState extends State<Frame> with WindowListener {
         child: Column(
           children: [
             const Header(),
-            Flexible(
-              child: PopScope(
-                canPop: !(navigator.currentState?.canPop() ?? false),
-                onPopInvokedWithResult: (didPop, result) {
-                  if (navigator.currentState?.canPop() ?? false) {
-                    navigator.currentState?.maybePop(result);
-                  }
-                },
-                child: Navigator(
-                  key: navigator,
-                  onGenerateRoute: (settings) {
-                    return MaterialPageRoute(
-                      builder: (context) => widget.child,
-                      settings: settings,
-                    );
-                  },
-                  observers: [
-                    observer,
-                  ],
-                ),
-              ),
+            Body(
+              child: widget.child,
             ),
           ],
         ),
@@ -225,6 +204,48 @@ class HeaderButton extends StatelessWidget {
   }
 }
 
+class Body extends StatefulWidget {
+  final Widget child;
+
+  const Body({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  final GlobalKey<NavigatorState> navigator = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (navigator.currentState?.canPop() ?? false) {
+            navigator.currentState?.maybePop(result);
+          }
+        },
+        child: Navigator(
+          key: navigator,
+          onGenerateRoute: (settings) {
+            return MaterialPageRoute(
+              builder: (context) => widget.child,
+              settings: settings,
+            );
+          },
+          observers: [
+            observer,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class Page extends StatefulWidget {
   final List<HeaderButton>? buttons;
   final Widget? header;
@@ -252,6 +273,8 @@ class _PageState extends State<Page> with RouteAware {
   @override
   void didUpdateWidget(covariant Page oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    print('didUpdateWidget');
 
     broadcast.sink.add((widget.buttons, widget.header));
   }
