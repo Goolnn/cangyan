@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
 class StandardDialog extends StatelessWidget {
   final String title;
@@ -27,7 +28,6 @@ class StandardDialog extends StatelessWidget {
 
           switch (Platform.operatingSystem) {
             case 'android':
-              // 判断是横屏还是竖屏
               aspectRatio =
                   MediaQuery.of(context).orientation == Orientation.portrait
                       ? 3.0 / 5.0
@@ -44,13 +44,22 @@ class StandardDialog extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Center(
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 20.0,
+                  Stack(
+                    children: [
+                      Positioned.fill(
+                        child: DragToMoveArea(
+                          child: Container(),
+                        ),
                       ),
-                    ),
+                      Center(
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const Divider(),
                   child,
