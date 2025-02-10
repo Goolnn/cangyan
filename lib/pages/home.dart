@@ -231,11 +231,26 @@ class _HomePageState extends State<HomePage> {
                             ? const Center(
                                 child: Text('无匹配结果'),
                               )
-                            : ListView.builder(
-                                itemCount: tiles.length,
-                                itemBuilder: (context, index) {
-                                  return tiles[index];
-                                },
+                            : SingleChildScrollView(
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    final width = constraints.maxWidth;
+                                    final count = width ~/ 352.0;
+
+                                    return Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Wrap(
+                                        children: tiles.map((tile) {
+                                          return SizedBox(
+                                            width: width / count,
+                                            height: 176.0,
+                                            child: tile,
+                                          );
+                                        }).toList(),
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
                       },
                     );
