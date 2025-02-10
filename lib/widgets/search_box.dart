@@ -85,10 +85,12 @@ class _SearchBoxState extends State<SearchBox>
                 controller: controller,
                 focusNode: focusNode,
                 decoration: InputDecoration(
-                  border: _StadiumInputBorder(
-                    color: colorAnimation.value,
-                    width: widthAnimation.value,
-                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(
+                        color: colorAnimation.value!,
+                        width: widthAnimation.value,
+                      )),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 12.0,
                     vertical: 8.0,
@@ -99,21 +101,6 @@ class _SearchBoxState extends State<SearchBox>
                   prefixIconConstraints: const BoxConstraints(
                     minWidth: 32.0,
                   ),
-                  // suffixIcon: controller.text.isNotEmpty
-                  //     ? GestureDetector(
-                  //         onTap: () {
-                  //           setState(() {
-                  //             controller.clear();
-                  //           });
-
-                  //           widget.onChanged?.call('');
-                  //         },
-                  //         child: const Icon(Icons.clear),
-                  //       )
-                  //     : null,
-                  // suffixIconConstraints: const BoxConstraints(
-                  //   minWidth: 32.0,
-                  // ),
                   isCollapsed: true,
                   isDense: true,
                 ),
@@ -131,70 +118,5 @@ class _SearchBoxState extends State<SearchBox>
         },
       ),
     );
-  }
-}
-
-class _StadiumInputBorder extends InputBorder {
-  final Color? color;
-  final double? width;
-
-  const _StadiumInputBorder({
-    this.color,
-    this.width,
-  });
-
-  @override
-  EdgeInsetsGeometry get dimensions => const EdgeInsets.all(1.0);
-
-  @override
-  bool get isOutline => true;
-
-  @override
-  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
-    final RRect rrect = RRect.fromRectAndRadius(
-      rect.deflate(borderSide.width),
-      Radius.circular(rect.height / 2.0),
-    );
-
-    return Path()..addRRect(rrect);
-  }
-
-  @override
-  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    final RRect rrect = RRect.fromRectAndRadius(
-      rect,
-      Radius.circular(rect.height / 2.0),
-    );
-
-    return Path()..addRRect(rrect);
-  }
-
-  @override
-  void paint(
-    Canvas canvas,
-    Rect rect, {
-    double? gapStart,
-    double gapExtent = 0.0,
-    double gapPercentage = 0.0,
-    TextDirection? textDirection,
-  }) {
-    final Paint paint = Paint()
-      ..color = color ?? Colors.blueGrey
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = width ?? 1.0;
-
-    final Path path = getOuterPath(rect);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  InputBorder copyWith({BorderSide? borderSide}) {
-    return this;
-  }
-
-  @override
-  ShapeBorder scale(double t) {
-    return this;
   }
 }
