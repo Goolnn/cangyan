@@ -7,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 
 final observer = RouteObserver<PageRoute>();
 final broadcast = StreamController<(List<HeaderButton>?, Widget?)>.broadcast();
+final canpopBroadcast = StreamController<bool>.broadcast();
 
 class Frame extends StatefulWidget {
   final Widget child;
@@ -219,15 +220,34 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final GlobalKey<NavigatorState> navigator = GlobalKey();
 
+  final ValueNotifier<bool> canPop = ValueNotifier(true);
+
+  @override
+  void initState() {
+    super.initState();
+
+    canpopBroadcast.stream.listen((canPop) {
+      setState(() {
+        this.canPop.value = canPop;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (didPop, result) {
-          if (navigator.currentState?.canPop() ?? false) {
-            navigator.currentState?.maybePop(result);
-          }
+      child: ValueListenableBuilder<bool>(
+        valueListenable: canPop,
+        builder: (context, value, child) {
+          return PopScope(
+            canPop: value,
+            onPopInvokedWithResult: (didPop, result) {
+              if (navigator.currentState?.canPop() ?? false) {
+                navigator.currentState?.maybePop(result);
+              }
+            },
+            child: child!,
+          );
         },
         child: Navigator(
           key: navigator,
@@ -263,6 +283,8 @@ class Page extends StatefulWidget {
 }
 
 class _PageState extends State<Page> with RouteAware {
+  bool poped = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -274,9 +296,9 @@ class _PageState extends State<Page> with RouteAware {
   void didUpdateWidget(covariant Page oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    print('didUpdateWidget');
-
-    broadcast.sink.add((widget.buttons, widget.header));
+    if (!poped) {
+      broadcast.sink.add((widget.buttons, widget.header));
+    }
   }
 
   @override
@@ -284,6 +306,8 @@ class _PageState extends State<Page> with RouteAware {
     super.didPush();
 
     broadcast.sink.add((widget.buttons, widget.header));
+
+    canpopBroadcast.sink.add(ModalRoute.of(context)?.isFirst ?? false);
   }
 
   @override
@@ -291,6 +315,15 @@ class _PageState extends State<Page> with RouteAware {
     super.didPopNext();
 
     broadcast.sink.add((widget.buttons, widget.header));
+
+    canpopBroadcast.sink.add(ModalRoute.of(context)?.isFirst ?? false);
+  }
+
+  @override
+  void didPop() {
+    super.didPop();
+
+    poped = true;
   }
 
   @override
