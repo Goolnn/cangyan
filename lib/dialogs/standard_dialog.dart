@@ -27,7 +27,11 @@ class StandardDialog extends StatelessWidget {
 
           switch (Platform.operatingSystem) {
             case 'android':
-              aspectRatio = 3.0 / 4.5;
+              // 判断是横屏还是竖屏
+              aspectRatio =
+                  MediaQuery.of(context).orientation == Orientation.portrait
+                      ? 3.0 / 5.0
+                      : 4.0 / 3.0;
               break;
             default:
               aspectRatio = 4.0 / 3.0;
