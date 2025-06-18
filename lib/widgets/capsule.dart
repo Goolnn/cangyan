@@ -14,7 +14,7 @@ class Capsule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: const StadiumBorder(),
-      color: color ?? Colors.black.withOpacity(0.35),
+      color: color ?? Colors.black.withValues(alpha: 0.35),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,

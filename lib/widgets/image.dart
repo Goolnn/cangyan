@@ -22,7 +22,7 @@ class Image extends StatelessWidget {
         : Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),
-              color: Colors.grey.withOpacity(0.25),
+              color: Colors.grey.withValues(alpha: 0.25),
             ),
             child: const Icon(Icons.image_not_supported),
           );
