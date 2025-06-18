@@ -1,6 +1,9 @@
+import 'package:rinf/rinf.dart';
+import 'src/bindings/bindings.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  await initializeRust(assignRustSignal);
   runApp(const MyApp());
 }
 
