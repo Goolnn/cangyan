@@ -1,9 +1,16 @@
-use std::time::Duration;
-
-use crate::signals::{BigBool, SmallNumber, SmallText};
+use crate::signals::BigBool;
+use crate::signals::SmallNumber;
+use crate::signals::SmallText;
 use async_trait::async_trait;
-use messages::prelude::{Actor, Address, Context, Handler, Notifiable};
-use rinf::{DartSignal, RustSignal, debug_print};
+use messages::prelude::Actor;
+use messages::prelude::Address;
+use messages::prelude::Context;
+use messages::prelude::Handler;
+use messages::prelude::Notifiable;
+use rinf::DartSignal;
+use rinf::RustSignal;
+use rinf::debug_print;
+use std::time::Duration;
 use tokio::task::JoinSet;
 use tokio::time::interval;
 

@@ -1,6 +1,8 @@
 use crate::actors::FirstActor;
-use crate::signals::{BigBool, SmallBool};
-use messages::prelude::{Actor, Address};
+use crate::signals::BigBool;
+use crate::signals::SmallBool;
+use messages::prelude::Actor;
+use messages::prelude::Address;
 use rinf::debug_print;
 use std::time::Duration;
 use tokio::spawn;

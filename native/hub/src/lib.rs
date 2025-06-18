@@ -5,7 +5,8 @@ mod actors;
 mod signals;
 
 use actors::create_actors;
-use rinf::{dart_shutdown, write_interface};
+use rinf::dart_shutdown;
+use rinf::write_interface;
 use tokio::spawn;
 
 // Uncomment below to target the web.

@@ -1,5 +1,8 @@
-use rinf::{DartSignal, RustSignal, SignalPiece};
-use serde::{Deserialize, Serialize};
+use rinf::DartSignal;
+use rinf::RustSignal;
+use rinf::SignalPiece;
+use serde::Deserialize;
+use serde::Serialize;
 
 /// To send data from Dart to Rust, use `DartSignal`.
 #[derive(Deserialize, DartSignal)]
