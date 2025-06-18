@@ -33,7 +33,7 @@ final _filledButtonTheme = FilledButtonThemeData(
   ),
 );
 
-final _dialogTheme = DialogTheme(
+final _dialogTheme = DialogThemeData(
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(12.0),
   ),
