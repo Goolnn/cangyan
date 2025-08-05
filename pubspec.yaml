@@ -9,10 +9,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  rinf: ^8.6.0
+  rinf: ^8.7.2
   meta: ^1.16.0
   tuple: ^2.0.2
-  window_manager: ^0.5.0
+  window_manager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
