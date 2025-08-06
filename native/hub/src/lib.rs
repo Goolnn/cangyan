@@ -1,28 +1,52 @@
-//! This `hub` crate is the
-//! entry point of the Rust logic.
-
 mod actors;
 mod signals;
+mod tasks;
 
-use actors::create_actors;
-use rinf::dart_shutdown;
-use rinf::write_interface;
-use tokio::spawn;
+use crate::actors::Workspace;
+use interprocess::local_socket::GenericNamespaced;
+use interprocess::local_socket::Stream;
+use interprocess::local_socket::ToNsName;
+use interprocess::local_socket::prelude::*;
+use messages::prelude::Context;
+use rinf::debug_print;
+use single_instance::SingleInstance;
+use std::io::BufReader;
+use std::io::Write;
 
-// Uncomment below to target the web.
-// use tokio_with_wasm::alias as tokio;
+pub const SIG_NAME: &str = "com.goolnn.cangyan.sig";
+pub const IPC_NAME: &str = "com.goolnn.cangyan.ipc";
 
-write_interface!();
+rinf::write_interface!();
 
-// You can go with any async library, not just `tokio`.
 #[tokio::main(flavor = "current_thread")]
-async fn main() {
-    // Spawn concurrent tasks.
-    // Always use non-blocking async functions like `tokio::fs::File::open`.
-    // If you must use blocking code, use `tokio::task::spawn_blocking`
-    // or the equivalent provided by your async library.
-    spawn(create_actors());
+async fn main() -> anyhow::Result<()> {
+    let instance = SingleInstance::new(SIG_NAME)?;
 
-    // Keep the main function running until Dart shutdown.
-    dart_shutdown().await;
+    if !instance.is_single() {
+        let config = bincode::config::standard();
+
+        let stream = Stream::connect(IPC_NAME.to_ns_name::<GenericNamespaced>()?)?;
+
+        let mut buf = BufReader::new(stream);
+
+        let args = std::env::args().skip(1).collect::<Vec<String>>();
+        let data = bincode::encode_to_vec(&args, config)?;
+
+        buf.get_mut().write_all(&data)?;
+
+        std::process::exit(0);
+    }
+
+    let context = Context::new();
+    let addr = context.address();
+    let workspace = Workspace::default();
+
+    tokio::spawn(context.run(workspace));
+
+    tokio::spawn(tasks::dropped(addr.clone()));
+    tokio::spawn(tasks::interprocess(addr.clone()));
+
+    rinf::dart_shutdown().await;
+
+    Ok(())
 }
