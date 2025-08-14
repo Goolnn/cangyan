@@ -21,3 +21,5 @@ single-instance = "0.3.3"
 interprocess = { version = "2.2.3", features = ["tokio"] }
 bincode = "2.0.1"
 anyhow = "1.0.98"
+notify = "8.2.0"
+futures = "0.3.31"

@@ -39,12 +39,13 @@ async fn main() -> anyhow::Result<()> {
 
     let context = Context::new();
     let addr = context.address();
-    let workspace = Workspace::default();
+    let workspace = Workspace::new();
 
     tokio::spawn(context.run(workspace));
 
     tokio::spawn(tasks::dropped(addr.clone()));
     tokio::spawn(tasks::interprocess(addr.clone()));
+    tokio::spawn(tasks::watch(addr.clone()));
 
     rinf::dart_shutdown().await;
 

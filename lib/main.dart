@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:cangyan/pages/args.dart';
+import 'package:cangyan/platforms/desktop/pages/home.dart' as window;
+import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:cangyan/src/bindings/bindings.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,11 @@ Future<void> main() async {
 
     WindowOptions windowOptions = WindowOptions(
       title: "苍眼",
-      size: Size(800, 600),
+      size: Size(960, 720),
       minimumSize: Size(640, 480),
       center: true,
       titleBarStyle: TitleBarStyle.hidden,
+      backgroundColor: Colors.transparent,
     );
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -68,8 +70,8 @@ class _ApplicationState extends State<Application>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return Material(
+      child: SafeArea(
         child: Stack(
           children: [
             DropTarget(
@@ -84,7 +86,7 @@ class _ApplicationState extends State<Application>
               onDragExited: (details) {
                 _controller.reverse();
               },
-              child: ArgsPage(),
+              child: window.Frame(child: window.HomePage()),
             ),
             AnimatedBuilder(
               animation: _animation,
