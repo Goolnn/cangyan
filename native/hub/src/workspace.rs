@@ -102,22 +102,51 @@ mod inner {
     }
 }
 
+use rinf::RustSignal;
+use rinf::debug_print;
+use serde::Serialize;
 use std::path::Path;
 use std::path::PathBuf;
 
 #[derive(Debug)]
 pub struct Workspace {
     path: PathBuf,
+
+    files: Vec<PathBuf>,
 }
 
 impl Workspace {
     pub fn new() -> Option<Self> {
         let path = inner::workspace()?;
 
-        Some(Self { path })
+        let files = std::fs::read_dir(&path)
+            .ok()?
+            .filter_map(|path| {
+                let path = path.ok()?.path();
+
+                if path.is_file() { Some(path) } else { None }
+            })
+            .collect::<Vec<PathBuf>>();
+
+        Files(
+            files
+                .iter()
+                .map(|file| file.display().to_string())
+                .collect(),
+        )
+        .send_signal_to_dart();
+
+        Some(Self { path, files })
     }
 
     pub fn path(&self) -> &Path {
         &self.path
     }
+
+    pub fn files(&self) -> &Vec<PathBuf> {
+        &self.files
+    }
 }
+
+#[derive(Serialize, RustSignal)]
+pub struct Files(Vec<String>);
