@@ -103,7 +103,6 @@ mod inner {
 }
 
 use rinf::RustSignal;
-use rinf::debug_print;
 use serde::Serialize;
 use std::path::Path;
 use std::path::PathBuf;
@@ -128,14 +127,6 @@ impl Workspace {
             })
             .collect::<Vec<PathBuf>>();
 
-        Files(
-            files
-                .iter()
-                .map(|file| file.display().to_string())
-                .collect(),
-        )
-        .send_signal_to_dart();
-
         Some(Self { path, files })
     }
 
@@ -149,4 +140,4 @@ impl Workspace {
 }
 
 #[derive(Serialize, RustSignal)]
-pub struct Files(Vec<String>);
+pub struct Files(pub Option<Vec<String>>);
