@@ -9,11 +9,11 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  rinf: ^8.7.2
-  meta: ^1.16.0
+  rinf: ^8.8.0
+  meta: ^1.17.0
   tuple: ^2.0.2
   window_manager: ^0.5.1
-  desktop_drop: ^0.6.1
+  desktop_drop: ^0.7.0
   material_design_icons_flutter: ^7.0.7296
   provider: ^6.1.5
 
