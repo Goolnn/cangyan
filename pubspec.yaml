@@ -11,6 +11,7 @@ dependencies:
   meta: ^1.17.0
   rinf: ^8.8.0
   tuple: ^2.0.2
+  window_manager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
