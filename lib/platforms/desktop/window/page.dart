@@ -5,13 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Page extends StatefulWidget {
-  final List<window.Button>? buttons;
+  final bool droppable;
 
+  final List<window.Button>? buttons;
   final Widget? panel;
 
   final Widget child;
 
-  const Page({super.key, this.buttons, this.panel, required this.child});
+  const Page({
+    super.key,
+
+    this.droppable = false,
+
+    this.buttons,
+    this.panel,
+
+    required this.child,
+  });
 
   @override
   State<Page> createState() => _PageState();
@@ -42,6 +52,8 @@ class _PageState extends State<Page> with RouteAware {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<window.PageModel>().updateFrame(
+        widget.droppable,
+
         widget.buttons,
         widget.panel,
       );
@@ -54,6 +66,8 @@ class _PageState extends State<Page> with RouteAware {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<window.PageModel>().updateFrame(
+        widget.droppable,
+
         widget.buttons,
         widget.panel,
       );
@@ -67,6 +81,8 @@ class _PageState extends State<Page> with RouteAware {
     if (ModalRoute.of(context)?.isCurrent ?? false) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.read<window.PageModel>().updateFrame(
+          widget.droppable,
+
           widget.buttons,
           widget.panel,
         );
@@ -81,15 +97,24 @@ class _PageState extends State<Page> with RouteAware {
 }
 
 class PageModel extends ChangeNotifier {
+  bool _droppable = false;
+
   List<window.Button>? _buttons;
-
-  List<window.Button>? get buttons => _buttons;
-
   Widget? _panel;
 
+  bool get droppable => _droppable;
+
+  List<window.Button>? get buttons => _buttons;
   Widget? get panel => _panel;
 
-  void updateFrame(List<window.Button>? buttons, Widget? panel) {
+  void updateFrame(
+    bool draggable,
+
+    List<window.Button>? buttons,
+    Widget? panel,
+  ) {
+    _droppable = draggable;
+
     _buttons = buttons;
     _panel = panel;
 
