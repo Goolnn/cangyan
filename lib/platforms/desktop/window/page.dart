@@ -1,4 +1,3 @@
-import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class Page extends StatefulWidget {
   final Widget? dropping;
-  final List<window.Button>? buttons;
+  final List<Widget>? buttons;
   final Widget? panel;
 
   final Widget child;
@@ -93,18 +92,14 @@ class _PageState extends State<Page> with RouteAware {
 
 class PageModel extends ChangeNotifier {
   Widget? _dropping;
-  List<window.Button>? _buttons;
+  List<Widget>? _buttons;
   Widget? _panel;
 
   Widget? get dropping => _dropping;
-  List<window.Button>? get buttons => _buttons;
+  List<Widget>? get buttons => _buttons;
   Widget? get panel => _panel;
 
-  void updateFrame(
-    Widget? dropping,
-    List<window.Button>? buttons,
-    Widget? panel,
-  ) {
+  void updateFrame(Widget? dropping, List<Widget>? buttons, Widget? panel) {
     _dropping = dropping;
     _buttons = buttons;
     _panel = panel;

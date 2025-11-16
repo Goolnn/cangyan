@@ -8,7 +8,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:window_manager/window_manager.dart';
 
 class Header extends StatefulWidget {
-  final List<window.Button>? buttons;
+  final List<Widget>? buttons;
 
   final Widget? panel;
 
