@@ -4,5 +4,9 @@
     "windowMinimize": "Minimize",
     "windowMaximize": "Maximize",
     "windowRestore": "Restore",
-    "windowClose": "Close"
+    "windowClose": "Close",
+    "homeAboutButton": "About",
+    "aboutTitle": "About",
+    "dropMove": "Move",
+    "dropCopy": "Copy"
 }

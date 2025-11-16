@@ -9,5 +9,13 @@
     "windowRestore": "还原",
     "@windowRestore": {},
     "windowClose": "关闭",
-    "@windowClose": {}
+    "@windowClose": {},
+    "homeAboutButton": "关于",
+    "@homeAboutButton": {},
+    "aboutTitle": "关于",
+    "@aboutTitle": {},
+    "dropMove": "移动",
+    "@dropMove": {},
+    "dropCopy": "复制",
+    "@dropCopy": {}
 }
