@@ -1,6 +1,7 @@
 import 'package:cangyan/l10n/app_localizations.dart';
 import 'package:cangyan/platforms/desktop/pages/about.dart';
 import 'package:cangyan/platforms/desktop/widgets/drop_icon.dart';
+import 'package:cangyan/platforms/desktop/widgets/project_view.dart' as widgets;
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> {
       ],
 
       child: Scaffold(
-        body: Placeholder(),
+        body: widgets.ProjectView(),
 
         floatingActionButton: Tooltip(
           message: "新建工程",
