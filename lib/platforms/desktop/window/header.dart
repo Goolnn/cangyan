@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cangyan/l10n/app_localizations.dart';
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:flutter/material.dart';
@@ -78,44 +79,64 @@ class _HeaderState extends State<Header> with WindowListener {
             Spacer(),
 
             if (Platform.isWindows) ...[
-              window.Button(
-                onPressed: () async {
-                  await windowManager.minimize();
-                },
+              Tooltip(
+                message: AppLocalizations.of(context)!.windowMinimize,
 
-                child: Icon(
-                  MdiIcons.windowMinimize,
-                  size: window.kWindowTitleBarSize * 0.4,
+                waitDuration: Duration(milliseconds: 500),
+
+                child: window.Button(
+                  onPressed: () async {
+                    await windowManager.minimize();
+                  },
+
+                  child: Icon(
+                    MdiIcons.windowMinimize,
+                    size: window.kWindowTitleBarSize * 0.4,
+                  ),
                 ),
               ),
 
-              window.Button(
-                onPressed: () async {
-                  if (_isMaximized) {
-                    await windowManager.unmaximize();
-                  } else {
-                    await windowManager.maximize();
-                  }
-                },
+              Tooltip(
+                message: _isMaximized
+                    ? AppLocalizations.of(context)!.windowRestore
+                    : AppLocalizations.of(context)!.windowMaximize,
 
-                child: Icon(
-                  _isMaximized
-                      ? MdiIcons.windowRestore
-                      : MdiIcons.windowMaximize,
-                  size: window.kWindowTitleBarSize * 0.4,
+                waitDuration: Duration(milliseconds: 500),
+
+                child: window.Button(
+                  onPressed: () async {
+                    if (_isMaximized) {
+                      await windowManager.unmaximize();
+                    } else {
+                      await windowManager.maximize();
+                    }
+                  },
+
+                  child: Icon(
+                    _isMaximized
+                        ? MdiIcons.windowRestore
+                        : MdiIcons.windowMaximize,
+                    size: window.kWindowTitleBarSize * 0.4,
+                  ),
                 ),
               ),
 
-              window.Button(
-                onPressed: () async {
-                  await windowManager.close();
-                },
+              Tooltip(
+                message: AppLocalizations.of(context)!.windowClose,
 
-                hoverColor: Colors.red.withAlpha((0.65 * 255).toInt()),
+                waitDuration: Duration(milliseconds: 500),
 
-                child: Icon(
-                  MdiIcons.closeThick,
-                  size: window.kWindowTitleBarSize * 0.4,
+                child: window.Button(
+                  onPressed: () async {
+                    await windowManager.close();
+                  },
+
+                  hoverColor: Colors.red.withAlpha((0.65 * 255).toInt()),
+
+                  child: Icon(
+                    MdiIcons.closeThick,
+                    size: window.kWindowTitleBarSize * 0.4,
+                  ),
                 ),
               ),
             ],
