@@ -52,3 +52,7 @@ app.*.map.json
 /lib/src/bincode
 /lib/src/serde
 /lib/src/bindings
+
+# Generated localization files
+/lib/l10n/app_localizations_*.dart
+/lib/l10n/app_localizations.dart
