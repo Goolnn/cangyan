@@ -90,24 +90,30 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         body: Placeholder(),
 
-        floatingActionButton: FloatingActionButton.small(
-          backgroundColor: Colors.lightBlue,
-          foregroundColor: Colors.white,
+        floatingActionButton: Tooltip(
+          message: "新建工程",
 
-          shape: OvalBorder(),
+          waitDuration: Duration(milliseconds: 500),
 
-          onPressed: () async {
-            setState(() {
-              _droppable = false;
-            });
+          child: FloatingActionButton.small(
+            backgroundColor: Colors.lightBlue,
+            foregroundColor: Colors.white,
 
-            // TODO: Show new file dialog
+            shape: OvalBorder(),
 
-            setState(() {
-              _droppable = true;
-            });
-          },
-          child: Icon(Icons.add),
+            onPressed: () async {
+              setState(() {
+                _droppable = false;
+              });
+
+              // TODO: Show new file dialog
+
+              setState(() {
+                _droppable = true;
+              });
+            },
+            child: Icon(Icons.add),
+          ),
         ),
       ),
     );
