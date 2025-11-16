@@ -1,0 +1,7 @@
+{
+    "@@locale": "zh",
+    "windowMinimize": "最小化",
+    "windowMaximize": "最大化",
+    "windowRestore": "还原",
+    "windowClose": "关闭"
+}

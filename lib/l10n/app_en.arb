@@ -1,0 +1,11 @@
+{
+    "@@locale": "en",
+    "windowMinimize": "Minimize",
+    "@windowMinimize": {},
+    "windowMaximize": "Maximize",
+    "@windowMaximize": {},
+    "windowRestore": "Restore",
+    "@windowRestore": {},
+    "windowClose": "Close",
+    "@windowClose": {}
+}
