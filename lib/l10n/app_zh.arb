@@ -1,8 +1,13 @@
 {
     "@@locale": "zh",
     "appTitle": "苍眼",
+    "@appTitle": {},
     "windowMinimize": "最小化",
+    "@windowMinimize": {},
     "windowMaximize": "最大化",
+    "@windowMaximize": {},
     "windowRestore": "还原",
-    "windowClose": "关闭"
+    "@windowRestore": {},
+    "windowClose": "关闭",
+    "@windowClose": {}
 }

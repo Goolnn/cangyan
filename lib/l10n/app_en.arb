@@ -1,13 +1,8 @@
 {
     "@@locale": "en",
     "appTitle": "Cangyan",
-    "@appTitle": {},
     "windowMinimize": "Minimize",
-    "@windowMinimize": {},
     "windowMaximize": "Maximize",
-    "@windowMaximize": {},
     "windowRestore": "Restore",
-    "@windowRestore": {},
-    "windowClose": "Close",
-    "@windowClose": {}
+    "windowClose": "Close"
 }
