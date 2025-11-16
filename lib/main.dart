@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:cangyan/l10n/app_localizations.dart';
+import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:flutter/material.dart';
 import 'package:rinf/rinf.dart';
 import 'package:window_manager/window_manager.dart';
@@ -20,7 +21,7 @@ Future<void> main() async {
       title: (await AppLocalizations.delegate.load(
         PlatformDispatcher.instance.locale,
       )).appTitle,
-      titleBarStyle: .hidden,
+      titleBarStyle: TitleBarStyle.hidden,
       size: Size(800, 600),
       minimumSize: Size(640, 480),
       center: true,
@@ -65,7 +66,9 @@ class Application extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: SafeArea(
-        child: Material(child: Center(child: Text("你好，世界！"))),
+        child: window.Frame(
+          child: Material(child: Center(child: Text("你好，世界！"))),
+        ),
       ),
     );
   }
