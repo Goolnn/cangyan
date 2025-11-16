@@ -1,7 +1,7 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cangyan/l10n/app_localizations.dart';
-import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:flutter/material.dart';
 import 'package:rinf/rinf.dart';
 import 'package:window_manager/window_manager.dart';
@@ -17,7 +17,9 @@ Future<void> main() async {
     await windowManager.ensureInitialized();
 
     final windowOptions = WindowOptions(
-      title: "Cangyan",
+      title: (await AppLocalizations.delegate.load(
+        PlatformDispatcher.instance.locale,
+      )).appTitle,
       titleBarStyle: .hidden,
       size: Size(800, 600),
       minimumSize: Size(640, 480),
@@ -32,10 +34,25 @@ Future<void> main() async {
 
   runApp(
     MaterialApp(
-      title: "Cangyan",
+      onGenerateTitle: (context) {
+        final title = AppLocalizations.of(context)!.appTitle;
+
+        if (Platform.isWindows) {
+          windowManager.getTitle().then((current) {
+            if (current != title) {
+              windowManager.setTitle(title);
+            }
+          });
+        }
+
+        return title;
+      },
+
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+
       theme: ThemeData(fontFamily: "HarmonyOS Sans SC"),
+
       home: const Application(),
     ),
   );
@@ -48,9 +65,7 @@ class Application extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: SafeArea(
-        child: window.Frame(
-          child: Material(child: Center(child: Text("你好，世界！"))),
-        ),
+        child: Material(child: Center(child: Text("你好，世界！"))),
       ),
     );
   }
