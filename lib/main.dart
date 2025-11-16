@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:cangyan/l10n/app_localizations.dart';
+import 'package:cangyan/platforms/desktop/pages/home.dart' as pages;
 import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:flutter/material.dart';
 import 'package:rinf/rinf.dart';
@@ -65,11 +66,7 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: SafeArea(
-        child: window.Frame(
-          child: Material(child: Center(child: Text("你好，世界！"))),
-        ),
-      ),
+      child: SafeArea(child: window.Frame(child: pages.HomePage())),
     );
   }
 }
