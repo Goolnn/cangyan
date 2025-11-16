@@ -20,7 +20,7 @@ class WindowButton extends StatelessWidget {
   const WindowButton({
     super.key,
 
-    this.margin = const .all(2.0),
+    this.margin = const EdgeInsets.all(2.0),
 
     this.fillColor,
     this.focusColor,
@@ -36,17 +36,19 @@ class WindowButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: margin ?? .zero,
+      padding: margin ?? EdgeInsets.zero,
 
       child: RawMaterialButton(
-        constraints: .tightFor(
+        constraints: BoxConstraints.tightFor(
           width: window.kWindowTitleBarSize - (margin?.horizontal ?? 0.0),
           height: window.kWindowTitleBarSize - (margin?.vertical ?? 0.0),
         ),
 
-        shape: RoundedRectangleBorder(borderRadius: .all(Radius.circular(8.0))),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
 
-        materialTapTargetSize: .shrinkWrap,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
 
         fillColor: fillColor,
         focusColor: focusColor,
