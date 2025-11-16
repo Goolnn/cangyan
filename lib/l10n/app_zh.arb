@@ -1,5 +1,6 @@
 {
     "@@locale": "zh",
+    "appTitle": "苍眼",
     "windowMinimize": "最小化",
     "windowMaximize": "最大化",
     "windowRestore": "还原",

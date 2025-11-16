@@ -1,5 +1,7 @@
 {
     "@@locale": "en",
+    "appTitle": "Cangyan",
+    "@appTitle": {},
     "windowMinimize": "Minimize",
     "@windowMinimize": {},
     "windowMaximize": "Maximize",
