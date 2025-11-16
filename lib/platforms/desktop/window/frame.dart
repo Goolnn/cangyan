@@ -58,11 +58,7 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin {
           Consumer<window.PageModel>(
             builder: (context, value, child) {
               return DropTarget(
-                enable: value.droppable,
-
-                onDragDone: (details) {
-                  // TODO: handle file drop
-                },
+                enable: value.dropping != null,
 
                 onDragEntered: (details) {
                   _controller.forward();
@@ -97,32 +93,31 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin {
             ],
           ),
 
-          AnimatedBuilder(
-            animation: _animation,
-            builder: (context, child) {
-              return IgnorePointer(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 4.0 * _animation.value,
-                    sigmaY: 4.0 * _animation.value,
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors.black.withAlpha(
-                      (255.0 * 0.25 * _animation.value).toInt(),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.file_upload_outlined,
-                        size: 96.0,
-                        color: Colors.white.withAlpha(
-                          (255.0 * _animation.value).toInt(),
+          Consumer<window.PageModel>(
+            builder: (context, value, child) {
+              return AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  return IgnorePointer(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(
+                        sigmaX: 4.0 * _animation.value,
+                        sigmaY: 4.0 * _animation.value,
+                      ),
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: Colors.black.withAlpha(
+                          (255.0 * 0.25 * _animation.value).toInt(),
+                        ),
+                        child: Opacity(
+                          opacity: _animation.value,
+                          child: value.dropping,
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               );
             },
           ),
