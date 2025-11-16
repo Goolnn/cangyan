@@ -27,7 +27,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/logo.png
+
   fonts:
     - family: HarmonyOS Sans SC
       fonts:
-        - asset: assets/fonts/HarmonyOS Sans SC Regular.ttf
+        - asset: fonts/HarmonyOS Sans SC Regular.ttf
