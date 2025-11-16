@@ -5,6 +5,7 @@
     "windowMaximize": "Maximize",
     "windowRestore": "Restore",
     "windowClose": "Close",
+    "windowBack": "Back",
     "homeAboutButton": "About",
     "aboutTitle": "About",
     "dropMove": "Move",

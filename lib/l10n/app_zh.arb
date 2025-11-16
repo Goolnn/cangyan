@@ -10,6 +10,8 @@
     "@windowRestore": {},
     "windowClose": "关闭",
     "@windowClose": {},
+    "windowBack": "返回",
+    "@windowBack": {},
     "homeAboutButton": "关于",
     "@homeAboutButton": {},
     "aboutTitle": "关于",
