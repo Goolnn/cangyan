@@ -55,7 +55,21 @@ class _ProjectViewState extends State<ProjectView> {
           _cards?.addAll(cards);
         });
       } else if (updated is signals.UpdatedRemoved) {
-        // TODO: Handle removed overviews
+        final paths = updated.value;
+
+        final names = paths.map((path) {
+          final fileName = path.split(RegExp(r'[\\/]+')).last;
+
+          final dotIndex = fileName.lastIndexOf('.');
+
+          return dotIndex > 0 ? fileName.substring(0, dotIndex) : fileName;
+        });
+
+        setState(() {
+          _cards?.retainWhere((card) {
+            return !names.contains(card.title);
+          });
+        });
       }
     });
   }
