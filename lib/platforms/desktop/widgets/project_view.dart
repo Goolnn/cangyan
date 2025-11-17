@@ -14,6 +14,8 @@ class ProjectView extends StatefulWidget {
   final double cardAspect;
   final double cardSize;
 
+  final String? searchText;
+
   const ProjectView({
     super.key,
 
@@ -21,6 +23,8 @@ class ProjectView extends StatefulWidget {
 
     this.cardAspect = 2.0 / 1.0,
     this.cardSize = 128.0 + 32.0 + 16.0,
+
+    this.searchText,
   });
 
   @override
@@ -85,7 +89,7 @@ class _ProjectViewState extends State<ProjectView> {
               case ViewMode.grid:
                 count = min(
                   ((layoutWidth - spacing) / (size + spacing)).toInt(),
-                  cards?.length ?? 0,
+                  this.cards?.length ?? 0,
                 );
             }
 
@@ -97,6 +101,25 @@ class _ProjectViewState extends State<ProjectView> {
             final height = size / widget.cardAspect;
 
             final aspect = width / height;
+
+            final cards = (this.cards ?? []).where((card) {
+              final searchText = widget.searchText;
+
+              if (searchText == null || searchText.isEmpty) {
+                return true;
+              }
+
+              final title = card.title.toLowerCase();
+              final comment = card.comment.toLowerCase();
+
+              final query = searchText.toLowerCase();
+
+              return title.contains(query) || comment.contains(query);
+            }).toList();
+
+            if (cards.isEmpty) {
+              return _NotFoundView();
+            }
 
             return _DoubleTapDetector(
               onDoubleTap: () {
@@ -113,7 +136,7 @@ class _ProjectViewState extends State<ProjectView> {
 
                 childAspectRatio: aspect,
 
-                children: cards ?? [],
+                children: cards,
               ),
             );
           },
