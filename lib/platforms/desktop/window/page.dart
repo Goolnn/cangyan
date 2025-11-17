@@ -25,6 +25,8 @@ class Page extends StatefulWidget {
 }
 
 class _PageState extends State<Page> with RouteAware {
+  final Key _pageKey = UniqueKey();
+
   RouteObserver<PageRoute>? _observer;
 
   @override
@@ -49,6 +51,8 @@ class _PageState extends State<Page> with RouteAware {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<window.PageModel>().updateFrame(
+        _pageKey,
+
         widget.dropping,
         widget.buttons,
         widget.panel,
@@ -62,6 +66,8 @@ class _PageState extends State<Page> with RouteAware {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<window.PageModel>().updateFrame(
+        _pageKey,
+
         widget.dropping,
         widget.buttons,
         widget.panel,
@@ -76,6 +82,8 @@ class _PageState extends State<Page> with RouteAware {
     if (ModalRoute.of(context)?.isCurrent ?? false) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.read<window.PageModel>().updateFrame(
+          _pageKey,
+
           widget.dropping,
           widget.buttons,
           widget.panel,
@@ -91,15 +99,27 @@ class _PageState extends State<Page> with RouteAware {
 }
 
 class PageModel extends ChangeNotifier {
+  Key? _pageKey;
+
   Widget? _dropping;
   List<Widget>? _buttons;
   Widget? _panel;
+
+  Key? get pageKey => _pageKey;
 
   Widget? get dropping => _dropping;
   List<Widget>? get buttons => _buttons;
   Widget? get panel => _panel;
 
-  void updateFrame(Widget? dropping, List<Widget>? buttons, Widget? panel) {
+  void updateFrame(
+    Key? pageKey,
+
+    Widget? dropping,
+    List<Widget>? buttons,
+    Widget? panel,
+  ) {
+    _pageKey = pageKey;
+
     _dropping = dropping;
     _buttons = buttons;
     _panel = panel;
