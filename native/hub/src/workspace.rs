@@ -103,6 +103,7 @@ mod inner {
 }
 
 use rinf::RustSignal;
+use rinf::SignalPiece;
 use serde::Serialize;
 use std::path::Path;
 use std::path::PathBuf;
@@ -111,7 +112,7 @@ use std::path::PathBuf;
 pub struct Workspace {
     path: PathBuf,
 
-    files: Vec<PathBuf>,
+    projects: Vec<cyfile::Project>,
 }
 
 impl Workspace {
@@ -127,17 +128,93 @@ impl Workspace {
             })
             .collect::<Vec<PathBuf>>();
 
-        Some(Self { path, files })
+        let projects = files
+            .into_iter()
+            .filter_map(|path| {
+                if let Ok(file) = std::fs::File::open(path) {
+                    cyfile::File::open(file).ok()
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        Some(Self { path, projects })
     }
 
     pub fn path(&self) -> &Path {
         &self.path
     }
 
-    pub fn files(&self) -> &Vec<PathBuf> {
-        &self.files
+    pub fn projects(&self) -> &Vec<cyfile::Project> {
+        &self.projects
     }
 }
 
 #[derive(Serialize, RustSignal)]
-pub struct Files(pub Option<Vec<String>>);
+pub struct Overviews(pub Vec<Overview>);
+
+#[derive(Serialize, SignalPiece)]
+pub struct Overview {
+    cover: Vec<u8>,
+
+    title: String,
+
+    comment: String,
+
+    created_date: Date,
+    updated_date: Date,
+
+    page_count: u32,
+}
+
+#[derive(Serialize, SignalPiece)]
+pub struct Date {
+    year: u16,
+    month: u8,
+    day: u8,
+
+    hour: u8,
+    minute: u8,
+    second: u8,
+}
+
+impl<'a, I> From<I> for Overviews
+where
+    I: IntoIterator<Item = &'a cyfile::Project>,
+{
+    fn from(iter: I) -> Self {
+        Self(iter.into_iter().map(Overview::from).collect())
+    }
+}
+
+impl From<&cyfile::Project> for Overview {
+    fn from(value: &cyfile::Project) -> Self {
+        Self {
+            cover: value.cover().to_vec(),
+
+            title: value.title().to_string(),
+
+            comment: value.comment().to_string(),
+
+            created_date: value.created_date().into(),
+            updated_date: value.updated_date().into(),
+
+            page_count: value.pages().len() as u32,
+        }
+    }
+}
+
+impl From<cyfile::Date> for Date {
+    fn from(value: cyfile::Date) -> Self {
+        Self {
+            year: value.year(),
+            month: value.month(),
+            day: value.day(),
+
+            hour: value.hour(),
+            minute: value.minute(),
+            second: value.second(),
+        }
+    }
+}
