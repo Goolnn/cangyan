@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ProjectView extends StatelessWidget {
   final ViewMode viewMode;
 
+  final double cardAspect;
   final double cardSize;
 
   const ProjectView({
@@ -11,7 +12,8 @@ class ProjectView extends StatelessWidget {
 
     this.viewMode = ViewMode.grid,
 
-    this.cardSize = 352.0,
+    this.cardAspect = 2.0 / 1.0,
+    this.cardSize = 128.0 + 32.0 + 16.0,
   });
 
   @override
@@ -21,7 +23,7 @@ class ProjectView extends StatelessWidget {
         final layoutWidth = constraints.maxWidth;
 
         final spacing = 12.0;
-        final aspect = 2.0 / 1.0;
+        final size = cardSize * cardAspect;
 
         final int count;
 
@@ -29,13 +31,13 @@ class ProjectView extends StatelessWidget {
           case ViewMode.list:
             count = 1;
           case ViewMode.grid:
-            count = ((layoutWidth - spacing) / (cardSize + spacing)).toInt();
+            count = ((layoutWidth - spacing) / (size + spacing)).toInt();
         }
 
         final width = (layoutWidth - spacing * (count + 1)) / count;
-        final height = cardSize / aspect;
+        final height = size / cardAspect;
 
-        final childAspectRatio = width / height;
+        final aspect = width / height;
 
         return GridView.count(
           crossAxisCount: count,
@@ -45,7 +47,7 @@ class ProjectView extends StatelessWidget {
 
           padding: EdgeInsets.all(spacing),
 
-          childAspectRatio: childAspectRatio,
+          childAspectRatio: aspect,
 
           children: [for (int i = 0; i < 32; i++) widgets.ProjectCard()],
         );
