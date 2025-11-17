@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cangyan/platforms/desktop/widgets/capsule_card.dart' as widgets;
 import 'package:cangyan/src/bindings/signals/signals.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,14 @@ class ProjectCard extends StatelessWidget {
 
     required this.pageCount,
   });
+
+  ProjectCard.overview(Overview overview, {super.key})
+    : cover = Image.memory(Uint8List.fromList(overview.cover)),
+      title = overview.title,
+      comment = overview.comment,
+      createdDate = overview.createdDate,
+      updatedDate = overview.updatedDate,
+      pageCount = overview.pageCount;
 
   @override
   Widget build(BuildContext context) {
