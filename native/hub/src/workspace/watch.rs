@@ -13,6 +13,8 @@ impl Notifiable<Watch> for Workspace {
     async fn notify(&mut self, msg: Watch, _: &Context<Self>) {
         match msg {
             Watch::Remove(paths) => {
+                rinf::debug_print!("{:?}", paths);
+
                 Updated::Removed(paths).send_signal_to_dart();
             }
         }

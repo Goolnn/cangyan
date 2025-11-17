@@ -118,6 +118,7 @@ use notify::Watcher;
 use rinf::DartSignal;
 use rinf::RustSignal;
 use rinf::debug_print;
+use std::collections::HashMap;
 use std::path::PathBuf;
 use tokio::sync::mpsc;
 use tokio::task::JoinSet;
@@ -126,7 +127,7 @@ use tokio::task::JoinSet;
 pub struct Workspace {
     path: PathBuf,
 
-    projects: Vec<cyfile::Project>,
+    projects: HashMap<String, cyfile::Project>,
 
     _owned_tasks: JoinSet<()>,
 }
@@ -146,24 +147,22 @@ impl Workspace {
             })
             .collect::<Vec<PathBuf>>();
 
-        let projects = files
-            .into_iter()
-            .filter_map(|path| {
-                if let Ok(file) = std::fs::File::open(&path) {
-                    cyfile::File::open(file)
-                        .map(|mut project| {
-                            if let Some(name) = path.file_stem() {
-                                project.set_title(name.to_string_lossy().to_string());
-                            }
+        let projects = HashMap::from_iter(files.into_iter().filter_map(|path| {
+            if let Ok(file) = std::fs::File::open(&path) {
+                cyfile::File::open(file)
+                    .map(|mut project| {
+                        if let Some(name) = path.file_stem() {
+                            project.set_title(name.to_string_lossy().to_string());
+                        }
 
-                            project
-                        })
-                        .ok()
-                } else {
-                    None
-                }
-            })
-            .collect();
+                        project
+                    })
+                    .ok()
+                    .map(|project| (path.to_string_lossy().to_string(), project))
+            } else {
+                None
+            }
+        }));
 
         let mut owned_tasks = JoinSet::new();
 

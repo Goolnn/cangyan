@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:cangyan/platforms/desktop/widgets/project_card.dart' as widgets;
@@ -33,7 +34,7 @@ class ProjectView extends StatefulWidget {
 }
 
 class _ProjectViewState extends State<ProjectView> {
-  List<widgets.ProjectCard>? _cards;
+  LinkedHashMap<String, widgets.ProjectCard>? _cards;
 
   late final StreamSubscription<RustSignalPack<signals.Updated>> _updated;
 
@@ -47,9 +48,9 @@ class _ProjectViewState extends State<ProjectView> {
       if (updated is signals.UpdatedAdded) {
         final overviews = updated.value;
 
-        final cards = overviews.map((overview) {
-          return widgets.ProjectCard.overview(overview);
-        }).toList();
+        final cards = overviews.map((key, value) {
+          return MapEntry(key, widgets.ProjectCard.overview(value));
+        });
 
         setState(() {
           _cards?.addAll(cards);
@@ -57,18 +58,10 @@ class _ProjectViewState extends State<ProjectView> {
       } else if (updated is signals.UpdatedRemoved) {
         final paths = updated.value;
 
-        final names = paths.map((path) {
-          final fileName = path.split(RegExp(r'[\\/]+')).last;
-
-          final dotIndex = fileName.lastIndexOf('.');
-
-          return dotIndex > 0 ? fileName.substring(0, dotIndex) : fileName;
-        });
-
         setState(() {
-          _cards?.retainWhere((card) {
-            return !names.contains(card.title);
-          });
+          for (final path in paths) {
+            _cards?.remove(path);
+          }
         });
       }
     });
@@ -96,9 +89,11 @@ class _ProjectViewState extends State<ProjectView> {
         if (_cards == null) {
           final overviews = data.message.value;
 
-          _cards = overviews.map((overview) {
-            return widgets.ProjectCard.overview(overview);
-          }).toList();
+          _cards = LinkedHashMap.from(
+            overviews.map((key, value) {
+              return MapEntry(key, widgets.ProjectCard.overview(value));
+            }),
+          );
         }
 
         return LayoutBuilder(
@@ -129,20 +124,22 @@ class _ProjectViewState extends State<ProjectView> {
 
             final aspect = width / height;
 
-            final cards = (_cards ?? []).where((card) {
-              final searchText = widget.searchText;
+            final cards = (_cards ?? <String, widgets.ProjectCard>{}).values
+                .where((card) {
+                  final searchText = widget.searchText;
 
-              if (searchText == null || searchText.isEmpty) {
-                return true;
-              }
+                  if (searchText == null || searchText.isEmpty) {
+                    return true;
+                  }
 
-              final title = card.title.toLowerCase();
-              final comment = card.comment.toLowerCase();
+                  final title = card.title.toLowerCase();
+                  final comment = card.comment.toLowerCase();
 
-              final query = searchText.toLowerCase();
+                  final query = searchText.toLowerCase();
 
-              return title.contains(query) || comment.contains(query);
-            }).toList();
+                  return title.contains(query) || comment.contains(query);
+                })
+                .toList();
 
             if (cards.isEmpty) {
               return _NotFoundView();

@@ -1,9 +1,10 @@
 use rinf::RustSignal;
 use rinf::SignalPiece;
 use serde::Serialize;
+use std::collections::HashMap;
 
 #[derive(Serialize, RustSignal)]
-pub struct Overviews(pub Vec<Overview>);
+pub struct Overviews(pub HashMap<String, Overview>);
 
 #[derive(Serialize, SignalPiece)]
 pub struct Overview {
@@ -30,12 +31,14 @@ pub struct Date {
     second: u8,
 }
 
-impl<'a, I> From<I> for Overviews
-where
-    I: IntoIterator<Item = &'a cyfile::Project>,
-{
-    fn from(iter: I) -> Self {
-        Self(iter.into_iter().map(Overview::from).collect())
+impl From<&HashMap<String, cyfile::Project>> for Overviews {
+    fn from(value: &HashMap<String, cyfile::Project>) -> Self {
+        Self(
+            value
+                .iter()
+                .map(|(key, project)| (key.clone(), Overview::from(project)))
+                .collect(),
+        )
     }
 }
 
