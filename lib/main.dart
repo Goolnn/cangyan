@@ -4,11 +4,10 @@ import 'dart:ui';
 import 'package:cangyan/l10n/app_localizations.dart';
 import 'package:cangyan/platforms/desktop/pages/home.dart' as pages;
 import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
+import 'package:cangyan/src/bindings/bindings.dart';
 import 'package:flutter/material.dart';
 import 'package:rinf/rinf.dart';
 import 'package:window_manager/window_manager.dart';
-
-import 'src/bindings/bindings.dart';
 
 Future<void> main() async {
   await initializeRust(assignRustSignal);
