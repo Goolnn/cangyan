@@ -1,3 +1,7 @@
+mod import;
+mod overview;
+mod update;
+
 #[cfg(target_os = "windows")]
 mod inner {
     use directories::UserDirs;
@@ -102,21 +106,27 @@ mod inner {
     }
 }
 
+use crate::workspace::overview::Overviews;
+use messages::actor::Actor;
+use messages::prelude::Address;
+use rinf::DartSignal;
 use rinf::RustSignal;
-use rinf::SignalPiece;
-use serde::Serialize;
-use std::path::Path;
 use std::path::PathBuf;
+use tokio::task::JoinSet;
 
 #[derive(Debug)]
 pub struct Workspace {
     path: PathBuf,
 
     projects: Vec<cyfile::Project>,
+
+    _owned_tasks: JoinSet<()>,
 }
 
+impl Actor for Workspace {}
+
 impl Workspace {
-    pub fn new() -> Option<Self> {
+    pub fn new(addr: Address<Self>) -> Option<Self> {
         let path = inner::workspace()?;
 
         let files = std::fs::read_dir(&path)
@@ -147,82 +157,44 @@ impl Workspace {
             })
             .collect();
 
-        Some(Self { path, projects })
-    }
+        let mut owned_tasks = JoinSet::new();
 
-    pub fn path(&self) -> &Path {
-        &self.path
-    }
+        {
+            let mut addr = addr.clone();
 
-    pub fn projects(&self) -> &Vec<cyfile::Project> {
-        &self.projects
-    }
-}
+            owned_tasks.spawn(async move {
+                let receiver = import::Move::get_dart_signal_receiver();
 
-#[derive(Serialize, RustSignal)]
-pub struct Overviews(pub Vec<Overview>);
+                while let Some(pack) = receiver.recv().await {
+                    let message = pack.message;
 
-#[derive(Serialize, SignalPiece)]
-pub struct Overview {
-    cover: Vec<u8>,
-
-    title: String,
-
-    comment: String,
-
-    created_date: Date,
-    updated_date: Date,
-
-    page_count: u32,
-}
-
-#[derive(Serialize, SignalPiece)]
-pub struct Date {
-    year: u16,
-    month: u8,
-    day: u8,
-
-    hour: u8,
-    minute: u8,
-    second: u8,
-}
-
-impl<'a, I> From<I> for Overviews
-where
-    I: IntoIterator<Item = &'a cyfile::Project>,
-{
-    fn from(iter: I) -> Self {
-        Self(iter.into_iter().map(Overview::from).collect())
-    }
-}
-
-impl From<&cyfile::Project> for Overview {
-    fn from(value: &cyfile::Project) -> Self {
-        Self {
-            cover: value.cover().to_vec(),
-
-            title: value.title().to_string(),
-
-            comment: value.comment().to_string(),
-
-            created_date: value.created_date().into(),
-            updated_date: value.updated_date().into(),
-
-            page_count: value.pages().len() as u32,
+                    let _ = addr.notify(message).await;
+                }
+            });
         }
-    }
-}
 
-impl From<cyfile::Date> for Date {
-    fn from(value: cyfile::Date) -> Self {
-        Self {
-            year: value.year(),
-            month: value.month(),
-            day: value.day(),
+        {
+            let mut addr = addr.clone();
 
-            hour: value.hour(),
-            minute: value.minute(),
-            second: value.second(),
+            owned_tasks.spawn(async move {
+                let receiver = import::Copy::get_dart_signal_receiver();
+
+                while let Some(pack) = receiver.recv().await {
+                    let message = pack.message;
+
+                    let _ = addr.notify(message).await;
+                }
+            });
         }
+
+        Overviews::from(&projects).send_signal_to_dart();
+
+        Some(Self {
+            path,
+
+            projects,
+
+            _owned_tasks: owned_tasks,
+        })
     }
 }
