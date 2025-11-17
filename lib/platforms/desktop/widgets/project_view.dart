@@ -1,7 +1,14 @@
-import 'package:cangyan/platforms/desktop/widgets/project_card.dart' as widgets;
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-class ProjectView extends StatelessWidget {
+import 'package:cangyan/platforms/desktop/widgets/project_card.dart' as widgets;
+import 'package:cangyan/src/bindings/bindings.dart' as signals;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+enum ViewMode { list, grid }
+
+class ProjectView extends StatefulWidget {
   final ViewMode viewMode;
 
   final double cardAspect;
@@ -17,43 +24,147 @@ class ProjectView extends StatelessWidget {
   });
 
   @override
+  State<ProjectView> createState() => _ProjectViewState();
+}
+
+class _ProjectViewState extends State<ProjectView> {
+  List<widgets.ProjectCard>? cards;
+
+  @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final layoutWidth = constraints.maxWidth;
+    return StreamBuilder(
+      stream: signals.Overviews.rustSignalStream,
 
-        final spacing = 12.0;
-        final size = cardSize * cardAspect;
+      builder: (context, snapshot) {
+        final data = snapshot.data;
 
-        final int count;
-
-        switch (viewMode) {
-          case ViewMode.list:
-            count = 1;
-          case ViewMode.grid:
-            count = ((layoutWidth - spacing) / (size + spacing)).toInt();
+        if (data == null) {
+          return Center(child: CircularProgressIndicator());
         }
 
-        final width = (layoutWidth - spacing * (count + 1)) / count;
-        final height = size / cardAspect;
+        if (cards == null) {
+          final overviews = data.message.value;
 
-        final aspect = width / height;
+          cards = overviews.map((overview) {
+            final cover = Image.memory(Uint8List.fromList(overview.cover));
 
-        return GridView.count(
-          crossAxisCount: count,
+            final title = overview.title;
+            final comment = overview.comment;
 
-          mainAxisSpacing: spacing,
-          crossAxisSpacing: spacing,
+            final createdDate = overview.createdDate;
+            final updatedDate = overview.updatedDate;
 
-          padding: EdgeInsets.all(spacing),
+            final pageCount = overview.pageCount;
 
-          childAspectRatio: aspect,
+            return widgets.ProjectCard(
+              cover: cover,
 
-          children: [for (int i = 0; i < 32; i++) widgets.ProjectCard()],
+              title: title,
+              comment: comment,
+
+              createdDate: createdDate,
+              updatedDate: updatedDate,
+
+              pageCount: pageCount,
+            );
+          }).toList();
+        }
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final layoutWidth = constraints.maxWidth;
+
+            final spacing = 12.0;
+            final size = widget.cardSize * widget.cardAspect;
+
+            final int count;
+
+            switch (widget.viewMode) {
+              case ViewMode.list:
+                count = 1;
+              case ViewMode.grid:
+                count = min(
+                  ((layoutWidth - spacing) / (size + spacing)).toInt(),
+                  cards?.length ?? 0,
+                );
+            }
+
+            if (count == 0) {
+              return _EmptyView();
+            }
+
+            final width = (layoutWidth - spacing * (count + 1)) / count;
+            final height = size / widget.cardAspect;
+
+            final aspect = width / height;
+
+            return GridView.count(
+              crossAxisCount: count,
+
+              mainAxisSpacing: spacing,
+              crossAxisSpacing: spacing,
+
+              padding: EdgeInsets.all(spacing),
+
+              childAspectRatio: aspect,
+
+              children: cards ?? [],
+            );
+          },
         );
       },
     );
   }
 }
 
-enum ViewMode { list, grid }
+class _EmptyView extends StatelessWidget {
+  const _EmptyView();
+
+  @override
+  Widget build(BuildContext context) {
+    return _IconView(MdiIcons.packageVariant, message: '暂无项目');
+  }
+}
+
+class _NotFoundView extends StatelessWidget {
+  const _NotFoundView();
+
+  @override
+  Widget build(BuildContext context) {
+    return _IconView(Icons.search, message: '无搜索结果');
+  }
+}
+
+class _IconView extends StatelessWidget {
+  final IconData? icon;
+
+  final String message;
+
+  const _IconView(this.icon, {required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+
+        children: [
+          Icon(
+            icon,
+            size: 128.0 + 64.0,
+            color: Colors.black.withValues(alpha: 0.1),
+          ),
+
+          Text(
+            message,
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black.withValues(alpha: 0.1),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
