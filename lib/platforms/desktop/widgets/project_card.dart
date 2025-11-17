@@ -54,7 +54,7 @@ class ProjectCard extends StatelessWidget {
                       bottom: 2.0,
                       right: 2.0,
 
-                      child: widgets.CapsuleCard(child: Text('$pageCount 页')),
+                      child: widgets.CapsuleCard(child: Text('$pageCount页')),
                     ),
                   ],
                 ),
