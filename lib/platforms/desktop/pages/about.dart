@@ -3,6 +3,7 @@ import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
@@ -19,7 +20,9 @@ class AboutPage extends StatelessWidget {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+
             spacing: 6.0,
+
             children: [
               SizedBox.square(
                 dimension: 128.0,
@@ -28,6 +31,7 @@ class AboutPage extends StatelessWidget {
                   child: Image(image: AssetImage("assets/logo.png")),
                 ),
               ),
+
               Column(
                 children: [
                   Tooltip(
@@ -54,7 +58,21 @@ class AboutPage extends StatelessWidget {
                     ),
                   ),
 
-                  Text('0.4.0'),
+                  FutureBuilder(
+                    future: PackageInfo.fromPlatform(),
+                    builder: (context, snapshot) {
+                      final info = snapshot.data;
+
+                      if (info == null) {
+                        return SizedBox.square(
+                          dimension: 12.0,
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      return Text(info.version);
+                    },
+                  ),
                 ],
               ),
             ],
