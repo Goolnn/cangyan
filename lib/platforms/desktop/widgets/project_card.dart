@@ -64,12 +64,14 @@ class ProjectCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
 
-                  spacing: 2.0,
+                  spacing: 4.0,
 
                   children: [
-                    Text(title, style: TextStyle(fontSize: 16.0)),
+                    Text(title, overflow: TextOverflow.ellipsis),
 
-                    Expanded(child: Text(comment)),
+                    Expanded(
+                      child: Text(comment, style: TextStyle(fontSize: 12.0)),
+                    ),
 
                     Align(
                       alignment: Alignment.centerRight,
