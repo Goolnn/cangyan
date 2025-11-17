@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cangyan/platforms/desktop/widgets/project_card.dart' as widgets;
 import 'package:cangyan/src/bindings/bindings.dart' as signals;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:rinf/rinf.dart';
 
 enum ViewMode { list, grid }
 
@@ -32,7 +33,39 @@ class ProjectView extends StatefulWidget {
 }
 
 class _ProjectViewState extends State<ProjectView> {
-  List<widgets.ProjectCard>? cards;
+  List<widgets.ProjectCard>? _cards;
+
+  late final StreamSubscription<RustSignalPack<signals.Updated>> _updated;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _updated = signals.Updated.rustSignalStream.listen((event) {
+      final updated = event.message;
+
+      if (updated is signals.UpdatedAdded) {
+        final overviews = updated.value;
+
+        final cards = overviews.map((overview) {
+          return widgets.ProjectCard.overview(overview);
+        }).toList();
+
+        setState(() {
+          _cards?.addAll(cards);
+        });
+      } else if (updated is signals.UpdatedRemoved) {
+        // TODO: Handle removed overviews
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _updated.cancel();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,31 +79,11 @@ class _ProjectViewState extends State<ProjectView> {
           return Center(child: CircularProgressIndicator());
         }
 
-        if (cards == null) {
+        if (_cards == null) {
           final overviews = data.message.value;
 
-          cards = overviews.map((overview) {
-            final cover = Image.memory(Uint8List.fromList(overview.cover));
-
-            final title = overview.title;
-            final comment = overview.comment;
-
-            final createdDate = overview.createdDate;
-            final updatedDate = overview.updatedDate;
-
-            final pageCount = overview.pageCount;
-
-            return widgets.ProjectCard(
-              cover: cover,
-
-              title: title,
-              comment: comment,
-
-              createdDate: createdDate,
-              updatedDate: updatedDate,
-
-              pageCount: pageCount,
-            );
+          _cards = overviews.map((overview) {
+            return widgets.ProjectCard.overview(overview);
           }).toList();
         }
 
@@ -89,7 +102,7 @@ class _ProjectViewState extends State<ProjectView> {
               case ViewMode.grid:
                 count = min(
                   ((layoutWidth - spacing) / (size + spacing)).toInt(),
-                  this.cards?.length ?? 0,
+                  _cards?.length ?? 0,
                 );
             }
 
@@ -102,7 +115,7 @@ class _ProjectViewState extends State<ProjectView> {
 
             final aspect = width / height;
 
-            final cards = (this.cards ?? []).where((card) {
+            final cards = (_cards ?? []).where((card) {
               final searchText = widget.searchText;
 
               if (searchText == null || searchText.isEmpty) {
