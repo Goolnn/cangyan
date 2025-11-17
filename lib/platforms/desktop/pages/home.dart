@@ -6,6 +6,7 @@ import 'package:cangyan/platforms/desktop/widgets/search_box.dart' as widgets;
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/frame.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
+import 'package:cangyan/src/bindings/bindings.dart' as signals;
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,7 +52,11 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   DropIcon(
                     onDragDone: (details) {
-                      // TODO: Done move
+                      final paths = details.files.map((item) {
+                        return item.path;
+                      }).toList();
+
+                      signals.Move(value: paths).sendSignalToRust();
                     },
 
                     icon: Icons.file_upload_outlined,
@@ -67,7 +72,11 @@ class _HomePageState extends State<HomePage> {
 
                   DropIcon(
                     onDragDone: (details) {
-                      // TODO: Done copy
+                      final paths = details.files.map((item) {
+                        return item.path;
+                      }).toList();
+
+                      signals.Copy(value: paths).sendSignalToRust();
                     },
 
                     icon: Icons.copy_outlined,
