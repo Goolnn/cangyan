@@ -33,7 +33,11 @@ class _HeaderState extends State<Header> {
           SizedBox(
             width: double.infinity,
             height: window.kWindowTitleBarSize,
-            child: widget.panel!,
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 100),
+
+              child: widget.panel!,
+            ),
           ),
 
         Row(

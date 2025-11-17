@@ -79,7 +79,9 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin {
                 builder: (context, value, child) {
                   return window.Header(
                     buttons: value.buttons,
-                    panel: value.panel,
+                    panel: value.panel == null
+                        ? null
+                        : KeyedSubtree(key: value.pageKey, child: value.panel!),
                   );
                 },
               ),
