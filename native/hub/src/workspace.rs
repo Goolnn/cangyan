@@ -131,8 +131,16 @@ impl Workspace {
         let projects = files
             .into_iter()
             .filter_map(|path| {
-                if let Ok(file) = std::fs::File::open(path) {
-                    cyfile::File::open(file).ok()
+                if let Ok(file) = std::fs::File::open(&path) {
+                    cyfile::File::open(file)
+                        .map(|mut project| {
+                            if let Some(name) = path.file_stem() {
+                                project.set_title(name.to_string_lossy().to_string());
+                            }
+
+                            project
+                        })
+                        .ok()
                 } else {
                     None
                 }
