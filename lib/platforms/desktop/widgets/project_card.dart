@@ -1,3 +1,4 @@
+import 'package:cangyan/platforms/desktop/widgets/capsule_card.dart' as widgets;
 import 'package:flutter/material.dart';
 
 class ProjectCard extends StatelessWidget {
@@ -14,22 +15,39 @@ class ProjectCard extends StatelessWidget {
 
       child: Padding(
         padding: const EdgeInsets.all(12.0),
+
         child: Row(
           spacing: 12.0,
+
           children: [
-            AspectRatio(aspectRatio: 3.0 / 4.0, child: Placeholder()),
+            AspectRatio(
+              aspectRatio: 3.0 / 4.0,
+
+              child: Stack(
+                children: [
+                  Placeholder(),
+
+                  Positioned(
+                    bottom: 2.0,
+                    right: 2.0,
+
+                    child: widgets.CapsuleCard(child: Text('页数')),
+                  ),
+                ],
+              ),
+            ),
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+
+                spacing: 2.0,
+
                 children: [
                   Text('标题', style: TextStyle(fontSize: 16.0)),
-                  Expanded(
-                    child: Text(
-                      '标题' * 64,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+
+                  Expanded(child: Text('标题' * 64)),
+
                   Align(
                     alignment: Alignment.centerRight,
                     child: Column(
