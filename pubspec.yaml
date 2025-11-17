@@ -18,6 +18,7 @@ dependencies:
   provider: ^6.1.5+1
   rinf: ^8.8.0
   tuple: ^2.0.2
+  url_launcher: ^6.3.2
   window_manager: ^0.5.1
 
 dev_dependencies:
