@@ -1,5 +1,6 @@
 use crate::workspace::Workspace;
-use crate::workspace::overview::Overviews;
+use crate::workspace::overview::Overview;
+use crate::workspace::updated::Updated;
 use messages::prelude::Context;
 use messages::prelude::Notifiable;
 use rinf::DartSignal;
@@ -25,11 +26,16 @@ impl Notifiable<Move> for Workspace {
 
                 if (path.exists() && path.is_file() && cyfile::check(&path))
                     && let Ok(file) = std::fs::File::open(&path)
-                    && let Ok(project) = cyfile::File::open(file)
-                    && let Some(name) = path.file_name()
-                    && let Ok(_) = std::fs::copy(&path, self.path.join(name))
+                    && let Ok(mut project) = cyfile::File::open(file)
+                    && let Some(file_name) = path.file_name()
+                    && let Some(project_name) = path
+                        .file_stem()
+                        .map(|name| name.to_string_lossy().to_string())
+                    && let Ok(_) = std::fs::copy(&path, self.path.join(file_name))
                     && let Ok(_) = std::fs::remove_file(&path)
                 {
+                    project.set_title(project_name);
+
                     Some(project)
                 } else {
                     None
@@ -37,7 +43,7 @@ impl Notifiable<Move> for Workspace {
             })
             .collect::<Vec<cyfile::Project>>();
 
-        Overviews::from(&projects).send_signal_to_dart();
+        Updated::Added(projects.iter().map(Overview::from).collect()).send_signal_to_dart();
 
         self.projects.extend(projects);
     }
@@ -55,10 +61,15 @@ impl Notifiable<Copy> for Workspace {
 
                 if (path.exists() && path.is_file() && cyfile::check(&path))
                     && let Ok(file) = std::fs::File::open(&path)
-                    && let Ok(project) = cyfile::File::open(file)
-                    && let Some(name) = path.file_name()
-                    && let Ok(_) = std::fs::copy(&path, self.path.join(name))
+                    && let Ok(mut project) = cyfile::File::open(file)
+                    && let Some(file_name) = path.file_name()
+                    && let Some(project_name) = path
+                        .file_stem()
+                        .map(|name| name.to_string_lossy().to_string())
+                    && let Ok(_) = std::fs::copy(&path, self.path.join(file_name))
                 {
+                    project.set_title(project_name);
+
                     Some(project)
                 } else {
                     None
@@ -66,7 +77,7 @@ impl Notifiable<Copy> for Workspace {
             })
             .collect::<Vec<cyfile::Project>>();
 
-        Overviews::from(&projects).send_signal_to_dart();
+        Updated::Added(projects.iter().map(Overview::from).collect()).send_signal_to_dart();
 
         self.projects.extend(projects);
     }

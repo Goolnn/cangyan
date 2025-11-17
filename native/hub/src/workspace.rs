@@ -1,6 +1,6 @@
 mod import;
 mod overview;
-mod update;
+mod updated;
 
 #[cfg(target_os = "windows")]
 mod inner {
