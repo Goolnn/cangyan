@@ -98,17 +98,23 @@ class _ProjectViewState extends State<ProjectView> {
 
             final aspect = width / height;
 
-            return GridView.count(
-              crossAxisCount: count,
+            return _DoubleTapDetector(
+              onDoubleTap: () {
+                // TODO: 双击背景导入工程
+              },
 
-              mainAxisSpacing: spacing,
-              crossAxisSpacing: spacing,
+              child: GridView.count(
+                crossAxisCount: count,
 
-              padding: EdgeInsets.all(spacing),
+                mainAxisSpacing: spacing,
+                crossAxisSpacing: spacing,
 
-              childAspectRatio: aspect,
+                padding: EdgeInsets.all(spacing),
 
-              children: cards ?? [],
+                childAspectRatio: aspect,
+
+                children: cards ?? [],
+              ),
             );
           },
         );
@@ -165,6 +171,52 @@ class _IconView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _DoubleTapDetector extends StatefulWidget {
+  final void Function() onDoubleTap;
+
+  final Widget child;
+
+  const _DoubleTapDetector({required this.onDoubleTap, required this.child});
+
+  @override
+  State<_DoubleTapDetector> createState() => _DoubleTapDetectorState();
+}
+
+class _DoubleTapDetectorState extends State<_DoubleTapDetector> {
+  static const _doubleTapThreshold = Duration(milliseconds: 300);
+
+  DateTime? _lastTapTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+
+      onTap: () {
+        if (_lastTapTime == null) {
+          _lastTapTime = DateTime.now();
+
+          return;
+        }
+
+        final nowTapTime = DateTime.now();
+
+        final difference = nowTapTime.difference(_lastTapTime!);
+
+        if (difference <= _doubleTapThreshold) {
+          widget.onDoubleTap.call();
+
+          _lastTapTime = null;
+        } else {
+          _lastTapTime = nowTapTime;
+        }
+      },
+
+      child: widget.child,
     );
   }
 }
