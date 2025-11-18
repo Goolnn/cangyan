@@ -1,6 +1,7 @@
 use crate::workspace::Workspace;
 use crate::workspace::overview::Overview;
 use crate::workspace::updated::Updated;
+use messages::prelude::Address;
 use messages::prelude::Context;
 use messages::prelude::Notifiable;
 use rinf::DartSignal;
@@ -14,6 +15,26 @@ pub struct Move(pub Vec<String>);
 
 #[derive(Deserialize, DartSignal)]
 pub struct Copy(pub Vec<String>);
+
+pub async fn move_task(mut addr: Address<Workspace>) {
+    let receiver = Move::get_dart_signal_receiver();
+
+    while let Some(pack) = receiver.recv().await {
+        let message = pack.message;
+
+        let _ = addr.notify(message).await;
+    }
+}
+
+pub async fn copy_task(mut addr: Address<Workspace>) {
+    let receiver = Copy::get_dart_signal_receiver();
+
+    while let Some(pack) = receiver.recv().await {
+        let message = pack.message;
+
+        let _ = addr.notify(message).await;
+    }
+}
 
 #[async_trait::async_trait]
 impl Notifiable<Move> for Workspace {

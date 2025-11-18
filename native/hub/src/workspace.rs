@@ -1,5 +1,7 @@
 mod import;
+mod notes;
 mod overview;
+mod pages;
 mod updated;
 mod watch;
 
@@ -108,19 +110,11 @@ mod inner {
 }
 
 use crate::workspace::overview::Overviews;
-use crate::workspace::watch::Watch;
 use messages::actor::Actor;
 use messages::prelude::Address;
-use notify::Config;
-use notify::RecommendedWatcher;
-use notify::RecursiveMode;
-use notify::Watcher;
-use rinf::DartSignal;
 use rinf::RustSignal;
-use rinf::debug_print;
 use std::collections::HashMap;
 use std::path::PathBuf;
-use tokio::sync::mpsc;
 use tokio::task::JoinSet;
 
 #[derive(Debug)]
@@ -166,80 +160,10 @@ impl Workspace {
 
         let mut owned_tasks = JoinSet::new();
 
-        {
-            let mut addr = addr.clone();
+        owned_tasks.spawn(import::move_task(addr.clone()));
+        owned_tasks.spawn(import::copy_task(addr.clone()));
 
-            owned_tasks.spawn(async move {
-                let receiver = import::Move::get_dart_signal_receiver();
-
-                while let Some(pack) = receiver.recv().await {
-                    let message = pack.message;
-
-                    let _ = addr.notify(message).await;
-                }
-            });
-        }
-
-        {
-            let mut addr = addr.clone();
-
-            owned_tasks.spawn(async move {
-                let receiver = import::Copy::get_dart_signal_receiver();
-
-                while let Some(pack) = receiver.recv().await {
-                    let message = pack.message;
-
-                    let _ = addr.notify(message).await;
-                }
-            });
-        }
-
-        {
-            let path = path.clone();
-
-            let mut addr = addr.clone();
-
-            owned_tasks.spawn(async move {
-                let (tx, mut rx) = mpsc::unbounded_channel();
-
-                if let Ok(mut watcher) = RecommendedWatcher::new(
-                    move |res| {
-                        let tx = tx.clone();
-
-                        if let Err(err) = tx.send(res) {
-                            debug_print!("Failed to send watch event: {:?}", err);
-                        }
-                    },
-                    Config::default(),
-                ) && let Ok(_) = watcher.watch(&path, RecursiveMode::NonRecursive)
-                {
-                    while let Some(event) = rx.recv().await {
-                        match event {
-                            Ok(event) => match event.kind {
-                                notify::EventKind::Remove(_) => {
-                                    let paths = event
-                                        .paths
-                                        .into_iter()
-                                        .map(|path| path.display().to_string())
-                                        .collect();
-
-                                    let _ = addr.notify(Watch::Remove(paths)).await;
-                                }
-
-                                notify::EventKind::Create(_) => {}
-
-                                // notify::EventKind::Any => todo!(),
-                                // notify::EventKind::Access(access_kind) => todo!(),
-                                // notify::EventKind::Modify(modify_kind) => todo!(),
-                                // notify::EventKind::Other => todo!(),
-                                _ => (),
-                            },
-                            Err(err) => rinf::debug_print!("{:?}", err),
-                        }
-                    }
-                }
-            });
-        }
+        owned_tasks.spawn(watch::watch_task(addr.clone(), path.clone()));
 
         Overviews::from(&projects).send_signal_to_dart();
 
