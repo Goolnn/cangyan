@@ -49,7 +49,7 @@ class _ProjectViewState extends State<ProjectView> {
         final overviews = updated.value;
 
         final cards = overviews.map((key, value) {
-          return MapEntry(key, widgets.ProjectCard.overview(value));
+          return MapEntry(key, widgets.ProjectCard.overview(path: key, value));
         });
 
         setState(() {
@@ -91,7 +91,10 @@ class _ProjectViewState extends State<ProjectView> {
 
           _cards = LinkedHashMap.from(
             overviews.map((key, value) {
-              return MapEntry(key, widgets.ProjectCard.overview(value));
+              return MapEntry(
+                key,
+                widgets.ProjectCard.overview(path: key, value),
+              );
             }),
           );
         }

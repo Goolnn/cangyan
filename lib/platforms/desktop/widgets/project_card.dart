@@ -1,10 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:cangyan/platforms/desktop/pages/info.dart' as pages;
 import 'package:cangyan/platforms/desktop/widgets/capsule_card.dart' as widgets;
 import 'package:cangyan/src/bindings/signals/signals.dart';
 import 'package:flutter/material.dart';
 
 class ProjectCard extends StatelessWidget {
+  final String path;
+
   final Image cover;
 
   final String title;
@@ -18,6 +21,8 @@ class ProjectCard extends StatelessWidget {
   const ProjectCard({
     super.key,
 
+    required this.path,
+
     required this.cover,
 
     required this.title,
@@ -29,7 +34,7 @@ class ProjectCard extends StatelessWidget {
     required this.pageCount,
   });
 
-  ProjectCard.overview(Overview overview, {super.key})
+  ProjectCard.overview(Overview overview, {super.key, required this.path})
     : cover = Image.memory(Uint8List.fromList(overview.cover)),
       title = overview.title,
       comment = overview.comment,
@@ -54,9 +59,12 @@ class ProjectCard extends StatelessWidget {
                 child: Stack(
                   children: [
                     Center(
-                      child: ClipRSuperellipse(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: cover,
+                      child: Hero(
+                        tag: 'cover_$title',
+                        child: ClipRSuperellipse(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: cover,
+                        ),
                       ),
                     ),
 
@@ -120,11 +128,31 @@ class ProjectCard extends StatelessWidget {
 
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
 
-          hoverColor: Colors.black.withValues(alpha: 0.025),
+          hoverColor: Colors.black.withValues(alpha: 0.035),
           highlightColor: Colors.black.withValues(alpha: 0.05),
-          splashColor: Colors.black.withValues(alpha: 0.05),
+          splashColor: Colors.transparent,
 
-          onPressed: () {},
+          onPressed: () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return pages.InfoPage(
+                    path: path,
+
+                    cover: cover,
+
+                    title: title,
+                    comment: comment,
+
+                    createdDate: createdDate,
+                    updatedDate: updatedDate,
+
+                    pageCount: pageCount,
+                  );
+                },
+              ),
+            );
+          },
 
           child: SizedBox.expand(),
         ),
