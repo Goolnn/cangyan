@@ -12,7 +12,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return window.Page(
-      buttons: [window.WindowBackButton(context: context)],
+      buttons: [window.WindowBackButton(context)],
 
       panel: Center(child: Text(AppLocalizations.of(context)!.aboutTitle)),
 

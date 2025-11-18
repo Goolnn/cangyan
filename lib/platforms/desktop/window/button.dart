@@ -189,7 +189,7 @@ class WindowCloseButton extends StatelessWidget {
 class WindowBackButton extends StatelessWidget {
   final BuildContext context;
 
-  const WindowBackButton({super.key, required this.context});
+  const WindowBackButton(this.context, {super.key});
 
   @override
   Widget build(BuildContext context) {
