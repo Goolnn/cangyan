@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
         );
       },
 
-      observers: [_observer],
+      observers: [_observer, HeroController()],
     );
   }
 }
