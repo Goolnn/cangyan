@@ -53,7 +53,7 @@ class WindowButton extends StatelessWidget {
         fillColor: fillColor,
         focusColor: focusColor,
         hoverColor: hoverColor,
-        splashColor: splashColor,
+        splashColor: splashColor ?? Colors.transparent,
         highlightColor: highlightColor,
 
         onPressed: onPressed,
@@ -175,7 +175,8 @@ class WindowCloseButton extends StatelessWidget {
           await windowManager.close();
         },
 
-        hoverColor: Colors.red.withAlpha((0.65 * 255).toInt()),
+        hoverColor: Colors.red.withValues(alpha: 0.65),
+        highlightColor: Colors.red.withValues(alpha: 0.75),
 
         child: Icon(
           MdiIcons.closeThick,
