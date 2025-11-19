@@ -1,3 +1,4 @@
+import 'package:cangyan/l10n/app_localizations.dart';
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _EditPageState extends State<EditPage> {
 
           children: [
             Tooltip(
-              message: '上一页',
+              message: AppLocalizations.of(context)!.previousPage,
 
               waitDuration: Duration(milliseconds: 500),
 
@@ -76,7 +77,7 @@ class _EditPageState extends State<EditPage> {
             Text('第${_currentIndex + 1}页'),
 
             Tooltip(
-              message: '下一页',
+              message: AppLocalizations.of(context)!.nextPage,
 
               waitDuration: Duration(milliseconds: 500),
 
