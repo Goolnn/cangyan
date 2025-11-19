@@ -123,7 +123,8 @@ pub struct Workspace {
 
     projects: HashMap<String, cyfile::Project>,
 
-    _owned_tasks: JoinSet<()>,
+    #[allow(unused)]
+    owned_tasks: JoinSet<()>,
 }
 
 impl Actor for Workspace {}
@@ -165,6 +166,8 @@ impl Workspace {
 
         owned_tasks.spawn(watch::watch_task(addr.clone(), path.clone()));
 
+        owned_tasks.spawn(pages::open_task(addr.clone()));
+
         Overviews::from(&projects).send_signal_to_dart();
 
         Some(Self {
@@ -172,7 +175,7 @@ impl Workspace {
 
             projects,
 
-            _owned_tasks: owned_tasks,
+            owned_tasks,
         })
     }
 }
