@@ -6,6 +6,8 @@
     "windowRestore": "Restore",
     "windowClose": "Close",
     "windowBack": "Back",
+    "previousPage": "Previous",
+    "nextPage": "Next",
     "homeAboutButton": "About",
     "aboutTitle": "About",
     "dropMove": "Move",
