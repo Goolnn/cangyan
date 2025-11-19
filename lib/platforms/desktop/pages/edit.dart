@@ -81,7 +81,7 @@ class _EditPageState extends State<EditPage> {
               waitDuration: Duration(milliseconds: 500),
 
               child: window.WindowButton(
-                onPressed: _currentIndex < widget.images.length
+                onPressed: _currentIndex < widget.images.length - 1
                     ? () {
                         _switchPage(1);
                       }
