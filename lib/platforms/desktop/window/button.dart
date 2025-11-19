@@ -58,7 +58,7 @@ class WindowButton extends StatelessWidget {
 
         onPressed: onPressed,
 
-        child: child,
+        child: Opacity(opacity: onPressed != null ? 1.0 : 0.25, child: child),
       ),
     );
   }
