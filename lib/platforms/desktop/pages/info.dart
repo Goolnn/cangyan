@@ -59,7 +59,13 @@ class _InfoPageState extends State<InfoPage> {
       panel: FractionallySizedBox(
         widthFactor: 0.6,
         child: Center(
-          child: Text(widget.title, overflow: TextOverflow.ellipsis),
+          child: Tooltip(
+            message: widget.title,
+
+            waitDuration: Duration(milliseconds: 500),
+
+            child: Text(widget.title, overflow: TextOverflow.ellipsis),
+          ),
         ),
       ),
 
