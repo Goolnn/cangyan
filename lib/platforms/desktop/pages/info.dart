@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:cangyan/platforms/desktop/pages/edit.dart';
+import 'package:cangyan/platforms/desktop/pages/edit.dart' as pages;
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
 import 'package:cangyan/src/bindings/bindings.dart' as signals;
@@ -43,8 +43,6 @@ class InfoPage extends StatefulWidget {
 
 class _InfoPageState extends State<InfoPage> {
   List<Image>? _images;
-
-  List<Widget>? _pages;
 
   @override
   void initState() {
@@ -92,6 +90,7 @@ class _InfoPageState extends State<InfoPage> {
 
                               child: ClipRSuperellipse(
                                 borderRadius: BorderRadius.circular(12.0),
+
                                 child: widget.cover,
                               ),
                             ),
@@ -188,82 +187,21 @@ class _InfoPageState extends State<InfoPage> {
 
                     builder: (context, snapshot) {
                       final data = snapshot.data;
-                      final pages = data?.message.value;
+                      final images = data?.message.value;
 
-                      _images ??= pages?.map((page) {
-                        return Image.memory(Uint8List.fromList(page));
-                      }).toList();
+                      _images ??= images?.map((page) {
+                        return Image.memory(
+                          Uint8List.fromList(page),
 
-                      _pages ??= _images?.indexed.map((element) {
-                        final index = element.$1 + 1;
-                        final image = element.$2;
+                          frameBuilder:
+                              (context, child, frame, wasSynchronouslyLoaded) {
+                                return AnimatedOpacity(
+                                  opacity: frame == null ? 0.0 : 1.0,
+                                  duration: Duration(milliseconds: 250),
 
-                        return Column(
-                          spacing: 8.0,
-
-                          children: [
-                            Flexible(
-                              child: AspectRatio(
-                                aspectRatio: 3.0 / 4.0,
-
-                                child: Stack(
-                                  children: [
-                                    Center(
-                                      child: Hero(
-                                        tag: 'page_${widget.path}_$index',
-
-                                        child: ClipRSuperellipse(
-                                          borderRadius: BorderRadius.circular(
-                                            12.0,
-                                          ),
-                                          child: image,
-                                        ),
-                                      ),
-                                    ),
-
-                                    RawMaterialButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          8.0,
-                                        ),
-                                      ),
-
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-
-                                      hoverColor: Colors.black.withValues(
-                                        alpha: 0.035,
-                                      ),
-                                      highlightColor: Colors.black.withValues(
-                                        alpha: 0.05,
-                                      ),
-                                      splashColor: Colors.transparent,
-
-                                      onPressed: () async {
-                                        await Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return EditPage(
-                                                path: widget.path,
-
-                                                page: image,
-
-                                                index: index,
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
-
-                                      child: SizedBox.expand(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            Text('第$index页'),
-                          ],
+                                  child: child,
+                                );
+                              },
                         );
                       }).toList();
 
@@ -286,42 +224,129 @@ class _InfoPageState extends State<InfoPage> {
 
                       final aspect = width / height;
 
-                      return GridView.count(
-                        shrinkWrap: true,
-
-                        crossAxisCount: count,
-
-                        mainAxisSpacing: spacing,
-                        crossAxisSpacing: spacing,
-
+                      return GridView.builder(
                         padding: EdgeInsets.all(spacing),
 
-                        childAspectRatio: aspect,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: count,
+                          mainAxisSpacing: spacing,
+                          crossAxisSpacing: spacing,
+                          childAspectRatio: aspect,
+                        ),
 
-                        children:
-                            _pages ??
-                            List.generate(widget.pageCount, (index) {
-                              return Column(
-                                spacing: 8.0,
+                        itemCount: widget.pageCount,
 
-                                children: [
-                                  Flexible(
-                                    child: AspectRatio(
-                                      aspectRatio: 3.0 / 4.0,
+                        shrinkWrap: true,
 
-                                      child: Center(
-                                        child: SizedBox.square(
-                                          dimension: 16.0,
-                                          child: CircularProgressIndicator(),
-                                        ),
+                        itemBuilder: (context, index) {
+                          if (_images == null) {
+                            return Column(
+                              spacing: 8.0,
+
+                              children: [
+                                Flexible(
+                                  child: AspectRatio(
+                                    aspectRatio: 3.0 / 4.0,
+
+                                    child: Center(
+                                      child: SizedBox.square(
+                                        dimension: 16.0,
+                                        child: CircularProgressIndicator(),
                                       ),
                                     ),
                                   ),
+                                ),
 
-                                  Text('第$index页'),
-                                ],
-                              );
-                            }),
+                                Text('第${index + 1}页'),
+                              ],
+                            );
+                          }
+
+                          final images = _images!;
+
+                          return Column(
+                            spacing: 8.0,
+
+                            children: [
+                              Flexible(
+                                child: AspectRatio(
+                                  aspectRatio: 3.0 / 4.0,
+
+                                  child: Stack(
+                                    children: [
+                                      Center(
+                                        child: Hero(
+                                          tag: 'page_${widget.path}_$index',
+
+                                          child: ClipRSuperellipse(
+                                            borderRadius: BorderRadius.circular(
+                                              12.0,
+                                            ),
+
+                                            child: images[index],
+                                          ),
+                                        ),
+                                      ),
+
+                                      RawMaterialButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.0,
+                                          ),
+                                        ),
+
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+
+                                        hoverColor: Colors.black.withValues(
+                                          alpha: 0.035,
+                                        ),
+                                        highlightColor: Colors.black.withValues(
+                                          alpha: 0.05,
+                                        ),
+                                        splashColor: Colors.transparent,
+
+                                        onPressed: () async {
+                                          if (_images == null) {
+                                            return;
+                                          }
+
+                                          Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder:
+                                                  (
+                                                    context,
+                                                    animation,
+                                                    secondaryAnimation,
+                                                  ) {
+                                                    return FadeTransition(
+                                                      opacity: animation,
+
+                                                      child: pages.EditPage(
+                                                        path: widget.path,
+
+                                                        images: images,
+
+                                                        initialIndex: index,
+                                                      ),
+                                                    );
+                                                  },
+                                            ),
+                                          );
+                                        },
+
+                                        child: SizedBox.expand(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              Text('第${index + 1}页'),
+                            ],
+                          );
+                        },
                       );
                     },
                   ),
