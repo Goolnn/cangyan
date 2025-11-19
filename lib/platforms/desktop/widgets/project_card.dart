@@ -60,7 +60,7 @@ class ProjectCard extends StatelessWidget {
                   children: [
                     Center(
                       child: Hero(
-                        tag: 'cover_$title',
+                        tag: 'cover_$path',
                         child: ClipRSuperellipse(
                           borderRadius: BorderRadius.circular(12.0),
                           child: cover,

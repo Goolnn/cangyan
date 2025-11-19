@@ -1,7 +1,10 @@
 import 'dart:math';
+import 'dart:typed_data';
 
+import 'package:cangyan/platforms/desktop/pages/edit.dart';
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
+import 'package:cangyan/src/bindings/bindings.dart' as signals;
 import 'package:cangyan/src/bindings/bindings.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +42,17 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
+  List<Image>? _images;
+
+  List<Widget>? _pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    signals.Open(path: widget.path).sendSignalToRust();
+  }
+
   @override
   Widget build(BuildContext context) {
     return window.Page(
@@ -74,7 +88,7 @@ class _InfoPageState extends State<InfoPage> {
 
                           child: Center(
                             child: Hero(
-                              tag: 'cover_${widget.title}',
+                              tag: 'cover_${widget.path}',
 
                               child: ClipRSuperellipse(
                                 borderRadius: BorderRadius.circular(12.0),
@@ -168,6 +182,149 @@ class _InfoPageState extends State<InfoPage> {
                   ),
 
                   Divider(),
+
+                  StreamBuilder(
+                    stream: signals.Pages.rustSignalStream,
+
+                    builder: (context, snapshot) {
+                      final data = snapshot.data;
+                      final pages = data?.message.value;
+
+                      _images ??= pages?.map((page) {
+                        return Image.memory(Uint8List.fromList(page));
+                      }).toList();
+
+                      _pages ??= _images?.indexed.map((element) {
+                        final index = element.$1 + 1;
+                        final image = element.$2;
+
+                        return Column(
+                          spacing: 8.0,
+
+                          children: [
+                            Flexible(
+                              child: AspectRatio(
+                                aspectRatio: 3.0 / 4.0,
+
+                                child: Stack(
+                                  children: [
+                                    Center(
+                                      child: Hero(
+                                        tag: 'page_${widget.path}_$index',
+
+                                        child: ClipRSuperellipse(
+                                          borderRadius: BorderRadius.circular(
+                                            12.0,
+                                          ),
+                                          child: image,
+                                        ),
+                                      ),
+                                    ),
+
+                                    RawMaterialButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ),
+                                      ),
+
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+
+                                      hoverColor: Colors.black.withValues(
+                                        alpha: 0.035,
+                                      ),
+                                      highlightColor: Colors.black.withValues(
+                                        alpha: 0.05,
+                                      ),
+                                      splashColor: Colors.transparent,
+
+                                      onPressed: () async {
+                                        await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return EditPage(
+                                                path: widget.path,
+
+                                                page: image,
+
+                                                index: index,
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+
+                                      child: SizedBox.expand(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            Text('第$index页'),
+                          ],
+                        );
+                      }).toList();
+
+                      final cardSize = 128.0 + 64.0;
+                      final cardAspect = 3.0 / 4.0;
+
+                      final layoutWidth = constraints.maxWidth;
+
+                      final spacing = 16.0;
+                      final size = cardSize * cardAspect;
+
+                      final count = min(
+                        ((layoutWidth - spacing) / (size + spacing)).toInt(),
+                        widget.pageCount,
+                      );
+
+                      final width =
+                          (layoutWidth - spacing * (count + 1)) / count;
+                      final height = size / cardAspect;
+
+                      final aspect = width / height;
+
+                      return GridView.count(
+                        shrinkWrap: true,
+
+                        crossAxisCount: count,
+
+                        mainAxisSpacing: spacing,
+                        crossAxisSpacing: spacing,
+
+                        padding: EdgeInsets.all(spacing),
+
+                        childAspectRatio: aspect,
+
+                        children:
+                            _pages ??
+                            List.generate(widget.pageCount, (index) {
+                              return Column(
+                                spacing: 8.0,
+
+                                children: [
+                                  Flexible(
+                                    child: AspectRatio(
+                                      aspectRatio: 3.0 / 4.0,
+
+                                      child: Center(
+                                        child: SizedBox.square(
+                                          dimension: 16.0,
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Text('第$index页'),
+                                ],
+                              );
+                            }),
+                      );
+                    },
+                  ),
                 ],
               );
             },
