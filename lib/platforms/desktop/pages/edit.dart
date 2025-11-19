@@ -64,11 +64,7 @@ class _EditPageState extends State<EditPage> {
               waitDuration: Duration(milliseconds: 500),
 
               child: window.WindowButton(
-                onPressed: _currentIndex > 0
-                    ? () {
-                        _switchPage(-1);
-                      }
-                    : null,
+                onPressed: _currentIndex > 0 ? () => _switchPage(-1) : null,
 
                 child: Icon(MdiIcons.chevronLeft),
               ),
@@ -83,9 +79,7 @@ class _EditPageState extends State<EditPage> {
 
               child: window.WindowButton(
                 onPressed: _currentIndex < widget.images.length - 1
-                    ? () {
-                        _switchPage(1);
-                      }
+                    ? () => _switchPage(1)
                     : null,
 
                 child: Icon(MdiIcons.chevronRight),
