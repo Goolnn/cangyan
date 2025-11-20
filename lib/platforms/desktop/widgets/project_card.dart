@@ -5,7 +5,7 @@ import 'package:cangyan/platforms/desktop/widgets/capsule_card.dart' as widgets;
 import 'package:cangyan/src/bindings/signals/signals.dart';
 import 'package:flutter/material.dart';
 
-class ProjectCard extends StatelessWidget {
+class ProjectCard extends StatefulWidget {
   final String path;
 
   final Image cover;
@@ -43,6 +43,13 @@ class ProjectCard extends StatelessWidget {
       pageCount = overview.pageCount;
 
   @override
+  State<ProjectCard> createState() => _ProjectCardState();
+}
+
+class _ProjectCardState extends State<ProjectCard> {
+  final FocusNode _focus = FocusNode();
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -60,10 +67,10 @@ class ProjectCard extends StatelessWidget {
                   children: [
                     Center(
                       child: Hero(
-                        tag: 'cover_$path',
+                        tag: 'cover_${widget.path}',
                         child: ClipRSuperellipse(
                           borderRadius: BorderRadius.circular(12.0),
-                          child: cover,
+                          child: widget.cover,
                         ),
                       ),
                     ),
@@ -72,7 +79,9 @@ class ProjectCard extends StatelessWidget {
                       bottom: 2.0,
                       right: 2.0,
 
-                      child: widgets.CapsuleCard(child: Text('$pageCount页')),
+                      child: widgets.CapsuleCard(
+                        child: Text('${widget.pageCount}页'),
+                      ),
                     ),
                   ],
                 ),
@@ -85,10 +94,13 @@ class ProjectCard extends StatelessWidget {
                   spacing: 4.0,
 
                   children: [
-                    Text(title, overflow: TextOverflow.ellipsis),
+                    Text(widget.title, overflow: TextOverflow.ellipsis),
 
                     Expanded(
-                      child: Text(comment, style: TextStyle(fontSize: 12.0)),
+                      child: Text(
+                        widget.comment,
+                        style: TextStyle(fontSize: 12.0),
+                      ),
                     ),
 
                     Align(
@@ -97,7 +109,7 @@ class ProjectCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '创建于 ${createdDate.year}年${createdDate.month}月${createdDate.day}日 ${createdDate.hour}:${createdDate.minute}:${createdDate.second}',
+                            '创建于 ${widget.createdDate.year}年${widget.createdDate.month}月${widget.createdDate.day}日 ${widget.createdDate.hour}:${widget.createdDate.minute}:${widget.createdDate.second}',
                             style: TextStyle(
                               fontSize: 10.0,
                               color: Colors.grey,
@@ -105,7 +117,7 @@ class ProjectCard extends StatelessWidget {
                           ),
 
                           Text(
-                            '修改于 ${updatedDate.year}年${updatedDate.month}月${updatedDate.day}日 ${updatedDate.hour}:${updatedDate.minute}:${updatedDate.second}',
+                            '修改于 ${widget.updatedDate.year}年${widget.updatedDate.month}月${widget.updatedDate.day}日 ${widget.updatedDate.hour}:${widget.updatedDate.minute}:${widget.updatedDate.second}',
                             style: TextStyle(
                               fontSize: 10.0,
                               color: Colors.grey,
@@ -122,6 +134,8 @@ class ProjectCard extends StatelessWidget {
         ),
 
         RawMaterialButton(
+          focusNode: _focus,
+
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -132,22 +146,24 @@ class ProjectCard extends StatelessWidget {
           highlightColor: Colors.black.withValues(alpha: 0.05),
           splashColor: Colors.transparent,
 
+          focusColor: Colors.black.withValues(alpha: 0.035),
+
           onPressed: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
                   return pages.InfoPage(
-                    path: path,
+                    path: widget.path,
 
-                    cover: cover,
+                    cover: widget.cover,
 
-                    title: title,
-                    comment: comment,
+                    title: widget.title,
+                    comment: widget.comment,
 
-                    createdDate: createdDate,
-                    updatedDate: updatedDate,
+                    createdDate: widget.createdDate,
+                    updatedDate: widget.updatedDate,
 
-                    pageCount: pageCount,
+                    pageCount: widget.pageCount,
                   );
                 },
               ),
