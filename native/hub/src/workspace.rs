@@ -1,3 +1,4 @@
+mod edit;
 mod import;
 mod open;
 mod overview;
@@ -166,6 +167,7 @@ impl Workspace {
         owned_tasks.spawn(watch::watch_task(addr.clone(), path.clone()));
 
         owned_tasks.spawn(open::open_task(addr.clone()));
+        owned_tasks.spawn(edit::edit_task(addr.clone()));
 
         Overviews::from(&projects).send_signal_to_dart();
 

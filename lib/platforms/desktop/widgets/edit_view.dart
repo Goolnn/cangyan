@@ -34,6 +34,9 @@ class _EditViewState extends State<EditView>
   Offset _startPosition = Offset.zero;
   Offset _startOffset = Offset.zero;
 
+  Offset _notePosition = Offset.zero;
+  Offset _noteOffset = Offset.zero;
+
   Size? _imageSize;
 
   late final AnimationController _animationController;
@@ -142,35 +145,78 @@ class _EditViewState extends State<EditView>
                         child: Opacity(
                           opacity: 0.5,
 
-                          child: Tooltip(
-                            message: note.texts
-                                .map((text) {
-                                  final content = text.content.trim();
-                                  final comment = text.comment.trim();
+                          child: Stack(
+                            children: [
+                              Tooltip(
+                                message: note.texts
+                                    .map((text) {
+                                      final content = text.content.trim();
+                                      final comment = text.comment.trim();
 
-                                  if (comment.isEmpty) {
-                                    return content;
-                                  }
+                                      if (comment.isEmpty) {
+                                        return content;
+                                      }
 
-                                  if (content.isEmpty) {
-                                    return comment;
-                                  }
+                                      if (content.isEmpty) {
+                                        return comment;
+                                      }
 
-                                  return '$content\n\n--------------------\n\n$comment';
-                                })
-                                .join('===================='),
+                                      return '$content\n\n--------------------\n\n$comment';
+                                    })
+                                    .join('===================='),
 
-                            waitDuration: Duration(milliseconds: 500),
+                                waitDuration: Duration(milliseconds: 500),
 
-                            child: widgets.Note(
-                              onPressed: () {
-                                setState(() {
-                                  _offset = Offset(note.x, note.y);
-                                });
-                              },
+                                child: widgets.Note(
+                                  onPanStart: (details) {
+                                    _notePosition = details.localPosition;
+                                    _noteOffset = Offset(note.x, note.y);
+                                  },
 
-                              index: index + 1,
-                            ),
+                                  onPanUpdate: (details) {
+                                    final current = details.localPosition;
+
+                                    final dx = current.dx - _notePosition.dx;
+                                    final dy = current.dy - _notePosition.dy;
+
+                                    final size = imageSize!;
+
+                                    final deltaX = (dx / size.width) * 2.0;
+                                    final deltaY = (dy / size.height) * 2.0;
+
+                                    final x = (_noteOffset.dx + deltaX).clamp(
+                                      -1.0,
+                                      1.0,
+                                    );
+                                    final y = (_noteOffset.dy - deltaY).clamp(
+                                      -1.0,
+                                      1.0,
+                                    );
+
+                                    signals.EditNote(
+                                      path: widget.path,
+
+                                      pageIndex: widget.index,
+                                      noteIndex: index,
+
+                                      edit: signals.NoteEditMove(x: x, y: y),
+                                    ).sendSignalToRust();
+                                  },
+
+                                  onPanEnd: (details) {
+                                    signals.EditProject(
+                                      path: widget.path,
+
+                                      edit: signals.ProjectEdit.save,
+                                    ).sendSignalToRust();
+                                  },
+
+                                  onPressed: () {},
+
+                                  index: index + 1,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

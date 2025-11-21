@@ -73,7 +73,7 @@ impl From<&cyfile::Page> for Page {
 }
 
 #[derive(Serialize, RustSignal)]
-pub struct Notes(Vec<Note>);
+pub struct Notes(pub Vec<Note>);
 
 #[derive(Serialize, SignalPiece)]
 pub struct Note {
