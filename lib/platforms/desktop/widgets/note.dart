@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Note extends StatelessWidget {
+  final void Function()? onPressed;
+
   final int index;
 
-  const Note({super.key, required this.index});
+  const Note({super.key, this.onPressed, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,13 @@ class Note extends StatelessWidget {
       fillColor: Colors.red,
       splashColor: Colors.transparent,
 
-      onPressed: () {},
+      elevation: 0.0,
+      focusElevation: 0.0,
+      hoverElevation: 0.0,
+      disabledElevation: 0.0,
+      highlightElevation: 0.0,
+
+      onPressed: onPressed,
 
       child: Text(index.toString(), style: TextStyle(color: Colors.white)),
     );
