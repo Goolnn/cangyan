@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:animations/animations.dart';
 import 'package:cangyan/platforms/desktop/pages/info.dart' as pages;
 import 'package:cangyan/platforms/desktop/widgets/capsule_card.dart' as widgets;
-import 'package:cangyan/src/bindings/signals/signals.dart';
+import 'package:cangyan/src/bindings/signals/signals.dart' as signals;
 import 'package:flutter/material.dart';
 
 class ProjectCard extends StatefulWidget {
@@ -13,8 +14,8 @@ class ProjectCard extends StatefulWidget {
   final String title;
   final String comment;
 
-  final Date createdDate;
-  final Date updatedDate;
+  final signals.Date createdDate;
+  final signals.Date updatedDate;
 
   final int pageCount;
 
@@ -34,21 +35,22 @@ class ProjectCard extends StatefulWidget {
     required this.pageCount,
   });
 
-  ProjectCard.overview(Overview overview, {super.key, required this.path})
-    : cover = Image.memory(Uint8List.fromList(overview.cover)),
-      title = overview.title,
-      comment = overview.comment,
-      createdDate = overview.createdDate,
-      updatedDate = overview.updatedDate,
-      pageCount = overview.pageCount;
+  ProjectCard.overview(
+    signals.Overview overview, {
+    super.key,
+    required this.path,
+  }) : cover = Image.memory(Uint8List.fromList(overview.cover)),
+       title = overview.title,
+       comment = overview.comment,
+       createdDate = overview.createdDate,
+       updatedDate = overview.updatedDate,
+       pageCount = overview.pageCount;
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
 }
 
 class _ProjectCardState extends State<ProjectCard> {
-  final FocusNode _focus = FocusNode();
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -133,44 +135,98 @@ class _ProjectCardState extends State<ProjectCard> {
           ),
         ),
 
-        RawMaterialButton(
-          focusNode: _focus,
+        GestureDetector(
+          onSecondaryTapUp: (details) async {
+            final width = 256.0;
+            final height = 256.0 + 128.0;
 
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+            final position = details.globalPosition;
 
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            double paddingLeft = position.dx;
+            double paddingTop = position.dy;
 
-          hoverColor: Colors.black.withValues(alpha: 0.035),
-          highlightColor: Colors.black.withValues(alpha: 0.05),
-          splashColor: Colors.transparent,
+            double paddingRight =
+                MediaQuery.of(context).size.width - position.dx - width;
 
-          focusColor: Colors.black.withValues(alpha: 0.035),
+            if (paddingRight < 0) {
+              paddingLeft += paddingRight;
+              paddingRight = 0;
+            }
 
-          onPressed: () async {
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return pages.InfoPage(
-                    path: widget.path,
+            double paddingBottom =
+                MediaQuery.of(context).size.height - position.dy - height;
 
-                    cover: widget.cover,
+            if (paddingBottom < 0) {
+              paddingTop += paddingBottom;
+              paddingBottom = 0;
+            }
 
-                    title: widget.title,
-                    comment: widget.comment,
+            await showModal(
+              context: context,
 
-                    createdDate: widget.createdDate,
-                    updatedDate: widget.updatedDate,
-
-                    pageCount: widget.pageCount,
-                  );
-                },
+              configuration: FadeScaleTransitionConfiguration(
+                barrierColor: Colors.transparent,
               ),
+
+              builder: (context) {
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    paddingLeft,
+                    paddingTop,
+                    paddingRight,
+                    paddingBottom,
+                  ),
+
+                  child: Card(),
+                );
+              },
             );
           },
 
-          child: SizedBox.expand(),
+          child: RawMaterialButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+
+            hoverColor: Colors.black.withValues(alpha: 0.035),
+            highlightColor: Colors.black.withValues(alpha: 0.05),
+            splashColor: Colors.transparent,
+
+            focusColor: Colors.black.withValues(alpha: 0.035),
+
+            onPressed: () async {
+              await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return pages.InfoPage(
+                      path: widget.path,
+
+                      cover: widget.cover,
+
+                      title: widget.title,
+                      comment: widget.comment,
+
+                      createdDate: widget.createdDate,
+                      updatedDate: widget.updatedDate,
+
+                      pageCount: widget.pageCount,
+                    );
+                  },
+                ),
+              );
+            },
+
+            child: SizedBox.expand(
+              // child: Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(8.0),
+              //     color: Colors.black.withValues(alpha: _focus ? 0.045 : 0),
+              //   ),
+              // ),
+            ),
+          ),
         ),
       ],
     );

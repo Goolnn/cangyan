@@ -167,6 +167,7 @@ impl Workspace {
         owned_tasks.spawn(watch::watch_task(addr.clone(), path.clone()));
 
         owned_tasks.spawn(pages::open_task(addr.clone()));
+        owned_tasks.spawn(notes::edit_task(addr.clone()));
 
         Overviews::from(&projects).send_signal_to_dart();
 

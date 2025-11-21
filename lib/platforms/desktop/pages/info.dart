@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:cangyan/platforms/desktop/widgets/page_view.dart' as widgets;
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
-import 'package:cangyan/src/bindings/bindings.dart';
+import 'package:cangyan/src/bindings/bindings.dart' as signals;
 import 'package:flutter/material.dart';
 
 class InfoPage extends StatelessWidget {
@@ -14,8 +14,8 @@ class InfoPage extends StatelessWidget {
   final String title;
   final String comment;
 
-  final Date createdDate;
-  final Date updatedDate;
+  final signals.Date createdDate;
+  final signals.Date updatedDate;
 
   final int pageCount;
 
