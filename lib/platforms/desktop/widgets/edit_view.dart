@@ -79,185 +79,192 @@ class _EditViewState extends State<EditView>
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final layoutSize = Size(constraints.maxWidth, constraints.maxHeight);
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        _animationController.reset();
+      },
 
-        Size? imageSize;
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final layoutSize = Size(constraints.maxWidth, constraints.maxHeight);
 
-        if (_imageSize != null) {
-          final source = _imageSize!.width / _imageSize!.height;
-          final target = layoutSize.width / layoutSize.height;
+          Size? imageSize;
 
-          if (source > target) {
-            final width = layoutSize.width;
-            final height = width / source;
+          if (_imageSize != null) {
+            final source = _imageSize!.width / _imageSize!.height;
+            final target = layoutSize.width / layoutSize.height;
 
-            imageSize = Size(width, height) * _scale;
-          } else {
-            final width = layoutSize.height;
-            final height = width * source;
+            if (source > target) {
+              final width = layoutSize.width;
+              final height = width / source;
 
-            imageSize = Size(height, width) * _scale;
+              imageSize = Size(width, height) * _scale;
+            } else {
+              final width = layoutSize.height;
+              final height = width * source;
+
+              imageSize = Size(height, width) * _scale;
+            }
           }
-        }
 
-        return StreamBuilder(
-          stream: signals.Notes.rustSignalStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data;
+          return StreamBuilder(
+            stream: signals.Notes.rustSignalStream,
+            builder: (context, snapshot) {
+              final data = snapshot.data;
 
-            final notes = data?.message.value.indexed.map((e) {
-              final index = e.$1;
-              final note = e.$2;
+              final notes = data?.message.value.indexed.map((e) {
+                final index = e.$1;
+                final note = e.$2;
 
-              return AnimatedBuilder(
-                animation: _notesAnimation,
+                return AnimatedBuilder(
+                  animation: _notesAnimation,
 
-                builder: (context, child) {
-                  return Positioned(
-                    left:
-                        layoutSize.width / 2 -
-                        _noteSize / 2.0 -
-                        (_offset.dx - note.x) * ((imageSize?.width ?? 0) / 2),
+                  builder: (context, child) {
+                    return Positioned(
+                      left:
+                          layoutSize.width / 2 -
+                          _noteSize / 2.0 -
+                          (_offset.dx - note.x) * ((imageSize?.width ?? 0) / 2),
 
-                    top:
-                        layoutSize.height / 2 -
-                        _noteSize / 2.0 +
-                        (_offset.dy - note.y) * ((imageSize?.height ?? 0) / 2),
-
-                    child: Opacity(
-                      opacity: _notesAnimation.value,
+                      top:
+                          layoutSize.height / 2 -
+                          _noteSize / 2.0 +
+                          (_offset.dy - note.y) *
+                              ((imageSize?.height ?? 0) / 2),
 
                       child: Opacity(
-                        opacity: 0.8,
+                        opacity: _notesAnimation.value,
 
-                        child: Tooltip(
-                          message: note.texts
-                              .map((text) {
-                                final content = text.content.trim();
-                                final comment = text.comment.trim();
+                        child: Opacity(
+                          opacity: 0.5,
 
-                                if (comment.isEmpty) {
-                                  return content;
-                                }
+                          child: Tooltip(
+                            message: note.texts
+                                .map((text) {
+                                  final content = text.content.trim();
+                                  final comment = text.comment.trim();
 
-                                if (content.isEmpty) {
-                                  return comment;
-                                }
+                                  if (comment.isEmpty) {
+                                    return content;
+                                  }
 
-                                return '$content\n\n--------------------\n\n$comment';
-                              })
-                              .join('===================='),
+                                  if (content.isEmpty) {
+                                    return comment;
+                                  }
 
-                          waitDuration: Duration(milliseconds: 500),
+                                  return '$content\n\n--------------------\n\n$comment';
+                                })
+                                .join('===================='),
 
-                          child: widgets.Note(index: index + 1),
+                            waitDuration: Duration(milliseconds: 500),
+
+                            child: widgets.Note(index: index + 1),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
-            });
+                    );
+                  },
+                );
+              });
 
-            if (notes != null) {
-              _animationController.forward();
-            }
+              if (notes != null) {
+                _animationController.forward();
+              }
 
-            return Stack(
-              children: [
-                Positioned.fill(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-
-                    onDoubleTap: () {
-                      setState(() {
-                        _offset = Offset.zero;
-                        _scale = 1.0;
-                      });
-                    },
-
-                    child: Listener(
+              return Stack(
+                children: [
+                  Positioned.fill(
+                    child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
 
-                      onPointerSignal: (event) {
-                        if (event is PointerScrollEvent) {
-                          setState(() {
-                            event.scrollDelta.dy < 0
-                                ? _scale *= 1.15
-                                : _scale /= 1.15;
-
-                            _scale = _scale.clamp(0.25, 25.0);
-                          });
-                        }
-                      },
-
-                      onPointerDown: (event) {
-                        if (imageSize == null) return;
-
-                        _startPosition = event.localPosition;
-                        _startOffset = _offset;
-                      },
-
-                      onPointerMove: (event) {
-                        final current = event.localPosition;
-
-                        final dx = current.dx - _startPosition.dx;
-                        final dy = current.dy - _startPosition.dy;
-
-                        final size = imageSize!;
-
-                        final deltaX = (dx / size.width) * 2.0;
-                        final deltaY = (dy / size.height) * 2.0;
-
+                      onDoubleTap: () {
                         setState(() {
-                          _offset = Offset(
-                            (_startOffset.dx - deltaX).clamp(-1.0, 1.0),
-                            (_startOffset.dy + deltaY).clamp(-1.0, 1.0),
-                          );
+                          _offset = Offset.zero;
+                          _scale = 1.0;
                         });
                       },
 
-                      child: Transform(
-                        transform: Matrix4.identity()
-                          ..translate(
-                            -_offset.dx * ((imageSize?.width ?? 0) / 2),
-                            _offset.dy * ((imageSize?.height ?? 0) / 2),
-                          )
-                          ..translate(
-                            (layoutSize.width - layoutSize.width * _scale) /
-                                2.0,
-                            (layoutSize.height - layoutSize.height * _scale) /
-                                2.0,
-                          )
-                          ..scale(_scale),
+                      child: Listener(
+                        behavior: HitTestBehavior.translucent,
 
-                        child: Hero(
-                          tag: 'page_${widget.path}_${widget.index}',
+                        onPointerSignal: (event) {
+                          if (event is PointerScrollEvent) {
+                            setState(() {
+                              event.scrollDelta.dy < 0
+                                  ? _scale *= 1.15
+                                  : _scale /= 1.15;
 
-                          child: FittedBox(
-                            fit: BoxFit.contain,
+                              _scale = _scale.clamp(0.25, 25.0);
+                            });
+                          }
+                        },
 
-                            child: ClipRSuperellipse(
-                              borderRadius: BorderRadius.circular(
-                                12.0 / _scale,
+                        onPointerDown: (event) {
+                          if (imageSize == null) return;
+
+                          _startPosition = event.localPosition;
+                          _startOffset = _offset;
+                        },
+
+                        onPointerMove: (event) {
+                          final current = event.localPosition;
+
+                          final dx = current.dx - _startPosition.dx;
+                          final dy = current.dy - _startPosition.dy;
+
+                          final size = imageSize!;
+
+                          final deltaX = (dx / size.width) * 2.0;
+                          final deltaY = (dy / size.height) * 2.0;
+
+                          setState(() {
+                            _offset = Offset(
+                              (_startOffset.dx - deltaX).clamp(-1.0, 1.0),
+                              (_startOffset.dy + deltaY).clamp(-1.0, 1.0),
+                            );
+                          });
+                        },
+
+                        child: Transform(
+                          transform: Matrix4.identity()
+                            ..translate(
+                              -_offset.dx * ((imageSize?.width ?? 0) / 2),
+                              _offset.dy * ((imageSize?.height ?? 0) / 2),
+                            )
+                            ..translate(
+                              (layoutSize.width - layoutSize.width * _scale) /
+                                  2.0,
+                              (layoutSize.height - layoutSize.height * _scale) /
+                                  2.0,
+                            )
+                            ..scale(_scale),
+
+                          child: Hero(
+                            tag: 'page_${widget.path}_${widget.index}',
+
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+
+                              child: ClipRSuperellipse(
+                                borderRadius: BorderRadius.circular(
+                                  12.0 / _scale,
+                                ),
+                                child: widget.image,
                               ),
-                              child: widget.image,
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
 
-                ...?notes,
-              ],
-            );
-          },
-        );
-      },
+                  ...?notes,
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
