@@ -36,17 +36,7 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       onGenerateTitle: (context) {
-        final title = AppLocalizations.of(context)!.appTitle;
-
-        if (Platform.isWindows) {
-          windowManager.getTitle().then((current) {
-            if (current != title) {
-              windowManager.setTitle(title);
-            }
-          });
-        }
-
-        return title;
+        return AppLocalizations.of(context)!.appTitle;
       },
 
       localizationsDelegates: AppLocalizations.localizationsDelegates,
