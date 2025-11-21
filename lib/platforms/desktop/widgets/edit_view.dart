@@ -158,7 +158,15 @@ class _EditViewState extends State<EditView>
 
                             waitDuration: Duration(milliseconds: 500),
 
-                            child: widgets.Note(index: index + 1),
+                            child: widgets.Note(
+                              onPressed: () {
+                                setState(() {
+                                  _offset = Offset(note.x, note.y);
+                                });
+                              },
+
+                              index: index + 1,
+                            ),
                           ),
                         ),
                       ),
