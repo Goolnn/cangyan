@@ -240,7 +240,9 @@ class _EditViewState extends State<EditView>
                             fit: BoxFit.contain,
 
                             child: ClipRSuperellipse(
-                              borderRadius: BorderRadius.circular(12.0),
+                              borderRadius: BorderRadius.circular(
+                                12.0 / _scale,
+                              ),
                               child: widget.image,
                             ),
                           ),
