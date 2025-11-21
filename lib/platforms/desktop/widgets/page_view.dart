@@ -23,7 +23,7 @@ class _PageViewState extends State<PageView> {
   void initState() {
     super.initState();
 
-    signals.Open(path: widget.path).sendSignalToRust();
+    signals.OpenPages(path: widget.path).sendSignalToRust();
   }
 
   @override
@@ -37,7 +37,7 @@ class _PageViewState extends State<PageView> {
 
         _images ??= images?.map((page) {
           return Image.memory(
-            Uint8List.fromList(page),
+            Uint8List.fromList(page.data),
 
             frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
               return AnimatedOpacity(

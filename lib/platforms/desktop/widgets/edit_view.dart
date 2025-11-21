@@ -57,7 +57,10 @@ class _EditViewState extends State<EditView>
         );
 
     Future.delayed(const Duration(milliseconds: 300), () {
-      signals.Edit(path: widget.path, index: widget.index).sendSignalToRust();
+      signals.OpenNotes(
+        path: widget.path,
+        index: widget.index,
+      ).sendSignalToRust();
     });
 
     _animationController = AnimationController(
@@ -109,6 +112,7 @@ class _EditViewState extends State<EditView>
 
           return StreamBuilder(
             stream: signals.Notes.rustSignalStream,
+
             builder: (context, snapshot) {
               final data = snapshot.data;
 
