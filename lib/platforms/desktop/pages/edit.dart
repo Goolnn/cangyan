@@ -1,4 +1,5 @@
 import 'package:cangyan/l10n/app_localizations.dart';
+import 'package:cangyan/platforms/desktop/widgets/edit_view.dart';
 import 'package:cangyan/platforms/desktop/window/button.dart' as window;
 import 'package:cangyan/platforms/desktop/window/page.dart' as window;
 import 'package:flutter/material.dart';
@@ -104,16 +105,12 @@ class _EditPageState extends State<EditPage> {
               },
 
               itemBuilder: (context, index) {
-                return Center(
-                  child: Hero(
-                    tag: 'page_${widget.path}_$index',
+                return EditView(
+                  path: widget.path,
 
-                    child: ClipRSuperellipse(
-                      borderRadius: BorderRadius.circular(12.0),
+                  image: widget.images[index],
 
-                      child: widget.images[index],
-                    ),
-                  ),
+                  index: index,
                 );
               },
             ),
